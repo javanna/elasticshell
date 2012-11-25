@@ -18,32 +18,20 @@
  */
 package org.elasticsearch.shell;
 
+public class CompilableSource {
+    private final String source;
+    private final int lineNumbers;
 
-import org.elasticsearch.shell.jline.JLineConsole;
-import org.elasticsearch.shell.rhino.RhinoShell;
+    public CompilableSource(String source, int lineNumbers) {
+        this.source = source;
+        this.lineNumbers = lineNumbers;
+    }
 
-import java.io.IOException;
+    public String getSource() {
+        return source;
+    }
 
-public class Main {
-
-    public static void main(String... args) {
-
-        //we always write on the same PrintStream (out)
-        // otherwise synchronization between them is not guaranteed
-
-        final Console console;
-        try {
-            console = new JLineConsole("elasticsearch-shell", System.in, System.out);
-        } catch (IOException e) {
-            System.out.println(e.toString());
-            return;
-        }
-
-        //TODO process options
-
-        //TODO QuitAction???
-
-        new RhinoShell(console).run();
-
+    public int getLineNumbers() {
+        return lineNumbers;
     }
 }

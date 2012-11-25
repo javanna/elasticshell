@@ -18,32 +18,7 @@
  */
 package org.elasticsearch.shell;
 
+public interface ScriptExecutor {
 
-import org.elasticsearch.shell.jline.JLineConsole;
-import org.elasticsearch.shell.rhino.RhinoShell;
-
-import java.io.IOException;
-
-public class Main {
-
-    public static void main(String... args) {
-
-        //we always write on the same PrintStream (out)
-        // otherwise synchronization between them is not guaranteed
-
-        final Console console;
-        try {
-            console = new JLineConsole("elasticsearch-shell", System.in, System.out);
-        } catch (IOException e) {
-            System.out.println(e.toString());
-            return;
-        }
-
-        //TODO process options
-
-        //TODO QuitAction???
-
-        new RhinoShell(console).run();
-
-    }
+    public String execute(CompilableSource source);
 }

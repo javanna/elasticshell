@@ -16,34 +16,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.rhino;
 
+import org.elasticsearch.shell.CompilableSourceReader;
+import org.elasticsearch.shell.Console;
+import org.mozilla.javascript.Context;
 
-import org.elasticsearch.shell.jline.JLineConsole;
-import org.elasticsearch.shell.rhino.RhinoShell;
+public class RhinoCompilableSourceReader extends CompilableSourceReader {
 
-import java.io.IOException;
+    private final Context context;
 
-public class Main {
+    public RhinoCompilableSourceReader(Console console, Context context) {
+        super(console);
+        this.context = context;
+    }
 
-    public static void main(String... args) {
-
-        //we always write on the same PrintStream (out)
-        // otherwise synchronization between them is not guaranteed
-
-        final Console console;
-        try {
-            console = new JLineConsole("elasticsearch-shell", System.in, System.out);
-        } catch (IOException e) {
-            System.out.println(e.toString());
-            return;
-        }
-
-        //TODO process options
-
-        //TODO QuitAction???
-
-        new RhinoShell(console).run();
-
+    @Override
+    public boolean isCompilable(String source) {
+        return context.stringIsCompilableUnit(source);
     }
 }

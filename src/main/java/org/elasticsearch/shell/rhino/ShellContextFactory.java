@@ -16,34 +16,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.rhino;
 
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.ErrorReporter;
 
-import org.elasticsearch.shell.jline.JLineConsole;
-import org.elasticsearch.shell.rhino.RhinoShell;
+public class ShellContextFactory extends ContextFactory {
 
-import java.io.IOException;
+    private final ErrorReporter errorReporter;
 
-public class Main {
+    public ShellContextFactory(ErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
+    }
 
-    public static void main(String... args) {
-
-        //we always write on the same PrintStream (out)
-        // otherwise synchronization between them is not guaranteed
-
-        final Console console;
-        try {
-            console = new JLineConsole("elasticsearch-shell", System.in, System.out);
-        } catch (IOException e) {
-            System.out.println(e.toString());
-            return;
-        }
-
-        //TODO process options
-
-        //TODO QuitAction???
-
-        new RhinoShell(console).run();
-
+    @Override
+    protected void onContextCreated(Context cx) {
+        super.onContextCreated(cx);
+        cx.setErrorReporter(errorReporter);
     }
 }

@@ -18,32 +18,17 @@
  */
 package org.elasticsearch.shell;
 
+import java.io.PrintStream;
 
-import org.elasticsearch.shell.jline.JLineConsole;
-import org.elasticsearch.shell.rhino.RhinoShell;
+public interface Console {
 
-import java.io.IOException;
+    public void print(String message);
 
-public class Main {
+    public void println();
 
-    public static void main(String... args) {
+    public void println(String message);
 
-        //we always write on the same PrintStream (out)
-        // otherwise synchronization between them is not guaranteed
+    public String readLine(String prompt) throws Exception;
 
-        final Console console;
-        try {
-            console = new JLineConsole("elasticsearch-shell", System.in, System.out);
-        } catch (IOException e) {
-            System.out.println(e.toString());
-            return;
-        }
-
-        //TODO process options
-
-        //TODO QuitAction???
-
-        new RhinoShell(console).run();
-
-    }
+    public PrintStream getOut();
 }

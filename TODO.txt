@@ -1,1 +1,14 @@
-- README file (mention rhino & JLine)
+Features:
+* object unwrap (test2=[1.0, 2, 3]) etc.
+* default java imports
+* test!!!!!!!!
+
+* history (save to file like groovysh)
+* auto completion
+
+
+
+
+
+
+* README file (mention rhino & JLine)

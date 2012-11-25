@@ -19,31 +19,27 @@
 package org.elasticsearch.shell;
 
 
-import org.elasticsearch.shell.jline.JLineConsole;
-import org.elasticsearch.shell.rhino.RhinoShell;
+public abstract class Shell {
 
-import java.io.IOException;
+    protected final Console console;
 
-public class Main {
+    protected Shell(Console console) {
+        this.console = console;
+    }
 
-    public static void main(String... args) {
-
-        //we always write on the same PrintStream (out)
-        // otherwise synchronization between them is not guaranteed
-
-        final Console console;
-        try {
-            console = new JLineConsole("elasticsearch-shell", System.in, System.out);
-        } catch (IOException e) {
-            System.out.println(e.toString());
-            return;
+    protected void run(CompilableSourceReader compilableSourceReader, ScriptExecutor scriptExecutor) {
+        //TODO end???
+        boolean end = false;
+        while (!end) {
+            CompilableSource source = compilableSourceReader.read();
+            if (source != null){
+                String result = scriptExecutor.execute(source);
+                if (result != null) {
+                    console.println(result);
+                }
+            }
         }
-
-        //TODO process options
-
-        //TODO QuitAction???
-
-        new RhinoShell(console).run();
-
+        //TODO ???
+        console.println("bye");
     }
 }

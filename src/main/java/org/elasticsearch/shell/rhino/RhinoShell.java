@@ -22,10 +22,7 @@ import org.elasticsearch.shell.CompilableSourceReader;
 import org.elasticsearch.shell.Console;
 import org.elasticsearch.shell.ScriptExecutor;
 import org.elasticsearch.shell.Shell;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextAction;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.*;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 public class RhinoShell extends Shell {
@@ -42,7 +39,7 @@ public class RhinoShell extends Shell {
             @Override
             public Object run(Context context) {
                 //TODO add top level scope
-                ScriptableObject scope = context.initStandardObjects();
+                Scriptable scope = context.initStandardObjects(new ShellTopLevel(console.getOut(), context));
                 CompilableSourceReader compilableSourceReader = new RhinoCompilableSourceReader(console, context);
                 ScriptExecutor scriptExecutor = new RhinoScriptExecutor(context, scope);
                 RhinoShell.this.run(compilableSourceReader, scriptExecutor);

@@ -1,14 +1,28 @@
+Decide what's better between Command (groovysh) approach and native functions (rhino shell) approach for quit / exit / help
+implement quit action? rhino vs groovysh again
+Decide how to expose elasticsearch method to console, poc with auto completion
+
+
 Features:
+* history quit/exit help/? version help <command> / ctrl+c hook
+* colours
+* history max size?
+* jansi fusesource for windows ansi
+* splash screen
+* usage
 * object unwrap (test2=[1.0, 2, 3]) etc.
 * default java imports
 * test!!!!!!!!
+* java args/options?
 
 * history (save to file like groovysh)
 * auto completion
 
 
-
-
+* platform problems troubleshooting (http://groovy.codehaus.org/Groovy+Shell) vs. silent disable JLine if fails
 
 
 * README file (mention rhino & JLine)
+
+
+* open file? run command? (Rhino shell vs. mongo shell vs. groovy shell)

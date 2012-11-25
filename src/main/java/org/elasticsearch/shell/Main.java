@@ -40,9 +40,7 @@ public class Main {
         }
 
         //TODO process options
-
         //TODO QuitAction???
-
         new RhinoShell(console).run();
 
     }

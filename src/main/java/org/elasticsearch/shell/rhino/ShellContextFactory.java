@@ -31,8 +31,8 @@ public class ShellContextFactory extends ContextFactory {
     }
 
     @Override
-    protected void onContextCreated(Context cx) {
-        super.onContextCreated(cx);
-        cx.setErrorReporter(errorReporter);
+    protected void onContextCreated(Context context) {
+        super.onContextCreated(context);
+        context.setErrorReporter(errorReporter);
     }
 }

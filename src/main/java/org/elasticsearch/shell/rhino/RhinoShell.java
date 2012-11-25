@@ -18,11 +18,14 @@
  */
 package org.elasticsearch.shell.rhino;
 
-import org.elasticsearch.shell.Shell;
 import org.elasticsearch.shell.CompilableSourceReader;
 import org.elasticsearch.shell.Console;
 import org.elasticsearch.shell.ScriptExecutor;
-import org.mozilla.javascript.*;
+import org.elasticsearch.shell.Shell;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextAction;
+import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 public class RhinoShell extends Shell {

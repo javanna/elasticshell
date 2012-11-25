@@ -20,9 +20,10 @@ package org.elasticsearch.shell.jline;
 
 
 import jline.console.ConsoleReader;
-import org.elasticsearch.shell.*;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 
 public class JLineConsole implements org.elasticsearch.shell.Console {
 

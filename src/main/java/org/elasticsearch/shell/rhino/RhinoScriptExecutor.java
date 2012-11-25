@@ -21,7 +21,10 @@ package org.elasticsearch.shell.rhino;
 
 import org.elasticsearch.shell.CompilableSource;
 import org.elasticsearch.shell.ScriptExecutor;
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.RhinoException;
+import org.mozilla.javascript.Script;
+import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 public class RhinoScriptExecutor implements ScriptExecutor {

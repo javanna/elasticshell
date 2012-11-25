@@ -2,7 +2,7 @@
 	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-	<id>shell</id>
+	<id>dist</id>
 	<formats>
 		<format>zip</format>
 	</formats>
@@ -11,14 +11,14 @@
 	<dependencySets>
 		<dependencySet>
 			<useTransitiveDependencies>true</useTransitiveDependencies>
-			<outputDirectory>shell/lib</outputDirectory>
+			<outputDirectory>${project.name}/lib</outputDirectory>
 		</dependencySet>
 	</dependencySets>
 	<!--<fileSets>
 		<fileSet>
 			<directory>.</directory>
 			<includes><include>README.txt</include></includes>
-			<outputDirectory>indexer</outputDirectory>
+			<outputDirectory>shell</outputDirectory>
 		</fileSet>
 	</fileSets>-->
 </assembly>

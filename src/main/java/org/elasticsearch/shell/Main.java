@@ -19,10 +19,10 @@
 package org.elasticsearch.shell;
 
 
-import org.elasticsearch.shell.jline.JLineConsole;
-import org.elasticsearch.shell.rhino.RhinoShell;
-
-import java.io.IOException;
+import org.elasticsearch.common.inject.Guice;
+import org.elasticsearch.common.inject.Injector;
+import org.elasticsearch.shell.jline.JLineShellModule;
+import org.elasticsearch.shell.rhino.RhinoShellModule;
 
 public class Main {
 
@@ -31,17 +31,10 @@ public class Main {
         //we always write on the same PrintStream (out)
         // otherwise synchronization between them is not guaranteed
 
-        final Console console;
-        try {
-            console = new JLineConsole("elasticsearch-shell", System.in, System.out);
-        } catch (IOException e) {
-            System.out.println(e.toString());
-            return;
-        }
-
+        Injector injector = Guice.createInjector(new RhinoShellModule(), new JLineShellModule());
+        Shell shell = injector.getInstance(Shell.class);
         //TODO process options
         //TODO QuitAction???
-        new RhinoShell(console).run();
-
+        shell.run();
     }
 }

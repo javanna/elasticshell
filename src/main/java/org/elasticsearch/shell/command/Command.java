@@ -16,9 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.command;
 
-public interface Shell {
+public interface Command {
 
-    public void run();
+    public void execute();
+
 }

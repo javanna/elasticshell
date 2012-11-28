@@ -79,7 +79,7 @@ public final class ScriptValueConverter {
 
                         // we are only interested in keys that indicate a list of values
                         if (propId instanceof Integer) {
-                            // get the value out for the specified key
+                            // getContext the value out for the specified key
                             Object val = values.get(propId, values);
                             // recursively call this method to convert the value
                             propValues.add(unwrapValue(val));
@@ -96,7 +96,7 @@ public final class ScriptValueConverter {
 
                         // we are only interested in keys that indicate a list of values
                         if (propId instanceof String) {
-                            // get the value out for the specified key
+                            // getContext the value out for the specified key
                             Object val = values.get((String) propId, values);
                             // recursively call this method to convert the value
                             propValues.put((String) propId, unwrapValue(val));

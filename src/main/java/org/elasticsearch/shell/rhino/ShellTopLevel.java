@@ -33,16 +33,25 @@ public class ShellTopLevel extends ImporterTopLevel {
         this.out = out;
 
         //TODO sealed? what?
-        initStandardObjects(context, true);
+        //initStandardObjects(context, true);
 
-        defineFunctionProperties(new String[]{"help"}, ShellTopLevel.class, ScriptableObject.DONTENUM);
+        //default imports (check mvel)
 
+        defineFunctionProperties(new String[]{"help"}, getClass(), ScriptableObject.DONTENUM);
+
+        defineProperty("test", new Object() {
+            @Override
+            public String toString() {
+                return "ciao";
+            }
+        }, ScriptableObject.DONTENUM);
 
     }
 
     public static void help(Context cx, Scriptable thisObj,
                             Object[] args, Function funObj) {
 
+        //TODO add our help message instead of the rhino console message
         getInstance(funObj).out.println(ToolErrorReporter.getMessage("msg.help"));
     }
 

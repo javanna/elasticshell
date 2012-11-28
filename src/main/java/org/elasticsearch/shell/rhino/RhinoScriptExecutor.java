@@ -24,31 +24,22 @@ import org.elasticsearch.shell.ScriptExecutor;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
-import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
-public class RhinoScriptExecutor implements ScriptExecutor {
+public class RhinoScriptExecutor implements ScriptExecutor<RhinoExecutionContext> {
 
-    private final Context context;
-    private final Scriptable scope;
-
-    public RhinoScriptExecutor(Context context, Scriptable scope) {
-        this.context = context;
-        this.scope = scope;
-    }
-
-    public String execute(CompilableSource source) {
+    public String execute(CompilableSource source, RhinoExecutionContext executionContext) {
         try {
-            Script script = compile(source);
+            Script script = compile(source, executionContext);
             if (script != null) {
-                Object result = script.exec(context, scope);
-                // Avoid printing out undefined
+                Object result = script.exec(executionContext.getContext(), executionContext.getScope());
+                //Avoids printing out undefined
                 if (result != Context.getUndefinedValue()) {
                     return convertScriptResult(result);
                 }
             }
         } catch(RhinoException rex) {
-            ToolErrorReporter.reportException(context.getErrorReporter(), rex);
+            ToolErrorReporter.reportException(executionContext.getContext().getErrorReporter(), rex);
 
         } catch(VirtualMachineError ex) {
             String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ex.toString());
@@ -57,8 +48,8 @@ public class RhinoScriptExecutor implements ScriptExecutor {
         return null;
     }
 
-    private Script compile(CompilableSource source) {
-        return context.compileString(source.getSource(), null, source.getLineNumbers(), null);
+    private Script compile(CompilableSource source, RhinoExecutionContext executionContext) {
+        return executionContext.getContext().compileString(source.getSource(), null, source.getLineNumbers(), null);
     }
 
     private String convertScriptResult(Object result) {

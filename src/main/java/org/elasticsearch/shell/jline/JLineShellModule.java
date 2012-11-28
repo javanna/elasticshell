@@ -16,9 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.jline;
 
-public interface Shell {
+import org.elasticsearch.common.inject.AbstractModule;
+import org.elasticsearch.shell.Console;
 
-    public void run();
+public class JLineShellModule extends AbstractModule {
+
+    @Override
+    protected void configure() {
+        bind(Console.class).toInstance(new JLineConsole("elasticsearch-shell", System.in, System.out));
+    }
 }

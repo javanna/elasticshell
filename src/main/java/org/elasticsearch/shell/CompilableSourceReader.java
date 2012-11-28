@@ -18,15 +18,18 @@
  */
 package org.elasticsearch.shell;
 
-public abstract class CompilableSourceReader {
+import org.elasticsearch.common.inject.Inject;
+
+public class CompilableSourceReader {
 
     private final Console console;
 
+    @Inject
     public CompilableSourceReader(Console console) {
         this.console = console;
     }
 
-    public CompilableSource read() {
+    public CompilableSource read(ExecutionContext executionContext) {
 
         boolean previousLineWasEmpty = false;
         int lineNumber = 0;
@@ -44,7 +47,7 @@ public abstract class CompilableSourceReader {
             source = source + line + "\n";
             lineNumber++;
 
-            if (isCompilable(source)) {
+            if (isCompilable(source, executionContext)) {
                 break;
             }
 
@@ -59,6 +62,8 @@ public abstract class CompilableSourceReader {
         return new CompilableSource(source, lineNumber);
     }
 
-    public abstract boolean isCompilable(String source);
+    protected boolean isCompilable(String source, ExecutionContext context) {
+        return context.isCompilable(source);
+    }
 
 }

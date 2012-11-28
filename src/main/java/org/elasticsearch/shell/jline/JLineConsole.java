@@ -20,19 +20,24 @@ package org.elasticsearch.shell.jline;
 
 
 import jline.console.ConsoleReader;
+import org.elasticsearch.shell.Console;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-public class JLineConsole implements org.elasticsearch.shell.Console {
+public class JLineConsole implements Console {
 
     private final ConsoleReader reader;
     private final PrintStream out;
 
-    public JLineConsole(String appName, InputStream in, PrintStream out) throws IOException {
+    public JLineConsole(String appName, InputStream in, PrintStream out) {
         this.out = out;
-        this.reader = new ConsoleReader(appName, in, out, null);
+        try {
+            this.reader = new ConsoleReader(appName, in, out, null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         reader.setBellEnabled(false);
     }
 

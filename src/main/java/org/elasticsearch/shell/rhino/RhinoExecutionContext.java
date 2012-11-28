@@ -18,21 +18,40 @@
  */
 package org.elasticsearch.shell.rhino;
 
-import org.elasticsearch.shell.CompilableSourceReader;
-import org.elasticsearch.shell.Console;
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.shell.ExecutionContext;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextAction;
+import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.Scriptable;
 
-public class RhinoCompilableSourceReader extends CompilableSourceReader {
+public class RhinoExecutionContext implements ExecutionContext {
 
     private final Context context;
+    private final Scriptable scope;
+    private final ContextFactory contextFactory;
 
-    public RhinoCompilableSourceReader(Console console, Context context) {
-        super(console);
+    @Inject
+    public RhinoExecutionContext(ContextFactory contextFactory, Context context, Scriptable scope) {
         this.context = context;
+        this.scope = scope;
+        this.contextFactory = contextFactory;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public Scriptable getScope() {
+        return scope;
     }
 
     @Override
     public boolean isCompilable(String source) {
         return context.stringIsCompilableUnit(source);
+    }
+
+    public void run(ContextAction contextAction) {
+        contextFactory.call(contextAction);
     }
 }

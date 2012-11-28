@@ -18,30 +18,35 @@
  */
 package org.elasticsearch.shell.rhino;
 
-
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.*;
+import org.elasticsearch.common.inject.AbstractModule;
+import org.elasticsearch.shell.ScriptExecutor;
+import org.elasticsearch.shell.Shell;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextAction;
+import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.tools.ToolErrorReporter;
 
-public class RhinoShell extends BasicShell<RhinoExecutionContext> {
-
-    @Inject
-    public RhinoShell(Console console, CompilableSourceReader compilableSourceReader,
-                      ScriptExecutor scriptExecutor, RhinoExecutionContext executionContext) {
-        super(console, compilableSourceReader, scriptExecutor, executionContext);
-    }
+public class RhinoShellModule extends AbstractModule {
 
     @Override
-    public void run() {
-        //the shell needs to run through the rhino ContextFactory
-        //(separate thread, the same we used to create the context)
-        executionContext.run(new ContextAction() {
+    protected void configure() {
+
+        ContextFactory contextFactory = new ShellContextFactory(new ToolErrorReporter(false, System.out));
+        bind(ContextFactory.class).toInstance(contextFactory);
+
+        contextFactory.call(new ContextAction() {
             @Override
-            public Object run(Context cx) {
-                RhinoShell.super.run();
+            public Object run(Context context) {
+                RhinoShellModule.this.bind(Context.class).toInstance(context);
+                Scriptable scope = context.initStandardObjects(new ShellTopLevel(System.out, context));
+                RhinoShellModule.this.bind(Scriptable.class).toInstance(scope);
                 return null;
             }
         });
+
+        bind(ScriptExecutor.class).to(RhinoScriptExecutor.class);
+
+        bind(Shell.class).to(RhinoShell.class);
     }
 }

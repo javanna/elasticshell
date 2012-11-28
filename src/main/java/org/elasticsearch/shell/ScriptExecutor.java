@@ -18,7 +18,7 @@
  */
 package org.elasticsearch.shell;
 
-public interface ScriptExecutor {
+public interface ScriptExecutor<E extends ExecutionContext> {
 
-    public String execute(CompilableSource source);
+    public String execute(CompilableSource source, E executionContext);
 }

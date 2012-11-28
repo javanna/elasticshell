@@ -18,7 +18,7 @@
  */
 package org.elasticsearch.shell;
 
-public interface Shell {
+public interface ExecutionContext {
 
-    public void run();
+    public boolean isCompilable(String source);
 }

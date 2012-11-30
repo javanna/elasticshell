@@ -19,12 +19,10 @@
 package org.elasticsearch.shell.rhino;
 
 import org.elasticsearch.common.inject.AbstractModule;
+import org.elasticsearch.common.inject.TypeLiteral;
 import org.elasticsearch.shell.ScriptExecutor;
 import org.elasticsearch.shell.Shell;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextAction;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.*;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 public class RhinoShellModule extends AbstractModule {
@@ -39,13 +37,22 @@ public class RhinoShellModule extends AbstractModule {
             @Override
             public Object run(Context context) {
                 RhinoShellModule.this.bind(Context.class).toInstance(context);
-                Scriptable scope = context.initStandardObjects(new ShellTopLevel(System.out, context));
+
+                ShellTopLevel topLevel = new ShellTopLevel(System.out);
+
+                Scriptable scope = context.initStandardObjects(topLevel);
+
+
+                //ScriptableObject.putProperty(topLevel, "t", Context.javaToJS(new Test(), topLevel));
+
+
+
                 RhinoShellModule.this.bind(Scriptable.class).toInstance(scope);
                 return null;
             }
         });
 
-        bind(ScriptExecutor.class).to(RhinoScriptExecutor.class);
+        bind(new TypeLiteral<ScriptExecutor<RhinoExecutionContext>>(){}).to(RhinoScriptExecutor.class);
 
         bind(Shell.class).to(RhinoShell.class);
     }

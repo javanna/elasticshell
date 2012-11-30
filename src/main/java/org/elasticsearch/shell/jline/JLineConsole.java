@@ -20,18 +20,20 @@ package org.elasticsearch.shell.jline;
 
 
 import jline.console.ConsoleReader;
+import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.shell.Console;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+@Singleton
 public class JLineConsole implements Console {
 
     private final ConsoleReader reader;
     private final PrintStream out;
 
-    public JLineConsole(String appName, InputStream in, PrintStream out) {
+    JLineConsole(String appName, InputStream in, PrintStream out) {
         this.out = out;
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
@@ -54,8 +56,7 @@ public class JLineConsole implements Console {
     }
 
     public String readLine(String prompt) throws Exception {
-        String line = reader.readLine(prompt);
-        return line;
+        return reader.readLine(prompt);
     }
 
     public PrintStream getOut() {

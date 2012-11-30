@@ -20,15 +20,17 @@ package org.elasticsearch.shell.rhino;
 
 
 import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.shell.*;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextAction;
 
+@Singleton
 public class RhinoShell extends BasicShell<RhinoExecutionContext> {
 
     @Inject
-    public RhinoShell(Console console, CompilableSourceReader compilableSourceReader,
-                      ScriptExecutor scriptExecutor, RhinoExecutionContext executionContext) {
+    RhinoShell(Console console, CompilableSourceReader compilableSourceReader,
+                      ScriptExecutor<RhinoExecutionContext> scriptExecutor, RhinoExecutionContext executionContext) {
         super(console, compilableSourceReader, scriptExecutor, executionContext);
     }
 

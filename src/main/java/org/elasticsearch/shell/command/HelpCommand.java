@@ -16,27 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.ErrorReporter;
 
-@Singleton
-public class ShellContextFactory extends ContextFactory {
+import java.util.List;
 
-    private final ErrorReporter errorReporter;
+public class HelpCommand implements Command {
 
-    @Inject
-    ShellContextFactory(ErrorReporter errorReporter) {
-        this.errorReporter = errorReporter;
+    private final String[] aliases = new String[]{"help", "quit"};
+
+    @Override
+    public String execute(Argument... arguments) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    protected void onContextCreated(Context context) {
-        super.onContextCreated(context);
-        context.setErrorReporter(errorReporter);
+    public String[] aliases() {
+        return aliases;
+    }
+
+    @Override
+    public String help() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

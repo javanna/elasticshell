@@ -16,27 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.ErrorReporter;
+import org.elasticsearch.common.inject.AbstractModule;
+import org.elasticsearch.common.inject.multibindings.MapBinder;
 
-@Singleton
-public class ShellContextFactory extends ContextFactory {
-
-    private final ErrorReporter errorReporter;
-
-    @Inject
-    ShellContextFactory(ErrorReporter errorReporter) {
-        this.errorReporter = errorReporter;
-    }
-
+public class CommandModule extends AbstractModule {
     @Override
-    protected void onContextCreated(Context context) {
-        super.onContextCreated(context);
-        context.setErrorReporter(errorReporter);
+    protected void configure() {
+        MapBinder<String, Command> mapBinder = MapBinder.newMapBinder(binder(), String.class, Command.class);
+
+
     }
 }

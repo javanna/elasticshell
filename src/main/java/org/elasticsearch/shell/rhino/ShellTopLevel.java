@@ -19,40 +19,82 @@
 package org.elasticsearch.shell.rhino;
 
 import org.elasticsearch.shell.Console;
+import org.elasticsearch.shell.command.Command;
+import org.elasticsearch.shell.command.HelpCommand;
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 import java.io.PrintStream;
+import java.lang.reflect.Method;
 
 public class ShellTopLevel extends ImporterTopLevel {
 
     private final PrintStream out;
 
-    public ShellTopLevel(PrintStream out, Context context){
+    private final HelpCommand helpCommand = new HelpCommand();
+
+    ShellTopLevel(PrintStream out){
 
         this.out = out;
 
-        //TODO sealed? what?
-        //initStandardObjects(context, true);
+        //TODO default imports (check mvel)
 
-        //default imports (check mvel)
+        //TODO defineProperty with index and type names
+        //register asynchronously passing the context?
+        //toString
+        defineProperty("t_t", new Test(), ScriptableObject.DONTENUM);
+        defineProperty("t", new Test(), ScriptableObject.DONTENUM);
 
-        defineFunctionProperties(new String[]{"help"}, getClass(), ScriptableObject.DONTENUM);
+        //TODO predefine default json queries
 
-        defineProperty("test", new Object() {
-            @Override
-            public String toString() {
-                return "ciao";
+        //define function and register commands without prefix
+
+        //defineFunctionProperties(new String[]{"function"}, getClass(), ScriptableObject.DONTENUM);
+
+
+
+
+            Method[] methods = this.getClass().getMethods();
+            for (Method method : methods) {
+                if (method.getName().equals("function")) {
+                    FunctionObject f = new FunctionObject("help2", method, this);
+                    defineProperty("help2", f, ScriptableObject.DONTENUM);
+                }
             }
-        }, ScriptableObject.DONTENUM);
+
+
 
     }
 
-    public static void help(Context cx, Scriptable thisObj,
+    public static class Test {
+        public String test() {
+            return "new json";
+        }
+    }
+
+/*    public void defineFunctionProperties(String[] names, Class<?> clazz,
+                                         int attributes)
+    {
+        Method[] methods = FunctionObject.getMethodList(clazz);
+        for (int i=0; i < names.length; i++) {
+            String name = names[i];
+            Method m = FunctionObject.findSingleMethod(methods, name);
+            if (m == null) {
+                throw Context.reportRuntimeError2(
+                        "msg.method.not.found", name, clazz.getName());
+            }
+            FunctionObject f = new FunctionObject(name, m, this);
+            defineProperty(name, f, attributes);
+        }
+    }*/
+
+
+    public static void function(Context cx, Scriptable thisObj,
                             Object[] args, Function funObj) {
 
-        //TODO add our help message instead of the rhino console message
-        getInstance(funObj).out.println(ToolErrorReporter.getMessage("msg.help"));
+        ShellTopLevel shellTopLevel = getInstance(funObj);
+
+        shellTopLevel.out.println(shellTopLevel.helpCommand.execute());
     }
 
     private static ShellTopLevel getInstance(Function function)

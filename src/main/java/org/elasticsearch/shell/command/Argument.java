@@ -16,27 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.ErrorReporter;
+public class Argument<Type> {
 
-@Singleton
-public class ShellContextFactory extends ContextFactory {
+    private final Type argument;
 
-    private final ErrorReporter errorReporter;
-
-    @Inject
-    ShellContextFactory(ErrorReporter errorReporter) {
-        this.errorReporter = errorReporter;
+    public Argument(Type argument) {
+        this.argument = argument;
     }
 
-    @Override
-    protected void onContextCreated(Context context) {
-        super.onContextCreated(context);
-        context.setErrorReporter(errorReporter);
+    public Class<?> type(){
+        return argument.getClass();
     }
+
+
 }

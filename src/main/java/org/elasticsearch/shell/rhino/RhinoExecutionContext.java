@@ -32,7 +32,7 @@ public class RhinoExecutionContext implements ExecutionContext {
     private final ContextFactory contextFactory;
 
     @Inject
-    public RhinoExecutionContext(ContextFactory contextFactory, Context context, Scriptable scope) {
+    RhinoExecutionContext(ContextFactory contextFactory, Context context, Scriptable scope) {
         this.context = context;
         this.scope = scope;
         this.contextFactory = contextFactory;

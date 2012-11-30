@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.rhino;
 
 
+import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.shell.CompilableSource;
 import org.elasticsearch.shell.ScriptExecutor;
 import org.mozilla.javascript.Context;
@@ -26,7 +27,12 @@ import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
+@Singleton
 public class RhinoScriptExecutor implements ScriptExecutor<RhinoExecutionContext> {
+
+    RhinoScriptExecutor() {
+
+    }
 
     public String execute(CompilableSource source, RhinoExecutionContext executionContext) {
         try {

@@ -19,41 +19,19 @@
 package org.elasticsearch.shell.rhino;
 
 import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.common.inject.TypeLiteral;
+import org.elasticsearch.common.inject.name.Names;
+import org.elasticsearch.shell.InputAnalyzer;
 import org.elasticsearch.shell.ScriptExecutor;
 import org.elasticsearch.shell.Shell;
-import org.mozilla.javascript.*;
-import org.mozilla.javascript.tools.ToolErrorReporter;
+import org.mozilla.javascript.Scriptable;
 
 public class RhinoShellModule extends AbstractModule {
 
     @Override
     protected void configure() {
-
-        ContextFactory contextFactory = new ShellContextFactory(new ToolErrorReporter(false, System.out));
-        bind(ContextFactory.class).toInstance(contextFactory);
-
-        contextFactory.call(new ContextAction() {
-            @Override
-            public Object run(Context context) {
-                RhinoShellModule.this.bind(Context.class).toInstance(context);
-
-                ShellTopLevel topLevel = new ShellTopLevel(System.out);
-
-                Scriptable scope = context.initStandardObjects(topLevel);
-
-
-                //ScriptableObject.putProperty(topLevel, "t", Context.javaToJS(new Test(), topLevel));
-
-
-
-                RhinoShellModule.this.bind(Scriptable.class).toInstance(scope);
-                return null;
-            }
-        });
-
-        bind(new TypeLiteral<ScriptExecutor<RhinoExecutionContext>>(){}).to(RhinoScriptExecutor.class);
-
+        bind(Scriptable.class).annotatedWith(Names.named("shellScope")).to(ShellTopLevel.class);
+        bind(ScriptExecutor.class).to(RhinoScriptExecutor.class);
+        bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class);
         bind(Shell.class).to(RhinoShell.class);
     }
 }

@@ -21,6 +21,7 @@ package org.elasticsearch.shell;
 
 import org.elasticsearch.common.inject.Guice;
 import org.elasticsearch.common.inject.Injector;
+import org.elasticsearch.shell.command.CommandModule;
 import org.elasticsearch.shell.jline.JLineShellModule;
 import org.elasticsearch.shell.rhino.RhinoShellModule;
 
@@ -28,10 +29,7 @@ public class Main {
 
     public static void main(String... args) {
 
-        //we always write on the same PrintStream (out)
-        // otherwise synchronization between them is not guaranteed
-
-        Injector injector = Guice.createInjector(new RhinoShellModule(), new JLineShellModule());
+        Injector injector = Guice.createInjector(new ShellModule(), new RhinoShellModule(), new JLineShellModule(), new CommandModule());
         Shell shell = injector.getInstance(Shell.class);
         //TODO process options
         //TODO QuitAction???

@@ -20,7 +20,9 @@ package org.elasticsearch.shell.jline;
 
 
 import jline.console.ConsoleReader;
+import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.Singleton;
+import org.elasticsearch.common.inject.name.Named;
 import org.elasticsearch.shell.Console;
 
 import java.io.IOException;
@@ -33,7 +35,8 @@ public class JLineConsole implements Console {
     private final ConsoleReader reader;
     private final PrintStream out;
 
-    JLineConsole(String appName, InputStream in, PrintStream out) {
+    @Inject
+    JLineConsole(@Named("appName") String appName, @Named("shellInput") InputStream in, @Named("shellOutput") PrintStream out) {
         this.out = out;
         try {
             this.reader = new ConsoleReader(appName, in, out, null);

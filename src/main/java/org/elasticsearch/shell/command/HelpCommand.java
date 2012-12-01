@@ -19,24 +19,24 @@
 package org.elasticsearch.shell.command;
 
 
-import java.util.List;
+public class HelpCommand implements Command<String> {
 
-public class HelpCommand implements Command {
+    static final HelpCommand INSTANCE = new HelpCommand();
 
-    private final String[] aliases = new String[]{"help", "quit"};
+    private static final String[] ALIASES = new String[]{"help"};
+
+    private HelpCommand() {
+
+    }
 
     @Override
     public String execute(Argument... arguments) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //TODO write help text
+        return "TODO write help text";
     }
 
     @Override
     public String[] aliases() {
-        return aliases;
-    }
-
-    @Override
-    public String help() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ALIASES;
     }
 }

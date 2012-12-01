@@ -18,58 +18,49 @@
  */
 package org.elasticsearch.shell.rhino;
 
-import org.elasticsearch.shell.Console;
-import org.elasticsearch.shell.command.Command;
-import org.elasticsearch.shell.command.HelpCommand;
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.common.inject.Singleton;
+import org.elasticsearch.common.inject.name.Named;
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 import java.io.PrintStream;
-import java.lang.reflect.Method;
 
+@Singleton
 public class ShellTopLevel extends ImporterTopLevel {
 
     private final PrintStream out;
 
-    private final HelpCommand helpCommand = new HelpCommand();
-
-    ShellTopLevel(PrintStream out){
+    @Inject
+    ShellTopLevel(@Named("shellOutput") PrintStream out){
 
         this.out = out;
 
         //TODO default imports (check mvel)
 
-        //TODO defineProperty with index and type names
-        //register asynchronously passing the context?
-        //toString
-        defineProperty("t_t", new Test(), ScriptableObject.DONTENUM);
-        defineProperty("t", new Test(), ScriptableObject.DONTENUM);
+        Context context = Context.enter();
+        try {
+            initStandardObjects(context, false);
+        } finally {
+            Context.exit();
+        }
 
-        //TODO predefine default json queries
+
+        //defineProperty("h", new Test(), ScriptableObject.DONTENUM);
 
         //define function and register commands without prefix
 
-        //defineFunctionProperties(new String[]{"function"}, getClass(), ScriptableObject.DONTENUM);
+        defineFunctionProperties(new String[]{"help"}, getClass(), ScriptableObject.DONTENUM);
 
 
-
-
-            Method[] methods = this.getClass().getMethods();
-            for (Method method : methods) {
-                if (method.getName().equals("function")) {
-                    FunctionObject f = new FunctionObject("help2", method, this);
-                    defineProperty("help2", f, ScriptableObject.DONTENUM);
-                }
+        /*Method[] methods = this.getClass().getMethods();
+        for (Method method : methods) {
+            if (method.getName().equals("help")) {
+                FunctionObject f = new FunctionObject("help", method, this);
+                defineProperty("help", f, ScriptableObject.DONTENUM);
             }
+        }*/
 
-
-
-    }
-
-    public static class Test {
-        public String test() {
-            return "new json";
-        }
     }
 
 /*    public void defineFunctionProperties(String[] names, Class<?> clazz,
@@ -89,12 +80,11 @@ public class ShellTopLevel extends ImporterTopLevel {
     }*/
 
 
-    public static void function(Context cx, Scriptable thisObj,
+    public static void help(Context cx, Scriptable thisObj,
                             Object[] args, Function funObj) {
 
         ShellTopLevel shellTopLevel = getInstance(funObj);
-
-        shellTopLevel.out.println(shellTopLevel.helpCommand.execute());
+        shellTopLevel.out.println("help me!"/*shellTopLevel.helpCommand.execute()*/);
     }
 
     private static ShellTopLevel getInstance(Function function)
@@ -104,11 +94,6 @@ public class ShellTopLevel extends ImporterTopLevel {
             throw reportRuntimeError("msg.bad.shell.function.scope",
                     String.valueOf(scope));
         return (ShellTopLevel)scope;
-    }
-
-    static RuntimeException reportRuntimeError(String msgId) {
-        String message = ToolErrorReporter.getMessage(msgId);
-        return Context.reportRuntimeError(message);
     }
 
     static RuntimeException reportRuntimeError(String msgId, String msgArg)

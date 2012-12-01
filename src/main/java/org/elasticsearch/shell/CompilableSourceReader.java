@@ -23,13 +23,15 @@ import org.elasticsearch.common.inject.Inject;
 public class CompilableSourceReader {
 
     private final Console console;
+    private final InputAnalyzer inputAnalyzer;
 
     @Inject
-    public CompilableSourceReader(Console console) {
+    public CompilableSourceReader(Console console, InputAnalyzer inputAnalyzer) {
         this.console = console;
+        this.inputAnalyzer = inputAnalyzer;
     }
 
-    public CompilableSource read(ExecutionContext executionContext) {
+    public CompilableSource read() {
 
         boolean previousLineWasEmpty = false;
         int lineNumber = 0;
@@ -47,7 +49,7 @@ public class CompilableSourceReader {
             source = source + line + "\n";
             lineNumber++;
 
-            if (isCompilable(source, executionContext)) {
+            if (isCompilable(source, inputAnalyzer)) {
                 break;
             }
 
@@ -62,8 +64,8 @@ public class CompilableSourceReader {
         return new CompilableSource(source, lineNumber);
     }
 
-    protected boolean isCompilable(String source, ExecutionContext context) {
-        return context.isCompilable(source);
+    protected boolean isCompilable(String source, InputAnalyzer inputAnalyzer) {
+        return inputAnalyzer.isCompilable(source);
     }
 
 }

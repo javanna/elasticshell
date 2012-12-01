@@ -16,27 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.ErrorReporter;
+import org.elasticsearch.common.inject.AbstractModule;
+import org.elasticsearch.common.inject.name.Names;
 
-@Singleton
-public class ShellContextFactory extends ContextFactory {
+import java.io.InputStream;
+import java.io.PrintStream;
 
-    private final ErrorReporter errorReporter;
-
-    @Inject
-    ShellContextFactory(ErrorReporter errorReporter) {
-        this.errorReporter = errorReporter;
-    }
+public class ShellModule extends AbstractModule {
 
     @Override
-    protected void onContextCreated(Context context) {
-        super.onContextCreated(context);
-        context.setErrorReporter(errorReporter);
+    protected void configure() {
+        bind(String.class).annotatedWith(Names.named("appName")).toInstance("elasticsearch-shell");
+        bind(InputStream.class).annotatedWith(Names.named("shellInput")).toInstance(System.in);
+        bind(PrintStream.class).annotatedWith(Names.named("shellOutput")).toInstance(System.out);
     }
 }

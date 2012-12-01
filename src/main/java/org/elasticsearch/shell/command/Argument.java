@@ -25,10 +25,4 @@ public class Argument<Type> {
     public Argument(Type argument) {
         this.argument = argument;
     }
-
-    public Class<?> type(){
-        return argument.getClass();
-    }
-
-
 }

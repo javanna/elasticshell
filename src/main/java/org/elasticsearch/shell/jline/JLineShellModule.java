@@ -25,6 +25,6 @@ public class JLineShellModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Console.class).toInstance(new JLineConsole("elasticsearch-shell", System.in, System.out));
+        bind(Console.class).to(JLineConsole.class);
     }
 }

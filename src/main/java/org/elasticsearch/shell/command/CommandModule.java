@@ -19,12 +19,18 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.common.inject.multibindings.MapBinder;
+import org.elasticsearch.common.inject.multibindings.Multibinder;
 
 public class CommandModule extends AbstractModule {
+
     @Override
     protected void configure() {
-        MapBinder<String, Command> mapBinder = MapBinder.newMapBinder(binder(), String.class, Command.class);
+        //MapBinder<String, Command> mapBinder = MapBinder.newMapBinder(binder(), String.class, Command.class);
+
+        Multibinder<Command> setBinder = Multibinder.newSetBinder(binder(), Command.class);
+
+        setBinder.addBinding().toInstance(HelpCommand.INSTANCE);
+        setBinder.addBinding().toInstance(QuitCommand.INSTANCE);
 
 
     }

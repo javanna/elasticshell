@@ -21,29 +21,29 @@ package org.elasticsearch.shell.rhino;
 
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.Singleton;
-import org.elasticsearch.shell.*;
+import org.elasticsearch.shell.BasicShell;
+import org.elasticsearch.shell.CompilableSourceReader;
+import org.elasticsearch.shell.Console;
+import org.elasticsearch.shell.ScriptExecutor;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextAction;
+import org.mozilla.javascript.tools.ToolErrorReporter;
 
 @Singleton
-public class RhinoShell extends BasicShell<RhinoExecutionContext> {
+public class RhinoShell extends BasicShell {
 
     @Inject
-    RhinoShell(Console console, CompilableSourceReader compilableSourceReader,
-                      ScriptExecutor<RhinoExecutionContext> scriptExecutor, RhinoExecutionContext executionContext) {
-        super(console, compilableSourceReader, scriptExecutor, executionContext);
+    RhinoShell(Console console, CompilableSourceReader compilableSourceReader, ScriptExecutor scriptExecutor) {
+        super(console, compilableSourceReader, scriptExecutor);
     }
 
     @Override
     public void run() {
-        //the shell needs to run through the rhino ContextFactory
-        //(separate thread, the same we used to create the context)
-        executionContext.run(new ContextAction() {
-            @Override
-            public Object run(Context cx) {
-                RhinoShell.super.run();
-                return null;
-            }
-        });
+        Context context = Context.enter();
+        context.setErrorReporter(new ToolErrorReporter(false, console.getOut()));
+        try {
+            super.run();
+        } finally {
+            Context.exit();
+        }
     }
 }

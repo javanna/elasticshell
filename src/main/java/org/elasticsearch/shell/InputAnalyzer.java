@@ -18,7 +18,8 @@
  */
 package org.elasticsearch.shell;
 
-public interface ExecutionContext {
+public interface InputAnalyzer {
 
     public boolean isCompilable(String source);
+
 }

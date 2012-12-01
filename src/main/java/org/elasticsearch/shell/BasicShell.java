@@ -19,17 +19,15 @@
 package org.elasticsearch.shell;
 
 
-public class BasicShell<E extends ExecutionContext> implements Shell {
+public class BasicShell implements Shell {
 
     protected final Console console;
-    protected final E executionContext;
     protected final CompilableSourceReader compilableSourceReader;
-    protected final ScriptExecutor<E> scriptExecutor;
+    protected final ScriptExecutor scriptExecutor;
 
     public BasicShell(Console console, CompilableSourceReader compilableSourceReader,
-                      ScriptExecutor<E> scriptExecutor, E executionContext) {
+                      ScriptExecutor scriptExecutor) {
         this.console = console;
-        this.executionContext = executionContext;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
     }
@@ -38,9 +36,9 @@ public class BasicShell<E extends ExecutionContext> implements Shell {
         //TODO end???
         boolean end = false;
         while (!end) {
-            CompilableSource source = compilableSourceReader.read(executionContext);
+            CompilableSource source = compilableSourceReader.read();
             if (source != null){
-                String result = scriptExecutor.execute(source, executionContext);
+                String result = scriptExecutor.execute(source);
                 if (result != null) {
                     console.println(result);
                 }

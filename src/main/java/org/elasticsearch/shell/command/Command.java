@@ -18,11 +18,9 @@
  */
 package org.elasticsearch.shell.command;
 
-public interface Command {
+public interface Command<Result> {
 
-    public String execute(Argument... arguments);
+    public Result execute(Argument... arguments);
 
     public String[] aliases();
-
-    public String help();
 }

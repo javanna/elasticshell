@@ -19,33 +19,39 @@
 package org.elasticsearch.shell.rhino;
 
 
+import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.Singleton;
+import org.elasticsearch.common.inject.name.Named;
 import org.elasticsearch.shell.CompilableSource;
 import org.elasticsearch.shell.ScriptExecutor;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
+import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 @Singleton
-public class RhinoScriptExecutor implements ScriptExecutor<RhinoExecutionContext> {
+public class RhinoScriptExecutor implements ScriptExecutor {
 
-    RhinoScriptExecutor() {
+    private final Scriptable scope;
 
+    @Inject
+    RhinoScriptExecutor(@Named("shellScope") Scriptable scope) {
+        this.scope = scope;
     }
 
-    public String execute(CompilableSource source, RhinoExecutionContext executionContext) {
+    public String execute(CompilableSource source) {
         try {
-            Script script = compile(source, executionContext);
+            Script script = compile(source);
             if (script != null) {
-                Object result = script.exec(executionContext.getContext(), executionContext.getScope());
+                Object result = script.exec(Context.getCurrentContext(), scope);
                 //Avoids printing out undefined
                 if (result != Context.getUndefinedValue()) {
                     return convertScriptResult(result);
                 }
             }
         } catch(RhinoException rex) {
-            ToolErrorReporter.reportException(executionContext.getContext().getErrorReporter(), rex);
+            ToolErrorReporter.reportException(Context.getCurrentContext().getErrorReporter(), rex);
 
         } catch(VirtualMachineError ex) {
             String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ex.toString());
@@ -54,9 +60,10 @@ public class RhinoScriptExecutor implements ScriptExecutor<RhinoExecutionContext
         return null;
     }
 
-    private Script compile(CompilableSource source, RhinoExecutionContext executionContext) {
-        return executionContext.getContext().compileString(source.getSource(), null, source.getLineNumbers(), null);
+    private Script compile(CompilableSource source) {
+        return Context.getCurrentContext().compileString(source.getSource(), null, source.getLineNumbers(), null);
     }
+
 
     private String convertScriptResult(Object result) {
         //TODO convert objects properly

@@ -18,40 +18,15 @@
  */
 package org.elasticsearch.shell.rhino;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.ExecutionContext;
+import org.elasticsearch.common.inject.Singleton;
+import org.elasticsearch.shell.InputAnalyzer;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextAction;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.Scriptable;
 
-public class RhinoExecutionContext implements ExecutionContext {
-
-    private final Context context;
-    private final Scriptable scope;
-    private final ContextFactory contextFactory;
-
-    @Inject
-    RhinoExecutionContext(ContextFactory contextFactory, Context context, Scriptable scope) {
-        this.context = context;
-        this.scope = scope;
-        this.contextFactory = contextFactory;
-    }
-
-    public Context getContext() {
-        return context;
-    }
-
-    public Scriptable getScope() {
-        return scope;
-    }
+@Singleton
+public class RhinoInputAnalyzer implements InputAnalyzer {
 
     @Override
     public boolean isCompilable(String source) {
-        return context.stringIsCompilableUnit(source);
-    }
-
-    public void run(ContextAction contextAction) {
-        contextFactory.call(contextAction);
+        return Context.getCurrentContext().stringIsCompilableUnit(source);
     }
 }

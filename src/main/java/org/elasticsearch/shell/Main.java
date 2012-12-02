@@ -31,8 +31,6 @@ public class Main {
 
         Injector injector = Guice.createInjector(new ShellModule(), new RhinoShellModule(), new JLineShellModule(), new CommandModule());
         Shell shell = injector.getInstance(Shell.class);
-        //TODO process options
-        //TODO QuitAction???
         shell.run();
     }
 }

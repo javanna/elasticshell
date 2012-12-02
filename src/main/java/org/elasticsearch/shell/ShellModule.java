@@ -30,6 +30,6 @@ public class ShellModule extends AbstractModule {
     protected void configure() {
         bind(String.class).annotatedWith(Names.named("appName")).toInstance("elasticsearch-shell");
         bind(InputStream.class).annotatedWith(Names.named("shellInput")).toInstance(System.in);
-        bind(PrintStream.class).annotatedWith(Names.named("shellOutput")).toInstance(System.out);
+        bind(PrintStream.class).annotatedWith(Names.named("shellOutput")).toInstance(new PrintStream(System.out, true));
     }
 }

@@ -18,22 +18,21 @@
  */
 package org.elasticsearch.shell.command;
 
-public class QuitCommand implements Command<String> {
+import org.elasticsearch.shell.ExitSignal;
 
-    static final QuitCommand INSTANCE = new QuitCommand();
+public class ExitCommand implements Command<ExitSignal> {
+
+    static final ExitCommand INSTANCE = new ExitCommand();
 
     private static final String[] ALIASES = new String[]{"quit","exit"};
 
-    private QuitCommand() {
+    private ExitCommand() {
 
     }
 
     @Override
-    public String execute(Argument... arguments) {
-
-        //TODO do we need to close anything?
-
-        return "bye";
+    public ExitSignal execute(Argument... arguments) {
+        return new ExitSignal();
     }
 
     @Override

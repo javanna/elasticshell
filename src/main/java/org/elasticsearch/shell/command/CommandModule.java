@@ -19,19 +19,26 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.common.inject.multibindings.Multibinder;
+import org.elasticsearch.common.inject.multibindings.MapBinder;
 
 public class CommandModule extends AbstractModule {
 
+    private static final Command[] COMMANDS;
+
+    static {
+        COMMANDS = new Command[] {
+          HelpCommand.INSTANCE,
+          ExitCommand.INSTANCE
+        };
+    }
+
     @Override
     protected void configure() {
-        //MapBinder<String, Command> mapBinder = MapBinder.newMapBinder(binder(), String.class, Command.class);
-
-        Multibinder<Command> setBinder = Multibinder.newSetBinder(binder(), Command.class);
-
-        setBinder.addBinding().toInstance(HelpCommand.INSTANCE);
-        setBinder.addBinding().toInstance(QuitCommand.INSTANCE);
-
-
+        MapBinder<String, Command> mapBinder = MapBinder.newMapBinder(binder(), String.class, Command.class);
+        for (Command command : COMMANDS) {
+            for (String alias : command.aliases()) {
+                mapBinder.addBinding(alias).toInstance(command);
+            }
+        }
     }
 }

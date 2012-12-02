@@ -21,20 +21,26 @@ package org.elasticsearch.shell.rhino;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.common.inject.name.Named;
+import org.elasticsearch.shell.command.Command;
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class ShellTopLevel extends ImporterTopLevel {
 
     private final PrintStream out;
+    private final Map<String, Command> commands;
 
     @Inject
-    ShellTopLevel(@Named("shellOutput") PrintStream out){
+    ShellTopLevel(@Named("shellOutput") PrintStream out, Map<String, Command> commands){
 
         this.out = out;
+        this.commands = commands;
 
         //TODO default imports (check mvel)
 
@@ -45,46 +51,34 @@ public class ShellTopLevel extends ImporterTopLevel {
             Context.exit();
         }
 
-
         //defineProperty("h", new Test(), ScriptableObject.DONTENUM);
 
-        //define function and register commands without prefix
-
-        defineFunctionProperties(new String[]{"help"}, getClass(), ScriptableObject.DONTENUM);
-
-
-        /*Method[] methods = this.getClass().getMethods();
-        for (Method method : methods) {
-            if (method.getName().equals("help")) {
-                FunctionObject f = new FunctionObject("help", method, this);
-                defineProperty("help", f, ScriptableObject.DONTENUM);
-            }
-        }*/
+        defineFunctionProperties("executeCommand", commands.keySet(), getClass(), ScriptableObject.DONTENUM);
 
     }
 
-/*    public void defineFunctionProperties(String[] names, Class<?> clazz,
-                                         int attributes)
-    {
-        Method[] methods = FunctionObject.getMethodList(clazz);
-        for (int i=0; i < names.length; i++) {
-            String name = names[i];
-            Method m = FunctionObject.findSingleMethod(methods, name);
-            if (m == null) {
-                throw Context.reportRuntimeError2(
-                        "msg.method.not.found", name, clazz.getName());
-            }
-            FunctionObject f = new FunctionObject(name, m, this);
-            defineProperty(name, f, attributes);
+    public void defineFunctionProperties(String staticMethodName, Set<String> commandNames, Class<?> clazz, int attributes) {
+        Method[] methods = MethodUtils.getMethodList(clazz);
+        Method m = MethodUtils.findSingleMethod(methods, staticMethodName);
+        if (m == null) {
+            throw new RuntimeException("Method " + staticMethodName + " not found");
         }
-    }*/
+        for (String commandName : commandNames) {
+            FunctionObject f = new FunctionObject(commandName, m, this);
+            defineProperty(commandName, f, attributes);
+        }
+    }
 
+    @SuppressWarnings("unused")
+    public static Object executeCommand(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
+        if (funObj instanceof FunctionObject) {
+            ShellTopLevel shellTopLevel = getInstance(funObj);
+            String functionName = ((FunctionObject)funObj).getFunctionName();
+            //TODO Arguments!!!!
+            return shellTopLevel.commands.get(functionName).execute();
+        }
 
-    public static void help(Context cx, Scriptable thisObj,
-                            Object[] args, Function funObj) {
-
-        ShellTopLevel shellTopLevel = getInstance(funObj);
-        shellTopLevel.out.println("help me!"/*shellTopLevel.helpCommand.execute()*/);
+        throw new RuntimeException("Unable to determine the command to run");
     }
 
     private static ShellTopLevel getInstance(Function function)

@@ -18,7 +18,10 @@
  */
 package org.elasticsearch.shell;
 
-public interface ScriptExecutor {
 
-    public Object execute(CompilableSource source);
+public class ExitSignal {
+    @Override
+    public String toString() {
+        return "bye";
+    }
 }

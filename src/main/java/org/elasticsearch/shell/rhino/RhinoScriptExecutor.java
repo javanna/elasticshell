@@ -40,19 +40,18 @@ public class RhinoScriptExecutor implements ScriptExecutor {
         this.scope = scope;
     }
 
-    public String execute(CompilableSource source) {
+    public Object execute(CompilableSource source) {
         try {
             Script script = compile(source);
             if (script != null) {
                 Object result = script.exec(Context.getCurrentContext(), scope);
                 //Avoids printing out undefined
                 if (result != Context.getUndefinedValue()) {
-                    return convertScriptResult(result);
+                    return result;
                 }
             }
         } catch(RhinoException rex) {
             ToolErrorReporter.reportException(Context.getCurrentContext().getErrorReporter(), rex);
-
         } catch(VirtualMachineError ex) {
             String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ex.toString());
             Context.reportError(msg);
@@ -63,11 +62,4 @@ public class RhinoScriptExecutor implements ScriptExecutor {
     private Script compile(CompilableSource source) {
         return Context.getCurrentContext().compileString(source.getSource(), null, source.getLineNumbers(), null);
     }
-
-
-    private String convertScriptResult(Object result) {
-        //TODO convert objects properly
-        return Context.toString(result);
-    }
-
 }

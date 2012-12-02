@@ -19,6 +19,8 @@
 package org.elasticsearch.shell;
 
 
+import org.mozilla.javascript.Context;
+
 public class BasicShell implements Shell {
 
     protected final Console console;
@@ -33,18 +35,19 @@ public class BasicShell implements Shell {
     }
 
     public void run() {
-        //TODO end???
         boolean end = false;
         while (!end) {
             CompilableSource source = compilableSourceReader.read();
             if (source != null){
-                String result = scriptExecutor.execute(source);
+                Object result = scriptExecutor.execute(source);
                 if (result != null) {
-                    console.println(result);
+                    //TODO review and use ScriptValueConverter class
+                    console.println(Context.toString(result));
+                }
+                if (result instanceof ExitSignal) {
+                    end = true;
                 }
             }
         }
-        //TODO ???
-        console.println("bye");
     }
 }

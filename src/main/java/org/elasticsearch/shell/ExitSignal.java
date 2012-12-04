@@ -18,8 +18,8 @@
  */
 package org.elasticsearch.shell;
 
-
 public class ExitSignal {
+
     @Override
     public String toString() {
         return "bye";

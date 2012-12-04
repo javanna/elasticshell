@@ -45,12 +45,13 @@ public class RhinoScriptExecutor implements ScriptExecutor {
             Script script = compile(source);
             if (script != null) {
                 Object result = script.exec(Context.getCurrentContext(), scope);
-                //Avoids printing out undefined
+                //Avoids printing out undefined all the time
                 if (result != Context.getUndefinedValue()) {
                     return result;
                 }
             }
         } catch(RhinoException rex) {
+            //TODO ugly!!!!!
             ToolErrorReporter.reportException(Context.getCurrentContext().getErrorReporter(), rex);
         } catch(VirtualMachineError ex) {
             String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ex.toString());

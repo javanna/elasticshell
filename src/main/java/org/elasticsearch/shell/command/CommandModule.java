@@ -20,24 +20,36 @@ package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.AbstractModule;
 import org.elasticsearch.common.inject.multibindings.MapBinder;
+import org.elasticsearch.common.inject.name.Names;
+
+import java.lang.reflect.Method;
 
 public class CommandModule extends AbstractModule {
 
-    private static final Command[] COMMANDS;
-
+    private static final Object[] COMMANDS;
+    //TODO add package scanning based on Command annotation instead of manual registration
     static {
-        COMMANDS = new Command[] {
+        COMMANDS = new Object[] {
           HelpCommand.INSTANCE,
-          ExitCommand.INSTANCE
+          ExitCommand.INSTANCE,
+          ConnectCommand.INSTANCE
         };
     }
 
     @Override
     protected void configure() {
-        MapBinder<String, Command> mapBinder = MapBinder.newMapBinder(binder(), String.class, Command.class);
-        for (Command command : COMMANDS) {
-            for (String alias : command.aliases()) {
-                mapBinder.addBinding(alias).toInstance(command);
+        MapBinder<String, Object> mapBinder = MapBinder.newMapBinder(binder(), String.class, Object.class, Names.named("commands"));
+        for (Object command : COMMANDS) {
+            Command annotation = command.getClass().getAnnotation(Command.class);
+            if (annotation != null) {
+                //TODO throw some exception instead of silently fail registering the command?
+                for (Method method : command.getClass().getMethods()) {
+                    if (method.getName().equals(annotation.method())) {
+                        for (String alias : annotation.aliases()) {
+                            mapBinder.addBinding(alias).toInstance(command);
+                        }
+                    }
+                }
             }
         }
     }

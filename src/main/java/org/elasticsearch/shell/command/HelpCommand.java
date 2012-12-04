@@ -18,25 +18,18 @@
  */
 package org.elasticsearch.shell.command;
 
-
-public class HelpCommand implements Command<String> {
+@Command(aliases = "help")
+public class HelpCommand {
 
     static final HelpCommand INSTANCE = new HelpCommand();
-
-    private static final String[] ALIASES = new String[]{"help"};
 
     private HelpCommand() {
 
     }
 
-    @Override
-    public String execute(Argument... arguments) {
+    @SuppressWarnings("unused")
+    public String execute() {
         //TODO write help text
         return "TODO write help text";
-    }
-
-    @Override
-    public String[] aliases() {
-        return ALIASES;
     }
 }

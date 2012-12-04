@@ -18,11 +18,13 @@
  */
 package org.elasticsearch.shell.command;
 
-public class Argument<Type> {
+@Command(aliases = {"connect"})
+public class ConnectCommand {
 
-    private final Type argument;
+    static final ConnectCommand INSTANCE = new ConnectCommand();
 
-    public Argument(Type argument) {
-        this.argument = argument;
+    @SuppressWarnings("unused")
+    public String execute() {
+        return "connected to ...";
     }
 }

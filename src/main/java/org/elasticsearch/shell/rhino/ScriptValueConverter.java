@@ -28,7 +28,7 @@ import java.util.*;
  *
  */
 public final class ScriptValueConverter {
-    private static final String TYPE_DATE = "Date";
+
 
 
     /**
@@ -57,11 +57,11 @@ public final class ScriptValueConverter {
             // check for special case Native object wrappers
             String className = ((IdScriptableObject) value).getClassName();
             // check for special case of the String object
-            if ("String".equals(className)) {
+            if (String.class.getSimpleName().equals(className)) {
                 value = Context.jsToJava(value, String.class);
             }
             // check for special case of a Date object
-            else if ("Date".equals(className)) {
+            else if (Date.class.getSimpleName().equals(className)) {
                 value = Context.jsToJava(value, Date.class);
             } else {
                 // a scriptable object will probably indicate a multi-value property set
@@ -143,7 +143,7 @@ public final class ScriptValueConverter {
             // value from the Java date - this will construct a JavaScript Date with the same value
             Date date = (Date) value;
             value = ScriptRuntime.newObject(
-                    Context.getCurrentContext(), scope, TYPE_DATE, new Object[]{date.getTime()});
+                    Context.getCurrentContext(), scope, Date.class.getSimpleName(), new Object[]{date.getTime()});
         } else if (value instanceof Collection) {
             // recursively convert each value in the collection
             Collection<Object> collection = (Collection<Object>) value;

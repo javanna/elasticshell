@@ -20,23 +20,17 @@ package org.elasticsearch.shell.command;
 
 import org.elasticsearch.shell.ExitSignal;
 
-public class ExitCommand implements Command<ExitSignal> {
+@Command(aliases = {"exit", "quit"})
+public class ExitCommand {
 
     static final ExitCommand INSTANCE = new ExitCommand();
 
-    private static final String[] ALIASES = new String[]{"quit","exit"};
-
-    private ExitCommand() {
+  private ExitCommand() {
 
     }
 
-    @Override
-    public ExitSignal execute(Argument... arguments) {
+    @SuppressWarnings("unused")
+    public ExitSignal execute() {
         return new ExitSignal();
-    }
-
-    @Override
-    public String[] aliases() {
-        return ALIASES;
     }
 }

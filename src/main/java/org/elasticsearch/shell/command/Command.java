@@ -18,9 +18,14 @@
  */
 package org.elasticsearch.shell.command;
 
-public interface Command<Result> {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    public Result execute(Argument... arguments);
-
-    public String[] aliases();
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Command {
+    String[] aliases();
+    String method() default "execute";
 }

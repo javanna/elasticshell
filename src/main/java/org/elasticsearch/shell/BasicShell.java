@@ -19,7 +19,7 @@
 package org.elasticsearch.shell;
 
 
-import org.mozilla.javascript.Context;
+import org.elasticsearch.shell.rhino.ScriptValueConverter;
 
 public class BasicShell implements Shell {
 
@@ -35,17 +35,16 @@ public class BasicShell implements Shell {
     }
 
     public void run() {
-        boolean end = false;
-        while (!end) {
+        while (true) {
             CompilableSource source = compilableSourceReader.read();
             if (source != null){
                 Object result = scriptExecutor.execute(source);
+                result = ScriptValueConverter.unwrapValue(result);
                 if (result != null) {
-                    //TODO review and use ScriptValueConverter class
-                    console.println(Context.toString(result));
-                }
-                if (result instanceof ExitSignal) {
-                    end = true;
+                    console.println(result.toString());
+                    if (result instanceof ExitSignal) {
+                        return;
+                    }
                 }
             }
         }

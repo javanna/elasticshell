@@ -48,6 +48,7 @@ public class CommandModule extends AbstractModule {
                         for (String alias : annotation.aliases()) {
                             mapBinder.addBinding(alias).toInstance(command);
                         }
+                        break;
                     }
                 }
             }

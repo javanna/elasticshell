@@ -18,8 +18,12 @@
  */
 package org.elasticsearch.shell.rhino;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.mozilla.javascript.*;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.*;
 
 /**
@@ -28,7 +32,11 @@ import java.util.*;
  *
  */
 public final class ScriptValueConverter {
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+    static {
+        OBJECT_MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    }
 
 
     /**
@@ -52,23 +60,24 @@ public final class ScriptValueConverter {
         } else if (value instanceof Wrapper) {
             // unwrap a Java object from a JavaScript wrapper
             // recursively call this method to convert the unwrapped value
-            value = unwrapValue(((Wrapper) value).unwrap());
+            return unwrapValue(((Wrapper) value).unwrap());
+        } else if (value instanceof Function) {
+            return Context.toString(value);
         } else if (value instanceof IdScriptableObject) {
             // check for special case Native object wrappers
             String className = ((IdScriptableObject) value).getClassName();
             // check for special case of the String object
             if (String.class.getSimpleName().equals(className)) {
-                value = Context.jsToJava(value, String.class);
+                return Context.jsToJava(value, String.class);
             }
             // check for special case of a Date object
             else if (Date.class.getSimpleName().equals(className)) {
-                value = Context.jsToJava(value, Date.class);
+                return Context.jsToJava(value, Date.class);
             } else {
                 // a scriptable object will probably indicate a multi-value property set
                 // set using a JavaScript associative Array object
                 Scriptable values = (Scriptable) value;
                 Object[] propIds = values.getIds();
-
                 // is it a JavaScript associative Array object using Integer indexes?
                 if (values instanceof NativeArray && isArray(propIds)) {
                     // convert JavaScript array of values to a List of Serializable objects
@@ -76,7 +85,6 @@ public final class ScriptValueConverter {
                     for (int i = 0; i < propIds.length; i++) {
                         // work on each key in turn
                         Integer propId = (Integer) propIds[i];
-
                         // we are only interested in keys that indicate a list of values
                         if (propId instanceof Integer) {
                             // getContext the value out for the specified key
@@ -85,8 +93,7 @@ public final class ScriptValueConverter {
                             propValues.add(unwrapValue(val));
                         }
                     }
-
-                    value = propValues;
+                    return propValues;
                 } else {
                     // any other JavaScript object that supports properties - convert to a Map of objects
                     Map<String, Object> propValues = new HashMap<String, Object>(propIds.length);
@@ -102,7 +109,17 @@ public final class ScriptValueConverter {
                             propValues.put((String) propId, unwrapValue(val));
                         }
                     }
-                    value = propValues;
+
+                    //TODO do we really need to use jackson only to show a proper json given the java map
+                    //that we build from the javascript object? seems like an overkill
+                    StringWriter jsonWriter = new StringWriter();
+
+                    try {
+                        OBJECT_MAPPER.writeValue(jsonWriter, propValues);
+                        return jsonWriter.toString();
+                    } catch (IOException e) {
+                        return propValues;
+                    }
                 }
             }
         } else if (value instanceof Object[]) {
@@ -112,7 +129,7 @@ public final class ScriptValueConverter {
             for (int i = 0; i < array.length; i++) {
                 list.add(unwrapValue(array[i]));
             }
-            value = list;
+            return list;
         } else if (value instanceof Map) {
             // ensure each value in the Map is unwrapped (which may have been an unwrapped NativeMap!)
             Map<Object, Object> map = (Map<Object, Object>) value;
@@ -120,9 +137,9 @@ public final class ScriptValueConverter {
             for (Object key : map.keySet()) {
                 copyMap.put(key, unwrapValue(map.get(key)));
             }
-            value = copyMap;
+            return copyMap;
         }
-        return value;
+        return Context.toString(value);
     }
 
     /**

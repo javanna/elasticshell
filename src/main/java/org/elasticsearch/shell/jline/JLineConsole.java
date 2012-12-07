@@ -40,10 +40,10 @@ public class JLineConsole implements Console {
         this.out = out;
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
+            reader.setBellEnabled(false);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        reader.setBellEnabled(false);
     }
 
     public void print(String message) {
@@ -64,5 +64,10 @@ public class JLineConsole implements Console {
 
     public PrintStream getOut() {
         return out;
+    }
+
+    @Override
+    public void shutdown() {
+        reader.shutdown();
     }
 }

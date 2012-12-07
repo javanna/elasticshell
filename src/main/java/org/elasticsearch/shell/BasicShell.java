@@ -19,8 +19,6 @@
 package org.elasticsearch.shell;
 
 
-import org.elasticsearch.shell.rhino.ScriptValueConverter;
-
 public class BasicShell implements Shell {
 
     protected final Console console;
@@ -39,14 +37,23 @@ public class BasicShell implements Shell {
             CompilableSource source = compilableSourceReader.read();
             if (source != null){
                 Object result = scriptExecutor.execute(source);
-                result = ScriptValueConverter.unwrapValue(result);
+                result = jsToJava(result);
                 if (result != null) {
-                    console.println(result.toString());
+                    console.println(javaToString(result));
                     if (result instanceof ExitSignal) {
+                        console.shutdown();
                         return;
                     }
                 }
             }
         }
+    }
+
+    protected Object jsToJava(Object result) {
+        return result;
+    }
+
+    protected String javaToString(Object result) {
+        return result.toString();
     }
 }

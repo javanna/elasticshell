@@ -31,4 +31,6 @@ public interface Console {
     public String readLine(String prompt) throws Exception;
 
     public PrintStream getOut();
+
+    public void shutdown();
 }

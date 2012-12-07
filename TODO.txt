@@ -1,28 +1,33 @@
-Decide what's better between Command (groovysh) approach and native functions (rhino shell) approach for quit / exit / help
-implement quit action? rhino vs groovysh again
-Decide how to expose elasticsearch method to console, poc with auto completion
 
-
-Features:
-* history quit/exit help/? version help <command> / ctrl+c hook
-* colours
-* history max size?
-* jansi fusesource for windows ansi
-* splash screen
-* usage
-* object unwrap (test2=[1.0, 2, 3]) etc.
-* default java imports
+* switch cluster with specific command (current connect? find a new name? similar to what use does in mongodb shell)
+it means setting a default object (es?) available in the context
+* allow for connecting to multiple clusters within the same shell (as the mongodb-shell)
+* allow for choosing between transportclient (sniff) and nodeclient
+* how to make available default queries
+* make builders available?
+* how to expose operations? just a bunch of methods in client object?
+* how to expose methods with many indexes and many types? builder?
+need to do what es does internally to generate objects from url (can I use . as separator? allow to escape it?)
+need to parse command again and decide whether its an index, a type or nothing
+* make client object available in the shell?
+* auto completion (the mongodb shell auto completes even within a json object!!!!)
+* index.type.command
 * test!!!!!!!!
-* java args/options?
-
-* history (save to file like groovysh)
-* auto completion
-
-
+* connect on startup
+* close nodes and clients on shutdown
+* message with indexes and types available
+* default java imports
 * platform problems troubleshooting (http://groovy.codehaus.org/Groovy+Shell) vs. silent disable JLine if fails
+* start message
+* help message / usage
+* help specific for every command
+* package scanning for commands
+* save history to file (max size?)
+* ctrl+c hook
+* colours
+* jansi fusesource for windows ansi
 
 
 * README file (mention rhino & JLine)
-
 
 * open file? run command? (Rhino shell vs. mongo shell vs. groovy shell)

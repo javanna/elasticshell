@@ -18,13 +18,20 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.shell.Client;
+
 @Command(aliases = {"connect"})
 public class ConnectCommand {
 
     static final ConnectCommand INSTANCE = new ConnectCommand();
 
     @SuppressWarnings("unused")
-    public String execute() {
-        return "connected to ...";
+    public Client execute() {
+        return new Client();
+    }
+
+    @SuppressWarnings("unused")
+    public Client execute(String clusterName) {
+        return new Client(clusterName);
     }
 }

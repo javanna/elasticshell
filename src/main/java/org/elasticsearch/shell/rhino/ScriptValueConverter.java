@@ -139,7 +139,7 @@ public final class ScriptValueConverter {
             }
             return copyMap;
         }
-        return Context.toString(value);
+        return value;
     }
 
     /**

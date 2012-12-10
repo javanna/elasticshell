@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.jline;
 
+import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.AbstractModule;
 import org.elasticsearch.shell.Console;
 
@@ -26,5 +27,6 @@ public class JLineShellModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(Console.class).to(JLineConsole.class);
+        bind(Completer.class).to(RhinoCompleter.class);
     }
 }

@@ -20,6 +20,7 @@ package org.elasticsearch.shell.jline;
 
 
 import jline.console.ConsoleReader;
+import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.common.inject.name.Named;
@@ -36,11 +37,14 @@ public class JLineConsole implements Console {
     private final PrintStream out;
 
     @Inject
-    JLineConsole(@Named("appName") String appName, @Named("shellInput") InputStream in, @Named("shellOutput") PrintStream out) {
+    JLineConsole(@Named("appName") String appName, @Named("shellInput") InputStream in, @Named("shellOutput") PrintStream out, Completer completer) {
         this.out = out;
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
             reader.setBellEnabled(false);
+
+            reader.addCompleter(completer);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

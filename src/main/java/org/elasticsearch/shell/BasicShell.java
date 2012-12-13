@@ -41,7 +41,7 @@ public class BasicShell implements Shell {
                 if (result != null) {
                     console.println(javaToString(result));
                     if (result instanceof ExitSignal) {
-                        console.shutdown();
+                        shutdown();
                         return;
                     }
                 }
@@ -55,5 +55,10 @@ public class BasicShell implements Shell {
 
     protected String javaToString(Object result) {
         return result.toString();
+    }
+
+    protected void shutdown() {
+        //TODO close any opened clients/nodes (from the shutdown hook too)
+        console.shutdown();
     }
 }

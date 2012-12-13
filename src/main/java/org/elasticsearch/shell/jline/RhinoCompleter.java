@@ -68,7 +68,23 @@ public class RhinoCompleter implements Completer {
 
         //Gets the candidates related to the current context (last object whose name is complete)
         Object[] ids = object instanceof ScriptableObject ? ((ScriptableObject)object).getAllIds() : object.getIds();
+
         String lastPart = names[names.length-1];
+        addCandidates(ids, object, lastPart, candidates);
+        addCandidates(object.getPrototype().getIds(), object.getPrototype(), lastPart, candidates);
+
+        Collections.sort(candidates, new Comparator<CharSequence>() {
+            @Override
+            public int compare(CharSequence o1, CharSequence o2) {
+                return o1.toString().compareTo(o2.toString());
+            }
+        });
+
+        return buffer.length() - lastPart.length();
+    }
+
+    private void addCandidates(Object[] ids, Scriptable object, String lastPart, List<CharSequence> candidates){
+        //TODO Filter java methods? we might not want to see toString getClass and stuff all the time
         for (Object idObject : ids) {
             if (idObject instanceof String) {
                 String id = (String) idObject;
@@ -80,14 +96,5 @@ public class RhinoCompleter implements Completer {
                 }
             }
         }
-
-        Collections.sort(candidates, new Comparator<CharSequence>() {
-            @Override
-            public int compare(CharSequence o1, CharSequence o2) {
-                return o1.toString().compareTo(o2.toString());
-            }
-        });
-
-        return buffer.length() - lastPart.length();
     }
 }

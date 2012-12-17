@@ -42,6 +42,15 @@ public class RhinoCompleter implements Completer {
 
     @Override
     public int complete(String buffer, int cursor, List<CharSequence> candidates) {
+        try {
+            return tryComplete(buffer, cursor, candidates);
+        } catch(Exception e) {
+            //TODO logger!!!!
+            return buffer.length();
+        }
+    }
+
+    public int tryComplete(String buffer, int cursor, List<CharSequence> candidates) {
 
         //Look backward and collect a list of identifiers separated by dots
         int m = cursor - 1;
@@ -53,8 +62,12 @@ public class RhinoCompleter implements Completer {
 
             m--;
         }
+
         String namesAndDots = buffer.substring(m+1, cursor);
+        //System.out.println("namesAndDots: " + namesAndDots);
+
         String[] names = namesAndDots.split("\\.", -1);
+        //System.out.println("names: " + Arrays.asList(names));
 
         //looks for the last object whose name is complete
         Scriptable object = this.scope;
@@ -66,12 +79,21 @@ public class RhinoCompleter implements Completer {
             object = (Scriptable) val;
         }
 
-        //Gets the candidates related to the current context (last object whose name is complete)
-        Object[] ids = object instanceof ScriptableObject ? ((ScriptableObject)object).getAllIds() : object.getIds();
 
         String lastPart = names[names.length-1];
-        addCandidates(ids, object, lastPart, candidates);
-        addCandidates(object.getPrototype().getIds(), object.getPrototype(), lastPart, candidates);
+        //System.out.println("lastPart: " + lastPart);
+
+        //Gets the candidates related to the current context (last object whose name is complete)
+        Object[] ids = object instanceof ScriptableObject ? ((ScriptableObject)object).getAllIds() : object.getIds();
+        if (ids != null) {
+            addCandidates(ids, object, lastPart, candidates);
+            //System.out.println("1) candidates: " + candidates);
+        }
+
+        if (object.getPrototype() != null && object.getPrototype().getIds() != null) {
+            addCandidates(object.getPrototype().getIds(), object.getPrototype(), lastPart, candidates);
+            //System.out.println("2) candidates: " + candidates);
+        }
 
         Collections.sort(candidates, new Comparator<CharSequence>() {
             @Override

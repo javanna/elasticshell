@@ -75,6 +75,9 @@ public class RhinoCompleter implements Completer {
             String currentName = names[i];
             Object val = object.get(currentName, scope);
             if (!(val instanceof Scriptable)) {
+                if (object.getPrototype() == null) {
+                    return buffer.length(); // no matches
+                }
                 val = object.getPrototype().get(currentName, scope);
                 if (!(val instanceof Scriptable)) {
                     return buffer.length(); // no matches

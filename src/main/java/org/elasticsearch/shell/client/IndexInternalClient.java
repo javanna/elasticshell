@@ -16,17 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.command;
+package org.elasticsearch.shell.client;
 
-import org.mozilla.javascript.ScriptableObject;
+import org.elasticsearch.client.Client;
 
-public class Command {
+public class IndexInternalClient {
 
-    //TODO check if this class is still needed
+    private final Client client;
+    private final String index;
 
-    private ScriptableObject scope;
-
-    void setScope(ScriptableObject scope){
-        this.scope = scope;
+    public IndexInternalClient(Client client, String index) {
+        this.client = client;
+        this.index = index;
     }
+
+    //TODO toString
 }

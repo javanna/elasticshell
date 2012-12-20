@@ -18,14 +18,11 @@
  */
 package org.elasticsearch.shell.command;
 
-@Command(aliases = "help")
-public class HelpCommand {
+import org.elasticsearch.common.inject.Singleton;
 
-    static final HelpCommand INSTANCE = new HelpCommand();
-
-    private HelpCommand() {
-
-    }
+@Singleton
+@ExecutableCommand(aliases = "help")
+public class HelpCommand extends Command {
 
     @SuppressWarnings("unused")
     public String execute() {

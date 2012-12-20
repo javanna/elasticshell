@@ -16,17 +16,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.command;
+package org.elasticsearch.shell.client;
 
-import org.mozilla.javascript.ScriptableObject;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.node.Node;
 
-public class Command {
+public class NodeClient extends AbstractClient {
 
-    //TODO check if this class is still needed
 
-    private ScriptableObject scope;
+    private final Node node;
 
-    void setScope(ScriptableObject scope){
-        this.scope = scope;
+    //TODO disable or make configurable es logging
+
+    public NodeClient(Node node, Client client) {
+
+        super(client);
+
+        this.node = node;
+
+
+        /*for (Index index : indexes()) {
+            getPrototype().put(index.name(), getPrototype(), this);
+        }*/
+
     }
+
+
+    //TODO ???
+    /*public void close() {
+        client.close();
+        this.node.close();
+    }*/
 }

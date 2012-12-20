@@ -18,16 +18,12 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.shell.ExitSignal;
 
-@Command(aliases = {"exit", "quit"})
-public class ExitCommand {
-
-    static final ExitCommand INSTANCE = new ExitCommand();
-
-  private ExitCommand() {
-
-    }
+@Singleton
+@ExecutableCommand(aliases = {"exit", "quit"})
+public class ExitCommand extends Command {
 
     @SuppressWarnings("unused")
     public ExitSignal execute() {

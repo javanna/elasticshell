@@ -16,41 +16,37 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.client;
 
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
+import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.cluster.metadata.IndexMetaData;
 
-public class Client {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final Node node;
-    private final org.elasticsearch.client.Client client;
+public abstract class AbstractClient {
 
-    public Client() {
-        this("elasticsearch");
+    private final Client client;
+
+    protected AbstractClient(Client client) {
+        this.client= client;
     }
 
-    public Client(String clusterName) {
-        Settings settings = ImmutableSettings.settingsBuilder().put("node.name", "elasticsearch-shell").build();
-        this.node = NodeBuilder.nodeBuilder().clusterName(clusterName).client(true).settings(settings).build();
-        node.start();
-        this.client = node.client();
-    }
+    public List<Index> indexes() {
+        ClusterStateResponse response = client.admin().cluster().prepareState().setFilterBlocks(true)
+                .setFilterRoutingTable(true).setFilterNodes(true).execute().actionGet();
 
-    public String get(String index, String type, String id) {
-        return client.prepareGet(index, type, id).execute().actionGet().sourceAsString();
+        List<Index> indexes = new ArrayList<Index>();
+        for (IndexMetaData indexMetaData : response.state().metaData().indices().values()) {
+            indexes.add(new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet()));
+        }
+        return indexes;
     }
 
     @Override
     public String toString() {
         //TODO write a nicer message, maybe with some more information
         return "client connected";
-    }
-
-    public void close() {
-        this.client.close();
-        this.node.close();
     }
 }

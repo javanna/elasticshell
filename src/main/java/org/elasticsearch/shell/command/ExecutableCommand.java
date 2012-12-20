@@ -18,15 +18,14 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.mozilla.javascript.ScriptableObject;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class Command {
-
-    //TODO check if this class is still needed
-
-    private ScriptableObject scope;
-
-    void setScope(ScriptableObject scope){
-        this.scope = scope;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface ExecutableCommand {
+    String[] aliases();
+    String executeMethod() default "execute";
 }

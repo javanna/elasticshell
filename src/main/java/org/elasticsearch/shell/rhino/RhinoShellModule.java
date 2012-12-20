@@ -23,13 +23,13 @@ import org.elasticsearch.common.inject.name.Names;
 import org.elasticsearch.shell.InputAnalyzer;
 import org.elasticsearch.shell.ScriptExecutor;
 import org.elasticsearch.shell.Shell;
-import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 public class RhinoShellModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Scriptable.class).annotatedWith(Names.named("shellScope")).to(ShellTopLevel.class);
+        bind(ScriptableObject.class).annotatedWith(Names.named("shellScope")).to(ShellTopLevel.class);
         bind(ScriptExecutor.class).to(RhinoScriptExecutor.class);
         bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class);
         bind(Shell.class).to(RhinoShell.class);

@@ -27,16 +27,16 @@ import org.elasticsearch.shell.ScriptExecutor;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
-import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 @Singleton
 public class RhinoScriptExecutor implements ScriptExecutor {
 
-    private final Scriptable scope;
+    private final ScriptableObject scope;
 
     @Inject
-    RhinoScriptExecutor(@Named("shellScope") Scriptable scope) {
+    RhinoScriptExecutor(@Named("shellScope") ScriptableObject scope) {
         this.scope = scope;
     }
 

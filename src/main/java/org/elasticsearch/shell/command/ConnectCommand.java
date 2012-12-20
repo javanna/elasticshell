@@ -18,20 +18,29 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.elasticsearch.shell.Client;
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.common.inject.Singleton;
+import org.elasticsearch.shell.client.ClientFactory;
+import org.mozilla.javascript.NativeJavaObject;
 
-@Command(aliases = {"connect"})
-public class ConnectCommand {
+@Singleton
+@ExecutableCommand(aliases = {"connect"})
+public class ConnectCommand extends Command {
 
-    static final ConnectCommand INSTANCE = new ConnectCommand();
+    private final ClientFactory clientFactory;
 
-    @SuppressWarnings("unused")
-    public Client execute() {
-        return new Client();
+    @Inject
+    ConnectCommand(ClientFactory clientFactory) {
+        this.clientFactory = clientFactory;
     }
 
     @SuppressWarnings("unused")
-    public Client execute(String clusterName) {
-        return new Client(clusterName);
+    public NativeJavaObject execute() {
+        return clientFactory.newNodeClient();
+    }
+
+    @SuppressWarnings("unused")
+    public NativeJavaObject execute(String clusterName) {
+        return clientFactory.newNodeClient(clusterName);
     }
 }

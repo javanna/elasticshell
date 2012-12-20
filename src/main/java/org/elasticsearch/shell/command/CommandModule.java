@@ -19,39 +19,19 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.common.inject.multibindings.MapBinder;
-import org.elasticsearch.common.inject.name.Names;
-
-import java.lang.reflect.Method;
+import org.elasticsearch.common.inject.multibindings.Multibinder;
 
 public class CommandModule extends AbstractModule {
 
-    private static final Object[] COMMANDS;
-    //TODO add package scanning based on Command annotation instead of manual registration
-    static {
-        COMMANDS = new Object[] {
-          HelpCommand.INSTANCE,
-          ExitCommand.INSTANCE,
-          ConnectCommand.INSTANCE
-        };
-    }
-
     @Override
     protected void configure() {
-        MapBinder<String, Object> mapBinder = MapBinder.newMapBinder(binder(), String.class, Object.class, Names.named("commands"));
-        for (Object command : COMMANDS) {
-            Command annotation = command.getClass().getAnnotation(Command.class);
-            if (annotation != null) {
-                //TODO throw some exception instead of silently fail registering the command?
-                for (Method method : command.getClass().getMethods()) {
-                    if (method.getName().equals(annotation.method())) {
-                        for (String alias : annotation.aliases()) {
-                            mapBinder.addBinding(alias).toInstance(command);
-                        }
-                        break;
-                    }
-                }
-            }
-        }
+
+        Multibinder<Command> multiBinder = Multibinder.newSetBinder(binder(), Command.class);
+        multiBinder.addBinding().to(ExitCommand.class);
+        multiBinder.addBinding().to(HelpCommand.class);
+        multiBinder.addBinding().to(ConnectCommand.class);
+        //TODO is this the best way to force creation of an object if no other objects depend on it???
+        bind(CommandRegistrar.class).asEagerSingleton();
     }
+
 }

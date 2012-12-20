@@ -21,26 +21,20 @@ package org.elasticsearch.shell.rhino;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.common.inject.name.Named;
-import org.elasticsearch.shell.command.Command;
-import org.mozilla.javascript.*;
-import org.mozilla.javascript.tools.ToolErrorReporter;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ImporterTopLevel;
 
 import java.io.PrintStream;
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Set;
 
 @Singleton
 public class ShellTopLevel extends ImporterTopLevel {
 
     private final PrintStream out;
-    private final Map<String, Object> commands;
 
     @Inject
-    ShellTopLevel(@Named("shellOutput") PrintStream out, @Named("commands") Map<String, Object> commands){
+    ShellTopLevel(@Named("shellOutput") PrintStream out){
 
         this.out = out;
-        this.commands = commands;
 
         //TODO default imports (check mvel)
 
@@ -51,56 +45,17 @@ public class ShellTopLevel extends ImporterTopLevel {
             Context.exit();
         }
 
-        //TODO Context.javaToJS ???
-        //defineProperty("h", new Test(), ScriptableObject.DONTENUM);
-
-        defineFunctionProperties("executeCommand", commands.keySet(), ScriptableObject.DONTENUM);
-
-    }
-
-    private void defineFunctionProperties(String staticMethodName, Set<String> commandNames, int attributes) {
-        Method method;
+        /*context = Context.enter();
         try {
-            try {
-                method = getClass().getDeclaredMethod(staticMethodName, Context.class, Scriptable.class, Object[].class, Function.class);
-            } catch(SecurityException e) {
-                method = getClass().getMethod(staticMethodName, Context.class, Scriptable.class, Object[].class, Function.class);
-            }
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Method " + staticMethodName + " not found", e);
-        }
+            //TODO is there a better way to deal with dynamic properties without making everything unsealed?
+            NativeJavaObject nativeJavaObject = new NativeJavaObject(this, new Test(), Test.class);
+            nativeJavaObject.setPrototype(context.newObject(this));
+            nativeJavaObject.getPrototype().put("property1", nativeJavaObject.getPrototype(), nativeJavaObject);
+            defineProperty("test", nativeJavaObject, ScriptableObject.DONTENUM);
 
-        for (String commandName : commandNames) {
-            FunctionObject f = new FunctionObject(commandName, method, this);
-            defineProperty(commandName, f, attributes);
-        }
-    }
+        } finally {
+            Context.exit();
+        }*/
 
-    @SuppressWarnings("unused")
-    public static Object executeCommand(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
-        if (funObj instanceof FunctionObject) {
-            ShellTopLevel shellTopLevel = getInstance(funObj);
-            String functionName = ((FunctionObject)funObj).getFunctionName();
-            Object command = shellTopLevel.commands.get(functionName);
-            Command annotation = command.getClass().getAnnotation(Command.class);
-            Callable callable = ScriptRuntime.getPropFunctionAndThis(command, annotation.method(), cx, shellTopLevel);
-            return callable.call(cx, shellTopLevel, ScriptRuntime.lastStoredScriptable(cx), args);
-        }
-        throw new RuntimeException("Unable to determine the command to run");
-    }
-
-    private static ShellTopLevel getInstance(Function function)
-    {
-        Scriptable scope = function.getParentScope();
-        if (!(scope instanceof ShellTopLevel))
-            throw reportRuntimeError("msg.bad.shell.function.scope",
-                    String.valueOf(scope));
-        return (ShellTopLevel)scope;
-    }
-
-    static RuntimeException reportRuntimeError(String msgId, String msgArg)
-    {
-        String message = ToolErrorReporter.getMessage(msgId, msgArg);
-        return Context.reportRuntimeError(message);
     }
 }

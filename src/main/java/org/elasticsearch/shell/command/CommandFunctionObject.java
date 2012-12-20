@@ -18,15 +18,27 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.FunctionObject;
+import org.mozilla.javascript.Scriptable;
 
-public class Command {
+import java.lang.reflect.Member;
 
-    //TODO check if this class is still needed
+public class CommandFunctionObject extends FunctionObject {
 
-    private ScriptableObject scope;
+    private final Command command;
 
-    void setScope(ScriptableObject scope){
-        this.scope = scope;
+    public CommandFunctionObject(String name, Command command, Member methodOrConstructor, Scriptable scope) {
+
+        super(name, methodOrConstructor, scope);
+
+        if (!command.getClass().isAnnotationPresent(ExecutableCommand.class)) {
+            throw new IllegalArgumentException("The provided command object [" + command.getClass().getSimpleName() + "] is not annotated with the " + ExecutableCommand.class.getSimpleName() + " annotation");
+        }
+
+        this.command = command;
+    }
+
+    public Command getCommand() {
+        return command;
     }
 }

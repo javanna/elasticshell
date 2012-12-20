@@ -9,7 +9,7 @@
     <version>0.1-SNAPSHOT</version>
 
     <properties>
-        <elasticsearch.version>0.19.11</elasticsearch.version>
+        <elasticsearch.version>0.20.1</elasticsearch.version>
         <main.class>org.elasticsearch.shell.Main</main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

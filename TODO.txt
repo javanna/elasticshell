@@ -10,11 +10,11 @@ it means setting a default object (es?) available in the context
 need to do what es does internally to generate objects from url (can I use . as separator? allow to escape it?)
 need to parse command again and decide whether its an index, a type or nothing
 * make client object available in the shell?
-* auto completion (the mongodb shell auto completes even within a json object!!!!)
-* index.type.command
+* index.type.command and autocomplete
 * test!!!!!!!!
 * connect on startup
-* close nodes and clients on shutdown
+* add proper shutdown hook
+* close nodes and clients on shutdown (shutdown hook too)
 * message with indexes and types available
 * default java imports
 * platform problems troubleshooting (http://groovy.codehaus.org/Groovy+Shell) vs. silent disable JLine if fails
@@ -22,8 +22,7 @@ need to parse command again and decide whether its an index, a type or nothing
 * help message / usage
 * help specific for every command
 * package scanning for commands
-* save history to file (max size?)
-* ctrl+c hook
+* save history to file (max size?)   
 * colours
 * jansi fusesource for windows ansi
 

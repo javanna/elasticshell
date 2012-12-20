@@ -46,7 +46,7 @@ public class JLineConsole implements Console {
 
             reader.addCompleter(completer);
 
-            //TODO add a real shutdown hooks (e.g. shutdown all running client nodes etc.)
+            //TODO add a real shutdown hook (e.g. shutdown all running client nodes etc.)
             ShutdownHooks.add(new ShutdownHooks.Task() {
                 @Override
                 public void run() throws Exception {

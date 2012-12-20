@@ -33,10 +33,10 @@ import java.util.List;
 @Singleton
 public class RhinoCompleter implements Completer {
 
-    private final Scriptable scope;
+    private final ScriptableObject scope;
 
     @Inject
-    RhinoCompleter(@Named("shellScope") Scriptable scope) {
+    RhinoCompleter(@Named("shellScope") ScriptableObject scope) {
         this.scope = scope;
     }
 
@@ -72,25 +72,31 @@ public class RhinoCompleter implements Completer {
         //looks for the last object whose name is complete
         Scriptable object = this.scope;
         for (int i=0; i < names.length - 1; i++) {
-            Object val = object.get(names[i], scope);
+            String currentName = names[i];
+            Object val = object.get(currentName, scope);
             if (!(val instanceof Scriptable)) {
-                return buffer.length(); // no matches
+                val = object.getPrototype().get(currentName, scope);
+                if (!(val instanceof Scriptable)) {
+                    return buffer.length(); // no matches
+                }
             }
             object = (Scriptable) val;
         }
-
 
         String lastPart = names[names.length-1];
         //System.out.println("lastPart: " + lastPart);
 
         //Gets the candidates related to the current context (last object whose name is complete)
         Object[] ids = object instanceof ScriptableObject ? ((ScriptableObject)object).getAllIds() : object.getIds();
+        //System.out.println("ids: " + Arrays.asList(ids));
+
         if (ids != null) {
             addCandidates(ids, object, lastPart, candidates);
             //System.out.println("1) candidates: " + candidates);
         }
 
         if (object.getPrototype() != null && object.getPrototype().getIds() != null) {
+            //System.out.println("prototype ids: " + Arrays.asList(object.getPrototype().getIds()));
             addCandidates(object.getPrototype().getIds(), object.getPrototype(), lastPart, candidates);
             //System.out.println("2) candidates: " + candidates);
         }

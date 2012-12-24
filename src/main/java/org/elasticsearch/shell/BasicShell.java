@@ -36,25 +36,25 @@ public class BasicShell implements Shell {
         while (true) {
             CompilableSource source = compilableSourceReader.read();
             if (source != null){
-                Object result = scriptExecutor.execute(source);
-                result = jsToJava(result);
-                if (result != null) {
-                    console.println(javaToString(result));
-                    if (result instanceof ExitSignal) {
-                        shutdown();
-                        return;
-                    }
+                Object jsResult = scriptExecutor.execute(source);
+                Object javaResult = jsToJava(jsResult);
+                if (javaResult instanceof ExitSignal) {
+                    shutdown();
+                    return;
+                }
+                if (javaResult != null) {
+                    console.println(javaToString(javaResult));
                 }
             }
         }
     }
 
-    protected Object jsToJava(Object result) {
-        return result;
+    protected Object jsToJava(Object jsResult) {
+        return jsResult;
     }
 
-    protected String javaToString(Object result) {
-        return result.toString();
+    protected String javaToString(Object javaResult) {
+        return javaResult.toString();
     }
 
     protected void shutdown() {

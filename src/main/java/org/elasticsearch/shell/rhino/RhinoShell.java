@@ -48,7 +48,7 @@ public class RhinoShell extends BasicShell {
     }
 
     @Override
-    protected Object jsToJava(Object result) {
-        return ScriptValueConverter.unwrapValue(result);
+    protected Object jsToJava(Object jsResult) {
+        return ScriptValueConverter.unwrapValue(jsResult);
     }
 }

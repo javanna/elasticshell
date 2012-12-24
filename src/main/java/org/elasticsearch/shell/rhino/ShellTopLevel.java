@@ -18,22 +18,12 @@
  */
 package org.elasticsearch.shell.rhino;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.name.Named;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 
-import java.io.PrintStream;
-
 public class ShellTopLevel extends ImporterTopLevel {
 
-    private final PrintStream out;
-
-    @Inject
-    ShellTopLevel(@Named("shellOutput") PrintStream out){
-
-        this.out = out;
-
+    ShellTopLevel(){
         //TODO default imports (check mvel)
 
         Context context = Context.enter();
@@ -42,18 +32,5 @@ public class ShellTopLevel extends ImporterTopLevel {
         } finally {
             Context.exit();
         }
-
-        /*context = Context.enter();
-        try {
-            //TODO is there a better way to deal with dynamic properties without making everything unsealed?
-            NativeJavaObject nativeJavaObject = new NativeJavaObject(this, new Test(), Test.class);
-            nativeJavaObject.setPrototype(context.newObject(this));
-            nativeJavaObject.getPrototype().put("property1", nativeJavaObject.getPrototype(), nativeJavaObject);
-            defineProperty("test", nativeJavaObject, ScriptableObject.DONTENUM);
-
-        } finally {
-            Context.exit();
-        }*/
-
     }
 }

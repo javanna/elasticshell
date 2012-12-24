@@ -21,7 +21,6 @@ package org.elasticsearch.shell.jline;
 
 import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
-import jline.internal.ShutdownHooks;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.name.Named;
 import org.elasticsearch.shell.Console;
@@ -41,17 +40,7 @@ public class JLineConsole implements Console {
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
             reader.setBellEnabled(false);
-
             reader.addCompleter(completer);
-
-            //TODO add a real shutdown hook (e.g. shutdown all running client nodes etc.)
-            ShutdownHooks.add(new ShutdownHooks.Task() {
-                @Override
-                public void run() throws Exception {
-                    JLineConsole.this.out.println("bye");
-                }
-            });
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -75,10 +64,5 @@ public class JLineConsole implements Console {
 
     public PrintStream getOut() {
         return out;
-    }
-
-    @Override
-    public void shutdown() {
-        reader.shutdown();
     }
 }

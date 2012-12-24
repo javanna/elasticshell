@@ -20,24 +20,26 @@ package org.elasticsearch.shell.rhino;
 
 
 import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.common.inject.name.Named;
 import org.elasticsearch.shell.BasicShell;
 import org.elasticsearch.shell.CompilableSourceReader;
-import org.elasticsearch.shell.Console;
 import org.elasticsearch.shell.ScriptExecutor;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
+import java.io.PrintStream;
+
 public class RhinoShell extends BasicShell {
 
     @Inject
-    RhinoShell(Console console, CompilableSourceReader compilableSourceReader, ScriptExecutor scriptExecutor) {
-        super(console, compilableSourceReader, scriptExecutor);
+    RhinoShell(@Named("shellOutput") PrintStream out, CompilableSourceReader compilableSourceReader, ScriptExecutor scriptExecutor) {
+        super(out, compilableSourceReader, scriptExecutor);
     }
 
     @Override
     public void run() {
         Context context = Context.enter();
-        context.setErrorReporter(new ToolErrorReporter(false, console.getOut()));
+        context.setErrorReporter(new ToolErrorReporter(false, out));
         try {
             super.run();
         } finally {

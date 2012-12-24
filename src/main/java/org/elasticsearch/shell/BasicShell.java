@@ -19,31 +19,39 @@
 package org.elasticsearch.shell;
 
 
+import org.elasticsearch.common.inject.name.Named;
+
+import java.io.PrintStream;
+
 public class BasicShell implements Shell {
 
-    protected final Console console;
+    protected final PrintStream out;
     protected final CompilableSourceReader compilableSourceReader;
     protected final ScriptExecutor scriptExecutor;
 
-    public BasicShell(Console console, CompilableSourceReader compilableSourceReader,
+    public BasicShell(@Named("shellOutput") PrintStream out, CompilableSourceReader compilableSourceReader,
                       ScriptExecutor scriptExecutor) {
-        this.console = console;
+        this.out = out;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
     }
 
     public void run() {
         while (true) {
-            CompilableSource source = compilableSourceReader.read();
+            CompilableSource source = null;
+            try {
+                source = compilableSourceReader.read();
+            } catch (Exception e) {
+                e.printStackTrace(out);
+            }
             if (source != null){
                 Object jsResult = scriptExecutor.execute(source);
                 Object javaResult = jsToJava(jsResult);
                 if (javaResult instanceof ExitSignal) {
-                    shutdown();
                     return;
                 }
                 if (javaResult != null) {
-                    console.println(javaToString(javaResult));
+                    out.println(javaToString(javaResult));
                 }
             }
         }
@@ -57,8 +65,10 @@ public class BasicShell implements Shell {
         return javaResult.toString();
     }
 
-    protected void shutdown() {
-        //TODO close any opened clients/nodes (from the shutdown hook too)
-        console.shutdown();
+    @Override
+    public void shutdown() {
+        out.println();
+        out.println("bye");
+        //TODO close any opened clients/nodes/threads
     }
 }

@@ -31,21 +31,14 @@ public class CompilableSourceReader {
         this.inputAnalyzer = inputAnalyzer;
     }
 
-    public CompilableSource read() {
+    public CompilableSource read() throws Exception {
 
         boolean previousLineWasEmpty = false;
         int lineNumber = 0;
         String source = "";
 
         while(true) {
-            String line;
-            try {
-                line = console.readLine(lineNumber == 0 ? "> " : "... ");
-            } catch (Exception e) {
-                console.println(e.toString());
-                return null;
-            }
-
+            String line = console.readLine(lineNumber == 0 ? "> " : "... ");
             source = source + line + "\n";
             lineNumber++;
 

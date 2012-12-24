@@ -18,9 +18,17 @@
  */
 package org.elasticsearch.shell;
 
-public interface Shell {
+import org.elasticsearch.common.inject.Inject;
 
-    public void run();
+public class ShutdownHook {
 
-    public void shutdown();
+    @Inject
+    public ShutdownHook(final Shell shell) {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                shell.shutdown();
+            }
+        });
+    }
 }

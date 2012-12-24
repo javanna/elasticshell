@@ -19,18 +19,18 @@
 package org.elasticsearch.shell;
 
 
-import org.elasticsearch.shell.console.AbstractConsole;
+import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSource;
 import org.elasticsearch.shell.source.CompilableSourceReader;
 
 public class BasicShell implements Shell {
 
-    protected final AbstractConsole console;
+    protected final Console console;
     protected final CompilableSourceReader compilableSourceReader;
     protected final ScriptExecutor scriptExecutor;
 
-    public BasicShell(AbstractConsole console, CompilableSourceReader compilableSourceReader,
+    public BasicShell(Console console, CompilableSourceReader compilableSourceReader,
                       ScriptExecutor scriptExecutor) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;

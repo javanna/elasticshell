@@ -19,15 +19,15 @@
 package org.elasticsearch.shell.source;
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.console.AbstractConsole;
+import org.elasticsearch.shell.console.Console;
 
 public class CompilableSourceReader {
 
-    private final AbstractConsole console;
+    private final Console console;
     private final InputAnalyzer inputAnalyzer;
 
     @Inject
-    public CompilableSourceReader(AbstractConsole console, InputAnalyzer inputAnalyzer) {
+    public CompilableSourceReader(Console console, InputAnalyzer inputAnalyzer) {
         this.console = console;
         this.inputAnalyzer = inputAnalyzer;
     }

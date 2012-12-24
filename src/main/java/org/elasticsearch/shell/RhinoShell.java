@@ -20,7 +20,7 @@ package org.elasticsearch.shell;
 
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.console.AbstractConsole;
+import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.mozilla.javascript.Context;
@@ -29,7 +29,7 @@ import org.mozilla.javascript.tools.ToolErrorReporter;
 public class RhinoShell extends BasicShell {
 
     @Inject
-    RhinoShell(AbstractConsole console, CompilableSourceReader compilableSourceReader, ScriptExecutor scriptExecutor) {
+    RhinoShell(Console console, CompilableSourceReader compilableSourceReader, ScriptExecutor scriptExecutor) {
         super(console, compilableSourceReader, scriptExecutor);
     }
 

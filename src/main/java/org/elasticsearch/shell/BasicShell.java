@@ -19,6 +19,8 @@
 package org.elasticsearch.shell;
 
 
+import org.elasticsearch.shell.console.AbstractConsole;
+
 public class BasicShell implements Shell {
 
     protected final AbstractConsole console;

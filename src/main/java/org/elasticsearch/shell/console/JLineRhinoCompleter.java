@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.jline;
+package org.elasticsearch.shell.console;
 
 import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.Inject;
@@ -29,12 +29,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class RhinoCompleter implements Completer {
+public class JLineRhinoCompleter implements Completer {
 
     private final ScriptableObject scope;
 
     @Inject
-    RhinoCompleter(@Named("shellScope") ScriptableObject scope) {
+    JLineRhinoCompleter(@Named("shellScope") ScriptableObject scope) {
         this.scope = scope;
     }
 

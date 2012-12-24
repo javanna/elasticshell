@@ -19,6 +19,7 @@
 package org.elasticsearch.shell;
 
 import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.shell.console.AbstractConsole;
 
 public class CompilableSourceReader {
 

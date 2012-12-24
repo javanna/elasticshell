@@ -18,8 +18,12 @@
  */
 package org.elasticsearch.shell;
 
+import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.AbstractModule;
 import org.elasticsearch.common.inject.name.Names;
+import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.console.JLineConsole;
+import org.elasticsearch.shell.console.JLineRhinoCompleter;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -32,5 +36,11 @@ public class ShellModule extends AbstractModule {
         bind(InputStream.class).annotatedWith(Names.named("shellInput")).toInstance(System.in);
         bind(PrintStream.class).annotatedWith(Names.named("shellOutput")).toInstance(new PrintStream(System.out, true));
         bind(ShutdownHook.class).asEagerSingleton();
+
+        //JLine bindings
+        bind(Console.class).to(JLineConsole.class).asEagerSingleton();
+        bind(Completer.class).to(JLineRhinoCompleter.class).asEagerSingleton();
+
+
     }
 }

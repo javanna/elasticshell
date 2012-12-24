@@ -20,10 +20,10 @@ package org.elasticsearch.shell.rhino;
 
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.AbstractConsole;
 import org.elasticsearch.shell.BasicShell;
 import org.elasticsearch.shell.CompilableSourceReader;
 import org.elasticsearch.shell.ScriptExecutor;
+import org.elasticsearch.shell.console.AbstractConsole;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 

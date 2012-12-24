@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.console;
 
 import java.io.IOException;
 import java.io.PrintStream;

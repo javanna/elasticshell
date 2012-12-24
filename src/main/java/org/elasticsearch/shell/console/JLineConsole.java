@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.jline;
+package org.elasticsearch.shell.console;
 
 
 import jline.console.ConsoleReader;
@@ -24,7 +24,6 @@ import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.internal.Nullable;
 import org.elasticsearch.common.inject.name.Named;
-import org.elasticsearch.shell.AbstractConsole;
 
 import java.io.IOException;
 import java.io.InputStream;

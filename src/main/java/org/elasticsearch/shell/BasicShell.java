@@ -19,19 +19,15 @@
 package org.elasticsearch.shell;
 
 
-import org.elasticsearch.common.inject.name.Named;
-
-import java.io.PrintStream;
-
 public class BasicShell implements Shell {
 
-    protected final PrintStream out;
+    protected final Console console;
     protected final CompilableSourceReader compilableSourceReader;
     protected final ScriptExecutor scriptExecutor;
 
-    public BasicShell(@Named("shellOutput") PrintStream out, CompilableSourceReader compilableSourceReader,
+    public BasicShell(Console console, CompilableSourceReader compilableSourceReader,
                       ScriptExecutor scriptExecutor) {
-        this.out = out;
+        this.console = console;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
     }
@@ -42,7 +38,7 @@ public class BasicShell implements Shell {
             try {
                 source = compilableSourceReader.read();
             } catch (Exception e) {
-                e.printStackTrace(out);
+                e.printStackTrace(console.getOut());
             }
             if (source != null){
                 Object jsResult = scriptExecutor.execute(source);
@@ -51,7 +47,7 @@ public class BasicShell implements Shell {
                     return;
                 }
                 if (javaResult != null) {
-                    out.println(javaToString(javaResult));
+                    console.println(javaToString(javaResult));
                 }
             }
         }
@@ -67,8 +63,8 @@ public class BasicShell implements Shell {
 
     @Override
     public void shutdown() {
-        out.println();
-        out.println("bye");
+        console.println();
+        console.println("bye");
         //TODO close any opened clients/nodes/threads
     }
 }

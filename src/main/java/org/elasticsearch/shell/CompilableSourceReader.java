@@ -22,11 +22,11 @@ import org.elasticsearch.common.inject.Inject;
 
 public class CompilableSourceReader {
 
-    private final Console console;
+    private final AbstractConsole console;
     private final InputAnalyzer inputAnalyzer;
 
     @Inject
-    public CompilableSourceReader(Console console, InputAnalyzer inputAnalyzer) {
+    public CompilableSourceReader(AbstractConsole console, InputAnalyzer inputAnalyzer) {
         this.console = console;
         this.inputAnalyzer = inputAnalyzer;
     }

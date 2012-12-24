@@ -16,17 +16,38 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.jline;
+package org.elasticsearch.shell;
 
-import jline.console.completer.Completer;
-import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.shell.AbstractConsole;
+import java.io.PrintStream;
 
-public class JLineShellModule extends AbstractModule {
+/**
+ * Abstract representation of the {@link Console} that wraps a {@link PrintStream} for the output messages
+ */
+public abstract class AbstractConsole implements Console {
+
+    private final PrintStream out;
+
+    protected AbstractConsole(PrintStream out) {
+        this.out = out;
+    }
 
     @Override
-    protected void configure() {
-        bind(AbstractConsole.class).to(JLineConsole.class).asEagerSingleton();
-        bind(Completer.class).to(RhinoCompleter.class).asEagerSingleton();
+    public void print(String message) {
+        out.print(message);
+    }
+
+    @Override
+    public void println() {
+        out.println();
+    }
+
+    @Override
+    public void println(String message) {
+        out.println(message);
+    }
+
+    @Override
+    public PrintStream out() {
+        return out;
     }
 }

@@ -18,17 +18,45 @@
  */
 package org.elasticsearch.shell;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
+/**
+ * Console abstraction used to read and write from the shell
+ */
 public interface Console {
 
-    public void print(String message);
+    /**
+     * Prints a String
+     * @see PrintStream#print(String)
+     * @param message The <code>String</code> to be printed
+     */
+    void print(String message);
 
-    public void println();
+    /**
+     * Terminates the current line
+     * @see PrintStream#println()
+     */
+    void println();
 
-    public void println(String message);
+    /**
+     * Prints a String and then terminate the line
+     * @see PrintStream#println(String)
+     * @param message The <code>String</code> to be printed
+     */
+    void println(String message);
 
-    public String readLine(String prompt) throws Exception;
+    /**
+     * Returns the underlying {@link PrintStream}
+     * @return the underlying <code>PrintStream</code>
+     */
+    PrintStream out();
 
-    public PrintStream getOut();
+    /**
+     * Reads a line from the input channel after printing out the desired prompt
+     * @param prompt the prompt to be printed
+     * @return the line read
+     * @throws IOException in case of problems while reading the input
+     */
+    String readLine(String prompt) throws IOException;
 }

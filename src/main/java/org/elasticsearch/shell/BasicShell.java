@@ -21,11 +21,11 @@ package org.elasticsearch.shell;
 
 public class BasicShell implements Shell {
 
-    protected final Console console;
+    protected final AbstractConsole console;
     protected final CompilableSourceReader compilableSourceReader;
     protected final ScriptExecutor scriptExecutor;
 
-    public BasicShell(Console console, CompilableSourceReader compilableSourceReader,
+    public BasicShell(AbstractConsole console, CompilableSourceReader compilableSourceReader,
                       ScriptExecutor scriptExecutor) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;
@@ -38,7 +38,7 @@ public class BasicShell implements Shell {
             try {
                 source = compilableSourceReader.read();
             } catch (Exception e) {
-                e.printStackTrace(console.getOut());
+                e.printStackTrace(console.out());
             }
             if (source != null){
                 Object jsResult = scriptExecutor.execute(source);

@@ -22,47 +22,53 @@ package org.elasticsearch.shell.jline;
 import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.common.inject.internal.Nullable;
 import org.elasticsearch.common.inject.name.Named;
-import org.elasticsearch.shell.Console;
+import org.elasticsearch.shell.AbstractConsole;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-public class JLineConsole implements Console {
+/**
+ * @author Luca Cavanna
+ *
+ * <code>Console</code> implementation that depends on JLine for the input.
+ */
+public class JLineConsole extends AbstractConsole {
 
     private final ConsoleReader reader;
-    private final PrintStream out;
 
+    /**
+     * Constructor for the JLineConsole
+     * @param appName the application name
+     * @param in the <code>InputStream</code> to read input from
+     * @param out the <code>PrintStream</code> to print output to
+     * @param completer an optional JLine completer to auto-complete commands
+     */
     @Inject
-    JLineConsole(@Named("appName") String appName, @Named("shellInput") InputStream in, @Named("shellOutput") PrintStream out, Completer completer) {
-        this.out = out;
+    JLineConsole(@Named("appName") String appName,
+                 @Named("shellInput") InputStream in, @Named("shellOutput") PrintStream out,
+                 @Nullable Completer completer) {
+        super(out);
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
             reader.setBellEnabled(false);
-            reader.addCompleter(completer);
+            if (completer != null) {
+                reader.addCompleter(completer);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void print(String message) {
-        out.print(message);
-    }
-
-    public void println() {
-        out.println();
-    }
-
-    public void println(String message) {
-        out.println(message);
-    }
-
-    public String readLine(String prompt) throws Exception {
+    /**
+     * Reads a line using the JLine {@link ConsoleReader}
+     * @param prompt the prompt to be printed
+     * @return the line read
+     * @throws IOException in case of problems while reading the line
+     */
+    public String readLine(String prompt) throws IOException {
         return reader.readLine(prompt);
-    }
-
-    public PrintStream getOut() {
-        return out;
     }
 }

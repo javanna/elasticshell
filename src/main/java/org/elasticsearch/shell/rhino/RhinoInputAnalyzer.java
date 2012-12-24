@@ -18,11 +18,9 @@
  */
 package org.elasticsearch.shell.rhino;
 
-import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.shell.InputAnalyzer;
 import org.mozilla.javascript.Context;
 
-@Singleton
 public class RhinoInputAnalyzer implements InputAnalyzer {
 
     @Override

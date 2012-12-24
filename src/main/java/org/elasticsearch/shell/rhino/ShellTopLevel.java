@@ -19,14 +19,12 @@
 package org.elasticsearch.shell.rhino;
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.common.inject.name.Named;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 
 import java.io.PrintStream;
 
-@Singleton
 public class ShellTopLevel extends ImporterTopLevel {
 
     private final PrintStream out;

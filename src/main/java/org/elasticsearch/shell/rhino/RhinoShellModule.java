@@ -29,9 +29,9 @@ public class RhinoShellModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ScriptableObject.class).annotatedWith(Names.named("shellScope")).to(ShellTopLevel.class);
-        bind(ScriptExecutor.class).to(RhinoScriptExecutor.class);
-        bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class);
-        bind(Shell.class).to(RhinoShell.class);
+        bind(ScriptableObject.class).annotatedWith(Names.named("shellScope")).to(ShellTopLevel.class).asEagerSingleton();
+        bind(ScriptExecutor.class).to(RhinoScriptExecutor.class).asEagerSingleton();
+        bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class).asEagerSingleton();
+        bind(Shell.class).to(RhinoShell.class).asEagerSingleton();
     }
 }

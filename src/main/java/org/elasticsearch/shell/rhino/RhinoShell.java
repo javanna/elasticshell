@@ -20,7 +20,6 @@ package org.elasticsearch.shell.rhino;
 
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.shell.BasicShell;
 import org.elasticsearch.shell.CompilableSourceReader;
 import org.elasticsearch.shell.Console;
@@ -28,7 +27,6 @@ import org.elasticsearch.shell.ScriptExecutor;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
-@Singleton
 public class RhinoShell extends BasicShell {
 
     @Inject

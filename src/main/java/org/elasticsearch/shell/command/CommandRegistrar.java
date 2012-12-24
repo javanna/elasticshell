@@ -19,7 +19,6 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.common.inject.name.Named;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -27,7 +26,6 @@ import org.mozilla.javascript.ScriptableObject;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-@Singleton
 public class CommandRegistrar {
 
     private final Scriptable scope;

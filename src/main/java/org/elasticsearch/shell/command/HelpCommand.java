@@ -18,9 +18,6 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.inject.Singleton;
-
-@Singleton
 @ExecutableCommand(aliases = "help")
 public class HelpCommand extends Command {
 

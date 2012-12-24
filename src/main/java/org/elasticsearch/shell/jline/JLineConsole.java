@@ -23,7 +23,6 @@ import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
 import jline.internal.ShutdownHooks;
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.common.inject.name.Named;
 import org.elasticsearch.shell.Console;
 
@@ -31,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-@Singleton
 public class JLineConsole implements Console {
 
     private final ConsoleReader reader;

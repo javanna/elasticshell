@@ -20,7 +20,6 @@ package org.elasticsearch.shell.jline;
 
 import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.common.inject.name.Named;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -30,7 +29,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-@Singleton
 public class RhinoCompleter implements Completer {
 
     private final ScriptableObject scope;

@@ -26,7 +26,7 @@ public class JLineShellModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Console.class).to(JLineConsole.class);
-        bind(Completer.class).to(RhinoCompleter.class);
+        bind(Console.class).to(JLineConsole.class).asEagerSingleton();
+        bind(Completer.class).to(RhinoCompleter.class).asEagerSingleton();
     }
 }

@@ -18,10 +18,8 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.shell.ExitSignal;
 
-@Singleton
 @ExecutableCommand(aliases = {"exit", "quit"})
 public class ExitCommand extends Command {
 

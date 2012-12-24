@@ -19,11 +19,9 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.mozilla.javascript.NativeJavaObject;
 
-@Singleton
 @ExecutableCommand(aliases = {"connect"})
 public class ConnectCommand extends Command {
 

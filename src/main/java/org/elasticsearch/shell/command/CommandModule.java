@@ -25,11 +25,10 @@ public class CommandModule extends AbstractModule {
 
     @Override
     protected void configure() {
-
         Multibinder<Command> multiBinder = Multibinder.newSetBinder(binder(), Command.class);
-        multiBinder.addBinding().to(ExitCommand.class);
-        multiBinder.addBinding().to(HelpCommand.class);
-        multiBinder.addBinding().to(ConnectCommand.class);
+        multiBinder.addBinding().to(ExitCommand.class).asEagerSingleton();
+        multiBinder.addBinding().to(HelpCommand.class).asEagerSingleton();
+        multiBinder.addBinding().to(ConnectCommand.class).asEagerSingleton();
         //TODO is this the best way to force creation of an object if no other objects depend on it???
         bind(CommandRegistrar.class).asEagerSingleton();
     }

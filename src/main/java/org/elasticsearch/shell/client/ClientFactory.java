@@ -22,7 +22,6 @@ import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.Singleton;
 import org.elasticsearch.common.inject.name.Named;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
@@ -36,7 +35,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@Singleton
 public class ClientFactory {
 
     private final ScriptableObject shellScope;

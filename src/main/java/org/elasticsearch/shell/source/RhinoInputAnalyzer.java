@@ -16,21 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell.source;
 
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ImporterTopLevel;
 
-public class ShellTopLevel extends ImporterTopLevel {
+public class RhinoInputAnalyzer implements InputAnalyzer {
 
-    ShellTopLevel(){
-        //TODO default imports (check mvel)
-
-        Context context = Context.enter();
-        try {
-            initStandardObjects(context, true);
-        } finally {
-            Context.exit();
-        }
+    @Override
+    public boolean isCompilable(String source) {
+        return Context.getCurrentContext().stringIsCompilableUnit(source);
     }
 }

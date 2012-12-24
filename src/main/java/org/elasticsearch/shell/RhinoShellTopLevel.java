@@ -16,22 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell;
 
-import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.common.inject.name.Names;
-import org.elasticsearch.shell.InputAnalyzer;
-import org.elasticsearch.shell.ScriptExecutor;
-import org.elasticsearch.shell.Shell;
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ImporterTopLevel;
 
-public class RhinoShellModule extends AbstractModule {
+public class RhinoShellTopLevel extends ImporterTopLevel {
 
-    @Override
-    protected void configure() {
-        bind(ScriptableObject.class).annotatedWith(Names.named("shellScope")).to(ShellTopLevel.class).asEagerSingleton();
-        bind(ScriptExecutor.class).to(RhinoScriptExecutor.class).asEagerSingleton();
-        bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class).asEagerSingleton();
-        bind(Shell.class).to(RhinoShell.class).asEagerSingleton();
+    RhinoShellTopLevel(){
+        Context context = Context.enter();
+        try {
+            initStandardObjects(context, true);
+        } finally {
+            Context.exit();
+        }
     }
 }

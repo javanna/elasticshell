@@ -20,6 +20,9 @@ package org.elasticsearch.shell;
 
 
 import org.elasticsearch.shell.console.AbstractConsole;
+import org.elasticsearch.shell.script.ScriptExecutor;
+import org.elasticsearch.shell.source.CompilableSource;
+import org.elasticsearch.shell.source.CompilableSourceReader;
 
 public class BasicShell implements Shell {
 

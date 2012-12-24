@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.source;
 
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.console.AbstractConsole;

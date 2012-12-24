@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -31,7 +31,7 @@ import java.util.*;
  *
  *
  */
-public final class ScriptValueConverter {
+public final class RhinoScriptValueConverter {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     static {
@@ -42,7 +42,7 @@ public final class ScriptValueConverter {
     /**
      * Private constructor - methods are static
      */
-    private ScriptValueConverter() {
+    private RhinoScriptValueConverter() {
     }
 
     /**

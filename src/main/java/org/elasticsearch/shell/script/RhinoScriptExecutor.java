@@ -16,13 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell.script;
 
 
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.name.Named;
-import org.elasticsearch.shell.CompilableSource;
-import org.elasticsearch.shell.ScriptExecutor;
+import org.elasticsearch.shell.source.CompilableSource;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;

@@ -16,15 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell.source;
 
-import org.elasticsearch.shell.InputAnalyzer;
-import org.mozilla.javascript.Context;
+public interface InputAnalyzer {
 
-public class RhinoInputAnalyzer implements InputAnalyzer {
+    public boolean isCompilable(String source);
 
-    @Override
-    public boolean isCompilable(String source) {
-        return Context.getCurrentContext().stringIsCompilableUnit(source);
-    }
 }

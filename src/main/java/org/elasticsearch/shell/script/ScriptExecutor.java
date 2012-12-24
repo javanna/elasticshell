@@ -16,22 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.script;
 
-public class CompilableSource {
-    private final String source;
-    private final int lineNumbers;
+import org.elasticsearch.shell.source.CompilableSource;
 
-    public CompilableSource(String source, int lineNumbers) {
-        this.source = source;
-        this.lineNumbers = lineNumbers;
-    }
+public interface ScriptExecutor {
 
-    public String getSource() {
-        return source;
-    }
-
-    public int getLineNumbers() {
-        return lineNumbers;
-    }
+    public Object execute(CompilableSource source);
 }

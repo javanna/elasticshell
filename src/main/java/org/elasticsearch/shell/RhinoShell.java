@@ -16,14 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.rhino;
+package org.elasticsearch.shell;
 
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.BasicShell;
-import org.elasticsearch.shell.CompilableSourceReader;
-import org.elasticsearch.shell.ScriptExecutor;
 import org.elasticsearch.shell.console.AbstractConsole;
+import org.elasticsearch.shell.script.ScriptExecutor;
+import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
@@ -47,6 +46,6 @@ public class RhinoShell extends BasicShell {
 
     @Override
     protected Object jsToJava(Object jsResult) {
-        return ScriptValueConverter.unwrapValue(jsResult);
+        return RhinoScriptValueConverter.unwrapValue(jsResult);
     }
 }

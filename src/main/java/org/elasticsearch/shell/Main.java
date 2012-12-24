@@ -16,25 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.main;
+package org.elasticsearch.shell;
 
 
 import org.elasticsearch.common.inject.Guice;
 import org.elasticsearch.common.inject.Injector;
-import org.elasticsearch.shell.Shell;
-import org.elasticsearch.shell.ShellModule;
 import org.elasticsearch.shell.command.CommandModule;
-import org.elasticsearch.shell.jline.JLineShellModule;
-import org.elasticsearch.shell.rhino.RhinoShellModule;
 
 public class Main {
 
     public static void main(String... args) {
-        Injector injector = Guice.createInjector(
-                new ShellModule(),
-                new RhinoShellModule(),
-                new JLineShellModule(),
-                new CommandModule());
+        Injector injector = Guice.createInjector(new ShellModule(), new CommandModule());
         Shell shell = injector.getInstance(Shell.class);
         shell.run();
     }

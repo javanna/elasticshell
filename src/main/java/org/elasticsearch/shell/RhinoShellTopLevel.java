@@ -21,6 +21,11 @@ package org.elasticsearch.shell;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 
+/**
+ * Rhino shell scriptable object that can be used as top-level (global) object
+ *
+ * @author Luca Cavanna
+ */
 public class RhinoShellTopLevel extends ImporterTopLevel {
 
     RhinoShellTopLevel(){

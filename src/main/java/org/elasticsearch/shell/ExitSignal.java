@@ -18,6 +18,12 @@
  */
 package org.elasticsearch.shell;
 
+/**
+ * Object that can be returned from a command meaning that the execution must end
+ * and the shell must be shutdown
+ *
+ * @author Luca Cavanna
+ */
 public class ExitSignal {
 
 }

@@ -23,6 +23,11 @@ import org.elasticsearch.common.inject.Guice;
 import org.elasticsearch.common.inject.Injector;
 import org.elasticsearch.shell.command.CommandModule;
 
+/**
+ * Main class for the elasticsearch shell
+ *
+ * @author Luca Cavanna
+ */
 public class Main {
 
     public static void main(String... args) {

@@ -20,8 +20,13 @@ package org.elasticsearch.shell;
 
 import org.elasticsearch.common.inject.Inject;
 
+/**
+ * Shutdown hook that shutdowns the shell before the jvm is shutdown
+ * Works either after a normal exit or after a forced exit via CTRL-C
+ *
+ * @author Luca Cavanna
+ */
 public class ShutdownHook {
-
     @Inject
     public ShutdownHook(final Shell shell) {
         Runtime.getRuntime().addShutdownHook(new Thread() {

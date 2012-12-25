@@ -33,6 +33,11 @@ import org.elasticsearch.shell.source.RhinoInputAnalyzer;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+/**
+ * Module that binds all the objects needed to run the shell
+ *
+ * @author Luca Cavanna
+ */
 public class ShellModule extends AbstractModule {
 
     @Override

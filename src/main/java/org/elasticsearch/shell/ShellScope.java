@@ -19,16 +19,26 @@
 package org.elasticsearch.shell;
 
 /**
+ * Shell scope which wraps the real scope object that depends on the underlying engine
+ *
  * @author Luca Cavanna
  */
 public class ShellScope<Scope> {
 
     private final Scope scope;
 
+    /**
+     * Creates a new <code>ShellScope</code> given the actual scope object
+     * @param scope the actual scope object that depends on the engine in use
+     */
     ShellScope(Scope scope) {
         this.scope = scope;
     }
 
+    /**
+     * Allows to retrieve the actual scope object
+     * @return the actual scope object depending on the engine in use
+     */
     public Scope get() {
         return scope;
     }

@@ -21,6 +21,8 @@ package org.elasticsearch.shell;
 import org.elasticsearch.common.inject.Inject;
 
 /**
+ * Rhino implementation of the shell scope that wraps the {@link RhinoShellTopLevel}
+ *
  * @author Luca Cavanna
  */
 public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {

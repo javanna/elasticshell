@@ -26,6 +26,8 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -33,10 +35,16 @@ import java.util.List;
 public class JLineRhinoCompleter implements Completer {
 
     private final ShellScope<RhinoShellTopLevel> shellScope;
+    private final List<String> excludeList = new ArrayList<String>();
 
     @Inject
     JLineRhinoCompleter(ShellScope<RhinoShellTopLevel> shellScope) {
         this.shellScope = shellScope;
+        //TODO decide whether we want to filter out all the Object methods or only some of them (notify etc.)
+        for (Method method : Object.class.getMethods()) {
+            this.excludeList.add(method.getName());
+        }
+        this.excludeList.add("class");
     }
 
     @Override
@@ -114,11 +122,10 @@ public class JLineRhinoCompleter implements Completer {
     }
 
     private void addCandidates(Object[] ids, Scriptable object, String lastPart, List<CharSequence> candidates){
-        //TODO Filter java methods? we might not want to see toString getClass and stuff all the time
         for (Object idObject : ids) {
             if (idObject instanceof String) {
                 String id = (String) idObject;
-                if (id.startsWith(lastPart)) {
+                if (id.startsWith(lastPart) && !excludeList.contains(id)) {
                     if (object.get(id, object) instanceof Function) {
                         id += "(";
                     }

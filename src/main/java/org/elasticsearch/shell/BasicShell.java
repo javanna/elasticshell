@@ -24,19 +24,36 @@ import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSource;
 import org.elasticsearch.shell.source.CompilableSourceReader;
 
+/**
+ * Basic shell implementation: it reads a compilable source and executes it
+ *
+ * @author Luca Cavanna
+ */
 public class BasicShell implements Shell {
 
     protected final Console console;
     protected final CompilableSourceReader compilableSourceReader;
     protected final ScriptExecutor scriptExecutor;
+    protected final Unwrapper unwrapper;
 
+    /**
+     * Creates a new <code>BasicShell</code>
+     *
+     * @param console the console used to read commands and prints the results
+     * @param compilableSourceReader reader that receives a potential script and determines whether
+     *                               it really is a compilable script or eventually waits for more input
+     * @param scriptExecutor executor used to execute a compilable source
+     * @param unwrapper unwraps a script object and converts it to its Java representation
+     */
     public BasicShell(Console console, CompilableSourceReader compilableSourceReader,
-                      ScriptExecutor scriptExecutor) {
+                      ScriptExecutor scriptExecutor, Unwrapper unwrapper) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
+        this.unwrapper = unwrapper;
     }
 
+    @Override
     public void run() {
         while (true) {
             CompilableSource source = null;
@@ -47,7 +64,7 @@ public class BasicShell implements Shell {
             }
             if (source != null){
                 Object jsResult = scriptExecutor.execute(source);
-                Object javaResult = jsToJava(jsResult);
+                Object javaResult = unwrap(jsResult);
                 if (javaResult instanceof ExitSignal) {
                     return;
                 }
@@ -58,12 +75,22 @@ public class BasicShell implements Shell {
         }
     }
 
-    protected Object jsToJava(Object jsResult) {
-        return jsResult;
+    /**
+     * Converts a javascript object returned by the shell to its Java representation
+     * @param scriptObject the javascript object to convert
+     * @return the Java representation of the input javascript object
+     */
+    protected Object unwrap(Object scriptObject) {
+        return unwrapper.unwrap(scriptObject);
     }
 
-    protected String javaToString(Object javaResult) {
-        return javaResult.toString();
+    /**
+     * Converts a Java object to its textual representation that can be shown as a result of a script execution
+     * @param javaObject the Java object to convert to its textual representation
+     * @return the textual representation of the input Java object
+     */
+    protected String javaToString(Object javaObject) {
+        return javaObject.toString();
     }
 
     @Override

@@ -19,19 +19,17 @@
 package org.elasticsearch.shell;
 
 /**
- * Class that represents the shell, which can be run and shutdown
+ * Unwraps a script object obtained as a result of a script execution
+ * and converts it to its Java representation
  *
  * @author Luca Cavanna
  */
-public interface Shell {
+public interface Unwrapper {
 
     /**
-     * Runs the shell
+     * Unwraps a script object and returns its java representation
+     * @param scriptObject the script object to be converted
+     * @return the Java representation of the input script object
      */
-    public void run();
-
-    /**
-     * Shutdowns the shell
-     */
-    public void shutdown();
+    public Object unwrap(Object scriptObject);
 }

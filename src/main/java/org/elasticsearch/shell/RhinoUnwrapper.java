@@ -19,7 +19,6 @@
 package org.elasticsearch.shell;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.mozilla.javascript.*;
 
 import java.io.IOException;
@@ -27,56 +26,47 @@ import java.io.StringWriter;
 import java.util.*;
 
 /**
- * Value Converter to marshal objects between Java and Javascript.
+ * Rhino implementation of the {@link Unwrapper}
  *
- *
+ * @author Luca Cavanna
  */
-public final class RhinoScriptValueConverter {
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+public class RhinoUnwrapper implements Unwrapper {
 
-    static {
-        OBJECT_MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-    }
-
-
-    /**
-     * Private constructor - methods are static
-     */
-    private RhinoScriptValueConverter() {
-    }
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Convert an object from a script wrapper value to a serializable value valid outside
      * of the Rhino script processor context.
-     * <p/>
+     *
      * This includes converting JavaScript Array objects to Lists of valid objects.
      *
-     * @param value Value to convert from script wrapper object to external object value.
-     * @return unwrapped and converted value.
+     * @param scriptObject Value to convert from script wrapper object to external object value
+     * @return unwrapped and converted value
      */
-    public static Object unwrapValue(Object value) {
-        if (value == null) {
+    @Override
+    public Object unwrap(Object scriptObject) {
+        if (scriptObject == null) {
             return null;
-        } else if (value instanceof Wrapper) {
+        } else if (scriptObject instanceof Wrapper) {
             // unwrap a Java object from a JavaScript wrapper
             // recursively call this method to convert the unwrapped value
-            return unwrapValue(((Wrapper) value).unwrap());
-        } else if (value instanceof Function) {
-            return Context.toString(value);
-        } else if (value instanceof IdScriptableObject) {
+            return unwrap(((Wrapper) scriptObject).unwrap());
+        } else if (scriptObject instanceof Function) {
+            return Context.toString(scriptObject);
+        } else if (scriptObject instanceof IdScriptableObject) {
             // check for special case Native object wrappers
-            String className = ((IdScriptableObject) value).getClassName();
+            String className = ((IdScriptableObject) scriptObject).getClassName();
             // check for special case of the String object
             if (String.class.getSimpleName().equals(className)) {
-                return Context.jsToJava(value, String.class);
+                return Context.jsToJava(scriptObject, String.class);
             }
             // check for special case of a Date object
             else if (Date.class.getSimpleName().equals(className)) {
-                return Context.jsToJava(value, Date.class);
+                return Context.jsToJava(scriptObject, Date.class);
             } else {
                 // a scriptable object will probably indicate a multi-value property set
                 // set using a JavaScript associative Array object
-                Scriptable values = (Scriptable) value;
+                Scriptable values = (Scriptable) scriptObject;
                 Object[] propIds = values.getIds();
                 // is it a JavaScript associative Array object using Integer indexes?
                 if (values instanceof NativeArray && isArray(propIds)) {
@@ -90,7 +80,7 @@ public final class RhinoScriptValueConverter {
                             // getContext the value out for the specified key
                             Object val = values.get(propId, values);
                             // recursively call this method to convert the value
-                            propValues.add(unwrapValue(val));
+                            propValues.add(unwrap(val));
                         }
                     }
                     return propValues;
@@ -106,7 +96,7 @@ public final class RhinoScriptValueConverter {
                             // getContext the value out for the specified key
                             Object val = values.get((String) propId, values);
                             // recursively call this method to convert the value
-                            propValues.put((String) propId, unwrapValue(val));
+                            propValues.put((String) propId, unwrap(val));
                         }
                     }
 
@@ -115,69 +105,31 @@ public final class RhinoScriptValueConverter {
                     StringWriter jsonWriter = new StringWriter();
 
                     try {
-                        OBJECT_MAPPER.writeValue(jsonWriter, propValues);
+                        objectMapper.writeValue(jsonWriter, propValues);
                         return jsonWriter.toString();
                     } catch (IOException e) {
                         return propValues;
                     }
                 }
             }
-        } else if (value instanceof Object[]) {
+        } else if (scriptObject instanceof Object[]) {
             // convert back a list Object Java values
-            Object[] array = (Object[]) value;
+            Object[] array = (Object[]) scriptObject;
             ArrayList<Object> list = new ArrayList<Object>(array.length);
             for (int i = 0; i < array.length; i++) {
-                list.add(unwrapValue(array[i]));
+                list.add(unwrap(array[i]));
             }
             return list;
-        } else if (value instanceof Map) {
+        } else if (scriptObject instanceof Map) {
             // ensure each value in the Map is unwrapped (which may have been an unwrapped NativeMap!)
-            Map<Object, Object> map = (Map<Object, Object>) value;
+            Map<Object, Object> map = (Map<Object, Object>) scriptObject;
             Map<Object, Object> copyMap = new HashMap<Object, Object>(map.size());
             for (Object key : map.keySet()) {
-                copyMap.put(key, unwrapValue(map.get(key)));
+                copyMap.put(key, unwrap(map.get(key)));
             }
             return copyMap;
         }
-        return value;
-    }
-
-    /**
-     * Convert an object from any repository serialized value to a valid script object.
-     * This includes converting Collection multi-value properties into JavaScript Array objects.
-     *
-     * @param scope Scripting scope
-     * @param value Property value
-     * @return Value safe for scripting usage
-     */
-    public static Object wrapValue(Scriptable scope, Object value) {
-        // perform conversions from Java objects to JavaScript scriptable instances
-        if (value == null) {
-            return null;
-        } else if (value instanceof Date) {
-            // convert Date to JavaScript native Date object
-            // call the "Date" constructor on the root scope object - passing in the millisecond
-            // value from the Java date - this will construct a JavaScript Date with the same value
-            Date date = (Date) value;
-            value = ScriptRuntime.newObject(
-                    Context.getCurrentContext(), scope, Date.class.getSimpleName(), new Object[]{date.getTime()});
-        } else if (value instanceof Collection) {
-            // recursively convert each value in the collection
-            Collection<Object> collection = (Collection<Object>) value;
-            Object[] array = new Object[collection.size()];
-            int index = 0;
-            for (Object obj : collection) {
-                array[index++] = wrapValue(scope, obj);
-            }
-            // convert array to a native JavaScript Array
-            value = Context.getCurrentContext().newArray(scope, array);
-        } /*else if (value instanceof Map) {
-            value = new NativeMap(scope, (Map) value);
-        }*/
-
-        // simple numbers, strings and booleans are wrapped automatically by Rhino
-
-        return value;
+        return scriptObject;
     }
 
     /**
@@ -186,7 +138,7 @@ public final class RhinoScriptValueConverter {
      * @param ids id's of the native array
      * @return boolean  true if it's an array, false otherwise (ie it's a map)
      */
-    private static boolean isArray(final Object[] ids) {
+    private boolean isArray(final Object[] ids) {
         boolean result = true;
         for (int i = 0; i < ids.length; i++) {
             if (ids[i] instanceof Integer == false) {

@@ -26,11 +26,19 @@ import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
+/**
+ * Rhino implementation of the {@link Shell}
+ * Uses the basic functionality provided by the {@link BasicShell}. Adds the Rhino {@link Context} initialization
+ * and the Rhino specific javascript object to Java conversion
+ *
+ * @author Luca Cavanna
+ */
 public class RhinoShell extends BasicShell {
 
     @Inject
-    RhinoShell(Console console, CompilableSourceReader compilableSourceReader, ScriptExecutor scriptExecutor) {
-        super(console, compilableSourceReader, scriptExecutor);
+    RhinoShell(Console console, CompilableSourceReader compilableSourceReader,
+               ScriptExecutor scriptExecutor, Unwrapper unwrapper) {
+        super(console, compilableSourceReader, scriptExecutor, unwrapper);
     }
 
     @Override
@@ -42,10 +50,5 @@ public class RhinoShell extends BasicShell {
         } finally {
             Context.exit();
         }
-    }
-
-    @Override
-    protected Object jsToJava(Object jsResult) {
-        return RhinoScriptValueConverter.unwrapValue(jsResult);
     }
 }

@@ -47,6 +47,7 @@ public class ShellModule extends AbstractModule {
         bind(Completer.class).to(JLineRhinoCompleter.class).asEagerSingleton();
 
         //Rhino bindings
+        bind(Unwrapper.class).to(RhinoUnwrapper.class).asEagerSingleton();
         bind(new TypeLiteral<ShellScope<RhinoShellTopLevel>>(){}).to(RhinoShellScope.class).asEagerSingleton();
         bind(ScriptExecutor.class).to(RhinoScriptExecutor.class).asEagerSingleton();
         bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class).asEagerSingleton();

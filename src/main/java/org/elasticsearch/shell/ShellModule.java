@@ -48,7 +48,6 @@ public class ShellModule extends AbstractModule {
 
         //Rhino bindings
         bind(new TypeLiteral<ShellScope<RhinoShellTopLevel>>(){}).to(RhinoShellScope.class).asEagerSingleton();
-        //bind(ScriptableObject.class).annotatedWith(Names.named("shellScope")).to(RhinoShellTopLevel.class).asEagerSingleton();
         bind(ScriptExecutor.class).to(RhinoScriptExecutor.class).asEagerSingleton();
         bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class).asEagerSingleton();
         bind(Shell.class).to(RhinoShell.class).asEagerSingleton();

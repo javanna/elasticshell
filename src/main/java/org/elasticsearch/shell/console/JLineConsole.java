@@ -22,7 +22,6 @@ package org.elasticsearch.shell.console;
 import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.internal.Nullable;
 import org.elasticsearch.common.inject.name.Named;
 
 import java.io.IOException;
@@ -43,22 +42,26 @@ public class JLineConsole extends AbstractConsole {
      * @param appName the application name
      * @param in the <code>InputStream</code> to read input from
      * @param out the <code>PrintStream</code> to print output to
-     * @param completer an optional JLine completer to auto-complete commands
+     * @param completerHolder holds an optional JLine completer to auto-complete commands
      */
     @Inject
     JLineConsole(@Named("appName") String appName,
                  @Named("shellInput") InputStream in, @Named("shellOutput") PrintStream out,
-                 @Nullable Completer completer) {
+                 CompleterHolder completerHolder) {
         super(out);
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
             reader.setBellEnabled(false);
-            if (completer != null) {
-                reader.addCompleter(completer);
+            if (completerHolder.completer != null) {
+                reader.addCompleter(completerHolder.completer);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static class CompleterHolder {
+        @Inject(optional=true) Completer completer;
     }
 
     /**

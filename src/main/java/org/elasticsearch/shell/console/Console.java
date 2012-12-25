@@ -24,7 +24,7 @@ import java.io.PrintStream;
 /**
  * Console abstraction used to read and write from the shell
  */
-public interface Console {
+public interface Console<Output> {
 
     /**
      * Prints a String
@@ -47,10 +47,10 @@ public interface Console {
     void println(String message);
 
     /**
-     * Returns the underlying {@link PrintStream}
-     * @return the underlying <code>PrintStream</code>
+     * Returns the underlying output channel
+     * @return the underlying output channel
      */
-    PrintStream out();
+    Output out();
 
     /**
      * Reads a line from the input channel after printing out the desired prompt

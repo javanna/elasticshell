@@ -43,7 +43,7 @@ public class ShellModule extends AbstractModule {
         bind(ShutdownHook.class).asEagerSingleton();
 
         //JLine bindings
-        bind(Console.class).to(JLineConsole.class).asEagerSingleton();
+        bind(new TypeLiteral<Console<PrintStream>>(){}).to(JLineConsole.class).asEagerSingleton();
         bind(Completer.class).to(JLineRhinoCompleter.class).asEagerSingleton();
 
         //Rhino bindings

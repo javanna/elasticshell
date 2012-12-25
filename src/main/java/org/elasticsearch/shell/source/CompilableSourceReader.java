@@ -21,13 +21,15 @@ package org.elasticsearch.shell.source;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.console.Console;
 
+import java.io.PrintStream;
+
 public class CompilableSourceReader {
 
-    private final Console console;
+    private final Console<PrintStream> console;
     private final InputAnalyzer inputAnalyzer;
 
     @Inject
-    public CompilableSourceReader(Console console, InputAnalyzer inputAnalyzer) {
+    public CompilableSourceReader(Console<PrintStream> console, InputAnalyzer inputAnalyzer) {
         this.console = console;
         this.inputAnalyzer = inputAnalyzer;
     }

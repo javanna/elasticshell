@@ -23,7 +23,7 @@ import java.io.PrintStream;
 /**
  * Abstract representation of the {@link Console} that wraps a {@link PrintStream} for the output messages
  */
-public abstract class AbstractConsole implements Console {
+public abstract class AbstractConsole implements Console<PrintStream> {
 
     private final PrintStream out;
 

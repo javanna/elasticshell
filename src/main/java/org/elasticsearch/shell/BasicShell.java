@@ -24,6 +24,8 @@ import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSource;
 import org.elasticsearch.shell.source.CompilableSourceReader;
 
+import java.io.PrintStream;
+
 /**
  * Basic shell implementation: it reads a compilable source and executes it
  *
@@ -31,7 +33,7 @@ import org.elasticsearch.shell.source.CompilableSourceReader;
  */
 public class BasicShell implements Shell {
 
-    protected final Console console;
+    protected final Console<PrintStream> console;
     protected final CompilableSourceReader compilableSourceReader;
     protected final ScriptExecutor scriptExecutor;
     protected final Unwrapper unwrapper;
@@ -45,7 +47,7 @@ public class BasicShell implements Shell {
      * @param scriptExecutor executor used to execute a compilable source
      * @param unwrapper unwraps a script object and converts it to its Java representation
      */
-    public BasicShell(Console console, CompilableSourceReader compilableSourceReader,
+    public BasicShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                       ScriptExecutor scriptExecutor, Unwrapper unwrapper) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;

@@ -26,6 +26,8 @@ import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
+import java.io.PrintStream;
+
 /**
  * Rhino implementation of the {@link Shell}
  * Uses the basic functionality provided by the {@link BasicShell}. Adds the Rhino {@link Context} initialization
@@ -36,7 +38,7 @@ import org.mozilla.javascript.tools.ToolErrorReporter;
 public class RhinoShell extends BasicShell {
 
     @Inject
-    RhinoShell(Console console, CompilableSourceReader compilableSourceReader,
+    RhinoShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                ScriptExecutor scriptExecutor, Unwrapper unwrapper) {
         super(console, compilableSourceReader, scriptExecutor, unwrapper);
     }

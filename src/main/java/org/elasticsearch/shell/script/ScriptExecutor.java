@@ -20,7 +20,17 @@ package org.elasticsearch.shell.script;
 
 import org.elasticsearch.shell.source.CompilableSource;
 
+/**
+ * Executor for a compilable source
+ *
+ * @author Luca Cavanna
+ */
 public interface ScriptExecutor {
 
+    /**
+     * Compiles a compilable source and executes the resulting script
+     * @param source the compilable source
+     * @return the result of the execution
+     */
     public Object execute(CompilableSource source);
 }

@@ -32,6 +32,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * JLine completer based on the Rhino engine and its top-level object (scope)
+ *
+ * @author Luca Cavanna
+ */
 public class JLineRhinoCompleter implements Completer {
 
     private final ShellScope<RhinoShellTopLevel> shellScope;

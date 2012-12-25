@@ -20,6 +20,11 @@ package org.elasticsearch.shell.source;
 
 import org.mozilla.javascript.Context;
 
+/**
+ * Rhino implementation for {@link InputAnalyzer}
+ *
+ * @author Luca Cavanna
+ */
 public class RhinoInputAnalyzer implements InputAnalyzer {
 
     @Override

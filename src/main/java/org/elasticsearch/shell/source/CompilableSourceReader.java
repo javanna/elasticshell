@@ -23,17 +23,33 @@ import org.elasticsearch.shell.console.Console;
 
 import java.io.PrintStream;
 
+/**
+ * Reader that is able to detect whether a source is compilable or wait for eventual more input
+ * in order to complete the source snippet
+ *
+ * @author Luca Cavanna
+ */
 public class CompilableSourceReader {
 
     private final Console<PrintStream> console;
     private final InputAnalyzer inputAnalyzer;
 
+    /**
+     * Creates the source reader given the console to read from and the input analyzer
+     * @param console the console to read from
+     * @param inputAnalyzer analyzer that determines whether a source is compilable or not
+     */
     @Inject
     public CompilableSourceReader(Console<PrintStream> console, InputAnalyzer inputAnalyzer) {
         this.console = console;
         this.inputAnalyzer = inputAnalyzer;
     }
 
+    /**
+     * Reads the input from the console and returns the input compilable source
+     * @return the compilable source taken from the console as soon as it is compilable
+     * @throws Exception
+     */
     public CompilableSource read() throws Exception {
 
         boolean previousLineWasEmpty = false;
@@ -45,7 +61,7 @@ public class CompilableSourceReader {
             source = source + line + "\n";
             lineNumber++;
 
-            if (isCompilable(source, inputAnalyzer)) {
+            if (inputAnalyzer.isCompilable(source)) {
                 break;
             }
 
@@ -59,9 +75,4 @@ public class CompilableSourceReader {
 
         return new CompilableSource(source, lineNumber);
     }
-
-    protected boolean isCompilable(String source, InputAnalyzer inputAnalyzer) {
-        return inputAnalyzer.isCompilable(source);
-    }
-
 }

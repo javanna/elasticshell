@@ -18,8 +18,17 @@
  */
 package org.elasticsearch.shell.source;
 
+/**
+ * Analyzer that knows whether a source is compilable or not depending on the underlying script engine
+ *
+ * @author Luca Cavanna
+ */
 public interface InputAnalyzer {
 
+    /**
+     * Determines whether the input source is compilable or not
+     * @param source the input source
+     * @return true if the input source is compilable, false otherwise
+     */
     public boolean isCompilable(String source);
-
 }

@@ -23,6 +23,8 @@ import java.io.PrintStream;
 
 /**
  * Console abstraction used to read and write from the shell
+ *
+ * @author Luca Cavanna
  */
 public interface Console<Output> {
 

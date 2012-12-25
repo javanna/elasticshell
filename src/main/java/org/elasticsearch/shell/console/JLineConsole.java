@@ -29,9 +29,9 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 /**
- * @author Luca Cavanna
- *
  * <code>Console</code> implementation that depends on JLine for the input.
+ *
+ * @author Luca Cavanna
  */
 public class JLineConsole extends AbstractConsole {
 

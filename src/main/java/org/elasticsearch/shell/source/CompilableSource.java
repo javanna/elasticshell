@@ -18,6 +18,11 @@
  */
 package org.elasticsearch.shell.source;
 
+/**
+ * Representation of a compilable source
+ *
+ * @author Luca Cavanna
+ */
 public class CompilableSource {
     private final String source;
     private final int lineNumbers;

@@ -28,6 +28,11 @@ import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
+/**
+ * Rhino executor for a compilable source
+ *
+ * @author Luca Cavanna
+ */
 public class RhinoScriptExecutor implements ScriptExecutor {
 
     private final ShellScope<RhinoShellTopLevel> shellScope;

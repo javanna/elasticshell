@@ -29,8 +29,7 @@ public class CommandModule extends AbstractModule {
         multiBinder.addBinding().to(ExitCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(HelpCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(ConnectCommand.class).asEagerSingleton();
-        //TODO is this the best way to force creation of an object if no other objects depend on it???
-        bind(CommandRegistrar.class).asEagerSingleton();
+        bind(AbstractCommandRegistrar.class).to(RhinoCommandRegistrar.class).asEagerSingleton();
     }
 
 }

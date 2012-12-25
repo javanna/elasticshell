@@ -18,38 +18,29 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.name.Named;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import org.elasticsearch.shell.ShellScope;
 
 import java.lang.reflect.Method;
 import java.util.Set;
 
-public class CommandRegistrar {
+public abstract class AbstractCommandRegistrar<Scope> {
 
-    private final Scriptable scope;
-
-    @Inject
-    CommandRegistrar(@Named("shellScope") ScriptableObject scope, Set<Command> commands) {
-        this.scope = scope;
-
+    AbstractCommandRegistrar(ShellScope<Scope> shellScope, Set<Command> commands) {
         for (Command command : commands) {
             ExecutableCommand annotation = command.getClass().getAnnotation(ExecutableCommand.class);
             if (annotation != null) {
-                //TODO throw some exception instead of silently fail registering the commands ?
                 for (Method method : command.getClass().getMethods()) {
                     if (method.getName().equals(annotation.executeMethod())) {
                         for (String alias : annotation.aliases()) {
-                            CommandFunctionObject commandFunctionObject = new CommandFunctionObject(alias, command, CommandExecutor.EXECUTE_COMMAND_METHOD, scope);
-                            scope.defineProperty(alias, commandFunctionObject, ScriptableObject.DONTENUM);
-                            command.setScope(scope);
+                            registerCommand(alias, command, shellScope);
+                            //command.setShellScope(shellScope);
                         }
                         break;
                     }
                 }
             }
         }
-
     }
+
+    protected abstract void registerCommand(String name, Command command, ShellScope<Scope> shellScope);
 }

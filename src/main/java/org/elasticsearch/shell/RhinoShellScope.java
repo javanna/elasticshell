@@ -16,13 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.command;
+package org.elasticsearch.shell;
 
-public class Command {
+import org.elasticsearch.common.inject.Inject;
 
-    /*protected ShellScope shellScope;
-
-    void setShellScope(ShellScope shellScope) {
-        this.shellScope = shellScope;
-    }*/
+/**
+ * @author Luca Cavanna
+ */
+public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
+    @Inject
+    RhinoShellScope(RhinoShellTopLevel scope) {
+        super(scope);
+    }
 }

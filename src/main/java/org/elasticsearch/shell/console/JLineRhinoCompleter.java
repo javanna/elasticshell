@@ -20,7 +20,8 @@ package org.elasticsearch.shell.console;
 
 import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.name.Named;
+import org.elasticsearch.shell.RhinoShellTopLevel;
+import org.elasticsearch.shell.ShellScope;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -31,11 +32,11 @@ import java.util.List;
 
 public class JLineRhinoCompleter implements Completer {
 
-    private final ScriptableObject scope;
+    private final ShellScope<RhinoShellTopLevel> shellScope;
 
     @Inject
-    JLineRhinoCompleter(@Named("shellScope") ScriptableObject scope) {
-        this.scope = scope;
+    JLineRhinoCompleter(ShellScope<RhinoShellTopLevel> shellScope) {
+        this.shellScope = shellScope;
     }
 
     @Override
@@ -68,15 +69,15 @@ public class JLineRhinoCompleter implements Completer {
         //System.out.println("names: " + Arrays.asList(names));
 
         //looks for the last object whose name is complete
-        Scriptable object = this.scope;
+        Scriptable object = this.shellScope.get();
         for (int i=0; i < names.length - 1; i++) {
             String currentName = names[i];
-            Object val = object.get(currentName, scope);
+            Object val = object.get(currentName, this.shellScope.get());
             if (!(val instanceof Scriptable)) {
                 if (object.getPrototype() == null) {
                     return buffer.length(); // no matches
                 }
-                val = object.getPrototype().get(currentName, scope);
+                val = object.getPrototype().get(currentName, this.shellScope.get());
                 if (!(val instanceof Scriptable)) {
                     return buffer.length(); // no matches
                 }

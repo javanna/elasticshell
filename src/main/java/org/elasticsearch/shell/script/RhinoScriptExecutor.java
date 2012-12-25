@@ -20,28 +20,28 @@ package org.elasticsearch.shell.script;
 
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.name.Named;
+import org.elasticsearch.shell.RhinoShellTopLevel;
+import org.elasticsearch.shell.ShellScope;
 import org.elasticsearch.shell.source.CompilableSource;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
-import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 public class RhinoScriptExecutor implements ScriptExecutor {
 
-    private final ScriptableObject scope;
+    private final ShellScope<RhinoShellTopLevel> shellScope;
 
     @Inject
-    RhinoScriptExecutor(@Named("shellScope") ScriptableObject scope) {
-        this.scope = scope;
+    RhinoScriptExecutor(ShellScope<RhinoShellTopLevel> shellScope) {
+        this.shellScope = shellScope;
     }
 
     public Object execute(CompilableSource source) {
         try {
             Script script = compile(source);
             if (script != null) {
-                Object result = script.exec(Context.getCurrentContext(), scope);
+                Object result = script.exec(Context.getCurrentContext(), shellScope.get());
                 //Avoids printing out undefined all the time
                 if (result != Context.getUndefinedValue()) {
                     return result;

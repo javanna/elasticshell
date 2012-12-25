@@ -18,11 +18,27 @@
  */
 package org.elasticsearch.shell.command;
 
-public class Command {
+import org.mozilla.javascript.FunctionObject;
+import org.mozilla.javascript.Scriptable;
 
-    /*protected ShellScope shellScope;
+import java.lang.reflect.Member;
 
-    void setShellScope(ShellScope shellScope) {
-        this.shellScope = shellScope;
-    }*/
+public class RhinoCommandFunctionObject extends FunctionObject {
+
+    private final Command command;
+
+    public RhinoCommandFunctionObject(String name, Command command, Member methodOrConstructor, Scriptable scope) {
+
+        super(name, methodOrConstructor, scope);
+
+        if (!command.getClass().isAnnotationPresent(ExecutableCommand.class)) {
+            throw new IllegalArgumentException("The provided command object [" + command.getClass().getSimpleName() + "] is not annotated with the " + ExecutableCommand.class.getSimpleName() + " annotation");
+        }
+
+        this.command = command;
+    }
+
+    public Command getCommand() {
+        return command;
+    }
 }

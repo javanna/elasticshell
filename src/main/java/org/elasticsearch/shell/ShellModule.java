@@ -20,6 +20,7 @@ package org.elasticsearch.shell;
 
 import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.AbstractModule;
+import org.elasticsearch.common.inject.TypeLiteral;
 import org.elasticsearch.common.inject.name.Names;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.console.JLineConsole;
@@ -28,7 +29,6 @@ import org.elasticsearch.shell.script.RhinoScriptExecutor;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.InputAnalyzer;
 import org.elasticsearch.shell.source.RhinoInputAnalyzer;
-import org.mozilla.javascript.ScriptableObject;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -47,7 +47,8 @@ public class ShellModule extends AbstractModule {
         bind(Completer.class).to(JLineRhinoCompleter.class).asEagerSingleton();
 
         //Rhino bindings
-        bind(ScriptableObject.class).annotatedWith(Names.named("shellScope")).to(RhinoShellTopLevel.class).asEagerSingleton();
+        bind(new TypeLiteral<ShellScope<RhinoShellTopLevel>>(){}).to(RhinoShellScope.class).asEagerSingleton();
+        //bind(ScriptableObject.class).annotatedWith(Names.named("shellScope")).to(RhinoShellTopLevel.class).asEagerSingleton();
         bind(ScriptExecutor.class).to(RhinoScriptExecutor.class).asEagerSingleton();
         bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class).asEagerSingleton();
         bind(Shell.class).to(RhinoShell.class).asEagerSingleton();

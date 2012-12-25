@@ -47,10 +47,10 @@ public final class CommandExecutor {
 
     @SuppressWarnings("unused")
     public static Object executeCommand(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
-        if (funObj instanceof CommandFunctionObject) {
-            CommandFunctionObject commandFunctionObject = (CommandFunctionObject) funObj;
-            Scriptable parentScope = commandFunctionObject.getParentScope();
-            Command command = commandFunctionObject.getCommand();
+        if (funObj instanceof RhinoCommandFunctionObject) {
+            RhinoCommandFunctionObject rhinoCommandFunctionObject = (RhinoCommandFunctionObject) funObj;
+            Scriptable parentScope = rhinoCommandFunctionObject.getParentScope();
+            Command command = rhinoCommandFunctionObject.getCommand();
             ExecutableCommand annotation = command.getClass().getAnnotation(ExecutableCommand.class);
             Callable callable = ScriptRuntime.getPropFunctionAndThis(command, annotation.executeMethod(), cx, parentScope);
             return callable.call(cx, parentScope, ScriptRuntime.lastStoredScriptable(cx), args);

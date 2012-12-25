@@ -16,29 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.command;
+package org.elasticsearch.shell;
 
-import org.mozilla.javascript.FunctionObject;
-import org.mozilla.javascript.Scriptable;
+/**
+ * @author Luca Cavanna
+ */
+public class ShellScope<Scope> {
 
-import java.lang.reflect.Member;
+    private final Scope scope;
 
-public class CommandFunctionObject extends FunctionObject {
-
-    private final Command command;
-
-    public CommandFunctionObject(String name, Command command, Member methodOrConstructor, Scriptable scope) {
-
-        super(name, methodOrConstructor, scope);
-
-        if (!command.getClass().isAnnotationPresent(ExecutableCommand.class)) {
-            throw new IllegalArgumentException("The provided command object [" + command.getClass().getSimpleName() + "] is not annotated with the " + ExecutableCommand.class.getSimpleName() + " annotation");
-        }
-
-        this.command = command;
+    ShellScope(Scope scope) {
+        this.scope = scope;
     }
 
-    public Command getCommand() {
-        return command;
+    public Scope get() {
+        return scope;
     }
 }

@@ -22,11 +22,12 @@ import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.name.Named;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.elasticsearch.shell.RhinoShellTopLevel;
+import org.elasticsearch.shell.ShellScope;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.ScriptableObject;
@@ -37,11 +38,11 @@ import java.util.Set;
 
 public class ClientFactory {
 
-    private final ScriptableObject shellScope;
+    private final ShellScope<RhinoShellTopLevel> shellScope;
 
     @Inject
-    public ClientFactory(@Named("shellScope") ScriptableObject scope) {
-        this.shellScope = scope;
+    public ClientFactory(ShellScope<RhinoShellTopLevel> shellScope) {
+        this.shellScope = shellScope;
     }
 
     public NativeJavaObject newNodeClient() {
@@ -56,11 +57,11 @@ public class ClientFactory {
         Client client = node.client();
         NodeClient nodeClient = new NodeClient(node, client);
 
-        NativeJavaObject nativeJavaObject = new NativeJavaObject(shellScope, nodeClient, NodeClient.class);
-        nativeJavaObject.setPrototype(Context.getCurrentContext().newObject(shellScope));
+        NativeJavaObject nativeJavaObject = new NativeJavaObject(shellScope.get(), nodeClient, NodeClient.class);
+        nativeJavaObject.setPrototype(Context.getCurrentContext().newObject(shellScope.get()));
 
 
-        Thread thread = new Thread(new IndexRunnable(shellScope, nativeJavaObject, client));
+        Thread thread = new Thread(new IndexRunnable(shellScope.get(), nativeJavaObject, client));
         thread.start();
 
         //shellScope.defineProperty("test", nativeJavaObject, ScriptableObject.DONTENUM);

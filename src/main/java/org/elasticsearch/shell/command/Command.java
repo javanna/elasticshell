@@ -18,6 +18,13 @@
  */
 package org.elasticsearch.shell.command;
 
+/**
+ * Base class for commands. Might not be really needed but handy to use anyway
+ * rather than referring to generic objects as commands. Probably useful in the future
+ * to provide common features to all commands though.
+ *
+ * @author Luca Cavanna
+ */
 public class Command {
 
     /*protected ShellScope shellScope;

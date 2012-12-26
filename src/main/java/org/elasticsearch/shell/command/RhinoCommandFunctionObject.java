@@ -23,18 +23,21 @@ import org.mozilla.javascript.Scriptable;
 
 import java.lang.reflect.Member;
 
+/**
+ * Custom {@link FunctionObject} used to register commands to the shell through Rhino.
+ * Commands will be available in form of javascript functions.
+ *
+ * @author Luca Cavanna
+ */
 public class RhinoCommandFunctionObject extends FunctionObject {
 
     private final Command command;
 
     public RhinoCommandFunctionObject(String name, Command command, Member methodOrConstructor, Scriptable scope) {
-
         super(name, methodOrConstructor, scope);
-
         if (!command.getClass().isAnnotationPresent(ExecutableCommand.class)) {
             throw new IllegalArgumentException("The provided command object [" + command.getClass().getSimpleName() + "] is not annotated with the " + ExecutableCommand.class.getSimpleName() + " annotation");
         }
-
         this.command = command;
     }
 

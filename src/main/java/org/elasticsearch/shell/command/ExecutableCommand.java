@@ -23,6 +23,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Used to annotate commands
+ * Every command has an array of aliases and a method that is going to be invoked at runtime by the script engine.
+ * The best suitable method with that name (default execute) will be found given the runtime arguments provided.
+ * The command will be usable from the shell through the configured aliases.
+ *
+ * @author Luca Cavanna
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface ExecutableCommand {

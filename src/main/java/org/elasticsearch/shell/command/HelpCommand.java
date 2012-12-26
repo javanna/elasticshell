@@ -18,6 +18,11 @@
  */
 package org.elasticsearch.shell.command;
 
+/**
+ * Command that allows to display a help text
+ *
+ * @author Luca Cavanna
+ */
 @ExecutableCommand(aliases = "help")
 public class HelpCommand extends Command {
 

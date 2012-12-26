@@ -21,6 +21,11 @@ package org.elasticsearch.shell.command;
 import org.elasticsearch.common.inject.AbstractModule;
 import org.elasticsearch.common.inject.multibindings.Multibinder;
 
+/**
+ * Guice module that binds all the needed objects to provide and register command to the shell
+ *
+ * @author Luca Cavanna
+ */
 public class CommandModule extends AbstractModule {
 
     @Override
@@ -29,7 +34,7 @@ public class CommandModule extends AbstractModule {
         multiBinder.addBinding().to(ExitCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(HelpCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(ConnectCommand.class).asEagerSingleton();
-        bind(AbstractCommandRegistrar.class).to(RhinoCommandRegistrar.class).asEagerSingleton();
+        bind(RhinoCommandRegistrar.class).asEagerSingleton();
     }
 
 }

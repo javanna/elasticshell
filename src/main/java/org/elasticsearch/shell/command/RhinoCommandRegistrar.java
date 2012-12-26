@@ -26,6 +26,8 @@ import org.mozilla.javascript.ScriptableObject;
 import java.util.Set;
 
 /**
+ * Rhino specific command registrar
+ *
  * @author Luca Cavanna
  */
 public class RhinoCommandRegistrar extends AbstractCommandRegistrar<RhinoShellTopLevel> {
@@ -37,7 +39,7 @@ public class RhinoCommandRegistrar extends AbstractCommandRegistrar<RhinoShellTo
 
     @Override
     protected void registerCommand(String name, Command command, ShellScope<RhinoShellTopLevel> shellScope) {
-        RhinoCommandFunctionObject rhinoCommandFunctionObject = new RhinoCommandFunctionObject(name, command, CommandExecutor.EXECUTE_COMMAND_METHOD, shellScope.get());
+        RhinoCommandFunctionObject rhinoCommandFunctionObject = new RhinoCommandFunctionObject(name, command, RhinoCommandExecutor.EXECUTE_COMMAND_METHOD, shellScope.get());
         shellScope.get().defineProperty(name, rhinoCommandFunctionObject, ScriptableObject.DONTENUM);
     }
 }

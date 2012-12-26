@@ -22,29 +22,40 @@ import org.mozilla.javascript.*;
 
 import java.lang.reflect.Method;
 
-public final class CommandExecutor {
+/**
+ * Class used to run commands through the Rhino engine
+ *
+ * @author Luca Cavanna
+ */
+public final class RhinoCommandExecutor {
 
     private static final String EXECUTE_COMMAND_METHOD_NAME = "executeCommand";
     static final Method EXECUTE_COMMAND_METHOD;
 
     static {
-        Method method;
         try {
-            try {
-                method = CommandExecutor.class.getDeclaredMethod(EXECUTE_COMMAND_METHOD_NAME, Context.class, Scriptable.class, Object[].class, Function.class);
-            } catch(SecurityException e) {
-                method = CommandExecutor.class.getMethod(EXECUTE_COMMAND_METHOD_NAME, Context.class, Scriptable.class, Object[].class, Function.class);
-            }
-            EXECUTE_COMMAND_METHOD = method;
+            EXECUTE_COMMAND_METHOD = RhinoCommandExecutor.class.getMethod(
+                    EXECUTE_COMMAND_METHOD_NAME, Context.class, Scriptable.class, Object[].class, Function.class);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Method " + EXECUTE_COMMAND_METHOD_NAME + " not found", e);
         }
     }
 
-    private CommandExecutor() {
+    private RhinoCommandExecutor() {
 
     }
 
+    /**
+     * Method used to run a command through the Rhino engine. Allows to have a single generic executeCommand
+     * public static method (with the signature needed by Rhino) for all the commands.
+     * The command function registered to the top-level contain a reference to the actual command to be run,
+     * which is a {@link Command} object annotated with the {@link ExecutableCommand} annotation.
+     * @param cx the Rhino context
+     * @param thisObj the current scope
+     * @param args The arguments provided when running the command as a javascript function
+     * @param funObj The function invoked through the shell
+     * @return the result of the command execution
+     */
     @SuppressWarnings("unused")
     public static Object executeCommand(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
         if (funObj instanceof RhinoCommandFunctionObject) {

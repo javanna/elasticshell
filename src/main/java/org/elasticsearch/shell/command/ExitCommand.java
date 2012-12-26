@@ -20,6 +20,11 @@ package org.elasticsearch.shell.command;
 
 import org.elasticsearch.shell.ExitSignal;
 
+/**
+ * Command that allows to quit the shell
+ *
+ * @author Luca Cavanna
+ */
 @ExecutableCommand(aliases = {"exit", "quit"})
 public class ExitCommand extends Command {
 

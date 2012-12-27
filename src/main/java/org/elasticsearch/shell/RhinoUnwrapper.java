@@ -18,11 +18,9 @@
  */
 package org.elasticsearch.shell;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.mozilla.javascript.*;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.*;
 
 /**
@@ -31,8 +29,6 @@ import java.util.*;
  * @author Luca Cavanna
  */
 public class RhinoUnwrapper implements Unwrapper {
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Convert an object from a script wrapper value to a serializable value valid outside
@@ -86,30 +82,8 @@ public class RhinoUnwrapper implements Unwrapper {
                     return propValues;
                 } else {
                     // any other JavaScript object that supports properties - convert to a Map of objects
-                    Map<String, Object> propValues = new HashMap<String, Object>(propIds.length);
-                    for (int i = 0; i < propIds.length; i++) {
-                        // work on each key in turn
-                        Object propId = propIds[i];
-
-                        // we are only interested in keys that indicate a list of values
-                        if (propId instanceof String) {
-                            // getContext the value out for the specified key
-                            Object val = values.get((String) propId, values);
-                            // recursively call this method to convert the value
-                            propValues.put((String) propId, unwrap(val));
-                        }
-                    }
-
-                    //TODO do we really need to use jackson only to show a proper json given the java map
-                    //that we build from the javascript object? seems like an overkill
-                    StringWriter jsonWriter = new StringWriter();
-
-                    try {
-                        objectMapper.writeValue(jsonWriter, propValues);
-                        return jsonWriter.toString();
-                    } catch (IOException e) {
-                        return propValues;
-                    }
+                    Context context = Context.getCurrentContext();
+                    return NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), values, null, null);
                 }
             }
         } else if (scriptObject instanceof Object[]) {

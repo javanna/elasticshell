@@ -18,6 +18,9 @@
  */
 package org.elasticsearch.shell.console;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.PrintStream;
 
 /**
@@ -27,6 +30,8 @@ import java.io.PrintStream;
  */
 public abstract class AbstractConsole implements Console<PrintStream> {
 
+    private final Logger logger = LoggerFactory.getLogger(AbstractConsole.class);
+
     private final PrintStream out;
 
     protected AbstractConsole(PrintStream out) {
@@ -35,16 +40,19 @@ public abstract class AbstractConsole implements Console<PrintStream> {
 
     @Override
     public void print(String message) {
+        logger.debug("print: {}", message);
         out.print(message);
     }
 
     @Override
     public void println() {
+        logger.debug("println");
         out.println();
     }
 
     @Override
     public void println(String message) {
+        logger.debug("println: {}", message);
         out.println(message);
     }
 

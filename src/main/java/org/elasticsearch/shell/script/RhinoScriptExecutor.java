@@ -27,6 +27,8 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.tools.ToolErrorReporter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Rhino executor for a compilable source
@@ -34,6 +36,8 @@ import org.mozilla.javascript.tools.ToolErrorReporter;
  * @author Luca Cavanna
  */
 public class RhinoScriptExecutor implements ScriptExecutor {
+
+    private static final Logger logger = LoggerFactory.getLogger(RhinoScriptExecutor.class);
 
     private final ShellScope<RhinoShellTopLevel> shellScope;
 
@@ -44,18 +48,22 @@ public class RhinoScriptExecutor implements ScriptExecutor {
 
     public Object execute(CompilableSource source) {
         try {
+            logger.debug("Compiling source {}", source.getSource());
             Script script = compile(source);
             if (script != null) {
+                logger.debug("Executing compiled script");
                 Object result = script.exec(Context.getCurrentContext(), shellScope.get());
+                logger.debug("Returned object [{}]", result);
                 //Avoids printing out undefined all the time
                 if (result != Context.getUndefinedValue()) {
                     return result;
                 }
             }
         } catch(RhinoException rex) {
-            //TODO ugly!!!!!
+            logger.error(rex.getMessage(), rex);
             ToolErrorReporter.reportException(Context.getCurrentContext().getErrorReporter(), rex);
         } catch(VirtualMachineError ex) {
+            logger.error(ex.getMessage(), ex);
             String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ex.toString());
             Context.reportError(msg);
         }

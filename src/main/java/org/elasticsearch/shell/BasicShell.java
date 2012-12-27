@@ -23,6 +23,8 @@ import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSource;
 import org.elasticsearch.shell.source.CompilableSourceReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 
@@ -32,6 +34,8 @@ import java.io.PrintStream;
  * @author Luca Cavanna
  */
 public class BasicShell implements Shell {
+
+    private static final Logger logger = LoggerFactory.getLogger(BasicShell.class);
 
     protected final Console<PrintStream> console;
     protected final CompilableSourceReader compilableSourceReader;
@@ -62,6 +66,7 @@ public class BasicShell implements Shell {
             try {
                 source = compilableSourceReader.read();
             } catch (Exception e) {
+                logger.error(e.getMessage(), e);
                 e.printStackTrace(console.out());
             }
             if (source != null){

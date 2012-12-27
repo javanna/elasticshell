@@ -20,6 +20,8 @@ package org.elasticsearch.shell.source;
 
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.console.Console;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 
@@ -30,6 +32,8 @@ import java.io.PrintStream;
  * @author Luca Cavanna
  */
 public class CompilableSourceReader {
+
+    private static final Logger logger = LoggerFactory.getLogger(CompilableSourceReader.class);
 
     private final Console<PrintStream> console;
     private final InputAnalyzer inputAnalyzer;
@@ -62,6 +66,7 @@ public class CompilableSourceReader {
             lineNumber++;
 
             if (inputAnalyzer.isCompilable(source)) {
+                logger.debug("Source {} is compilable", source);
                 break;
             }
 
@@ -71,6 +76,7 @@ public class CompilableSourceReader {
                 }
                 previousLineWasEmpty = true;
             }
+            logger.debug("Source {} isn't compilable, waiting for more input", source);
         }
 
         return new CompilableSource(source, lineNumber);

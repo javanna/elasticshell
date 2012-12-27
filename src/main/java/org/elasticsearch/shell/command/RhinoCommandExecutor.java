@@ -19,6 +19,8 @@
 package org.elasticsearch.shell.command;
 
 import org.mozilla.javascript.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 
@@ -29,6 +31,8 @@ import java.lang.reflect.Method;
  */
 public final class RhinoCommandExecutor {
 
+    private static final Logger logger = LoggerFactory.getLogger(RhinoCommandExecutor.class);
+
     private static final String EXECUTE_COMMAND_METHOD_NAME = "executeCommand";
     static final Method EXECUTE_COMMAND_METHOD;
 
@@ -37,6 +41,7 @@ public final class RhinoCommandExecutor {
             EXECUTE_COMMAND_METHOD = RhinoCommandExecutor.class.getMethod(
                     EXECUTE_COMMAND_METHOD_NAME, Context.class, Scriptable.class, Object[].class, Function.class);
         } catch (NoSuchMethodException e) {
+            logger.error(e.getMessage(), e);
             throw new RuntimeException("Method " + EXECUTE_COMMAND_METHOD_NAME + " not found", e);
         }
     }

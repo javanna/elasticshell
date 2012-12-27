@@ -23,6 +23,8 @@ import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.name.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +36,8 @@ import java.io.PrintStream;
  * @author Luca Cavanna
  */
 public class JLineConsole extends AbstractConsole {
+
+    private static final Logger logger = LoggerFactory.getLogger(JLineConsole.class);
 
     private final ConsoleReader reader;
 
@@ -71,6 +75,8 @@ public class JLineConsole extends AbstractConsole {
      * @throws IOException in case of problems while reading the line
      */
     public String readLine(String prompt) throws IOException {
-        return reader.readLine(prompt);
+        String line = reader.readLine(prompt);
+        logger.debug("Read line {}", line);
+        return line;
     }
 }

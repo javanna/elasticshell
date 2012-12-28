@@ -6,7 +6,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/logFile.log</file>
+        <file>logs/elasticsearch-shell.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
             <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -19,7 +19,9 @@
         </encoder>
     </appender>
 
-    <root level="debug">
+    <logger name="org.elasticsearch.shell" level="DEBUG" />
+
+    <root level="info">
         <appender-ref ref="FILE" />
     </root>
 </configuration>

@@ -20,6 +20,7 @@ package org.elasticsearch.shell;
 
 
 import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSource;
 import org.elasticsearch.shell.source.CompilableSourceReader;
@@ -43,6 +44,7 @@ public class BasicShell implements Shell {
     protected final ScriptExecutor scriptExecutor;
     protected final Unwrapper unwrapper;
     protected final ShellScope<?> shellScope;
+    protected final Scheduler scheduler;
 
     protected AtomicBoolean closed = new AtomicBoolean(false);
 
@@ -54,14 +56,18 @@ public class BasicShell implements Shell {
      *                               it really is a compilable script or eventually waits for more input
      * @param scriptExecutor executor used to execute a compilable source
      * @param unwrapper unwraps a script object and converts it to its Java representation
+     * @param shellScope the generic shell scope
+     * @param scheduler the scheduler that handles all the scheduled actions
      */
     public BasicShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
-                      ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<?> shellScope) {
+                      ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<?> shellScope,
+                      Scheduler scheduler) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
         this.unwrapper = unwrapper;
         this.shellScope = shellScope;
+        this.scheduler = scheduler;
     }
 
     @Override
@@ -109,6 +115,10 @@ public class BasicShell implements Shell {
     @Override
     public void shutdown() {
         if (closed.compareAndSet(false, true)) {
+            if (scheduler != null) {
+                logger.debug("Shutting down the scheduler");
+                scheduler.shutdown();
+            }
             shellScope.close();
             console.println();
             console.println("bye");

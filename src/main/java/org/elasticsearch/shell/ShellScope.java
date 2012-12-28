@@ -18,7 +18,6 @@
  */
 package org.elasticsearch.shell;
 
-import org.elasticsearch.shell.scheduler.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,16 +37,13 @@ public class ShellScope<Scope> {
 
     private final Scope scope;
     private final List<Closeable> resources = new ArrayList<Closeable>();
-    private final Scheduler scheduler;
 
     /**
      * Creates a new <code>ShellScope</code> given the actual scope object
      * @param scope the actual scope object that depends on the engine in use
-     * @param scheduler the scheduler that handles all the schedulable actions
      */
-    ShellScope(Scope scope, Scheduler scheduler) {
+    ShellScope(Scope scope) {
         this.scope = scope;
-        this.scheduler = scheduler;
     }
 
     /**
@@ -71,11 +67,6 @@ public class ShellScope<Scope> {
      */
     public void close() {
         logger.debug("Closing the shell scope");
-        if (scheduler != null) {
-            scheduler.shutdown();
-            logger.debug("Shutdown the scheduler");
-        }
-
         for (Closeable resource : resources) {
             try {
                 resource.close();

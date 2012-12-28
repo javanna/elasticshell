@@ -21,6 +21,7 @@ package org.elasticsearch.shell;
 
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.mozilla.javascript.Context;
@@ -36,11 +37,11 @@ import java.io.PrintStream;
  * @author Luca Cavanna
  */
 public class RhinoShell extends BasicShell {
-
     @Inject
     RhinoShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
-               ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<RhinoShellTopLevel> shellScope) {
-        super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope);
+               ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<RhinoShellTopLevel> shellScope,
+               Scheduler scheduler) {
+        super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope, scheduler);
     }
 
     @Override

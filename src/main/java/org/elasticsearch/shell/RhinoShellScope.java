@@ -19,7 +19,6 @@
 package org.elasticsearch.shell;
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.scheduler.Scheduler;
 
 /**
  * Rhino implementation of the shell scope that wraps the {@link RhinoShellTopLevel}
@@ -31,15 +30,9 @@ public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
     /**
      * Creates a RhinoShellScope given the Rhino top-level object and an optional scheduler
      * @param scope
-     * @param schedulerHolder
      */
     @Inject
-    RhinoShellScope(RhinoShellTopLevel scope, SchedulerHolder schedulerHolder) {
-        super(scope, schedulerHolder.scheduler);
-    }
-
-    static class SchedulerHolder {
-        @Inject(optional = true)
-        Scheduler scheduler;
+    RhinoShellScope(RhinoShellTopLevel scope) {
+        super(scope);
     }
 }

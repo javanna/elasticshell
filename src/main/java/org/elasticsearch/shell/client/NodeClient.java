@@ -21,6 +21,8 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 
+import java.io.IOException;
+
 public class NodeClient extends AbstractClient {
 
 
@@ -41,10 +43,9 @@ public class NodeClient extends AbstractClient {
 
     }
 
-
-    //TODO ???
-    /*public void close() {
+    @Override
+    public void close() throws IOException {
         client.close();
-        this.node.close();
-    }*/
+        node.close();
+    }
 }

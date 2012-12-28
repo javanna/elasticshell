@@ -22,12 +22,19 @@ import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractClient {
+/**
+ * Generic elasticsearch client wrapper which exposes common client operations that don't depend
+ * on the specific type of client in use (transport or node)
+ *
+ * @author Luca Cavanna
+ */
+public abstract class AbstractClient implements Closeable {
 
-    private final Client client;
+    protected final Client client;
 
     protected AbstractClient(Client client) {
         this.client= client;

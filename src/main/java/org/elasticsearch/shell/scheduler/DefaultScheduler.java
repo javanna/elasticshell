@@ -16,30 +16,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.scheduler;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.scheduler.Scheduler;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Rhino implementation of the shell scope that wraps the {@link RhinoShellTopLevel}
- * and contains all the objects needed in the context of the shell
- *
+ * Default {@link Scheduler} implementation based on {@link ScheduledExecutorService}
  * @author Luca Cavanna
  */
-public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
-    /**
-     * Creates a RhinoShellScope given the Rhino top-level object and an optional scheduler
-     * @param scope
-     * @param schedulerHolder
-     */
-    @Inject
-    RhinoShellScope(RhinoShellTopLevel scope, SchedulerHolder schedulerHolder) {
-        super(scope, schedulerHolder.scheduler);
+public class DefaultScheduler implements Scheduler {
+
+    private final ScheduledExecutorService scheduler;
+
+    public DefaultScheduler() {
+        this.scheduler = Executors.newScheduledThreadPool(1);
     }
 
-    static class SchedulerHolder {
-        @Inject(optional = true)
-        Scheduler scheduler;
+    public void schedule(Runnable runnable) {
+        this.scheduler.scheduleAtFixedRate(runnable, 0, 5, TimeUnit.SECONDS);
+    }
+
+    public void shutdown() {
+        this.scheduler.shutdownNow();
     }
 }

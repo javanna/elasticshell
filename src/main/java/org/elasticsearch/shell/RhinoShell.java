@@ -39,8 +39,8 @@ public class RhinoShell extends BasicShell {
 
     @Inject
     RhinoShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
-               ScriptExecutor scriptExecutor, Unwrapper unwrapper) {
-        super(console, compilableSourceReader, scriptExecutor, unwrapper);
+               ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<RhinoShellTopLevel> shellScope) {
+        super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope);
     }
 
     @Override

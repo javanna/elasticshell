@@ -16,30 +16,22 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
-
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.scheduler.Scheduler;
+package org.elasticsearch.shell.scheduler;
 
 /**
- * Rhino implementation of the shell scope that wraps the {@link RhinoShellTopLevel}
- * and contains all the objects needed in the context of the shell
+ * Handles all the scheduled actions, operations that are repeated multiple times at a fixed time rate
  *
  * @author Luca Cavanna
  */
-public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
+public interface Scheduler {
     /**
-     * Creates a RhinoShellScope given the Rhino top-level object and an optional scheduler
-     * @param scope
-     * @param schedulerHolder
+     * Schedule a new action
+     * @param runnable the new {@link Runnable} action to be scheduled
      */
-    @Inject
-    RhinoShellScope(RhinoShellTopLevel scope, SchedulerHolder schedulerHolder) {
-        super(scope, schedulerHolder.scheduler);
-    }
+    public void schedule(Runnable runnable);
 
-    static class SchedulerHolder {
-        @Inject(optional = true)
-        Scheduler scheduler;
-    }
+    /**
+     * Shutdowns the scheduler
+     */
+    public void shutdown();
 }

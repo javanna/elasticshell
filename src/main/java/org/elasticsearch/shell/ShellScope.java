@@ -18,6 +18,15 @@
  */
 package org.elasticsearch.shell;
 
+import org.elasticsearch.shell.scheduler.Scheduler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Shell scope which wraps the real scope object that depends on the underlying engine
  *
@@ -25,14 +34,20 @@ package org.elasticsearch.shell;
  */
 public class ShellScope<Scope> {
 
+    private static final Logger logger = LoggerFactory.getLogger(ShellScope.class);
+
     private final Scope scope;
+    private final List<Closeable> resources = new ArrayList<Closeable>();
+    private final Scheduler scheduler;
 
     /**
      * Creates a new <code>ShellScope</code> given the actual scope object
      * @param scope the actual scope object that depends on the engine in use
+     * @param scheduler the scheduler that handles all the schedulable actions
      */
-    ShellScope(Scope scope) {
+    ShellScope(Scope scope, Scheduler scheduler) {
         this.scope = scope;
+        this.scheduler = scheduler;
     }
 
     /**
@@ -41,5 +56,33 @@ public class ShellScope<Scope> {
      */
     public Scope get() {
         return scope;
+    }
+
+    /**
+     * Registers a {@link Closeable} resource that will be closed when the close method will be invoked
+     * @param resource
+     */
+    public void registerResource(Closeable resource) {
+        resources.add(resource);
+    }
+
+    /**
+     * Closes all the underlying {@link Closeable} resources previously registered
+     */
+    public void close() {
+        logger.debug("Closing the shell scope");
+        if (scheduler != null) {
+            scheduler.shutdown();
+            logger.debug("Shutdown the scheduler");
+        }
+
+        for (Closeable resource : resources) {
+            try {
+                resource.close();
+                logger.debug("Resource {} closed", resource);
+            } catch (IOException e) {
+                logger.error("Error while closing resource", e);
+            }
+        }
     }
 }

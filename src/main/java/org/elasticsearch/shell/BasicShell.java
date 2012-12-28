@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Basic shell implementation: it reads a compilable source and executes it
@@ -41,6 +42,9 @@ public class BasicShell implements Shell {
     protected final CompilableSourceReader compilableSourceReader;
     protected final ScriptExecutor scriptExecutor;
     protected final Unwrapper unwrapper;
+    protected final ShellScope<?> shellScope;
+
+    protected AtomicBoolean closed = new AtomicBoolean(false);
 
     /**
      * Creates a new <code>BasicShell</code>
@@ -52,11 +56,12 @@ public class BasicShell implements Shell {
      * @param unwrapper unwraps a script object and converts it to its Java representation
      */
     public BasicShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
-                      ScriptExecutor scriptExecutor, Unwrapper unwrapper) {
+                      ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<?> shellScope) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
         this.unwrapper = unwrapper;
+        this.shellScope = shellScope;
     }
 
     @Override
@@ -73,6 +78,7 @@ public class BasicShell implements Shell {
                 Object jsResult = scriptExecutor.execute(source);
                 Object javaResult = unwrap(jsResult);
                 if (javaResult instanceof ExitSignal) {
+                    shutdown();
                     return;
                 }
                 if (javaResult != null) {
@@ -102,8 +108,10 @@ public class BasicShell implements Shell {
 
     @Override
     public void shutdown() {
-        console.println();
-        console.println("bye");
-        //TODO close any opened clients/nodes/threads
+        if (closed.compareAndSet(false, true)) {
+            shellScope.close();
+            console.println();
+            console.println("bye");
+        }
     }
 }

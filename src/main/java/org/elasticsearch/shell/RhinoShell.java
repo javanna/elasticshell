@@ -40,8 +40,13 @@ public class RhinoShell extends BasicShell {
     @Inject
     RhinoShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<RhinoShellTopLevel> shellScope,
-               Scheduler scheduler) {
-        super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope, scheduler);
+               SchedulerHolder schedulerHolder) {
+        super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope, schedulerHolder.scheduler);
+    }
+
+    static class SchedulerHolder {
+        @Inject(optional = true)
+        Scheduler scheduler;
     }
 
     @Override

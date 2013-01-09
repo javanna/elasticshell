@@ -16,23 +16,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.client;
 
-import org.elasticsearch.common.inject.Inject;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.Scriptable;
 
 /**
- * Rhino implementation of the shell scope that wraps the {@link RhinoShellTopLevel}
- * and contains all the objects needed in the shell context
- *
  * @author Luca Cavanna
+ *
+ * Rhino native object that represents a client within the shell
  */
-public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
-    /**
-     * Creates a RhinoShellScope given the Rhino top-level object
-     * @param scope the rhino scope
-     */
-    @Inject
-    RhinoShellScope(RhinoShellTopLevel scope) {
-        super(scope);
+public class RhinoClientNativeJavaObject extends NativeJavaObject {
+
+    private final AbstractClient shellClient;
+
+    public RhinoClientNativeJavaObject(Scriptable scope, AbstractClient shellClient) {
+        super(scope, shellClient, shellClient.getClass());
+
+        this.shellClient = shellClient;
+
+        //initializes the object prototype, otherwise the indexes and types won't be dynamically added
+        this.prototype = Context.getCurrentContext().newObject(scope);
+    }
+
+    public AbstractClient shellClient() {
+        return shellClient;
     }
 }

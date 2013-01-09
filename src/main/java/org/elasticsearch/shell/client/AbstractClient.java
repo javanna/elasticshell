@@ -51,6 +51,10 @@ public abstract class AbstractClient implements Closeable {
         return indexes;
     }
 
+    Client client() {
+        return client;
+    }
+
     @Override
     public String toString() {
         //TODO write a nicer message, maybe with some more information

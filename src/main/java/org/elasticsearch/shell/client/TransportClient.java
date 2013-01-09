@@ -20,15 +20,19 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.client.Client;
 
-public class TypeInternalClient {
+import java.io.IOException;
 
-    private final Client client;
-    private final String type;
+/**
+ * @author Luca Cavanna
+ */
+public class TransportClient extends AbstractClient {
 
-    public TypeInternalClient(Client client, String type) {
-        this.client = client;
-        this.type = type;
+    protected TransportClient(Client client) {
+        super(client);
     }
 
-    //TODO toString
+    @Override
+    public void close() throws IOException {
+        client.close();
+    }
 }

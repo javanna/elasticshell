@@ -16,19 +16,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client;
+package org.elasticsearch.shell.command;
 
-import org.elasticsearch.client.Client;
+import org.elasticsearch.shell.client.ClientFactory;
 
-public class IndexInternalClient {
+/**
+ * @author Luca Cavanna
+ *
+ * {@link Command} that creates a new {@link org.elasticsearch.shell.client.NodeClient}
+ */
+@ExecutableCommand(aliases = {"nodeClient"})
+public class NodeClientCommand<ShellNativeClient> extends Command {
 
-    private final Client client;
-    private final String index;
+    private final ClientFactory<ShellNativeClient> clientFactory;
 
-    public IndexInternalClient(Client client, String index) {
-        this.client = client;
-        this.index = index;
+    NodeClientCommand(ClientFactory<ShellNativeClient> clientFactory) {
+        this.clientFactory = clientFactory;
     }
 
-    //TODO toString
+    @SuppressWarnings("unused")
+    public ShellNativeClient execute() {
+        return clientFactory.newNodeClient();
+    }
+
+    @SuppressWarnings("unused")
+    public ShellNativeClient execute(String clusterName) {
+        return clientFactory.newNodeClient(clusterName);
+    }
 }

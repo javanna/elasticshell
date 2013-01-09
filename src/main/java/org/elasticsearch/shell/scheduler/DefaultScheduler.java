@@ -34,8 +34,8 @@ public class DefaultScheduler implements Scheduler {
         this.scheduler = Executors.newScheduledThreadPool(1);
     }
 
-    public void schedule(Runnable runnable) {
-        this.scheduler.scheduleAtFixedRate(runnable, 0, 5, TimeUnit.SECONDS);
+    public void schedule(Runnable runnable, long intervalSeconds) {
+        this.scheduler.scheduleAtFixedRate(runnable, 0, intervalSeconds, TimeUnit.SECONDS);
     }
 
     public void shutdown() {

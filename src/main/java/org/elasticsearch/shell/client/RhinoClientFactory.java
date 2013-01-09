@@ -16,31 +16,37 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.command;
+package org.elasticsearch.shell.client;
 
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
-import org.mozilla.javascript.ScriptableObject;
-
-import java.util.Set;
+import org.elasticsearch.shell.scheduler.Scheduler;
 
 /**
- * Rhino specific command registrar
- *
  * @author Luca Cavanna
+ *
+ * Rhino specific {@link ClientFactory} implementation
  */
-public class RhinoCommandRegistrar extends AbstractCommandRegistrar<RhinoShellTopLevel> {
+public class RhinoClientFactory extends AbstractClientFactory<RhinoClientNativeJavaObject, RhinoShellTopLevel> {
 
     @Inject
-    RhinoCommandRegistrar(ShellScope<RhinoShellTopLevel> shellScope, Set<Command> commands) {
-        super(shellScope, commands);
+    public RhinoClientFactory(ShellScope<RhinoShellTopLevel> shellScope, SchedulerHolder schedulerHolder) {
+        super(shellScope, schedulerHolder.scheduler);
+    }
+
+    static class SchedulerHolder {
+        @Inject(optional = true)
+        Scheduler scheduler;
     }
 
     @Override
-    protected void registerCommand(String name, Command command, ShellScope<RhinoShellTopLevel> shellScope) {
-        //Creates a custom rhino FunctionObject that wraps a Command
-        RhinoCommandFunctionObject rhinoCommandFunctionObject = new RhinoCommandFunctionObject(name, command, RhinoCommandExecutor.EXECUTE_COMMAND_METHOD, shellScope.get());
-        shellScope.get().defineProperty(name, rhinoCommandFunctionObject, ScriptableObject.DONTENUM);
+    public RhinoClientNativeJavaObject wrapClient(AbstractClient shellClient) {
+        return new RhinoClientNativeJavaObject(shellScope.get(), shellClient);
+    }
+
+    @Override
+    protected ClientScopeSyncRunnable createScopeSyncRunnable(RhinoClientNativeJavaObject rhinoClientNativeJavaObject) {
+        return new RhinoClientScopeSyncRunnable(rhinoClientNativeJavaObject);
     }
 }

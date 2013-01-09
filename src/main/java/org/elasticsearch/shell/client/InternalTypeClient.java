@@ -16,23 +16,34 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.client;
 
-import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.client.Client;
 
 /**
- * Rhino implementation of the shell scope that wraps the {@link RhinoShellTopLevel}
- * and contains all the objects needed in the shell context
- *
  * @author Luca Cavanna
+ *
+ * Internal shell client that exposes operations available on a single type
  */
-public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
-    /**
-     * Creates a RhinoShellScope given the Rhino top-level object
-     * @param scope the rhino scope
-     */
-    @Inject
-    RhinoShellScope(RhinoShellTopLevel scope) {
-        super(scope);
+public class InternalTypeClient {
+
+    private final Client client;
+    private final String index;
+    private final String type;
+
+    public InternalTypeClient(Client client, String index, String type) {
+        this.client = client;
+        this.index = index;
+        this.type = type;
     }
+
+    public String index() {
+        return index;
+    }
+
+    public String type() {
+        return type;
+    }
+
+    //TODO toString
 }

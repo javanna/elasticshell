@@ -38,7 +38,6 @@ public abstract class AbstractCommandRegistrar<Scope> {
                     if (method.getName().equals(annotation.executeMethod())) {
                         for (String alias : annotation.aliases()) {
                             registerCommand(alias, command, shellScope);
-                            //command.setShellScope(shellScope);
                         }
                         break;
                     }
@@ -48,7 +47,7 @@ public abstract class AbstractCommandRegistrar<Scope> {
     }
 
     /**
-     * Register a given command with the given name in the given shell scope, that depends on the script engine
+     * Registers a given command with the given name in the given shell scope, that depends on the script engine
      * @param name the name used to register the command
      * @param command the command that needs to be registered
      * @param shellScope the current shell scope that wraps the real scope that depends on the script engine in use

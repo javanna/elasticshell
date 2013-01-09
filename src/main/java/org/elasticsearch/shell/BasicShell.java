@@ -46,7 +46,7 @@ public class BasicShell implements Shell {
     protected final ShellScope<?> shellScope;
     protected final Scheduler scheduler;
 
-    protected AtomicBoolean closed = new AtomicBoolean(false);
+    protected final AtomicBoolean closed = new AtomicBoolean(false);
 
     /**
      * Creates a new <code>BasicShell</code>

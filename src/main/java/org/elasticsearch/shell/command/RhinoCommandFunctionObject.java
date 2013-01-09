@@ -25,7 +25,7 @@ import java.lang.reflect.Member;
 
 /**
  * Custom {@link FunctionObject} used to register commands to the shell through Rhino.
- * Commands will be available in form of javascript functions.
+ * Wraps a {@link Command}. Commands will be available in form of javascript functions.
  *
  * @author Luca Cavanna
  */
@@ -41,6 +41,10 @@ public class RhinoCommandFunctionObject extends FunctionObject {
         this.command = command;
     }
 
+    /**
+     * Returns the shell {@link Command} that the current {@link FunctionObject} represents and contains
+     * @return the shell command
+     */
     public Command getCommand() {
         return command;
     }

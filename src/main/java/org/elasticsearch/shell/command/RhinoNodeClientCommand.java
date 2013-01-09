@@ -20,25 +20,16 @@ package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.client.ClientFactory;
-import org.mozilla.javascript.NativeJavaObject;
+import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
 
-@ExecutableCommand(aliases = {"connect"})
-public class ConnectCommand extends Command {
-
-    private final ClientFactory clientFactory;
-
+/**
+ * @author Luca Cavanna
+ *
+ * {@link Command} that creates a new {@link org.elasticsearch.shell.client.NodeClient}
+ */
+public class RhinoNodeClientCommand extends NodeClientCommand<RhinoClientNativeJavaObject>  {
     @Inject
-    ConnectCommand(ClientFactory clientFactory) {
-        this.clientFactory = clientFactory;
-    }
-
-    @SuppressWarnings("unused")
-    public NativeJavaObject execute() {
-        return clientFactory.newNodeClient();
-    }
-
-    @SuppressWarnings("unused")
-    public NativeJavaObject execute(String clusterName) {
-        return clientFactory.newNodeClient(clusterName);
+    RhinoNodeClientCommand(ClientFactory<RhinoClientNativeJavaObject> clientFactory) {
+        super(clientFactory);
     }
 }

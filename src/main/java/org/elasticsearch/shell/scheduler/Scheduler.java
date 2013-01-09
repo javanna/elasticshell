@@ -25,10 +25,11 @@ package org.elasticsearch.shell.scheduler;
  */
 public interface Scheduler {
     /**
-     * Schedule a new action
+     * Schedules a new action
      * @param runnable the new {@link Runnable} action to be scheduled
+     * @param intervalSeconds the number of seconds between an execution and the next one
      */
-    public void schedule(Runnable runnable);
+    public void schedule(Runnable runnable, long intervalSeconds);
 
     /**
      * Shutdowns the scheduler

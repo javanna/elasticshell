@@ -22,7 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class ShellScope<Scope> {
 
     /**
      * Registers a {@link Closeable} resource that will be closed when the close method will be invoked
-     * @param resource
+     * @param resource the closeable resource to register
      */
     public void registerResource(Closeable resource) {
         resources.add(resource);
@@ -71,8 +70,8 @@ public class ShellScope<Scope> {
             try {
                 resource.close();
                 logger.debug("Resource {} closed", resource);
-            } catch (IOException e) {
-                logger.error("Error while closing resource", e);
+            } catch (Throwable t) {
+                logger.error("Error while closing resource", t);
             }
         }
     }

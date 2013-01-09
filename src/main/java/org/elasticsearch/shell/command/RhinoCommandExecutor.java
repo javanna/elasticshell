@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 
 /**
- * Class used to run commands through the Rhino engine
+ * Executes commands through the Rhino engine
  *
  * @author Luca Cavanna
  */
@@ -52,8 +52,8 @@ public final class RhinoCommandExecutor {
 
     /**
      * Method used to run a command through the Rhino engine. Allows to have a single generic executeCommand
-     * public static method (with the signature needed by Rhino) for all the commands.
-     * The command function registered to the top-level contain a reference to the actual command to be run,
+     * public static method (signature needed by Rhino) for all the commands.
+     * The command function registered to the top-level contains a reference to the actual command to be run,
      * which is a {@link Command} object annotated with the {@link ExecutableCommand} annotation.
      * @param cx the Rhino context
      * @param thisObj the current scope

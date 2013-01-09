@@ -18,29 +18,17 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 
 import java.io.IOException;
 
 public class NodeClient extends AbstractClient {
 
-
     private final Node node;
 
-    //TODO disable or make configurable es logging
-
-    public NodeClient(Node node, Client client) {
-
-        super(client);
-
+    public NodeClient(Node node) {
+        super(node.client());
         this.node = node;
-
-
-        /*for (Index index : indexes()) {
-            getPrototype().put(index.name(), getPrototype(), this);
-        }*/
-
     }
 
     @Override

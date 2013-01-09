@@ -27,9 +27,4 @@ package org.elasticsearch.shell.command;
  */
 public class Command {
 
-    /*protected ShellScope shellScope;
-
-    void setShellScope(ShellScope shellScope) {
-        this.shellScope = shellScope;
-    }*/
 }

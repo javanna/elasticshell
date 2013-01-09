@@ -68,11 +68,11 @@ public class RhinoUnwrapper implements Unwrapper {
                 if (values instanceof NativeArray && isArray(propIds)) {
                     // convert JavaScript array of values to a List of Serializable objects
                     List<Object> propValues = new ArrayList<Object>(propIds.length);
-                    for (int i = 0; i < propIds.length; i++) {
+                    for (Object propIdObject : propIds) {
                         // work on each key in turn
-                        Integer propId = (Integer) propIds[i];
                         // we are only interested in keys that indicate a list of values
-                        if (propId instanceof Integer) {
+                        if (propIdObject instanceof Integer) {
+                            Integer propId = (Integer)propIdObject;
                             // getContext the value out for the specified key
                             Object val = values.get(propId, values);
                             // recursively call this method to convert the value
@@ -90,12 +90,13 @@ public class RhinoUnwrapper implements Unwrapper {
             // convert back a list Object Java values
             Object[] array = (Object[]) scriptObject;
             ArrayList<Object> list = new ArrayList<Object>(array.length);
-            for (int i = 0; i < array.length; i++) {
-                list.add(unwrap(array[i]));
+            for (Object object : array) {
+                list.add(unwrap(object));
             }
             return list;
         } else if (scriptObject instanceof Map) {
             // ensure each value in the Map is unwrapped (which may have been an unwrapped NativeMap!)
+            @SuppressWarnings("unchecked")
             Map<Object, Object> map = (Map<Object, Object>) scriptObject;
             Map<Object, Object> copyMap = new HashMap<Object, Object>(map.size());
             for (Object key : map.keySet()) {
@@ -113,13 +114,11 @@ public class RhinoUnwrapper implements Unwrapper {
      * @return boolean  true if it's an array, false otherwise (ie it's a map)
      */
     private boolean isArray(final Object[] ids) {
-        boolean result = true;
-        for (int i = 0; i < ids.length; i++) {
-            if (ids[i] instanceof Integer == false) {
-                result = false;
-                break;
+        for (Object id : ids) {
+            if (!(id instanceof Integer)) {
+                return false;
             }
         }
-        return result;
+        return true;
     }
 }

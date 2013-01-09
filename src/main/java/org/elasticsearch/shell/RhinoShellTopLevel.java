@@ -29,6 +29,7 @@ import org.mozilla.javascript.ImporterTopLevel;
 public class RhinoShellTopLevel extends ImporterTopLevel {
 
     RhinoShellTopLevel(){
+        //the top-level automatically initializes itself
         Context context = Context.enter();
         try {
             initStandardObjects(context, true);

@@ -22,13 +22,13 @@ import org.elasticsearch.common.inject.Inject;
 
 /**
  * Rhino implementation of the shell scope that wraps the {@link RhinoShellTopLevel}
- * and contains all the objects needed in the context of the shell
+ * and contains all the objects needed in the shell context
  *
  * @author Luca Cavanna
  */
 public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
     /**
-     * Creates a RhinoShellScope given the Rhino top-level object and an optional scheduler
+     * Creates a RhinoShellScope given the Rhino top-level object
      * @param scope
      */
     @Inject

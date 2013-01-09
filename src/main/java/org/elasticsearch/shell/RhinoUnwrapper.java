@@ -31,7 +31,7 @@ import java.util.*;
 public class RhinoUnwrapper implements Unwrapper {
 
     /**
-     * Convert an object from a script wrapper value to a serializable value valid outside
+     * Converts an object from a script wrapper value to a serializable value valid outside
      * of the Rhino script processor context.
      *
      * This includes converting JavaScript Array objects to Lists of valid objects.

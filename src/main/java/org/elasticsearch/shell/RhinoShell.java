@@ -32,7 +32,7 @@ import java.io.PrintStream;
 /**
  * Rhino implementation of the {@link Shell}
  * Uses the basic functionality provided by the {@link BasicShell}. Adds the Rhino {@link Context} initialization
- * and the Rhino specific javascript object to Java conversion
+ * and the Rhino specific operations needed.
  *
  * @author Luca Cavanna
  */

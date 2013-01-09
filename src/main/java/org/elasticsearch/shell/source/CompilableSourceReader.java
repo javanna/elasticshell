@@ -27,7 +27,7 @@ import java.io.PrintStream;
 
 /**
  * Reader that is able to detect whether a source is compilable or wait for eventual more input
- * in order to complete the source snippet
+ * in order to read new lines and obtain a compilable source
  *
  * @author Luca Cavanna
  */

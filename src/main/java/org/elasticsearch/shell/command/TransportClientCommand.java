@@ -23,19 +23,19 @@ import org.elasticsearch.shell.client.ClientFactory;
 /**
  * @author Luca Cavanna
  *
- * {@link Command} that creates a new {@link org.elasticsearch.shell.client.NodeClient}
+ * {@link org.elasticsearch.shell.command.Command} that creates a new {@link org.elasticsearch.shell.client.NodeClient}
  */
-public class NodeClientCommand<ShellNativeClient> extends Command {
+public class TransportClientCommand<ShellNativeClient> extends Command {
 
     private final ClientFactory<ShellNativeClient> clientFactory;
 
-    NodeClientCommand(ClientFactory<ShellNativeClient> clientFactory) {
+    TransportClientCommand(ClientFactory<ShellNativeClient> clientFactory) {
         this.clientFactory = clientFactory;
     }
 
     @SuppressWarnings("unused")
     public ShellNativeClient execute() {
-        return clientFactory.newNodeClient();
+        return clientFactory.newTransportClient();
     }
 
     @SuppressWarnings("unused")

@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
@@ -84,6 +85,20 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
     @Override
     public ShellNativeClient newNodeClient() {
         return newNodeClient(DEFAULT_CLUSTER_NAME);
+    }
+
+    @Override
+    public ShellNativeClient newTransportClient() {
+        //TODO understand what sniff does. Do we need addresses anyway???
+        Settings settings = ImmutableSettings.settingsBuilder().put("client.transport.sniff", true).build();
+        org.elasticsearch.client.transport.TransportClient client = new TransportClient(settings);
+        org.elasticsearch.shell.client.TransportClient shellClient = new org.elasticsearch.shell.client.TransportClient(client);
+        registerClientResource(shellClient);
+        ShellNativeClient shellNativeClient = wrapClient(shellClient);
+        if (scheduler != null) {
+            scheduler.schedule(createScopeSyncRunnable(shellNativeClient), 2);
+        }
+        return shellNativeClient;
     }
 
     /**

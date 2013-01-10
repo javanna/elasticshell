@@ -27,6 +27,7 @@ import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
  *
  * {@link Command} that creates a new {@link org.elasticsearch.shell.client.NodeClient}
  */
+@ExecutableCommand(aliases = {"nodeClient"})
 public class RhinoNodeClientCommand extends NodeClientCommand<RhinoClientNativeJavaObject>  {
     @Inject
     RhinoNodeClientCommand(ClientFactory<RhinoClientNativeJavaObject> clientFactory) {

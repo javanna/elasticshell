@@ -44,5 +44,5 @@ public interface ClientFactory<ShellNativeClient> {
      */
     public ShellNativeClient newNodeClient(String clusterName);
 
-    //public ShellNativeClient newTransportClient();
+    public ShellNativeClient newTransportClient();
 }

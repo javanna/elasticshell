@@ -25,12 +25,12 @@ package org.elasticsearch.shell.client;
  */
 public class InternalTypeClient {
 
-    private final AbstractClient client;
+    private final AbstractClient shellClient;
     private final String indexName;
     private final String typeName;
 
-    public InternalTypeClient(AbstractClient client, String indexName, String typeName) {
-        this.client = client;
+    public InternalTypeClient(AbstractClient shellClient, String indexName, String typeName) {
+        this.shellClient = shellClient;
         this.indexName = indexName;
         this.typeName = typeName;
     }
@@ -43,5 +43,8 @@ public class InternalTypeClient {
         return typeName;
     }
 
-    //TODO toString
+    @Override
+    public String toString() {
+        return shellClient.toString() + " - index [" + indexName + "] type [" + typeName + "]";
+    }
 }

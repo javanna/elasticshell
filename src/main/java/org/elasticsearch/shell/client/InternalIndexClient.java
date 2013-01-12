@@ -18,6 +18,9 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.cluster.metadata.IndexMetaData;
+
 /**
  * @author Luca Cavanna
  *
@@ -25,11 +28,11 @@ package org.elasticsearch.shell.client;
  */
 public class InternalIndexClient {
 
-    private final AbstractClient client;
+    private final AbstractClient shellClient;
     private final String indexName;
 
-    public InternalIndexClient(AbstractClient client, String indexName) {
-        this.client = client;
+    public InternalIndexClient(AbstractClient shellClient, String indexName) {
+        this.shellClient = shellClient;
         this.indexName = indexName;
     }
 
@@ -37,5 +40,25 @@ public class InternalIndexClient {
         return indexName;
     }
 
-    //TODO toString
+    protected Index getIndex() {
+        ClusterStateResponse response = shellClient.client().admin().cluster().prepareState().setFilterBlocks(true)
+                .setFilterRoutingTable(true).setFilterNodes(true).setFilterIndices(indexName).execute().actionGet();
+
+        IndexMetaData indexMetaData = response.state().metaData().indices().values().iterator().next();
+
+        return new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet());
+    }
+
+    public String[] showTypes() {
+        return getIndex().types();
+    }
+
+    public String[] showAliases() {
+        return getIndex().aliases();
+    }
+
+    @Override
+    public String toString() {
+        return shellClient.toString() + " - index [" + indexName + "]";
+    }
 }

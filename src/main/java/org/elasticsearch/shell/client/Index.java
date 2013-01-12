@@ -8,16 +8,16 @@ import java.util.Set;
 public class Index {
 
     private final String name;
-    private final Set<String> types;
-    private final Set<String> aliases;
+    private final String[] types;
+    private final String[] aliases;
 
     public Index(String name, Set<String> types, Set<String> aliases) {
         this.name = name;
-        this.types = types;
-        this.aliases = aliases;
+        this.types = types.toArray(new String[types.size()]);
+        this.aliases = aliases.toArray(new String[aliases.size()]);
     }
 
-    public Set<String> types() {
+    public String[] types() {
         return types;
     }
 
@@ -25,7 +25,7 @@ public class Index {
         return name;
     }
 
-    public Set<String> aliases() {
+    public String[] aliases() {
         return aliases;
     }
 

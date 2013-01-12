@@ -40,7 +40,7 @@ public abstract class AbstractClient implements Closeable {
         this.client= client;
     }
 
-    public Index[] indexes() {
+    public Index[] showIndexes() {
         ClusterStateResponse response = client.admin().cluster().prepareState().setFilterBlocks(true)
                 .setFilterRoutingTable(true).setFilterNodes(true).execute().actionGet();
 

@@ -35,4 +35,9 @@ public class TransportClient extends AbstractClient {
     public void close() throws IOException {
         client.close();
     }
+
+    @Override
+    public String asString() {
+        return "Transport client connected to " + ((org.elasticsearch.client.transport.TransportClient)client).transportAddresses();
+    }
 }

@@ -57,7 +57,8 @@ public abstract class AbstractClient implements Closeable {
 
     @Override
     public String toString() {
-        //TODO write a nicer message, maybe with some more information
-        return "client connected";
+        return asString();
     }
+
+    protected abstract String asString();
 }

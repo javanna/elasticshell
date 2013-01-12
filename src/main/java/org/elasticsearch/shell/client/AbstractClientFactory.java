@@ -69,7 +69,10 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
      */
     @Override
     public ShellNativeClient newNodeClient(String clusterName) {
-        Settings settings = ImmutableSettings.settingsBuilder().put("node.name", DEFAULT_NODE_NAME).build();
+        Settings settings = ImmutableSettings.settingsBuilder()
+                .put("node.name", DEFAULT_NODE_NAME)
+                .put("http.enabled", false)
+                .build();
         Node node  = NodeBuilder.nodeBuilder().clusterName(clusterName).client(true).settings(settings).build();
         node.start();
         NodeClient nodeClient = new NodeClient(node);

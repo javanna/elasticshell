@@ -36,4 +36,9 @@ public class NodeClient extends AbstractClient {
         client.close();
         node.close();
     }
+
+    @Override
+    protected String asString() {
+        return "Node client connected to cluster [" + ((org.elasticsearch.client.node.NodeClient)client).settings().get("cluster.name") + "]";
+    }
 }

@@ -28,21 +28,21 @@ import org.elasticsearch.client.Client;
 public class InternalTypeClient {
 
     private final Client client;
-    private final String index;
-    private final String type;
+    private final String indexName;
+    private final String typeName;
 
-    public InternalTypeClient(Client client, String index, String type) {
+    public InternalTypeClient(Client client, String indexName, String typeName) {
         this.client = client;
-        this.index = index;
-        this.type = type;
+        this.indexName = indexName;
+        this.typeName = typeName;
     }
 
-    public String index() {
-        return index;
+    String indexName() {
+        return indexName;
     }
 
-    public String type() {
-        return type;
+    String typeName() {
+        return typeName;
     }
 
     //TODO toString

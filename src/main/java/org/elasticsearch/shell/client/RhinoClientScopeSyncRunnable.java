@@ -53,12 +53,12 @@ public class RhinoClientScopeSyncRunnable extends ClientScopeSyncRunnable {
                 //register types
                 for (InternalTypeClient typeClient : typeClients) {
                     NativeJavaObject typeNativeJavaObject = new NativeJavaObject(shellNativeClient.getParentScope(), typeClient, InternalTypeClient.class);
-                    ScriptableObject.putProperty(indexNativeJavaObject, typeClient.type(), typeNativeJavaObject);
+                    ScriptableObject.putProperty(indexNativeJavaObject, typeClient.typeName(), typeNativeJavaObject);
                 }
             }
 
-            logger.info("Adding index {} to shell native client", indexClient.index());
-            ScriptableObject.putProperty(shellNativeClient, indexClient.index(), indexNativeJavaObject);
+            logger.info("Adding index {} to shell native client", indexClient.indexName());
+            ScriptableObject.putProperty(shellNativeClient, indexClient.indexName(), indexNativeJavaObject);
         } finally {
             Context.exit();
         }

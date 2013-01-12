@@ -28,15 +28,15 @@ import org.elasticsearch.client.Client;
 public class InternalIndexClient {
 
     private final Client client;
-    private final String index;
+    private final String indexName;
 
-    public InternalIndexClient(Client client, String index) {
+    public InternalIndexClient(Client client, String indexName) {
         this.client = client;
-        this.index = index;
+        this.indexName = indexName;
     }
 
-    public String index() {
-        return index;
+    String indexName() {
+        return indexName;
     }
 
     //TODO toString

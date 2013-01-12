@@ -19,7 +19,6 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
-import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +36,11 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientScopeSyncRunnable.class);
 
-    protected final Client client;
+    protected final AbstractClient shellClient;
     protected Set<Index> indexes = new HashSet<Index>();
 
-    protected ClientScopeSyncRunnable(Client client) {
-        this.client = client;
+    protected ClientScopeSyncRunnable(AbstractClient shellClient) {
+        this.shellClient = shellClient;
     }
 
     /**
@@ -61,7 +60,7 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
      * @return a set containing the indexes available in the elasticsearch cluster and their types
      */
     protected Set<Index> getIndexes() {
-        ClusterStateResponse response = client.admin().cluster().prepareState().setFilterBlocks(true)
+        ClusterStateResponse response = shellClient.client().admin().cluster().prepareState().setFilterBlocks(true)
                 .setFilterRoutingTable(true).setFilterNodes(true).execute().actionGet();
 
         Set<Index> newIndexes = new HashSet<Index>();
@@ -101,11 +100,11 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
      * @param index the index that needs to be registered to the shell scope
      */
     protected void registerIndex(Index index) {
-        InternalIndexClient indexClient = new InternalIndexClient(client, index.name());
+        InternalIndexClient indexClient = new InternalIndexClient(shellClient, index.name());
         InternalTypeClient[] typeClients = new InternalTypeClient[index.types().length];
         if (index.types() != null) {
             for (int i = 0; i < index.types().length; i++) {
-                typeClients[i] = new InternalTypeClient(client, index.name(), index.types()[i]);
+                typeClients[i] = new InternalTypeClient(shellClient, index.name(), index.types()[i]);
             }
         }
         registerIndexAndTypes(indexClient, typeClients);

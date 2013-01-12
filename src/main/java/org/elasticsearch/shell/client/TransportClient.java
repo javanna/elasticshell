@@ -33,11 +33,11 @@ public class TransportClient extends AbstractClient {
 
     @Override
     public void close() throws IOException {
-        client.close();
+        client().close();
     }
 
     @Override
     protected String asString() {
-        return "Transport client connected to " + ((org.elasticsearch.client.transport.TransportClient)client).transportAddresses();
+        return "Transport client connected to " + ((org.elasticsearch.client.transport.TransportClient)client()).transportAddresses();
     }
 }

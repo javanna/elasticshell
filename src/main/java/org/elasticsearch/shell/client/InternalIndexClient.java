@@ -18,8 +18,6 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.client.Client;
-
 /**
  * @author Luca Cavanna
  *
@@ -27,10 +25,10 @@ import org.elasticsearch.client.Client;
  */
 public class InternalIndexClient {
 
-    private final Client client;
+    private final AbstractClient client;
     private final String indexName;
 
-    public InternalIndexClient(Client client, String indexName) {
+    public InternalIndexClient(AbstractClient client, String indexName) {
         this.client = client;
         this.indexName = indexName;
     }

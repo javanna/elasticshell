@@ -34,7 +34,7 @@ import java.util.List;
  */
 public abstract class AbstractClient implements Closeable {
 
-    protected final Client client;
+    private final Client client;
 
     protected AbstractClient(Client client) {
         this.client= client;

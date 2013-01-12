@@ -36,7 +36,7 @@ public class RhinoClientScopeSyncRunnable extends ClientScopeSyncRunnable {
     private final RhinoClientNativeJavaObject shellNativeClient;
 
     RhinoClientScopeSyncRunnable(RhinoClientNativeJavaObject shellNativeClient) {
-        super(shellNativeClient.shellClient().client());
+        super(shellNativeClient.shellClient());
         this.shellNativeClient = shellNativeClient;
     }
 

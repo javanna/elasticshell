@@ -33,12 +33,12 @@ public class NodeClient extends AbstractClient {
 
     @Override
     public void close() throws IOException {
-        client.close();
+        client().close();
         node.close();
     }
 
     @Override
     protected String asString() {
-        return "Node client connected to cluster [" + ((org.elasticsearch.client.node.NodeClient)client).settings().get("cluster.name") + "]";
+        return "Node client connected to cluster [" + ((org.elasticsearch.client.node.NodeClient)client()).settings().get("cluster.name") + "]";
     }
 }

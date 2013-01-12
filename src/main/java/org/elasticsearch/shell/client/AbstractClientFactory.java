@@ -28,6 +28,8 @@ import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.shell.ShellScope;
 import org.elasticsearch.shell.scheduler.Scheduler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Luca Cavanna
@@ -40,6 +42,8 @@ import org.elasticsearch.shell.scheduler.Scheduler;
  * @param <Scope> the shell scope used to register resources that need to be closed before shutdown
  */
 public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements ClientFactory<ShellNativeClient> {
+
+    private static final Logger logger = LoggerFactory.getLogger(AbstractClientFactory.class);
 
     private static final String DEFAULT_NODE_NAME = "elasticsearch-shell";
     private static final String DEFAULT_CLUSTER_NAME = "elasticsearch";
@@ -112,16 +116,37 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
 
     @Override
     public ShellNativeClient newTransportClient() {
-        return newTransportClient(DEFAULT_TRANSPORT_HOST, DEFAULT_TRANSPORT_PORT);
+        return newTransportClient(new InetSocketTransportAddress(DEFAULT_TRANSPORT_HOST, DEFAULT_TRANSPORT_PORT));
     }
 
     @Override
-    public ShellNativeClient newTransportClient(String host, int port) {
-        return newTransportClient(new InetSocketTransportAddress(host, port));
+    public ShellNativeClient newTransportClient(String... addresses) {
+        TransportAddress[] transportAddresses = new TransportAddress[addresses.length];
+        for (int i = 0; i < addresses.length; i++) {
+            String address = addresses[i];
+
+            String[] splitAddress = address.split(":");
+            String host = DEFAULT_TRANSPORT_HOST;
+
+            if (splitAddress.length>=1) {
+                host = splitAddress[0];
+            }
+
+            int port = DEFAULT_TRANSPORT_PORT;
+            if (splitAddress.length>=2) {
+                try {
+                    port = Integer.valueOf(splitAddress[1]);
+                } catch(NumberFormatException e) {
+                    logger.warn("Unable to parse port [{}]", splitAddress[1], e);
+                }
+            }
+
+            transportAddresses[i] = new InetSocketTransportAddress(host, port);
+        }
+        return newTransportClient(transportAddresses);
     }
 
-    @Override
-    public ShellNativeClient newTransportClient(TransportAddress... addresses) {
+    protected ShellNativeClient newTransportClient(TransportAddress... addresses) {
 
         Settings settings = ImmutableSettings.settingsBuilder().put("client.transport.ignore_cluster_name", true).build();
         org.elasticsearch.client.transport.TransportClient client = new TransportClient(settings).addTransportAddresses(addresses);

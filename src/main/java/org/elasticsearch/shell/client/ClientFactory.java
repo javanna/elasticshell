@@ -18,8 +18,6 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.common.transport.TransportAddress;
-
 /**
  * @author Luca Cavanna
  *
@@ -48,22 +46,15 @@ public interface ClientFactory<ShellNativeClient> {
 
     /**
      * Creates a new {@link TransportClient} which will connect to the elasticsearch node with the default address.
-     * @return the shell native object that represents the creates {@link TransportClient}
+     * @return the shell native object that represents the created {@link TransportClient}
      */
     public ShellNativeClient newTransportClient();
 
     /**
-     * Creates a new {@link TransportClient} which will connect to the elasticsearch node with the given host and port.
-     * @param host the host name of the elasticsearch node to connect to
-     * @param port the port of the elasticsearch node to connect to
-     * @return the shell native object that represents the creates {@link TransportClient}
+     * Creates a new {@link TransportClient} which will connect to the elasticsearch nodes with the given addresses.
+     * Multiple addresses can be provided in the following form ["host1:9300","host2:9300"]
+     * @param addresses The addresses of the nodes to connect to
+     * @return the shell native object that represents the created {@link TransportClient}
      */
-    public ShellNativeClient newTransportClient(String host, int port);
-
-    /**
-     * Creates a new {@link TransportClient} which will connect to the given elasticsearch nodes.
-     * @param addresses the adresses of the elasticsearch nodes to connect to
-     * @return the shell native object that represents the creates {@link TransportClient}
-     */
-    public ShellNativeClient newTransportClient(TransportAddress... addresses);
+    public ShellNativeClient newTransportClient(String... addresses);
 }

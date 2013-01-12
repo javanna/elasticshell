@@ -18,7 +18,6 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.shell.ExecutorWithProgress;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.console.Console;
@@ -56,18 +55,7 @@ public class TransportClientCommand<ShellNativeClient> extends CommandWithProgre
         }));
     }
 
-    @SuppressWarnings("unused")
-    public ShellNativeClient execute(final String host, final int port) {
-        return checkNull(executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
-            @Override
-            public ShellNativeClient execute() {
-                return clientFactory.newTransportClient(host, port);
-            }
-        }));
-    }
-
-    @SuppressWarnings("unused")
-    public ShellNativeClient execute(final TransportAddress... addresses) {
+    public ShellNativeClient execute(final String... addresses) {
         return checkNull(executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
             @Override
             public ShellNativeClient execute() {

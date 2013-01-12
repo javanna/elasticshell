@@ -1,5 +1,6 @@
 package org.elasticsearch.shell.client;
 
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -31,6 +32,6 @@ public class Index {
 
     @Override
     public String toString() {
-        return name + " : " + types;
+        return "index [" + name + "] types: " + Arrays.asList(types);
     }
 }

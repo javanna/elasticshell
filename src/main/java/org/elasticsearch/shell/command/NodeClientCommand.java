@@ -47,23 +47,28 @@ public class NodeClientCommand<ShellNativeClient> extends CommandWithProgress {
 
     @SuppressWarnings("unused")
     public ShellNativeClient execute() {
-        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+        return checkNull(executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
             @Override
             public ShellNativeClient execute() {
                 return clientFactory.newNodeClient();
             }
-        });
+        }));
     }
 
     @SuppressWarnings("unused")
     public ShellNativeClient execute(final String clusterName) {
-        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+        return checkNull(executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
             @Override
             public ShellNativeClient execute() {
                 return clientFactory.newNodeClient(clusterName);
             }
-        });
+        }));
     }
 
-
+    protected ShellNativeClient checkNull(ShellNativeClient shellNativeClient) {
+        if (shellNativeClient == null) {
+            console.println("No client created, check the provided cluster name!");
+        }
+        return shellNativeClient;
+    }
 }

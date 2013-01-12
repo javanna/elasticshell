@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
@@ -76,13 +77,32 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
                 .build();
         Node node  = NodeBuilder.nodeBuilder().clusterName(clusterName).client(true).settings(settings).build();
         node.start();
-        NodeClient nodeClient = new NodeClient(node);
+        Client client = node.client();
+        //if the checkClusterFails we immediately close the client and node that we just created
+        if (!checkCluster(client)) {
+            client.close();
+            node.close();
+            return null;
+        }
+
+        NodeClient nodeClient = new NodeClient(node, client);
         registerClientResource(nodeClient);
         ShellNativeClient shellNativeClient = wrapClient(nodeClient);
         if (scheduler != null) {
             scheduler.schedule(createScopeSyncRunnable(shellNativeClient), 2);
         }
         return shellNativeClient;
+    }
+
+    /* Should be useful if a client node is started and it's the only node in the cluster.
+     * It means that there is no master and the checkCluster fails */
+    protected boolean checkCluster(Client client) {
+        try {
+            client.admin().cluster().prepareHealth().execute().actionGet();
+            return true;
+        } catch(Exception e) {
+            return false;
+        }
     }
 
     @Override
@@ -105,6 +125,12 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
 
         Settings settings = ImmutableSettings.settingsBuilder().put("client.transport.ignore_cluster_name", true).build();
         org.elasticsearch.client.transport.TransportClient client = new TransportClient(settings).addTransportAddresses(addresses);
+
+        //if no connected node we can already close the (useless) client
+        if (client.connectedNodes().size() == 0) {
+            client.close();
+            return null;
+        }
 
         org.elasticsearch.shell.client.TransportClient shellClient = new org.elasticsearch.shell.client.TransportClient(client);
         registerClientResource(shellClient);

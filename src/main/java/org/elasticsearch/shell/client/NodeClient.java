@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 
 import java.io.IOException;
@@ -26,8 +27,8 @@ public class NodeClient extends AbstractClient {
 
     private final Node node;
 
-    public NodeClient(Node node) {
-        super(node.client());
+    public NodeClient(Node node, Client client) {
+        super(client);
         this.node = node;
     }
 

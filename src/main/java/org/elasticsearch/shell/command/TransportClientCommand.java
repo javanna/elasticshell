@@ -48,31 +48,38 @@ public class TransportClientCommand<ShellNativeClient> extends CommandWithProgre
 
     @SuppressWarnings("unused")
     public ShellNativeClient execute() {
-        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+        return checkNull(executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
             @Override
             public ShellNativeClient execute() {
                 return clientFactory.newTransportClient();
             }
-        });
+        }));
     }
 
     @SuppressWarnings("unused")
     public ShellNativeClient execute(final String host, final int port) {
-        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+        return checkNull(executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
             @Override
             public ShellNativeClient execute() {
                 return clientFactory.newTransportClient(host, port);
             }
-        });
+        }));
     }
 
     @SuppressWarnings("unused")
     public ShellNativeClient execute(final TransportAddress... addresses) {
-        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+        return checkNull(executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
             @Override
             public ShellNativeClient execute() {
                 return clientFactory.newTransportClient(addresses);
             }
-        });
+        }));
+    }
+
+    protected ShellNativeClient checkNull(ShellNativeClient shellNativeClient) {
+        if (shellNativeClient == null) {
+            console.println("No client created, check the provided address!");
+        }
+        return shellNativeClient;
     }
 }

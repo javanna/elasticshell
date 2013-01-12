@@ -37,7 +37,7 @@ public class TransportClient extends AbstractClient {
     }
 
     @Override
-    public String asString() {
+    protected String asString() {
         return "Transport client connected to " + ((org.elasticsearch.client.transport.TransportClient)client).transportAddresses();
     }
 }

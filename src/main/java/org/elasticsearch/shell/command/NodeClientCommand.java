@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.shell.ExecutorWithProgress;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.console.Console;
 
@@ -28,7 +29,9 @@ import java.io.PrintStream;
  *
  * {@link Command} that creates a new {@link org.elasticsearch.shell.client.NodeClient}
  */
-public class NodeClientCommand<ShellNativeClient> extends Command {
+public class NodeClientCommand<ShellNativeClient> extends CommandWithProgress {
+
+    private static final String INITIAL_MESSAGE = "Creating new node client";
 
     private final ClientFactory<ShellNativeClient> clientFactory;
 
@@ -37,13 +40,30 @@ public class NodeClientCommand<ShellNativeClient> extends Command {
         this.clientFactory = clientFactory;
     }
 
-    @SuppressWarnings("unused")
-    public ShellNativeClient execute() {
-        return clientFactory.newNodeClient();
+    @Override
+    protected String initialMessage() {
+        return INITIAL_MESSAGE;
     }
 
     @SuppressWarnings("unused")
-    public ShellNativeClient execute(String clusterName) {
-        return clientFactory.newNodeClient(clusterName);
+    public ShellNativeClient execute() {
+        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+            @Override
+            public ShellNativeClient execute() {
+                return clientFactory.newNodeClient();
+            }
+        });
     }
+
+    @SuppressWarnings("unused")
+    public ShellNativeClient execute(final String clusterName) {
+        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+            @Override
+            public ShellNativeClient execute() {
+                return clientFactory.newNodeClient(clusterName);
+            }
+        });
+    }
+
+
 }

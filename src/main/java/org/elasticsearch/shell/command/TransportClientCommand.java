@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.shell.ExecutorWithProgress;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.console.Console;
 
@@ -29,7 +30,9 @@ import java.io.PrintStream;
  *
  * {@link org.elasticsearch.shell.command.Command} that creates a new {@link org.elasticsearch.shell.client.NodeClient}
  */
-public class TransportClientCommand<ShellNativeClient> extends Command {
+public class TransportClientCommand<ShellNativeClient> extends CommandWithProgress {
+
+    private static final String INITIAL_MESSAGE = "Creating new transport client";
 
     private final ClientFactory<ShellNativeClient> clientFactory;
 
@@ -38,18 +41,38 @@ public class TransportClientCommand<ShellNativeClient> extends Command {
         this.clientFactory = clientFactory;
     }
 
+    @Override
+    protected String initialMessage() {
+        return INITIAL_MESSAGE;
+    }
+
     @SuppressWarnings("unused")
     public ShellNativeClient execute() {
-        return clientFactory.newTransportClient();
+        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+            @Override
+            public ShellNativeClient execute() {
+                return clientFactory.newTransportClient();
+            }
+        });
     }
 
     @SuppressWarnings("unused")
-    public ShellNativeClient execute(String host, int port) {
-        return clientFactory.newTransportClient(host, port);
+    public ShellNativeClient execute(final String host, final int port) {
+        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+            @Override
+            public ShellNativeClient execute() {
+                return clientFactory.newTransportClient(host, port);
+            }
+        });
     }
 
     @SuppressWarnings("unused")
-    public ShellNativeClient execute(TransportAddress... addresses) {
-        return clientFactory.newTransportClient(addresses);
+    public ShellNativeClient execute(final TransportAddress... addresses) {
+        return executeWithProgress(new ExecutorWithProgress.ActionCallback<ShellNativeClient>() {
+            @Override
+            public ShellNativeClient execute() {
+                return clientFactory.newTransportClient(addresses);
+            }
+        });
     }
 }

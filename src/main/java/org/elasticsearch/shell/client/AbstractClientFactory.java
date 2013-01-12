@@ -42,6 +42,7 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
 
     private static final String DEFAULT_NODE_NAME = "elasticsearch-shell";
     private static final String DEFAULT_CLUSTER_NAME = "elasticsearch";
+
     private static final String DEFAULT_TRANSPORT_HOST = "localhost";
     private static final int DEFAULT_TRANSPORT_PORT = 9300;
 

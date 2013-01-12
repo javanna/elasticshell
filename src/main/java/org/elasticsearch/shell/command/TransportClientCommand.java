@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.shell.client.ClientFactory;
 
 /**
@@ -39,7 +40,12 @@ public class TransportClientCommand<ShellNativeClient> extends Command {
     }
 
     @SuppressWarnings("unused")
-    public ShellNativeClient execute(String clusterName) {
-        return clientFactory.newNodeClient(clusterName);
+    public ShellNativeClient execute(String host, int port) {
+        return clientFactory.newTransportClient(host, port);
+    }
+
+    @SuppressWarnings("unused")
+    public ShellNativeClient execute(TransportAddress... addresses) {
+        return clientFactory.newTransportClient(addresses);
     }
 }

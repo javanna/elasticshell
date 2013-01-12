@@ -21,6 +21,8 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.shell.ShellScope;
@@ -40,6 +42,8 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
 
     private static final String DEFAULT_NODE_NAME = "elasticsearch-shell";
     private static final String DEFAULT_CLUSTER_NAME = "elasticsearch";
+    private static final String DEFAULT_TRANSPORT_HOST = "localhost";
+    private static final int DEFAULT_TRANSPORT_PORT = 9300;
 
     protected final ShellScope<Scope> shellScope;
     protected final Scheduler scheduler;
@@ -77,11 +81,6 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
         return shellNativeClient;
     }
 
-    /**
-     * Creates a new {@link org.elasticsearch.client.node.NodeClient} that connects to a cluster with the default name
-     * @return the native client that will be used within the shell
-     * @see AbstractClientFactory#newNodeClient(String)
-     */
     @Override
     public ShellNativeClient newNodeClient() {
         return newNodeClient(DEFAULT_CLUSTER_NAME);
@@ -89,9 +88,20 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
 
     @Override
     public ShellNativeClient newTransportClient() {
-        //TODO understand what sniff does. Do we need addresses anyway???
-        Settings settings = ImmutableSettings.settingsBuilder().put("client.transport.sniff", true).build();
-        org.elasticsearch.client.transport.TransportClient client = new TransportClient(settings);
+        return newTransportClient(DEFAULT_TRANSPORT_HOST, DEFAULT_TRANSPORT_PORT);
+    }
+
+    @Override
+    public ShellNativeClient newTransportClient(String host, int port) {
+        return newTransportClient(new InetSocketTransportAddress(host, port));
+    }
+
+    @Override
+    public ShellNativeClient newTransportClient(TransportAddress... addresses) {
+
+        Settings settings = ImmutableSettings.settingsBuilder().put("client.transport.ignore_cluster_name", true).build();
+        org.elasticsearch.client.transport.TransportClient client = new TransportClient(settings).addTransportAddresses(addresses);
+
         org.elasticsearch.shell.client.TransportClient shellClient = new org.elasticsearch.shell.client.TransportClient(client);
         registerClientResource(shellClient);
         ShellNativeClient shellNativeClient = wrapClient(shellClient);

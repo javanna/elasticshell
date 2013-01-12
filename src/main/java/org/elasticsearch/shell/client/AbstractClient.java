@@ -40,7 +40,7 @@ public abstract class AbstractClient implements Closeable {
         this.client= client;
     }
 
-    public List<Index> indexes() {
+    public Index[] indexes() {
         ClusterStateResponse response = client.admin().cluster().prepareState().setFilterBlocks(true)
                 .setFilterRoutingTable(true).setFilterNodes(true).execute().actionGet();
 
@@ -48,7 +48,7 @@ public abstract class AbstractClient implements Closeable {
         for (IndexMetaData indexMetaData : response.state().metaData().indices().values()) {
             indexes.add(new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet()));
         }
-        return indexes;
+        return indexes.toArray(new Index[indexes.size()]);
     }
 
     Client client() {

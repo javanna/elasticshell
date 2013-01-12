@@ -19,6 +19,9 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.shell.client.ClientFactory;
+import org.elasticsearch.shell.console.Console;
+
+import java.io.PrintStream;
 
 /**
  * @author Luca Cavanna
@@ -29,7 +32,8 @@ public class NodeClientCommand<ShellNativeClient> extends Command {
 
     private final ClientFactory<ShellNativeClient> clientFactory;
 
-    NodeClientCommand(ClientFactory<ShellNativeClient> clientFactory) {
+    NodeClientCommand(ClientFactory<ShellNativeClient> clientFactory, Console<PrintStream> console) {
+        super(console);
         this.clientFactory = clientFactory;
     }
 

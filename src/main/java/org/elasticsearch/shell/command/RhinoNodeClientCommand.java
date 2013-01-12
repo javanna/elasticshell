@@ -21,6 +21,9 @@ package org.elasticsearch.shell.command;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
+import org.elasticsearch.shell.console.Console;
+
+import java.io.PrintStream;
 
 /**
  * @author Luca Cavanna
@@ -30,7 +33,7 @@ import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
 @ExecutableCommand(aliases = {"nodeClient"})
 public class RhinoNodeClientCommand extends NodeClientCommand<RhinoClientNativeJavaObject>  {
     @Inject
-    RhinoNodeClientCommand(ClientFactory<RhinoClientNativeJavaObject> clientFactory) {
-        super(clientFactory);
+    RhinoNodeClientCommand(ClientFactory<RhinoClientNativeJavaObject> clientFactory, Console<PrintStream> console) {
+        super(clientFactory, console);
     }
 }

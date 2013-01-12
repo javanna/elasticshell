@@ -18,6 +18,11 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.shell.console.Console;
+
+import java.io.PrintStream;
+
 /**
  * Command that allows to display a help text
  *
@@ -25,6 +30,11 @@ package org.elasticsearch.shell.command;
  */
 @ExecutableCommand(aliases = "help")
 public class HelpCommand extends Command {
+
+    @Inject
+    protected HelpCommand(Console<PrintStream> console) {
+        super(console);
+    }
 
     @SuppressWarnings("unused")
     public String execute() {

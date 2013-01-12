@@ -18,6 +18,10 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.shell.console.Console;
+
+import java.io.PrintStream;
+
 /**
  * Base class for commands. Might not be really needed but handy to use anyway
  * rather than referring to generic objects as commands. Probably useful in the future
@@ -25,6 +29,11 @@ package org.elasticsearch.shell.command;
  *
  * @author Luca Cavanna
  */
-public class Command {
+public abstract class Command {
 
+    protected final Console<PrintStream> console;
+
+    protected Command(Console<PrintStream> console) {
+        this.console = console;
+    }
 }

@@ -37,6 +37,7 @@ public class CommandModule extends AbstractModule {
         Multibinder<Command> multiBinder = Multibinder.newSetBinder(binder(), Command.class);
         multiBinder.addBinding().to(ExitCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(HelpCommand.class).asEagerSingleton();
+
         multiBinder.addBinding().to(RhinoNodeClientCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(RhinoTransportClientCommand.class).asEagerSingleton();
 

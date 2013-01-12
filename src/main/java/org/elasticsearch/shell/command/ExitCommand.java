@@ -18,7 +18,11 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.ExitSignal;
+import org.elasticsearch.shell.console.Console;
+
+import java.io.PrintStream;
 
 /**
  * Command that allows to quit the shell
@@ -27,6 +31,11 @@ import org.elasticsearch.shell.ExitSignal;
  */
 @ExecutableCommand(aliases = {"exit", "quit"})
 public class ExitCommand extends Command {
+
+    @Inject
+    protected ExitCommand(Console<PrintStream> console) {
+        super(console);
+    }
 
     @SuppressWarnings("unused")
     public ExitSignal execute() {

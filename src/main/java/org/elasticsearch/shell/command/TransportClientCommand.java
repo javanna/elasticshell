@@ -20,6 +20,9 @@ package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.shell.client.ClientFactory;
+import org.elasticsearch.shell.console.Console;
+
+import java.io.PrintStream;
 
 /**
  * @author Luca Cavanna
@@ -30,7 +33,8 @@ public class TransportClientCommand<ShellNativeClient> extends Command {
 
     private final ClientFactory<ShellNativeClient> clientFactory;
 
-    TransportClientCommand(ClientFactory<ShellNativeClient> clientFactory) {
+    TransportClientCommand(ClientFactory<ShellNativeClient> clientFactory, Console<PrintStream> console) {
+        super(console);
         this.clientFactory = clientFactory;
     }
 

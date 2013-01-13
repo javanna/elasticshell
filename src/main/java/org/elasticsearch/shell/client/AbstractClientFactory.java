@@ -89,7 +89,7 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
             return null;
         }
 
-        NodeClient nodeClient = new NodeClient(node, client);
+        NodeClient nodeClient = newNodeClient(node, client);
         registerClientResource(nodeClient);
         ShellNativeClient shellNativeClient = wrapClient(nodeClient);
         if (scheduler != null) {
@@ -97,6 +97,15 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
         }
         return shellNativeClient;
     }
+
+    /**
+     * Creates a new {@link NodeClient} instance that depends on the script engine in use
+     * for what concerns handling json
+     * @param node the elasticsearch node
+     * @param client the client node
+     * @return the new <code>NodeClient</code> created
+     */
+    protected abstract NodeClient newNodeClient(Node node, Client client);
 
     /* Should be useful if a client node is started and it's the only node in the cluster.
      * It means that there is no master and the checkCluster fails */
@@ -157,7 +166,7 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
             return null;
         }
 
-        org.elasticsearch.shell.client.TransportClient shellClient = new org.elasticsearch.shell.client.TransportClient(client);
+        org.elasticsearch.shell.client.TransportClient shellClient = newTransportClient(client);
         registerClientResource(shellClient);
         ShellNativeClient shellNativeClient = wrapClient(shellClient);
         if (scheduler != null) {
@@ -165,6 +174,14 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
         }
         return shellNativeClient;
     }
+
+    /**
+     * Creates a new {@link TransportClient} instance that depends on the script engine in use
+     * for what concerns handling json
+     * @param client the elasticsearch client to wrap
+     * @return the new <code>TransportClient</code> created
+     */
+    protected abstract org.elasticsearch.shell.client.TransportClient newTransportClient(Client client);
 
     /**
      * Registers the client as {@link java.io.Closeable} resource to the shell so that it can be closed when needed (e.g. on shutdown)

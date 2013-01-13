@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 
@@ -27,12 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author Luca Cavanna
+ *
  * Generic elasticsearch client wrapper which exposes common client operations that don't depend
  * on the specific type of client in use (transport or node)
  *
- * @author Luca Cavanna
+ * @param <JSON> the shell native object that represents a json object
  */
-public abstract class AbstractClient implements Closeable {
+public abstract class AbstractClient<JSON> implements Closeable {
 
     private final Client client;
 
@@ -40,16 +43,36 @@ public abstract class AbstractClient implements Closeable {
         this.client= client;
     }
 
+    @SuppressWarnings("unused")
     public Index[] showIndexes() {
         ClusterStateResponse response = client.admin().cluster().prepareState().setFilterBlocks(true)
                 .setFilterRoutingTable(true).setFilterNodes(true).execute().actionGet();
-
         List<Index> indexes = new ArrayList<Index>();
         for (IndexMetaData indexMetaData : response.state().metaData().indices().values()) {
             indexes.add(new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet()));
         }
         return indexes.toArray(new Index[indexes.size()]);
     }
+
+    public void index(String index, String type, String source) {
+        index(index, type, null, source);
+    }
+
+    public void index(String index, String type, String id, String source) {
+        IndexResponse response = client.prepareIndex(index, type, id).setSource(source).execute().actionGet();
+
+        //TODO print some kind of result
+    }
+
+    public void index(String index, String type, JSON source) {
+        index(index, type, null, source);
+    }
+
+    public void index(String index, String type, String id, JSON source) {
+        index(index, type, id, jsonToString(source));
+    }
+
+    protected abstract String jsonToString(JSON json);
 
     Client client() {
         return client;

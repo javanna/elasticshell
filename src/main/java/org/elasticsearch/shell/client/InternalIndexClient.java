@@ -25,10 +25,11 @@ import org.elasticsearch.cluster.metadata.IndexMetaData;
  * @author Luca Cavanna
  *
  * Internal shell client that exposes operations available on a single index
+ * @param <JSON> the shell native object that represents a json object (depending on the engine)
  */
-public class InternalIndexClient {
+public class InternalIndexClient<JSON> {
 
-    private final AbstractClient shellClient;
+    private final AbstractClient<JSON> shellClient;
     private final String indexName;
 
     public InternalIndexClient(AbstractClient shellClient, String indexName) {
@@ -43,18 +44,34 @@ public class InternalIndexClient {
     protected Index getIndex() {
         ClusterStateResponse response = shellClient.client().admin().cluster().prepareState().setFilterBlocks(true)
                 .setFilterRoutingTable(true).setFilterNodes(true).setFilterIndices(indexName).execute().actionGet();
-
         IndexMetaData indexMetaData = response.state().metaData().indices().values().iterator().next();
-
         return new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet());
     }
 
+    @SuppressWarnings("unused")
     public String[] showTypes() {
         return getIndex().types();
     }
 
+    @SuppressWarnings("unused")
     public String[] showAliases() {
         return getIndex().aliases();
+    }
+
+    public void index(String type, String id, String source) {
+        shellClient.index(indexName, type, id, source);
+    }
+
+    public void index(String type, String source) {
+        shellClient.index(indexName, type, null, source);
+    }
+
+    public void index(String type, String id, JSON source) {
+        shellClient.index(indexName, type, id, source);
+    }
+
+    public void index(String type, JSON source) {
+        shellClient.index(indexName, type, null, source);
     }
 
     @Override

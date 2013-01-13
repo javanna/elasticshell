@@ -18,7 +18,9 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.client.Client;
 import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.node.Node;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
 import org.elasticsearch.shell.scheduler.Scheduler;
@@ -38,6 +40,16 @@ public class RhinoClientFactory extends AbstractClientFactory<RhinoClientNativeJ
     static class SchedulerHolder {
         @Inject(optional = true)
         Scheduler scheduler;
+    }
+
+    @Override
+    protected NodeClient newNodeClient(Node node, Client client) {
+        return new RhinoNodeClient(node, client);
+    }
+
+    @Override
+    protected TransportClient newTransportClient(Client client) {
+        return new RhinoTransportClient(client);
     }
 
     @Override

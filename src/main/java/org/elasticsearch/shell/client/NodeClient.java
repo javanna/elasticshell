@@ -23,7 +23,7 @@ import org.elasticsearch.node.Node;
 
 import java.io.IOException;
 
-public class NodeClient extends AbstractClient {
+public abstract class NodeClient<JSON> extends AbstractClient<JSON> {
 
     private final Node node;
 

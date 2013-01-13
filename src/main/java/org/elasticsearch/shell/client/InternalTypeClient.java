@@ -22,10 +22,11 @@ package org.elasticsearch.shell.client;
  * @author Luca Cavanna
  *
  * Internal shell client that exposes operations available on a single type
+ * @param <JSON> the shell native object that represents a json object (depending on the engine)
  */
-public class InternalTypeClient {
+public class InternalTypeClient<JSON> {
 
-    private final AbstractClient shellClient;
+    private final AbstractClient<JSON> shellClient;
     private final String indexName;
     private final String typeName;
 
@@ -41,6 +42,22 @@ public class InternalTypeClient {
 
     String typeName() {
         return typeName;
+    }
+
+    public void index(String id, String source) {
+        shellClient.index(indexName, typeName, id, source);
+    }
+
+    public void index(String source) {
+        shellClient.index(indexName, typeName, null, source);
+    }
+
+    public void index(String id, JSON source) {
+        shellClient.index(indexName, typeName, id, source);
+    }
+
+    public void index(JSON source) {
+        shellClient.index(indexName, typeName, null, source);
     }
 
     @Override

@@ -19,25 +19,27 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.client.Client;
-
-import java.io.IOException;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeJSON;
+import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.ScriptRuntime;
 
 /**
  * @author Luca Cavanna
+ *
+ * Rhino specific transport client which uses {@link NativeObject} as json representation
+ * and is able to convert it to a string needed by elasticsearch
  */
-public abstract class TransportClient<JSON> extends AbstractClient<JSON> {
+public class RhinoTransportClient extends TransportClient<NativeObject> {
 
-    protected TransportClient(Client client) {
+    protected RhinoTransportClient(Client client) {
         super(client);
     }
 
     @Override
-    public void close() throws IOException {
-        client().close();
-    }
-
-    @Override
-    protected String asString() {
-        return "Transport client connected to " + ((org.elasticsearch.client.transport.TransportClient)client()).connectedNodes();
+    protected String jsonToString(NativeObject nativeObject) {
+        Context context = Context.getCurrentContext();
+        Object jsonString = NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), nativeObject, null, null);
+        return jsonString.toString();
     }
 }

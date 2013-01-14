@@ -29,6 +29,7 @@ import org.elasticsearch.shell.script.RhinoScriptExecutor;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.InputAnalyzer;
 import org.elasticsearch.shell.source.RhinoInputAnalyzer;
+import org.mozilla.javascript.NativeObject;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -52,6 +53,7 @@ public class ShellModule extends AbstractModule {
         bind(Completer.class).to(JLineRhinoCompleter.class).asEagerSingleton();
 
         //Rhino bindings
+        bind(new TypeLiteral<JsonSerializer<NativeObject, Object>>(){}).to(RhinoJsonSerializer.class).asEagerSingleton();
         bind(Unwrapper.class).to(RhinoUnwrapper.class).asEagerSingleton();
         bind(new TypeLiteral<ShellScope<RhinoShellTopLevel>>(){}).to(RhinoShellScope.class).asEagerSingleton();
         bind(ScriptExecutor.class).to(RhinoScriptExecutor.class).asEagerSingleton();

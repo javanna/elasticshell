@@ -22,6 +22,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.collect.ImmutableList;
 import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.shell.JsonSerializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,11 +30,15 @@ import java.util.List;
 
 /**
  * @author Luca Cavanna
+ *
+ * Represents an elasticsearch transport client within the shell
+ * @param <JsonInput> the shell native object that represents a json object received as input from the shell
+ * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
-public abstract class TransportClient<JSON> extends AbstractClient<JSON> {
+public class TransportClient<JsonInput, JsonOutput> extends AbstractClient<JsonInput, JsonOutput> {
 
-    protected TransportClient(Client client) {
-        super(client);
+    protected TransportClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+        super(client, jsonSerializer);
     }
 
     @Override

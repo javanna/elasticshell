@@ -22,6 +22,7 @@ import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.shell.JsonSerializer;
 
 import java.io.Closeable;
 import java.util.ArrayList;
@@ -33,14 +34,17 @@ import java.util.List;
  * Generic elasticsearch client wrapper which exposes common client operations that don't depend
  * on the specific type of client in use (transport or node)
  *
- * @param <JSON> the shell native object that represents a json object
+ * @param <JsonInput> the shell native object that represents a json object received as input from the shell
+ * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
-public abstract class AbstractClient<JSON> implements Closeable {
+public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable {
 
     private final Client client;
+    private final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
 
-    protected AbstractClient(Client client) {
+    protected AbstractClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         this.client= client;
+        this.jsonSerializer = jsonSerializer;
     }
 
     @SuppressWarnings("unused")
@@ -54,25 +58,23 @@ public abstract class AbstractClient<JSON> implements Closeable {
         return indexes.toArray(new Index[indexes.size()]);
     }
 
-    public void index(String index, String type, String source) {
-        index(index, type, null, source);
+    public JsonOutput index(String index, String type, JsonInput source) {
+        return index(index, type, null, source);
     }
 
-    public void index(String index, String type, String id, String source) {
+    public JsonOutput index(String index, String type, String id, JsonInput source) {
+        return index(index, type, id, jsonSerializer.jsonToString(source));
+    }
+
+    public JsonOutput index(String index, String type, String source) {
+        return index(index, type, null, source);
+    }
+
+    public JsonOutput index(String index, String type, String id, String source) {
         IndexResponse response = client.prepareIndex(index, type, id).setSource(source).execute().actionGet();
-
-        //TODO print some kind of result
+        return jsonSerializer.stringToJson(String.format("{\"ok\":true, \"_index\":\"%s\", \"_type\":\"%s\", \"_id\":\"%s\", \"version\":%s}",
+                response.index(), response.type(), response.id(), response.version()));
     }
-
-    public void index(String index, String type, JSON source) {
-        index(index, type, null, source);
-    }
-
-    public void index(String index, String type, String id, JSON source) {
-        index(index, type, id, jsonToString(source));
-    }
-
-    protected abstract String jsonToString(JSON json);
 
     Client client() {
         return client;

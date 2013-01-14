@@ -16,28 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client;
-
-import org.elasticsearch.client.Client;
-import org.elasticsearch.node.Node;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.NativeJSON;
-import org.mozilla.javascript.NativeObject;
-import org.mozilla.javascript.ScriptRuntime;
+package org.elasticsearch.shell;
 
 /**
  * @author Luca Cavanna
+ *
+ * Creates a json native object from a string and the other way around
+ * @param <JsonInput> representation of a json object received as input
+ * @param <JsonOutput> representation of a json object produced as output
  */
-public class RhinoNodeClient extends NodeClient<NativeObject> {
+public interface JsonSerializer<JsonInput, JsonOutput> {
+    /**
+     * Creates a string given a native json object
+     * @param json the given native json object
+     * @return the created string
+     */
+    public String jsonToString(JsonInput json);
 
-    public RhinoNodeClient(Node node, Client client) {
-        super(node, client);
-    }
-
-    @Override
-    protected String jsonToString(NativeObject nativeObject) {
-        Context context = Context.getCurrentContext();
-        Object jsonString = NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), nativeObject, null, null);
-        return jsonString.toString();
-    }
+    /**
+     * Creates a native json object given a string
+     * @param json the given native json object
+     * @return the created native json object
+     */
+    public JsonOutput stringToJson(String json);
 }

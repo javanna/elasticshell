@@ -22,15 +22,16 @@ package org.elasticsearch.shell.client;
  * @author Luca Cavanna
  *
  * Internal shell client that exposes operations available on a single type
- * @param <JSON> the shell native object that represents a json object (depending on the engine)
+ * @param <JsonInput> the shell native object that represents a json object received as input from the shell
+ * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
-public class InternalTypeClient<JSON> {
+public class InternalTypeClient<JsonInput, JsonOutput> {
 
-    private final AbstractClient<JSON> shellClient;
+    private final AbstractClient<JsonInput, JsonOutput> shellClient;
     private final String indexName;
     private final String typeName;
 
-    public InternalTypeClient(AbstractClient<JSON> shellClient, String indexName, String typeName) {
+    public InternalTypeClient(AbstractClient<JsonInput, JsonOutput> shellClient, String indexName, String typeName) {
         this.shellClient = shellClient;
         this.indexName = indexName;
         this.typeName = typeName;
@@ -44,20 +45,20 @@ public class InternalTypeClient<JSON> {
         return typeName;
     }
 
-    public void index(String id, String source) {
-        shellClient.index(indexName, typeName, id, source);
+    public JsonOutput index(String id, String source) {
+        return shellClient.index(indexName, typeName, id, source);
     }
 
-    public void index(String source) {
-        shellClient.index(indexName, typeName, null, source);
+    public JsonOutput index(String source) {
+        return shellClient.index(indexName, typeName, null, source);
     }
 
-    public void index(String id, JSON source) {
-        shellClient.index(indexName, typeName, id, source);
+    public JsonOutput index(String id, JsonInput source) {
+        return shellClient.index(indexName, typeName, id, source);
     }
 
-    public void index(JSON source) {
-        shellClient.index(indexName, typeName, null, source);
+    public JsonOutput index(JsonInput source) {
+        return shellClient.index(indexName, typeName, null, source);
     }
 
     @Override

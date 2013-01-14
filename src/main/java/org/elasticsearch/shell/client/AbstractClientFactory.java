@@ -26,6 +26,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.elasticsearch.shell.JsonSerializer;
 import org.elasticsearch.shell.ShellScope;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * @param <ShellNativeClient> the shell native class used to represent a client within the shell
  * @param <Scope> the shell scope used to register resources that need to be closed before shutdown
  */
-public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements ClientFactory<ShellNativeClient> {
+public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput, JsonOutput> implements ClientFactory<ShellNativeClient> {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractClientFactory.class);
 
@@ -53,6 +54,7 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
 
     protected final ShellScope<Scope> shellScope;
     protected final Scheduler scheduler;
+    protected final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
 
     /**
      * Creates the AbstractClientFactory given the shell scope and the scheduler (optional)
@@ -60,8 +62,9 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
      * @param shellScope the shell scope
      * @param scheduler the scheduler used to schedule runnable actions
      */
-    protected AbstractClientFactory(ShellScope<Scope> shellScope, Scheduler scheduler) {
+    protected AbstractClientFactory(ShellScope<Scope> shellScope, JsonSerializer<JsonInput, JsonOutput> jsonSerializer, Scheduler scheduler) {
         this.shellScope = shellScope;
+        this.jsonSerializer = jsonSerializer;
         this.scheduler = scheduler;
     }
 
@@ -82,7 +85,7 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
         Node node  = NodeBuilder.nodeBuilder().clusterName(clusterName).client(true).settings(settings).build();
         node.start();
         Client client = node.client();
-        //if the checkClusterFails we immediately close the client and node that we just created
+        //if clusterKo we immediately close both the client and the node that we just created
         if (!clusterKo(client)) {
             client.close();
             node.close();

@@ -20,15 +20,23 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
+import org.elasticsearch.shell.JsonSerializer;
 
 import java.io.IOException;
 
-public abstract class NodeClient<JSON> extends AbstractClient<JSON> {
+/**
+ * @author Luca Cavanna
+ *
+ * Represents an elasticsearch node client within the shell
+ * @param <JsonInput> the shell native object that represents a json object received as input from the shell
+ * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
+ */
+public class NodeClient<JsonInput, JsonOutput> extends AbstractClient<JsonInput, JsonOutput> {
 
     private final Node node;
 
-    public NodeClient(Node node, Client client) {
-        super(client);
+    public NodeClient(Node node, Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+        super(client, jsonSerializer);
         this.node = node;
     }
 

@@ -19,6 +19,7 @@
 package org.elasticsearch.shell;
 
 import org.elasticsearch.common.inject.Inject;
+import org.mozilla.javascript.ScriptableObject;
 
 /**
  * Rhino implementation of the shell scope that wraps the {@link RhinoShellTopLevel}
@@ -34,5 +35,10 @@ public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
     @Inject
     RhinoShellScope(RhinoShellTopLevel scope) {
         super(scope);
+    }
+
+    @Override
+    public <T> void registerJavaObject(String name, T javaObject) {
+        ScriptableObject.putProperty(get(), name, javaObject);
     }
 }

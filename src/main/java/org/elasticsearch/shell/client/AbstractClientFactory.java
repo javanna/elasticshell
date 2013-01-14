@@ -83,7 +83,7 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
         node.start();
         Client client = node.client();
         //if the checkClusterFails we immediately close the client and node that we just created
-        if (!checkCluster(client)) {
+        if (!clusterKo(client)) {
             client.close();
             node.close();
             return null;
@@ -109,12 +109,12 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope> implements
 
     /* Should be useful if a client node is started and it's the only node in the cluster.
      * It means that there is no master and the checkCluster fails */
-    protected boolean checkCluster(Client client) {
+    protected boolean clusterKo(Client client) {
         try {
             client.admin().cluster().prepareHealth().execute().actionGet();
-            return true;
-        } catch(Exception e) {
             return false;
+        } catch(Exception e) {
+            return true;
         }
     }
 

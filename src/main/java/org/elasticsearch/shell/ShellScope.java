@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author Luca Cavanna
  */
-public class ShellScope<Scope> {
+public abstract class ShellScope<Scope> {
 
     private static final Logger logger = LoggerFactory.getLogger(ShellScope.class);
 
@@ -52,6 +52,14 @@ public class ShellScope<Scope> {
     public Scope get() {
         return scope;
     }
+
+    /**
+     * Registers a java object to the scope, depending on the script engine
+     * @param name name to use to register the object
+     * @param javaObject the java object to register
+     * @param <T> the type of the object to register
+     */
+    public abstract <T> void registerJavaObject(String name, T javaObject);
 
     /**
      * Registers a {@link Closeable} resource that will be closed when the close method will be invoked

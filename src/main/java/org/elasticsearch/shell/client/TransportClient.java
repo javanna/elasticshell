@@ -19,8 +19,13 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.client.Client;
+import org.elasticsearch.cluster.node.DiscoveryNode;
+import org.elasticsearch.common.collect.ImmutableList;
+import org.elasticsearch.common.transport.TransportAddress;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Luca Cavanna
@@ -36,8 +41,20 @@ public abstract class TransportClient<JSON> extends AbstractClient<JSON> {
         client().close();
     }
 
+    public List<String> connectedNodes() {
+        ImmutableList<DiscoveryNode> discoveryNodes = ((org.elasticsearch.client.transport.TransportClient) client()).connectedNodes();
+        List<String> nodes = new ArrayList<String>();
+        for (DiscoveryNode discoveryNode : discoveryNodes) {
+            TransportAddress address = discoveryNode.address();
+            if (address != null) {
+                nodes.add(address.toString());
+            }
+        }
+        return nodes;
+    }
+
     @Override
     protected String asString() {
-        return "Transport client connected to " + ((org.elasticsearch.client.transport.TransportClient)client()).connectedNodes();
+        return "Transport client connected to " + connectedNodes();
     }
 }

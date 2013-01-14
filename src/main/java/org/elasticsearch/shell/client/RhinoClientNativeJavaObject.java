@@ -43,4 +43,9 @@ public class RhinoClientNativeJavaObject extends NativeJavaObject {
     public AbstractClient shellClient() {
         return shellClient;
     }
+
+    @Override
+    public String toString() {
+        return shellClient.toString();
+    }
 }

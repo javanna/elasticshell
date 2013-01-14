@@ -19,6 +19,7 @@
 package org.elasticsearch.shell;
 
 
+import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
@@ -35,7 +36,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author Luca Cavanna
  */
-public class BasicShell implements Shell {
+public class BasicShell<ShellNativeClient> implements Shell {
 
     private static final Logger logger = LoggerFactory.getLogger(BasicShell.class);
 
@@ -44,6 +45,7 @@ public class BasicShell implements Shell {
     protected final ScriptExecutor scriptExecutor;
     protected final Unwrapper unwrapper;
     protected final ShellScope<?> shellScope;
+    protected final ClientFactory<ShellNativeClient> clientFactory;
     protected final Scheduler scheduler;
 
     protected final AtomicBoolean closed = new AtomicBoolean(false);
@@ -61,17 +63,25 @@ public class BasicShell implements Shell {
      */
     public BasicShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                       ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<?> shellScope,
-                      Scheduler scheduler) {
+                      ClientFactory<ShellNativeClient> clientFactory, Scheduler scheduler) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
         this.unwrapper = unwrapper;
         this.shellScope = shellScope;
+        this.clientFactory = clientFactory;
         this.scheduler = scheduler;
     }
 
     @Override
     public void run() {
+
+        //TODO nicer welcome message, version etc.
+        console.println("Welcome to the elasticsearch shell");
+        console.println();
+
+        tryRegisterDefaultClient();
+
         while (true) {
             CompilableSource source = null;
             try {
@@ -80,7 +90,7 @@ public class BasicShell implements Shell {
                 logger.error(e.getMessage(), e);
                 e.printStackTrace(console.out());
             }
-            if (source != null){
+            if (source != null) {
                 Object jsResult = scriptExecutor.execute(source);
                 Object javaResult = unwrap(jsResult);
                 if (javaResult instanceof ExitSignal) {
@@ -92,6 +102,27 @@ public class BasicShell implements Shell {
                 }
             }
         }
+    }
+
+    protected void tryRegisterDefaultClient() {
+        ShellNativeClient shellNativeClient = clientFactory.newTransportClient();
+        if (shellNativeClient != null) {
+            registerClient(shellNativeClient);
+        }
+
+        /* default node client creation (if no transport client was created)
+        commented out since it takes a few seconds to create it
+        and we want to shell to be fast on showing the command prompt
+
+        shellNativeClient = clientFactory.newNodeClient();
+        if (shellNativeClient != null) {
+            registerClient(shellNativeClient);
+        }*/
+    }
+
+    protected void registerClient(ShellNativeClient shellNativeClient) {
+        shellScope.registerJavaObject("es", shellNativeClient);
+        console.println(shellNativeClient.toString());
     }
 
     /**

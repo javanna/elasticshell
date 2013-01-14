@@ -32,7 +32,7 @@ public class InternalIndexClient<JSON> {
     private final AbstractClient<JSON> shellClient;
     private final String indexName;
 
-    public InternalIndexClient(AbstractClient shellClient, String indexName) {
+    public InternalIndexClient(AbstractClient<JSON> shellClient, String indexName) {
         this.shellClient = shellClient;
         this.indexName = indexName;
     }

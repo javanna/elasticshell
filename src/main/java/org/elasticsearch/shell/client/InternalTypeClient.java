@@ -30,7 +30,7 @@ public class InternalTypeClient<JSON> {
     private final String indexName;
     private final String typeName;
 
-    public InternalTypeClient(AbstractClient shellClient, String indexName, String typeName) {
+    public InternalTypeClient(AbstractClient<JSON> shellClient, String indexName, String typeName) {
         this.shellClient = shellClient;
         this.indexName = indexName;
         this.typeName = typeName;

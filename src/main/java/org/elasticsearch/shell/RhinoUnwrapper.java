@@ -81,7 +81,7 @@ public class RhinoUnwrapper implements Unwrapper {
                     }
                     return propValues;
                 } else {
-                    // any other JavaScript object that supports properties - convert to a Map of objects
+                    // any other JavaScript object that supports properties (json)
                     Context context = Context.getCurrentContext();
                     return NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), values, null, null);
                 }

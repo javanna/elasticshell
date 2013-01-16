@@ -22,9 +22,7 @@ import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,7 +107,6 @@ public class JLineRhinoCompleter implements Completer {
         //Gets the candidates related to the current context (last object whose name is complete)
         Object[] ids = object instanceof ScriptableObject ? ((ScriptableObject) object).getAllIds() : object.getIds();
 
-
         if (ids != null) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Ids: {}", Arrays.asList(ids));
@@ -136,15 +133,18 @@ public class JLineRhinoCompleter implements Completer {
         return buffer.length() - lastPart.length();
     }
 
-    private void addCandidates(Object[] ids, Scriptable object, String lastPart, List<CharSequence> candidates){
+    private void addCandidates(Object[] ids, Scriptable parent, String lastPart, List<CharSequence> candidates){
         for (Object idObject : ids) {
             if (idObject instanceof String) {
                 String id = (String) idObject;
                 if (id.startsWith(lastPart) && !excludeList.contains(id)) {
-                    if (object.get(id, object) instanceof Function) {
-                        id += "(";
+                    Object object = parent.get(id, parent);
+                    if (!(object instanceof UniqueTag)) {
+                        if (object instanceof Function && !(object instanceof NativeJavaClass)) {
+                            id += "(";
+                        }
+                        candidates.add(id);
                     }
-                    candidates.add(id);
                 }
             }
         }

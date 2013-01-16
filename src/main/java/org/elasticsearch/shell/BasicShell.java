@@ -76,9 +76,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
     @Override
     public void run() {
 
-        //TODO nicer welcome message, version etc.
-        console.println("Welcome to the elasticsearch shell");
-        console.println();
+        printWelcomeMessage();
 
         tryRegisterDefaultClient();
 
@@ -102,6 +100,12 @@ public class BasicShell<ShellNativeClient> implements Shell {
                 }
             }
         }
+    }
+
+    protected void printWelcomeMessage() {
+        //TODO nicer welcome message, version etc.
+        console.println("Welcome to the elasticsearch shell");
+        console.println("----------------------------------");
     }
 
     protected void tryRegisterDefaultClient() {

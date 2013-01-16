@@ -63,32 +63,53 @@ public class JLineRhinoCompleter implements Completer {
 
     public int tryComplete(String buffer, int cursor, List<CharSequence> candidates) {
 
-        logger.debug("Trying to complete buffer {}, cursor {}", buffer, cursor);
+        logger.debug("Trying to complete buffer [{}], cursor {}", buffer, cursor);
+
+        int m = cursor - 1;
+
+        /*
+         Incomplete implementation of auto-completion for fluent interface
+         It should use the return type of a function, or at least of a NativeJavaMethod.
+         Problem is that the java method behind it can be more than one and it's not exposed by rhino
+         Need to look deeper if we can work around it
+
+        //Removes eventual function arguments of the last function call
+        if (m>=1 && buffer.charAt(m)=='.' && buffer.charAt(m-1)==')') {
+            m-=2;
+            while (m >= 0) {
+                char c = buffer.charAt(m);
+                m--;
+                if (c == '(') {
+                    break;
+                }
+            }
+        }
+        */
 
         //Look backward and collect a list of identifiers separated by dots
-        int m = cursor - 1;
+        int newCursor = m + 1;
+
         while (m >= 0) {
             char c = buffer.charAt(m);
             if (!Character.isJavaIdentifierPart(c) && c != '.') {
                 break;
             }
-
             m--;
         }
 
-        String namesAndDots = buffer.substring(m + 1, cursor);
+        String namesAndDots = buffer.substring(m + 1, newCursor);
         logger.debug("NamesAndDots: {}", namesAndDots);
 
         String[] names = namesAndDots.split("\\.", -1);
         if (logger.isDebugEnabled()) {
             logger.debug("Names: {}", Arrays.asList(names));
         }
-
         //looks for the last object whose name is complete
         Scriptable object = this.shellScope.get();
         for (int i = 0; i < names.length - 1; i++) {
             String currentName = names[i];
             Object val = object.get(currentName, this.shellScope.get());
+            logger.trace("Found {} while looking for [{}] in {}", val, currentName, object.getClass());
             if (!(val instanceof Scriptable)) {
                 if (object.getPrototype() == null) {
                     return buffer.length(); // no matches

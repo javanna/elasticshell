@@ -65,7 +65,7 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
 
         Set<Index> newIndexes = new HashSet<Index>();
         for (IndexMetaData indexMetaData : response.state().metaData().indices().values()) {
-            logger.debug("Processing index {}", indexMetaData.index());
+            logger.trace("Processing index {}", indexMetaData.index());
 
             Set<String> indexNames = indexMetaData.mappings().keySet();
             newIndexes.add(new Index(indexMetaData.index(), indexNames.toArray(new String[indexNames.size()])));

@@ -57,7 +57,7 @@ public class RhinoClientScopeSyncRunnable extends ClientScopeSyncRunnable {
                 }
             }
 
-            logger.info("Adding index {} to shell native client", indexClient.indexName());
+            logger.trace("Adding index {} to shell native client", indexClient.indexName());
             ScriptableObject.putProperty(shellNativeClient, indexClient.indexName(), indexNativeJavaObject);
         } finally {
             Context.exit();

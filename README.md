@@ -1,10 +1,14 @@
-//TODO transportClient / nodeClient
+How to create transportClient / nodeClient
 
-//TODO default client registered
+explain registration of default client
 
 
-//import class and package
+import class and package
 
+
+mention auto-complete (with limitations on fluent interface)
+
+index type and name shortcuts (non-allowed chars replaced with _)
 
 
 //TODO read file

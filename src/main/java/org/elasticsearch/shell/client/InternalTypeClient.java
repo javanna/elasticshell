@@ -18,7 +18,9 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.Requests;
 
 /**
  * @author Luca Cavanna
@@ -68,6 +70,17 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
             indexRequest.index(indexName).type(typeName);
         }
         return shellClient.index(indexRequest);
+    }
+
+    public JsonOutput get(String id) {
+        return shellClient.get(Requests.getRequest(indexName).type(typeName).id(id));
+    }
+
+    public JsonOutput get(GetRequest getRequest) {
+        if (getRequest != null) {
+            getRequest.index(indexName).type(typeName);
+        }
+        return shellClient.get(getRequest);
     }
 
     @Override

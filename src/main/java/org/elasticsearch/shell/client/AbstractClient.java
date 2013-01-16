@@ -19,14 +19,22 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.common.xcontent.ToXContent;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.json.JsonXContent;
 import org.elasticsearch.shell.JsonSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +48,8 @@ import java.util.List;
  * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
 public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable {
+
+    private static final Logger logger = LoggerFactory.getLogger(AbstractClient.class);
 
     private final Client client;
     private final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
@@ -80,6 +90,25 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         IndexResponse response = client.index(indexRequest).actionGet();
         return jsonSerializer.stringToJson(String.format("{\"ok\":true, \"_index\":\"%s\", \"_type\":\"%s\", \"_id\":\"%s\", \"version\":%s}",
                 response.index(), response.type(), response.id(), response.version()));
+    }
+
+    public JsonOutput get(String index, String type, String id) {
+        return get(Requests.getRequest(index).type(type).id(id));
+    }
+
+    public JsonOutput get(GetRequest getRequest) {
+        GetResponse response = client.get(getRequest).actionGet();
+        return xContentToJson(response);
+    }
+
+    protected JsonOutput xContentToJson(ToXContent xContent) {
+        try {
+            XContentBuilder xContentBuilder = xContent.toXContent(JsonXContent.contentBuilder(), ToXContent.EMPTY_PARAMS);
+            return jsonSerializer.stringToJson(xContentBuilder.string());
+        } catch (IOException e) {
+            logger.error("Error while generating the XContent response", e);
+            return null;
+        }
     }
 
     Client client() {

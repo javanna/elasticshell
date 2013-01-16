@@ -53,12 +53,12 @@ public class RhinoClientScopeSyncRunnable extends ClientScopeSyncRunnable {
                 //register types
                 for (InternalTypeClient typeClient : typeClients) {
                     NativeJavaObject typeNativeJavaObject = new NativeJavaObject(shellNativeClient.getParentScope(), typeClient, InternalTypeClient.class);
-                    ScriptableObject.putProperty(indexNativeJavaObject, typeClient.typeName(), typeNativeJavaObject);
+                    ScriptableObject.putProperty(indexNativeJavaObject, adjustIdentifier(typeClient.typeName()), typeNativeJavaObject);
                 }
             }
 
             logger.trace("Adding index {} to shell native client", indexClient.indexName());
-            ScriptableObject.putProperty(shellNativeClient, indexClient.indexName(), indexNativeJavaObject);
+            ScriptableObject.putProperty(shellNativeClient, adjustIdentifier(indexClient.indexName()), indexNativeJavaObject);
         } finally {
             Context.exit();
         }
@@ -67,5 +67,14 @@ public class RhinoClientScopeSyncRunnable extends ClientScopeSyncRunnable {
     @Override
     protected void unregisterIndex(Index index) {
         shellNativeClient.getPrototype().delete(index.name());
+    }
+
+    protected String adjustIdentifier(String identifier) {
+        StringBuilder identifierBuilder = new StringBuilder(identifier.length());
+        for (int i = 0; i < identifier.length(); i++) {
+            char c = identifier.charAt(i);
+            identifierBuilder.append(Character.isJavaIdentifierPart(c) ? c : '_');
+        }
+        return identifierBuilder.toString();
     }
 }

@@ -19,8 +19,10 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.shell.JsonSerializer;
 
@@ -71,7 +73,11 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     }
 
     public JsonOutput index(String index, String type, String id, String source) {
-        IndexResponse response = client.prepareIndex(index, type, id).setSource(source).execute().actionGet();
+        return index(Requests.indexRequest(index).type(type).id(id).source(source));
+    }
+
+    public JsonOutput index(IndexRequest indexRequest) {
+        IndexResponse response = client.index(indexRequest).actionGet();
         return jsonSerializer.stringToJson(String.format("{\"ok\":true, \"_index\":\"%s\", \"_type\":\"%s\", \"_id\":\"%s\", \"version\":%s}",
                 response.index(), response.type(), response.id(), response.version()));
     }

@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 
 /**
@@ -74,6 +75,14 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     public JsonOutput index(String type, JsonInput source) {
         return shellClient.index(indexName, type, null, source);
     }
+
+    public JsonOutput index(IndexRequest indexRequest) {
+        if (indexRequest != null) {
+            indexRequest.index(indexName);
+        }
+        return shellClient.index(indexRequest);
+    }
+
     @Override
     public String toString() {
         return shellClient.toString() + " - index [" + indexName + "]";

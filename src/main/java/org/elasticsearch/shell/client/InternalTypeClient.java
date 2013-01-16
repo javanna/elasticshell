@@ -18,6 +18,8 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.index.IndexRequest;
+
 /**
  * @author Luca Cavanna
  *
@@ -59,6 +61,13 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
 
     public JsonOutput index(JsonInput source) {
         return shellClient.index(indexName, typeName, null, source);
+    }
+
+    public JsonOutput index(IndexRequest indexRequest) {
+        if (indexRequest != null) {
+            indexRequest.index(indexName).type(typeName);
+        }
+        return shellClient.index(indexRequest);
     }
 
     @Override

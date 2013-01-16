@@ -18,8 +18,10 @@
  */
 package org.elasticsearch.shell;
 
+import org.elasticsearch.client.Requests;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
+import org.mozilla.javascript.NativeJavaClass;
 
 /**
  * Rhino shell scriptable object that can be used as top-level (global) object
@@ -33,6 +35,9 @@ public class RhinoShellTopLevel extends ImporterTopLevel {
         Context context = Context.enter();
         try {
             initStandardObjects(context, true);
+
+            put(Requests.class.getSimpleName(), this, new NativeJavaClass(this, Requests.class));
+
         } finally {
             Context.exit();
         }

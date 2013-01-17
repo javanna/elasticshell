@@ -19,12 +19,14 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 /**
@@ -139,6 +141,41 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
             searchRequest.indices(indexName);
         }
         return shellClient.search(searchRequest);
+    }
+
+    public JsonOutput count() {
+        return shellClient.count(Requests.countRequest(indexName));
+    }
+
+    public JsonOutput count(String source) {
+        return shellClient.count(indexName, source);
+    }
+
+    public JsonOutput count(JsonInput source) {
+        return shellClient.count(indexName, source);
+    }
+
+    public JsonOutput count(QueryBuilder queryBuilder) {
+        return shellClient.count(indexName, queryBuilder);
+    }
+
+    public JsonOutput count(String type, String source) {
+        return shellClient.count(indexName, type, source);
+    }
+
+    public JsonOutput count(String type, JsonInput source) {
+        return shellClient.count(indexName, type, source);
+    }
+
+    public JsonOutput count(String type, QueryBuilder queryBuilder) {
+        return shellClient.count(indexName, type, queryBuilder);
+    }
+
+    public JsonOutput count(CountRequest countRequest) {
+        if (countRequest != null) {
+            countRequest.indices(indexName);
+        }
+        return shellClient.count(countRequest);
     }
 
     @Override

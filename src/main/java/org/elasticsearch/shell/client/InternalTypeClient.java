@@ -18,11 +18,13 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Requests;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 /**
@@ -118,6 +120,29 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
             searchRequest.indices(indexName).types(typeName);
         }
         return shellClient.search(searchRequest);
+    }
+
+    public JsonOutput count() {
+        return shellClient.count(Requests.countRequest(indexName).types(typeName));
+    }
+
+    public JsonOutput count(String source) {
+        return shellClient.count(indexName, typeName, source);
+    }
+
+    public JsonOutput count(JsonInput source) {
+        return shellClient.count(indexName, typeName, source);
+    }
+
+    public JsonOutput count(QueryBuilder queryBuilder) {
+        return shellClient.count(indexName, typeName, queryBuilder);
+    }
+
+    public JsonOutput count(CountRequest countRequest) {
+        if (countRequest != null) {
+            countRequest.indices(indexName).types(typeName);
+        }
+        return shellClient.count(countRequest);
     }
 
     @Override

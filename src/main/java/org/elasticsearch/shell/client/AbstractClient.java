@@ -19,6 +19,8 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.count.CountRequest;
+import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
@@ -32,7 +34,9 @@ import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentBuilderString;
 import org.elasticsearch.common.xcontent.json.JsonXContent;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.shell.JsonSerializer;
 import org.slf4j.Logger;
@@ -42,6 +46,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastShardsHeader;
 
 /**
  * @author Luca Cavanna
@@ -93,8 +99,27 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
 
     public JsonOutput index(IndexRequest indexRequest) {
         IndexResponse response = client.index(indexRequest).actionGet();
-        return jsonSerializer.stringToJson(String.format("{\"ok\":true, \"_index\":\"%s\", \"_type\":\"%s\", \"_id\":\"%s\", \"version\":%s}",
-                response.index(), response.type(), response.id(), response.version()));
+        try {
+            XContentBuilder builder = JsonXContent.contentBuilder();
+            builder.startObject()
+                    .field(Fields.OK, true)
+                    .field(Fields._INDEX, response.index())
+                    .field(Fields._TYPE, response.type())
+                    .field(Fields._ID, response.id())
+                    .field(Fields._VERSION, response.version());
+            if (response.matches() != null) {
+                builder.startArray(Fields.MATCHES);
+                for (String match : response.matches()) {
+                    builder.value(match);
+                }
+                builder.endArray();
+            }
+            builder.endObject();
+            return jsonSerializer.stringToJson(builder.string());
+        } catch (IOException e) {
+            logger.error("Error while generating the XContent response", e);
+            return null;
+        }
     }
 
     public JsonOutput get(String index, String type, String id) {
@@ -112,8 +137,21 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
 
     public JsonOutput delete(DeleteRequest deleteRequest) {
         DeleteResponse response = client.delete(deleteRequest).actionGet();
-        return jsonSerializer.stringToJson(String.format("{\"ok\":true, \"found\":%b, \"_index\":\"%s\", \"_type\":\"%s\", \"_id\":\"%s\", \"version\":%s}",
-                !response.notFound(), response.index(), response.type(), response.id(), response.version()));
+        try {
+            XContentBuilder builder = JsonXContent.contentBuilder();
+            builder.startObject()
+                    .field(Fields.OK, true)
+                    .field(Fields.FOUND, !response.notFound())
+                    .field(Fields._INDEX, response.index())
+                    .field(Fields._TYPE, response.type())
+                    .field(Fields._ID, response.id())
+                    .field(Fields._VERSION, response.version())
+                    .endObject();
+            return jsonSerializer.stringToJson(builder.string());
+        } catch (IOException e) {
+            logger.error("Error while generating the XContent response", e);
+            return null;
+        }
     }
 
     public JsonOutput search() {
@@ -153,6 +191,61 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return xContentToJson(response, true);
     }
 
+    public JsonOutput count() {
+        return count(Requests.countRequest());
+    }
+
+    public JsonOutput count(String source) {
+        return count(Requests.countRequest().query(source));
+    }
+
+    public JsonOutput count(JsonInput source) {
+        return count(Requests.countRequest().query(jsonToString(source)));
+    }
+
+    public JsonOutput count(QueryBuilder queryBuilder) {
+        return count(Requests.countRequest().query(queryBuilder));
+    }
+
+    public JsonOutput count(String index, String source) {
+        return count(Requests.countRequest(index).query(source));
+    }
+
+    public JsonOutput count(String index, JsonInput source) {
+        return count(Requests.countRequest(index).query(jsonToString(source)));
+    }
+
+    public JsonOutput count(String index, QueryBuilder queryBuilder) {
+        return count(Requests.countRequest(index).query(queryBuilder));
+    }
+
+    public JsonOutput count(String index, String type, String source) {
+        return count(Requests.countRequest(index).types(type).query(source));
+    }
+
+    public JsonOutput count(String index, String type, JsonInput source) {
+        return count(Requests.countRequest(index).types(type).query(jsonToString(source)));
+    }
+
+    public JsonOutput count(String index, String type, QueryBuilder queryBuilder) {
+        return count(Requests.countRequest(index).types(type).query(queryBuilder));
+    }
+
+    public JsonOutput count(CountRequest countRequest) {
+        CountResponse response = client.count(countRequest).actionGet();
+        try {
+            XContentBuilder builder = JsonXContent.contentBuilder();
+            builder.startObject();
+            builder.field(Fields.COUNT, response.count());
+            buildBroadcastShardsHeader(builder, response);
+            builder.endObject();
+            return jsonSerializer.stringToJson(builder.string());
+        } catch (IOException e) {
+            logger.error("Error while generating the XContent response", e);
+            return null;
+        }
+    }
+
     protected String jsonToString(JsonInput source) {
         return jsonSerializer.jsonToString(source, false);
     }
@@ -184,4 +277,15 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     }
 
     protected abstract String asString();
+
+    static final class Fields {
+        static final XContentBuilderString OK = new XContentBuilderString("ok");
+        static final XContentBuilderString _INDEX = new XContentBuilderString("_index");
+        static final XContentBuilderString _TYPE = new XContentBuilderString("_type");
+        static final XContentBuilderString _ID = new XContentBuilderString("_id");
+        static final XContentBuilderString _VERSION = new XContentBuilderString("_version");
+        static final XContentBuilderString MATCHES = new XContentBuilderString("matches");
+        static final XContentBuilderString FOUND = new XContentBuilderString("found");
+        static final XContentBuilderString COUNT = new XContentBuilderString("count");
+    }
 }

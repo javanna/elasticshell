@@ -24,6 +24,7 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 /**
  * @author Luca Cavanna
@@ -115,6 +116,10 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
 
     public JsonOutput search(String type, JsonInput source) {
         return shellClient.search(indexName, type, source);
+    }
+
+    public JsonOutput search(SearchSourceBuilder searchSourceBuilder) {
+        return shellClient.search(Requests.searchRequest(indexName).source(searchSourceBuilder));
     }
 
     public JsonOutput search(SearchRequest searchRequest) {

@@ -22,6 +22,7 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Requests;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 /**
  * @author Luca Cavanna
@@ -94,6 +95,10 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
 
     public JsonOutput search(JsonInput source) {
         return shellClient.search(indexName, typeName, source);
+    }
+
+    public JsonOutput search(SearchSourceBuilder searchSourceBuilder) {
+        return shellClient.search(Requests.searchRequest(indexName).types(typeName).source(searchSourceBuilder));
     }
 
     public JsonOutput search(SearchRequest searchRequest) {

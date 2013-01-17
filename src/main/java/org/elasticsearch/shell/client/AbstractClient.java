@@ -31,6 +31,7 @@ import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.json.JsonXContent;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.shell.JsonSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,6 +130,10 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
 
     public JsonOutput search(String index, String type, JsonInput source) {
         return search(Requests.searchRequest(index).types(type).source(jsonToString(source)));
+    }
+
+    public JsonOutput search(SearchSourceBuilder searchSourceBuilder) {
+        return search(Requests.searchRequest().source(searchSourceBuilder));
     }
 
     public JsonOutput search(SearchRequest searchRequest) {

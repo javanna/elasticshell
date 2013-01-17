@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
@@ -96,6 +97,17 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
             getRequest.index(indexName);
         }
         return shellClient.get(getRequest);
+    }
+
+    public JsonOutput delete(String type, String id) {
+        return shellClient.delete(indexName, type, id);
+    }
+
+    public JsonOutput delete(DeleteRequest deleteRequest) {
+        if (deleteRequest != null) {
+            deleteRequest.index(indexName);
+        }
+        return shellClient.delete(deleteRequest);
     }
 
     public JsonOutput search() {

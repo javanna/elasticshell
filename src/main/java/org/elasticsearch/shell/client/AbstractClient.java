@@ -19,6 +19,8 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -102,6 +104,16 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     public JsonOutput get(GetRequest getRequest) {
         GetResponse response = client.get(getRequest).actionGet();
         return xContentToJson(response, false);
+    }
+
+    public JsonOutput delete(String index, String type, String id) {
+        return delete(Requests.deleteRequest(index).type(type).id(id));
+    }
+
+    public JsonOutput delete(DeleteRequest deleteRequest) {
+        DeleteResponse response = client.delete(deleteRequest).actionGet();
+        return jsonSerializer.stringToJson(String.format("{\"ok\":true, \"found\":%b, \"_index\":\"%s\", \"_type\":\"%s\", \"_id\":\"%s\", \"version\":%s}",
+                !response.notFound(), response.index(), response.type(), response.id(), response.version()));
     }
 
     public JsonOutput search() {

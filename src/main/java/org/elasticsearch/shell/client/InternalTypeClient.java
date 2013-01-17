@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
@@ -83,6 +84,17 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
             getRequest.index(indexName).type(typeName);
         }
         return shellClient.get(getRequest);
+    }
+
+    public JsonOutput delete(String id) {
+        return shellClient.delete(indexName, typeName, id);
+    }
+
+    public JsonOutput delete(DeleteRequest deleteRequest) {
+        if (deleteRequest != null) {
+            deleteRequest.index(indexName).type(typeName);
+        }
+        return shellClient.delete(deleteRequest);
     }
 
     public JsonOutput search() {

@@ -77,7 +77,7 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     }
 
     public JsonOutput index(String index, String type, String id, JsonInput source) {
-        return index(index, type, id, jsonSerializer.jsonToString(source));
+        return index(index, type, id, jsonSerializer.jsonToString(source, true));
     }
 
     public JsonOutput index(String index, String type, String source) {
@@ -112,7 +112,7 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     }
 
     public JsonOutput search(JsonInput source) {
-        return search(Requests.searchRequest().source(jsonSerializer.jsonToString(source)));
+        return search(Requests.searchRequest().source(jsonToString(source)));
     }
 
     public JsonOutput search(String index, String source) {
@@ -120,7 +120,7 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     }
 
     public JsonOutput search(String index, JsonInput source) {
-        return search(Requests.searchRequest(index).source(jsonSerializer.jsonToString(source)));
+        return search(Requests.searchRequest(index).source(jsonToString(source)));
     }
 
     public JsonOutput search(String index, String type, String source) {
@@ -128,12 +128,16 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     }
 
     public JsonOutput search(String index, String type, JsonInput source) {
-        return search(Requests.searchRequest(index).types(type).source(jsonSerializer.jsonToString(source)));
+        return search(Requests.searchRequest(index).types(type).source(jsonToString(source)));
     }
 
     public JsonOutput search(SearchRequest searchRequest) {
         SearchResponse response = client.search(searchRequest).actionGet();
         return xContentToJson(response, true);
+    }
+
+    protected String jsonToString(JsonInput source) {
+        return jsonSerializer.jsonToString(source, false);
     }
 
     protected JsonOutput xContentToJson(ToXContent xContent, boolean needsInit) {

@@ -38,9 +38,9 @@ public class RhinoJsonSerializer implements JsonSerializer<NativeObject, Object>
     private static final Logger logger = LoggerFactory.getLogger(RhinoJsonSerializer.class);
 
     @Override
-    public String jsonToString(NativeObject json) {
+    public String jsonToString(NativeObject json, boolean prettify) {
         Context context = Context.getCurrentContext();
-        Object jsonString = NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), json, null, null);
+        Object jsonString = NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), json, null, prettify ? "  " : null);
         return jsonString.toString();
     }
 

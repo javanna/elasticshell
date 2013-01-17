@@ -29,9 +29,10 @@ public interface JsonSerializer<JsonInput, JsonOutput> {
     /**
      * Creates a string given a native json object
      * @param json the given native json object
+     * @param prettify whether the json needs to be prettified or not
      * @return the created string
      */
-    public String jsonToString(JsonInput json);
+    public String jsonToString(JsonInput json, boolean prettify);
 
     /**
      * Creates a native json object given a string

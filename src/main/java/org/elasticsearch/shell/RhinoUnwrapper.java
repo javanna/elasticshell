@@ -83,7 +83,7 @@ public class RhinoUnwrapper implements Unwrapper {
                 } else {
                     // any other JavaScript object that supports properties (json)
                     Context context = Context.getCurrentContext();
-                    return NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), values, null, null);
+                    return NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), values, null, "  ");
                 }
             }
         } else if (scriptObject instanceof Object[]) {

@@ -18,6 +18,12 @@
  */
 package org.elasticsearch.shell;
 
+import org.elasticsearch.client.Requests;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.facet.FacetBuilders;
+import org.elasticsearch.search.sort.SortBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +49,13 @@ public abstract class ShellScope<Scope> {
      */
     ShellScope(Scope scope) {
         this.scope = scope;
+        registerJavaClass(Requests.class);
+        registerJavaClass(SearchSourceBuilder.class);
+        registerJavaClass(QueryBuilders.class);
+        registerJavaClass(FilterBuilders.class);
+        registerJavaClass(SortBuilders.class);
+        registerJavaClass(FacetBuilders.class);
+
     }
 
     /**
@@ -60,6 +73,13 @@ public abstract class ShellScope<Scope> {
      * @param <T> the type of the object to register
      */
     public abstract <T> void registerJavaObject(String name, T javaObject);
+
+    /**
+     * Registers a java class to the scope, so that it is available
+     * without the need to import it manually
+     * @param clazz the class to register to the scope
+     */
+    public abstract void registerJavaClass(Class<?> clazz);
 
     /**
      * Registers a {@link Closeable} resource that will be closed when the close method will be invoked

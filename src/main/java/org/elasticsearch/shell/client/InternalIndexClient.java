@@ -21,6 +21,7 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 
@@ -86,7 +87,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public JsonOutput get(String type, String id) {
-        return shellClient.get(Requests.getRequest(indexName).type(type).id(id));
+        return shellClient.get(indexName, type, id);
     }
 
     public JsonOutput get(GetRequest getRequest) {
@@ -94,6 +95,33 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
             getRequest.index(indexName);
         }
         return shellClient.get(getRequest);
+    }
+
+    public JsonOutput search() {
+        return shellClient.search(Requests.searchRequest(indexName));
+    }
+
+    public JsonOutput search(String source) {
+        return shellClient.search(indexName, source);
+    }
+
+    public JsonOutput search(JsonInput source) {
+        return shellClient.search(indexName, source);
+    }
+
+    public JsonOutput search(String type, String source) {
+        return shellClient.search(indexName, type, source);
+    }
+
+    public JsonOutput search(String type, JsonInput source) {
+        return shellClient.search(indexName, type, source);
+    }
+
+    public JsonOutput search(SearchRequest searchRequest) {
+        if (searchRequest != null) {
+            searchRequest.indices(indexName);
+        }
+        return shellClient.search(searchRequest);
     }
 
     @Override

@@ -23,6 +23,8 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
@@ -98,12 +100,52 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
 
     public JsonOutput get(GetRequest getRequest) {
         GetResponse response = client.get(getRequest).actionGet();
-        return xContentToJson(response);
+        return xContentToJson(response, false);
     }
 
-    protected JsonOutput xContentToJson(ToXContent xContent) {
+    public JsonOutput search() {
+        return search(Requests.searchRequest());
+    }
+
+    public JsonOutput search(String source) {
+        return search(Requests.searchRequest().source(source));
+    }
+
+    public JsonOutput search(JsonInput source) {
+        return search(Requests.searchRequest().source(jsonSerializer.jsonToString(source)));
+    }
+
+    public JsonOutput search(String index, String source) {
+        return search(Requests.searchRequest(index).source(source));
+    }
+
+    public JsonOutput search(String index, JsonInput source) {
+        return search(Requests.searchRequest(index).source(jsonSerializer.jsonToString(source)));
+    }
+
+    public JsonOutput search(String index, String type, String source) {
+        return search(Requests.searchRequest(index).types(type).source(source));
+    }
+
+    public JsonOutput search(String index, String type, JsonInput source) {
+        return search(Requests.searchRequest(index).types(type).source(jsonSerializer.jsonToString(source)));
+    }
+
+    public JsonOutput search(SearchRequest searchRequest) {
+        SearchResponse response = client.search(searchRequest).actionGet();
+        return xContentToJson(response, true);
+    }
+
+    protected JsonOutput xContentToJson(ToXContent xContent, boolean needsInit) {
         try {
-            XContentBuilder xContentBuilder = xContent.toXContent(JsonXContent.contentBuilder(), ToXContent.EMPTY_PARAMS);
+            XContentBuilder xContentBuilder = JsonXContent.contentBuilder();
+            if (needsInit) {
+                xContentBuilder.startObject();
+            }
+            xContent.toXContent(xContentBuilder, ToXContent.EMPTY_PARAMS);
+            if (needsInit) {
+                xContentBuilder.endObject();
+            }
             return jsonSerializer.stringToJson(xContentBuilder.string());
         } catch (IOException e) {
             logger.error("Error while generating the XContent response", e);

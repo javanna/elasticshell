@@ -20,6 +20,7 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Requests;
 
 /**
@@ -49,20 +50,20 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return typeName;
     }
 
-    public JsonOutput index(String id, String source) {
-        return shellClient.index(indexName, typeName, id, source);
-    }
-
     public JsonOutput index(String source) {
         return shellClient.index(indexName, typeName, null, source);
     }
 
-    public JsonOutput index(String id, JsonInput source) {
+    public JsonOutput index(JsonInput source) {
+        return shellClient.index(indexName, typeName, null, source);
+    }
+
+    public JsonOutput index(String id, String source) {
         return shellClient.index(indexName, typeName, id, source);
     }
 
-    public JsonOutput index(JsonInput source) {
-        return shellClient.index(indexName, typeName, null, source);
+    public JsonOutput index(String id, JsonInput source) {
+        return shellClient.index(indexName, typeName, id, source);
     }
 
     public JsonOutput index(IndexRequest indexRequest) {
@@ -73,7 +74,7 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     }
 
     public JsonOutput get(String id) {
-        return shellClient.get(Requests.getRequest(indexName).type(typeName).id(id));
+        return shellClient.get(indexName, typeName, id);
     }
 
     public JsonOutput get(GetRequest getRequest) {
@@ -81,6 +82,25 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
             getRequest.index(indexName).type(typeName);
         }
         return shellClient.get(getRequest);
+    }
+
+    public JsonOutput search() {
+        return shellClient.search(Requests.searchRequest(indexName).types(typeName));
+    }
+
+    public JsonOutput search(String source) {
+        return shellClient.search(indexName, typeName, source);
+    }
+
+    public JsonOutput search(JsonInput source) {
+        return shellClient.search(indexName, typeName, source);
+    }
+
+    public JsonOutput search(SearchRequest searchRequest) {
+        if (searchRequest != null) {
+            searchRequest.indices(indexName).types(typeName);
+        }
+        return shellClient.search(searchRequest);
     }
 
     @Override

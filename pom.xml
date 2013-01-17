@@ -41,6 +41,11 @@
             <artifactId>logback-classic</artifactId>
             <version>1.0.9</version>
         </dependency>
+        <dependency>
+            <groupId>com.spatial4j</groupId>
+            <artifactId>spatial4j</artifactId>
+            <version>0.3</version>
+        </dependency>
     </dependencies>
 
     <build>

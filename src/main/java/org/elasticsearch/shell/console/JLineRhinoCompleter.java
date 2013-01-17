@@ -44,9 +44,11 @@ public class JLineRhinoCompleter implements Completer {
     @Inject
     JLineRhinoCompleter(ShellScope<RhinoShellTopLevel> shellScope) {
         this.shellScope = shellScope;
-        //TODO decide whether we want to filter out all the Object methods or only some of them (notify etc.)
         for (Method method : Object.class.getMethods()) {
-            this.excludeList.add(method.getName());
+            if (!"toString".equals(method.getName())
+                && !"equals".equals(method.getName())) {
+                this.excludeList.add(method.getName());
+            }
         }
         this.excludeList.add("class");
     }

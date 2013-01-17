@@ -29,6 +29,8 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
@@ -254,6 +256,42 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         }
     }
 
+    public JsonOutput update(String index, String type, String id, String script) {
+        return update(new UpdateRequest(index, type, id).script(script));
+    }
+
+    public JsonOutput update(UpdateRequest updateRequest) {
+        UpdateResponse response = client.update(updateRequest).actionGet();
+        try {
+            XContentBuilder builder = JsonXContent.contentBuilder();
+            builder.startObject()
+                    .field(Fields.OK, true)
+                    .field(Fields._INDEX, response.index())
+                    .field(Fields._TYPE, response.type())
+                    .field(Fields._ID, response.id())
+                    .field(Fields._VERSION, response.version());
+
+            if (response.getResult() != null) {
+                builder.startObject(Fields.GET);
+                response.getResult().toXContentEmbedded(builder, ToXContent.EMPTY_PARAMS);
+                builder.endObject();
+            }
+
+            if (response.matches() != null) {
+                builder.startArray(Fields.MATCHES);
+                for (String match : response.matches()) {
+                    builder.value(match);
+                }
+                builder.endArray();
+            }
+            builder.endObject();
+            return jsonSerializer.stringToJson(builder.string());
+        } catch (IOException e) {
+            logger.error("Error while generating the XContent response", e);
+            return null;
+        }
+    }
+
     protected String jsonToString(JsonInput source) {
         return jsonSerializer.jsonToString(source, false);
     }
@@ -295,5 +333,6 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         static final XContentBuilderString MATCHES = new XContentBuilderString("matches");
         static final XContentBuilderString FOUND = new XContentBuilderString("found");
         static final XContentBuilderString COUNT = new XContentBuilderString("count");
+        static final XContentBuilderString GET = new XContentBuilderString("get");
     }
 }

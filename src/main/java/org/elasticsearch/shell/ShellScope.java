@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell;
 
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -55,7 +56,7 @@ public abstract class ShellScope<Scope> {
         registerJavaClass(FilterBuilders.class);
         registerJavaClass(SortBuilders.class);
         registerJavaClass(FacetBuilders.class);
-
+        registerJavaClass(UpdateRequest.class);
     }
 
     /**

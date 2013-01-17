@@ -23,6 +23,7 @@ import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -143,6 +144,17 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
             countRequest.indices(indexName).types(typeName);
         }
         return shellClient.count(countRequest);
+    }
+
+    public JsonOutput update(String id, String script) {
+        return shellClient.update(new UpdateRequest(indexName, typeName, id).script(script));
+    }
+
+    public JsonOutput update(UpdateRequest updateRequest) {
+        if (updateRequest != null) {
+            updateRequest.index(indexName).type(typeName);
+        }
+        return shellClient.update(updateRequest);
     }
 
     @Override

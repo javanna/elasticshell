@@ -24,6 +24,7 @@ import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -180,6 +181,17 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
             countRequest.indices(indexName);
         }
         return shellClient.count(countRequest);
+    }
+
+    public JsonOutput update(String type, String id, String script) {
+        return shellClient.update(new UpdateRequest(indexName, type, id).script(script));
+    }
+
+    public JsonOutput update(UpdateRequest updateRequest) {
+        if (updateRequest != null) {
+            updateRequest.index(indexName);
+        }
+        return shellClient.update(updateRequest);
     }
 
     @Override

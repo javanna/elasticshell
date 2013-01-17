@@ -124,6 +124,10 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.search(indexName, source);
     }
 
+    public JsonOutput search(SearchSourceBuilder searchSourceBuilder) {
+        return shellClient.search(Requests.searchRequest(indexName).source(searchSourceBuilder));
+    }
+
     public JsonOutput search(String type, String source) {
         return shellClient.search(indexName, type, source);
     }
@@ -132,8 +136,8 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.search(indexName, type, source);
     }
 
-    public JsonOutput search(SearchSourceBuilder searchSourceBuilder) {
-        return shellClient.search(Requests.searchRequest(indexName).source(searchSourceBuilder));
+    public JsonOutput search(String type, SearchSourceBuilder searchSourceBuilder) {
+        return shellClient.search(indexName, type, searchSourceBuilder);
     }
 
     public JsonOutput search(SearchRequest searchRequest) {

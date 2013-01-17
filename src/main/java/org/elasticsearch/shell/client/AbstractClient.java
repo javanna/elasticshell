@@ -166,12 +166,20 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return search(Requests.searchRequest().source(jsonToString(source)));
     }
 
+    public JsonOutput search(SearchSourceBuilder searchSourceBuilder) {
+        return search(Requests.searchRequest().source(searchSourceBuilder));
+    }
+
     public JsonOutput search(String index, String source) {
         return search(Requests.searchRequest(index).source(source));
     }
 
     public JsonOutput search(String index, JsonInput source) {
         return search(Requests.searchRequest(index).source(jsonToString(source)));
+    }
+
+    public JsonOutput search(String index, SearchSourceBuilder searchSourceBuilder) {
+        return search(Requests.searchRequest(index).source(searchSourceBuilder));
     }
 
     public JsonOutput search(String index, String type, String source) {
@@ -182,8 +190,8 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return search(Requests.searchRequest(index).types(type).source(jsonToString(source)));
     }
 
-    public JsonOutput search(SearchSourceBuilder searchSourceBuilder) {
-        return search(Requests.searchRequest().source(searchSourceBuilder));
+    public JsonOutput search(String index, String type, SearchSourceBuilder searchSourceBuilder) {
+        return search(Requests.searchRequest(index).types(type).source(searchSourceBuilder));
     }
 
     public JsonOutput search(SearchRequest searchRequest) {

@@ -113,15 +113,6 @@ public class BasicShell<ShellNativeClient> implements Shell {
         if (shellNativeClient != null) {
             registerClient(shellNativeClient);
         }
-
-        /* default node client creation (if no transport client was created)
-        commented out since it takes a few seconds to create it
-        and we want to shell to be fast on showing the command prompt
-
-        shellNativeClient = clientFactory.newNodeClient();
-        if (shellNativeClient != null) {
-            registerClient(shellNativeClient);
-        }*/
     }
 
     protected void registerClient(ShellNativeClient shellNativeClient) {

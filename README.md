@@ -20,7 +20,8 @@ builders usually require client, not exposed to the shell
 
 can use json directly (much better than string), not doable when using es objects (need to stringify)
 
-//TODO read file
 
-//TODO prettify json
+conversion from ToXContent to native json so that builders and native json are interchangeable
+JSON.parse(queryBuilder.toString())
 
+write about difference from what you see (string representation of objects) and what you assign.

@@ -24,6 +24,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.shell.JsonSerializer;
@@ -86,7 +87,7 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput,
         node.start();
         Client client = node.client();
         //if clusterKo we immediately close both the client and the node that we just created
-        if (!clusterKo(client)) {
+        if (clusterKo(client)) {
             client.close();
             node.close();
             return null;
@@ -114,7 +115,7 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput,
      * It means that there is no master and the checkCluster fails */
     protected boolean clusterKo(Client client) {
         try {
-            client.admin().cluster().prepareHealth().execute().actionGet();
+            client.admin().cluster().prepareHealth().setTimeout(TimeValue.timeValueSeconds(1)).execute().actionGet();
             return false;
         } catch(Exception e) {
             return true;

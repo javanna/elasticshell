@@ -21,6 +21,7 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.deletebyquery.DeleteByQueryRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.percolate.PercolateRequest;
@@ -112,6 +113,37 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
             deleteRequest.index(indexName);
         }
         return shellClient.delete(deleteRequest);
+    }
+
+    public JsonOutput deleteByQuery(JsonInput query) {
+        return shellClient.deleteByQuery(indexName, query);
+    }
+
+    public JsonOutput deleteByQuery(String query) {
+        return shellClient.deleteByQuery(indexName, query);
+    }
+
+    public JsonOutput deleteByQuery(QueryBuilder queryBuilder) {
+        return shellClient.deleteByQuery(indexName, queryBuilder);
+    }
+
+    public JsonOutput deleteByQuery(String type, JsonInput query) {
+        return shellClient.deleteByQuery(indexName, type, query);
+    }
+
+    public JsonOutput deleteByQuery(String type, String query) {
+        return shellClient.deleteByQuery(indexName, type, query);
+    }
+
+    public JsonOutput deleteByQuery(String type, QueryBuilder queryBuilder) {
+        return shellClient.deleteByQuery(indexName, type, queryBuilder);
+    }
+
+    public JsonOutput deleteByQuery(DeleteByQueryRequest deleteByQueryRequest) {
+        if (deleteByQueryRequest != null) {
+            deleteByQueryRequest.indices(new String[]{indexName});
+        }
+        return shellClient.deleteByQuery(deleteByQueryRequest);
     }
 
     public JsonOutput search() {

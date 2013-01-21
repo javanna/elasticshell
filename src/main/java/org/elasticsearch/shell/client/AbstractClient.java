@@ -23,6 +23,9 @@ import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.deletebyquery.DeleteByQueryRequest;
+import org.elasticsearch.action.deletebyquery.DeleteByQueryResponse;
+import org.elasticsearch.action.deletebyquery.IndexDeleteByQueryResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -151,6 +154,54 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
                     .field(Fields._ID, response.id())
                     .field(Fields._VERSION, response.version())
                     .endObject();
+            return jsonSerializer.stringToJson(builder.string());
+        } catch (IOException e) {
+            logger.error("Error while generating the XContent response", e);
+            return null;
+        }
+    }
+
+    public JsonOutput deleteByQuery(String index, JsonInput query) {
+        return deleteByQuery(Requests.deleteByQueryRequest(index).query(jsonToString(query)));
+    }
+
+    public JsonOutput deleteByQuery(String index, String query) {
+        return deleteByQuery(Requests.deleteByQueryRequest(index).query(query));
+    }
+
+    public JsonOutput deleteByQuery(String index, QueryBuilder queryBuilder) {
+        return deleteByQuery(Requests.deleteByQueryRequest(index).query(queryBuilder));
+    }
+
+    public JsonOutput deleteByQuery(String index, String type, JsonInput query) {
+        return deleteByQuery(Requests.deleteByQueryRequest(index).types(type).query(jsonToString(query)));
+    }
+
+    public JsonOutput deleteByQuery(String index, String type, String query) {
+        return deleteByQuery(Requests.deleteByQueryRequest(index).types(type).query(query));
+    }
+
+    public JsonOutput deleteByQuery(String index, String type, QueryBuilder queryBuilder) {
+        return deleteByQuery(Requests.deleteByQueryRequest(index).types(type).query(queryBuilder));
+    }
+
+    public JsonOutput deleteByQuery(DeleteByQueryRequest deleteByQueryRequest) {
+        DeleteByQueryResponse response = client.deleteByQuery(deleteByQueryRequest).actionGet();
+        try {
+            XContentBuilder builder = JsonXContent.contentBuilder();
+            builder.startObject().field("ok", true);
+            builder.startObject("_indices");
+            for (IndexDeleteByQueryResponse indexDeleteByQueryResponse : response.indices().values()) {
+                builder.startObject(indexDeleteByQueryResponse.index(), XContentBuilder.FieldCaseConversion.NONE);
+                builder.startObject("_shards");
+                builder.field("total", indexDeleteByQueryResponse.totalShards());
+                builder.field("successful", indexDeleteByQueryResponse.successfulShards());
+                builder.field("failed", indexDeleteByQueryResponse.failedShards());
+                builder.endObject();
+                builder.endObject();
+            }
+            builder.endObject();
+            builder.endObject();
             return jsonSerializer.stringToJson(builder.string());
         } catch (IOException e) {
             logger.error("Error while generating the XContent response", e);

@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.apache.lucene.search.Explanation;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.count.CountResponse;
@@ -26,6 +27,9 @@ import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryRequest;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryResponse;
 import org.elasticsearch.action.deletebyquery.IndexDeleteByQueryResponse;
+import org.elasticsearch.action.explain.ExplainRequest;
+import org.elasticsearch.action.explain.ExplainResponse;
+import org.elasticsearch.action.explain.ExplainSourceBuilder;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -39,10 +43,12 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.common.bytes.BytesArray;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentBuilderString;
 import org.elasticsearch.common.xcontent.json.JsonXContent;
+import org.elasticsearch.index.get.GetResult;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.shell.JsonSerializer;
@@ -136,6 +142,64 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     public JsonOutput get(GetRequest getRequest) {
         GetResponse response = client.get(getRequest).actionGet();
         return xContentToJson(response, false);
+    }
+
+    public JsonOutput explain(String index, String type, String id, JsonInput source) {
+        return explain(index, type, id, jsonToString(source));
+    }
+
+    public JsonOutput explain(String index, String type, String id, String source) {
+        BytesArray bytesArray = new BytesArray(source);
+        return explain(new ExplainRequest(index, type, id).source(bytesArray, false));
+    }
+
+    public JsonOutput explain(String index, String type, String id, ExplainSourceBuilder explainSourceBuilder) {
+        return explain(new ExplainRequest(index, type, id).source(explainSourceBuilder));
+    }
+
+    public JsonOutput explain(ExplainRequest explainRequest) {
+        ExplainResponse response = client.explain(explainRequest).actionGet();
+        try {
+            XContentBuilder builder = JsonXContent.contentBuilder();
+            builder.startObject();
+            builder.field(Fields.OK, response.exists())
+                    .field(Fields._INDEX, explainRequest.index())
+                    .field(Fields._TYPE, explainRequest.type())
+                    .field(Fields._ID, explainRequest.id())
+                    .field(Fields.MATCHED, response.match());
+
+            if (response.hasExplanation()) {
+                builder.startObject(Fields.EXPLANATION);
+                buildExplanation(builder, response.explanation());
+                builder.endObject();
+            }
+            GetResult getResult = response.getResult();
+            if (getResult != null) {
+                builder.startObject(Fields.GET);
+                response.getResult().toXContentEmbedded(builder, ToXContent.EMPTY_PARAMS);
+                builder.endObject();
+            }
+            builder.endObject();
+            return jsonSerializer.stringToJson(builder.string());
+        } catch (IOException e) {
+            logger.error("Error while generating the XContent response", e);
+            return null;
+        }
+    }
+
+    private void buildExplanation(XContentBuilder builder, Explanation explanation) throws IOException {
+        builder.field(Fields.VALUE, explanation.getValue());
+        builder.field(Fields.DESCRIPTION, explanation.getDescription());
+        Explanation[] innerExps = explanation.getDetails();
+        if (innerExps != null) {
+            builder.startArray(Fields.DETAILS);
+            for (Explanation exp : innerExps) {
+                builder.startObject();
+                buildExplanation(builder, exp);
+                builder.endObject();
+            }
+            builder.endArray();
+        }
     }
 
     public JsonOutput delete(String index, String type, String id) {
@@ -416,5 +480,10 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         static final XContentBuilderString FOUND = new XContentBuilderString("found");
         static final XContentBuilderString COUNT = new XContentBuilderString("count");
         static final XContentBuilderString GET = new XContentBuilderString("get");
+        static final XContentBuilderString MATCHED = new XContentBuilderString("matched");
+        static final XContentBuilderString EXPLANATION = new XContentBuilderString("explanation");
+        static final XContentBuilderString VALUE = new XContentBuilderString("value");
+        static final XContentBuilderString DESCRIPTION = new XContentBuilderString("description");
+        static final XContentBuilderString DETAILS = new XContentBuilderString("details");
     }
 }

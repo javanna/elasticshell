@@ -21,6 +21,8 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryRequest;
+import org.elasticsearch.action.explain.ExplainRequest;
+import org.elasticsearch.action.explain.ExplainSourceBuilder;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.percolate.PercolateRequest;
@@ -89,6 +91,25 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
             getRequest.index(indexName).type(typeName);
         }
         return shellClient.get(getRequest);
+    }
+
+    public JsonOutput explain(String id, JsonInput source) {
+        return shellClient.explain(indexName, typeName, id, source);
+    }
+
+    public JsonOutput explain(String id, String source) {
+        return shellClient.explain(indexName, typeName, id, source);
+    }
+
+    public JsonOutput explain(String id, ExplainSourceBuilder explainSourceBuilder) {
+        return shellClient.explain(indexName, typeName, id, explainSourceBuilder);
+    }
+
+    public JsonOutput explain(ExplainRequest explainRequest) {
+        if (explainRequest != null) {
+            explainRequest.index(indexName).type(typeName);
+        }
+        return shellClient.explain(explainRequest);
     }
 
     public JsonOutput delete(String id) {

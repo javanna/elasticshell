@@ -27,6 +27,7 @@ import org.elasticsearch.action.explain.ExplainRequest;
 import org.elasticsearch.action.explain.ExplainSourceBuilder;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.mlt.MoreLikeThisRequest;
 import org.elasticsearch.action.percolate.PercolateRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -105,6 +106,21 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
             getRequest.index(indexName);
         }
         return shellClient.get(getRequest);
+    }
+
+    public JsonOutput moreLikeThis(String type, String id) {
+        return shellClient.moreLikeThis(indexName, type, id);
+    }
+
+    public JsonOutput moreLikeThis(MoreLikeThisRequest moreLikeThisRequest) {
+        if (moreLikeThisRequest != null) {
+            if (!indexName.equals(moreLikeThisRequest.index())) {
+                throw new RuntimeException("Unable to overwrite the index name in the moreLikeThisRequest");
+            }
+            //the needed method is not public yet
+            //moreLikeThisRequest.index(indexName);
+        }
+        return shellClient.moreLikeThis(moreLikeThisRequest);
     }
 
     public JsonOutput explain(String type, String id, JsonInput source) {

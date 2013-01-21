@@ -37,6 +37,7 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.mlt.MoreLikeThisRequest;
 import org.elasticsearch.action.percolate.PercolateRequest;
 import org.elasticsearch.action.percolate.PercolateResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -145,6 +146,15 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     public JsonOutput get(GetRequest getRequest) {
         GetResponse response = client.get(getRequest).actionGet();
         return xContentToJson(response, false);
+    }
+
+    public JsonOutput moreLikeThis(String index, String type, String id) {
+        return moreLikeThis(Requests.moreLikeThisRequest(index).type(type).id(id));
+    }
+
+    public JsonOutput moreLikeThis(MoreLikeThisRequest moreLikeThisRequest) {
+        SearchResponse response = client.moreLikeThis(moreLikeThisRequest).actionGet();
+        return xContentToJson(response, true);
     }
 
     public JsonOutput explain(String index, String type, String id, JsonInput source) {

@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryRequest;
@@ -212,6 +213,25 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
             percolateRequest.index(indexName).type(typeName);
         }
         return shellClient.percolate(percolateRequest);
+    }
+
+    public JsonOutput validate(JsonInput source) {
+        return shellClient.validate(indexName, typeName, source);
+    }
+
+    public JsonOutput validate(String source) {
+        return shellClient.validate(indexName, typeName, source);
+    }
+
+    public JsonOutput validate(QueryBuilder queryBuilder) {
+        return shellClient.validate(indexName, typeName, queryBuilder);
+    }
+
+    public JsonOutput validate(ValidateQueryRequest validateQueryRequest) {
+        if (validateQueryRequest != null) {
+            validateQueryRequest.indices(indexName).types(typeName);
+        }
+        return shellClient.validate(validateQueryRequest);
     }
 
     @Override

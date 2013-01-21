@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell;
 
+import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
 import org.elasticsearch.action.explain.ExplainRequest;
 import org.elasticsearch.action.percolate.PercolateRequest;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -61,6 +62,7 @@ public abstract class ShellScope<Scope> {
         registerJavaClass(UpdateRequest.class);
         registerJavaClass(PercolateRequest.class);
         registerJavaClass(ExplainRequest.class);
+        registerJavaClass(ValidateQueryRequest.class);
     }
 
     /**

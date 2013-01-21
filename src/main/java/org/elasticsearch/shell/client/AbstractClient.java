@@ -20,6 +20,9 @@ package org.elasticsearch.shell.client;
 
 import org.apache.lucene.search.Explanation;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.admin.indices.validate.query.QueryExplanation;
+import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
+import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryResponse;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -430,6 +433,75 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
                 builder.value(match);
             }
             builder.endArray();
+            builder.endObject();
+            return jsonSerializer.stringToJson(builder.string());
+        } catch (IOException e) {
+            logger.error("Error while generating the XContent response", e);
+            return null;
+        }
+    }
+
+    public JsonOutput validate(JsonInput source) {
+        return validate(new ValidateQueryRequest().query(jsonToString(source)));
+    }
+
+    public JsonOutput validate(String source) {
+        return validate(new ValidateQueryRequest().query(source));
+    }
+
+    public JsonOutput validate(QueryBuilder queryBuilder) {
+        return validate(new ValidateQueryRequest().query(queryBuilder));
+    }
+
+    public JsonOutput validate(String index, JsonInput source) {
+        return validate(new ValidateQueryRequest(index).query(jsonToString(source)));
+    }
+
+    public JsonOutput validate(String index, String source) {
+        return validate(new ValidateQueryRequest(index).query(source));
+    }
+
+    public JsonOutput validate(String index, QueryBuilder queryBuilder) {
+        return validate(new ValidateQueryRequest(index).query(queryBuilder));
+    }
+
+    public JsonOutput validate(String index, String type, JsonInput source) {
+        return validate(new ValidateQueryRequest(index).types(type).query(jsonToString(source)));
+    }
+
+    public JsonOutput validate(String index, String type, String source) {
+        return validate(new ValidateQueryRequest(index).types(type).query(source));
+    }
+
+    public JsonOutput validate(String index, String type, QueryBuilder queryBuilder) {
+        return validate(new ValidateQueryRequest(index).types(type).query(queryBuilder));
+    }
+
+    public JsonOutput validate(ValidateQueryRequest validateQueryRequest) {
+        ValidateQueryResponse response = client.admin().indices().validateQuery(validateQueryRequest).actionGet();
+        try {
+            XContentBuilder builder = JsonXContent.contentBuilder();
+            builder.startObject();
+            builder.field("valid", response.valid());
+            buildBroadcastShardsHeader(builder, response);
+            if (response.queryExplanations() != null && !response.queryExplanations().isEmpty()) {
+                builder.startArray("explanations");
+                for (QueryExplanation explanation : response.queryExplanations()) {
+                    builder.startObject();
+                    if (explanation.index() != null) {
+                        builder.field("index", explanation.index(), XContentBuilder.FieldCaseConversion.NONE);
+                    }
+                    builder.field("valid", explanation.valid());
+                    if (explanation.error() != null) {
+                        builder.field("error", explanation.error());
+                    }
+                    if (explanation.explanation() != null) {
+                        builder.field("explanation", explanation.explanation());
+                    }
+                    builder.endObject();
+                }
+                builder.endArray();
+            }
             builder.endObject();
             return jsonSerializer.stringToJson(builder.string());
         } catch (IOException e) {

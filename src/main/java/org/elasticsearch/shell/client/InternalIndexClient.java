@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryRequest;
@@ -261,6 +262,37 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
             percolateRequest.index(indexName);
         }
         return shellClient.percolate(percolateRequest);
+    }
+
+    public JsonOutput validate(JsonInput source) {
+        return shellClient.validate(indexName, source);
+    }
+
+    public JsonOutput validate(String source) {
+        return shellClient.validate(indexName, source);
+    }
+
+    public JsonOutput validate(QueryBuilder queryBuilder) {
+        return shellClient.validate(indexName, queryBuilder);
+    }
+
+    public JsonOutput validate(String type, JsonInput source) {
+        return shellClient.validate(indexName, type, source);
+    }
+
+    public JsonOutput validate(String type, String source) {
+        return shellClient.validate(indexName, type, source);
+    }
+
+    public JsonOutput validate(String type, QueryBuilder queryBuilder) {
+        return shellClient.validate(indexName, type, queryBuilder);
+    }
+
+    public JsonOutput validate(ValidateQueryRequest validateQueryRequest) {
+        if (validateQueryRequest != null) {
+            validateQueryRequest.indices(indexName);
+        }
+        return shellClient.validate(validateQueryRequest);
     }
 
     @Override

@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell;
 
+import org.elasticsearch.action.explain.ExplainRequest;
 import org.elasticsearch.action.percolate.PercolateRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Requests;
@@ -59,6 +60,7 @@ public abstract class ShellScope<Scope> {
         registerJavaClass(FacetBuilders.class);
         registerJavaClass(UpdateRequest.class);
         registerJavaClass(PercolateRequest.class);
+        registerJavaClass(ExplainRequest.class);
     }
 
     /**

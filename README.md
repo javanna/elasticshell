@@ -27,3 +27,5 @@ write about difference from what you see (string representation of objects) and 
 es['index'] instead of es.index if index contain special characters
 
 percolate example
+
+multi index and multi type command only using builders

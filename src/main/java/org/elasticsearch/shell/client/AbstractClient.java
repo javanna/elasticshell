@@ -27,6 +27,8 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.percolate.PercolateRequest;
+import org.elasticsearch.action.percolate.PercolateResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -284,6 +286,35 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
                 }
                 builder.endArray();
             }
+            builder.endObject();
+            return jsonSerializer.stringToJson(builder.string());
+        } catch (IOException e) {
+            logger.error("Error while generating the XContent response", e);
+            return null;
+        }
+    }
+
+    public JsonOutput percolate(String index, String type, JsonInput source) {
+        PercolateRequest percolateRequest = new PercolateRequest(index, type).source(jsonToString(source));
+        return percolate(percolateRequest);
+    }
+
+    public JsonOutput percolate(String index, String type, String source) {
+        PercolateRequest percolateRequest = new PercolateRequest(index, type).source(source);
+        return percolate(percolateRequest);
+    }
+
+    public JsonOutput percolate(PercolateRequest percolateRequest) {
+        PercolateResponse response = client.percolate(percolateRequest).actionGet();
+        try {
+            XContentBuilder builder = JsonXContent.contentBuilder();
+            builder.startObject();
+            builder.field(Fields.OK, true);
+            builder.startArray(Fields.MATCHES);
+            for (String match : response) {
+                builder.value(match);
+            }
+            builder.endArray();
             builder.endObject();
             return jsonSerializer.stringToJson(builder.string());
         } catch (IOException e) {

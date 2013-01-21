@@ -23,6 +23,7 @@ import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.percolate.PercolateRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Requests;
@@ -192,6 +193,21 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
             updateRequest.index(indexName);
         }
         return shellClient.update(updateRequest);
+    }
+
+    public JsonOutput percolate(String type, JsonInput source) {
+        return shellClient.percolate(indexName, type, source);
+    }
+
+    public JsonOutput percolate(String type, String source) {
+        return shellClient.percolate(indexName, type, source);
+    }
+
+    public JsonOutput percolate(PercolateRequest percolateRequest) {
+        if (percolateRequest != null) {
+            percolateRequest.index(indexName);
+        }
+        return shellClient.percolate(percolateRequest);
     }
 
     @Override

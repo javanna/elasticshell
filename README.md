@@ -24,4 +24,6 @@ can use json directly (much better than string), not doable when using es object
 conversion from ToXContent to native json so that builders and native json are interchangeable
 JSON.parse(queryBuilder.toString())
 
-write about difference from what you see (string representation of objects) and what you assign.
+write about difference from what you see (string representation of objects) and what you assign
+
+es['index'] instead of es.index if index contain special characters

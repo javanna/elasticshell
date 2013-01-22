@@ -39,8 +39,6 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.shell.JsonSerializer;
 import org.elasticsearch.shell.client.executors.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.util.ArrayList;
@@ -57,14 +55,24 @@ import java.util.List;
  */
 public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable {
 
-    private static final Logger logger = LoggerFactory.getLogger(AbstractClient.class);
-
     private final Client client;
     private final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
+    private final IndicesClient<JsonInput, JsonOutput> indicesClient;
+    private final ClusterClient<JsonInput, JsonOutput> clusterClient;
 
     protected AbstractClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         this.client = client;
         this.jsonSerializer = jsonSerializer;
+        this.indicesClient = new IndicesClient<JsonInput, JsonOutput>(client.admin().indices(), jsonSerializer);
+        this.clusterClient = new ClusterClient<JsonInput, JsonOutput>(client.admin().cluster(), jsonSerializer);
+    }
+
+    public IndicesClient<JsonInput, JsonOutput> indices() {
+        return indicesClient;
+    }
+
+    public ClusterClient<JsonInput, JsonOutput> cluster() {
+        return clusterClient;
     }
 
     @SuppressWarnings("unused")

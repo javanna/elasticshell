@@ -33,7 +33,7 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for flush API
+ * {@link RequestExecutor} implementation for status API
  */
 public class StatusRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<IndicesStatusRequest, IndicesStatusResponse, JsonInput, JsonOutput> {
 

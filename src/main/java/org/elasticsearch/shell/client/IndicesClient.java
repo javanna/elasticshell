@@ -26,6 +26,7 @@ import org.elasticsearch.action.admin.indices.flush.FlushRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
 import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.admin.indices.status.IndicesStatusRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.shell.JsonSerializer;
@@ -133,6 +134,18 @@ public class IndicesClient<JsonInput, JsonOutput> {
 
     public JsonOutput refresh(RefreshRequest request) {
         return new RefreshRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput status() {
+        return status(new String[0]);
+    }
+
+    public JsonOutput status(String... indices) {
+        return status(Requests.indicesStatusRequest(indices));
+    }
+
+    public JsonOutput status(IndicesStatusRequest request) {
+        return new StatusRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     protected String jsonToString(JsonInput source) {

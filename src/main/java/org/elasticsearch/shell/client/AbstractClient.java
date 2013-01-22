@@ -72,7 +72,7 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     @SuppressWarnings("unused")
     public Index[] showIndexes() {
         ClusterStateResponse response = client.admin().cluster().prepareState().setLocal(true).setFilterBlocks(true)
-                .setFilterRoutingTable(true).setFilterNodes(true).execute().actionGet();
+                .setFilterRoutingTable(true).setFilterNodes(true).setListenerThreaded(false).execute().actionGet();
         List<Index> indexes = new ArrayList<Index>();
         for (IndexMetaData indexMetaData : response.state().metaData().indices().values()) {
             indexes.add(new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet()));

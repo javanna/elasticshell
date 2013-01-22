@@ -61,7 +61,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     protected Index getIndex() {
         ClusterStateResponse response = shellClient.client().admin().cluster().prepareState().setLocal(true)
                 .setFilterBlocks(true).setFilterRoutingTable(true).setFilterNodes(true).setFilterIndices(indexName)
-                .execute().actionGet();
+                .setListenerThreaded(false).execute().actionGet();
         IndexMetaData indexMetaData = response.state().metaData().indices().values().iterator().next();
         return new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet());
     }

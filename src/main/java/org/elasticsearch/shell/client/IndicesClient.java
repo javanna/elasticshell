@@ -30,6 +30,7 @@ import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
 import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.admin.indices.segments.IndicesSegmentsRequest;
+import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
 import org.elasticsearch.action.admin.indices.status.IndicesStatusRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
@@ -186,6 +187,18 @@ public class IndicesClient<JsonInput, JsonOutput> {
 
     public JsonOutput segments(IndicesSegmentsRequest request) {
         return new SegmentsRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput stats() {
+        return stats(new IndicesStatsRequest());
+    }
+
+    public JsonOutput stats(String... indices) {
+        return stats(new IndicesStatsRequest().indices(indices));
+    }
+
+    public JsonOutput stats(IndicesStatsRequest request) {
+        return new StatsRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     public JsonOutput status() {

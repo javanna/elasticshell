@@ -19,10 +19,12 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.shell.JsonSerializer;
 import org.elasticsearch.shell.client.executors.CreateIndexRequestExecutor;
+import org.elasticsearch.shell.client.executors.DeleteIndexRequestExecutor;
 
 /**
  * @author Luca Cavanna
@@ -52,6 +54,14 @@ public class IndicesClient<JsonInput, JsonOutput> {
 
     public JsonOutput createIndex(CreateIndexRequest request) {
         return new CreateIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput deleteIndex(String index) {
+        return deleteIndex(Requests.deleteIndexRequest(index));
+    }
+
+    public JsonOutput deleteIndex(DeleteIndexRequest request) {
+        return new DeleteIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     protected String jsonToString(JsonInput source) {

@@ -110,5 +110,6 @@ public abstract class AbstractRequestExecutor<Request extends ActionRequest<Requ
         static final XContentBuilderString VALUE = new XContentBuilderString("value");
         static final XContentBuilderString DESCRIPTION = new XContentBuilderString("description");
         static final XContentBuilderString DETAILS = new XContentBuilderString("details");
+        static final XContentBuilderString ACKNOWLEDGED = new XContentBuilderString("acknowledged");
     }
 }

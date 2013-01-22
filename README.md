@@ -29,3 +29,5 @@ es['index'] instead of es.index if index contain special characters
 percolate example
 
 multi index and multi type command only using builders
+
+confirmation when deleting index or all indexes? (expose deleteIndex(new String[0])?????)

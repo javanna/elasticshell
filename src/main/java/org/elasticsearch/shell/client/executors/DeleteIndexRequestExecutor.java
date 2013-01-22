@@ -19,8 +19,8 @@
 package org.elasticsearch.shell.client.executors;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
@@ -30,21 +30,21 @@ import java.io.IOException;
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for create index API
+ * {@link RequestExecutor} implementation for delete index API
  */
-public class CreateIndexRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<CreateIndexRequest, CreateIndexResponse, JsonInput, JsonOutput> {
+public class DeleteIndexRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<DeleteIndexRequest, DeleteIndexResponse, JsonInput, JsonOutput> {
 
-    public CreateIndexRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public DeleteIndexRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<CreateIndexResponse> doExecute(CreateIndexRequest request) {
-        return client.admin().indices().create(request);
+    protected ActionFuture<DeleteIndexResponse> doExecute(DeleteIndexRequest request) {
+        return client.admin().indices().delete(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(CreateIndexRequest request, CreateIndexResponse response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(DeleteIndexRequest request, DeleteIndexResponse response, XContentBuilder builder) throws IOException {
         return builder.startObject()
                 .field(Fields.OK, true)
                 .field(Fields.ACKNOWLEDGED, response.acknowledged())

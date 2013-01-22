@@ -23,6 +23,7 @@ import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheReque
 import org.elasticsearch.action.admin.indices.close.CloseIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.flush.FlushRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
 import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
@@ -124,6 +125,14 @@ public class IndicesClient<JsonInput, JsonOutput> {
                 .filteredIndices(indices);
         clusterStateRequest.listenerThreaded(false);
         return new GetSettingsRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(clusterStateRequest);
+    }
+
+    public JsonOutput exists(String... indices) {
+        return exists(Requests.indicesExistsRequest(indices));
+    }
+
+    public JsonOutput exists(IndicesExistsRequest request) {
+        return new IndicesExistsRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     public JsonOutput openIndex(String index) {

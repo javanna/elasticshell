@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateRequest;
+import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheRequest;
 import org.elasticsearch.action.admin.indices.close.CloseIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -49,6 +50,18 @@ public class IndicesClient<JsonInput, JsonOutput> {
     public IndicesClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         this.client = client;
         this.jsonSerializer = jsonSerializer;
+    }
+
+    public JsonOutput clearCache() {
+        return clearCache(new String[0]);
+    }
+
+    public JsonOutput clearCache(String... indices) {
+        return clearCache(Requests.clearIndicesCacheRequest(indices));
+    }
+
+    public JsonOutput clearCache(ClearIndicesCacheRequest request) {
+        return new ClearCacheRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     public JsonOutput closeIndex(String index) {
@@ -121,12 +134,20 @@ public class IndicesClient<JsonInput, JsonOutput> {
         return new OpenIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
+    public JsonOutput optimize() {
+        return optimize(new String[0]);
+    }
+
     public JsonOutput optimize(String... indices) {
         return optimize(Requests.optimizeRequest(indices));
     }
 
     public JsonOutput optimize(OptimizeRequest request) {
         return new OptimizeRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput refresh() {
+        return refresh(new String[0]);
     }
 
     public JsonOutput refresh(String... indices) {

@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.admin.cluster.state.ClusterStateRequest;
 import org.elasticsearch.action.admin.indices.close.CloseIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -76,12 +77,25 @@ public class IndicesClient<JsonInput, JsonOutput> {
         return new DeleteIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
-    public JsonOutput flush(String index) {
-        return flush(Requests.flushRequest(index));
+    public JsonOutput flush(String... indices) {
+        return flush(Requests.flushRequest(indices));
     }
 
     public JsonOutput flush(FlushRequest request) {
         return new FlushRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput getSettings() {
+        return getSettings(null);
+    }
+
+    public JsonOutput getSettings(String... indices) {
+        ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
+                .filterRoutingTable(true)
+                .filterNodes(true)
+                .filteredIndices(indices);
+        clusterStateRequest.listenerThreaded(false);
+        return new GetSettingsRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(clusterStateRequest);
     }
 
     public JsonOutput openIndex(String index) {
@@ -92,16 +106,16 @@ public class IndicesClient<JsonInput, JsonOutput> {
         return new OpenIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
-    public JsonOutput optimize(String index) {
-        return optimize(Requests.optimizeRequest(index));
+    public JsonOutput optimize(String... indices) {
+        return optimize(Requests.optimizeRequest(indices));
     }
 
     public JsonOutput optimize(OptimizeRequest request) {
         return new OptimizeRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
-    public JsonOutput refresh(String index) {
-        return refresh(Requests.refreshRequest(index));
+    public JsonOutput refresh(String... indices) {
+        return refresh(Requests.refreshRequest(indices));
     }
 
     public JsonOutput refresh(RefreshRequest request) {

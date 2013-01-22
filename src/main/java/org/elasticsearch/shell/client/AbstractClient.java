@@ -62,8 +62,7 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     protected AbstractClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         this.client = client;
         this.jsonSerializer = jsonSerializer;
-        this.adminClient = new AdminClient<JsonInput, JsonOutput>(
-                client.admin().indices(), client.admin().cluster(), jsonSerializer);
+        this.adminClient = new AdminClient<JsonInput, JsonOutput>(client, jsonSerializer);
     }
 
     public AdminClient<JsonInput, JsonOutput> admin() {

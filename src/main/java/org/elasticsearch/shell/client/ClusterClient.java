@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.client.Client;
 import org.elasticsearch.client.ClusterAdminClient;
 import org.elasticsearch.shell.JsonSerializer;
 
@@ -31,10 +32,10 @@ import org.elasticsearch.shell.JsonSerializer;
  */
 public class ClusterClient<JsonInput, JsonOutput> {
 
-    private final ClusterAdminClient client;
+    private final Client client;
     private final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
 
-    public ClusterClient(ClusterAdminClient client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public ClusterClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         this.client = client;
         this.jsonSerializer = jsonSerializer;
     }

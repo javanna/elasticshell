@@ -18,8 +18,11 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.client.IndicesAdminClient;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.Requests;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.CreateIndexRequestExecutor;
 
 /**
  * @author Luca Cavanna
@@ -32,10 +35,26 @@ import org.elasticsearch.shell.JsonSerializer;
 public class IndicesClient<JsonInput, JsonOutput> {
 
     private final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
-    private final IndicesAdminClient client;
+    private final Client client;
 
-    public IndicesClient(IndicesAdminClient client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public IndicesClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         this.client = client;
         this.jsonSerializer = jsonSerializer;
+    }
+
+    public JsonOutput createIndex(String index, JsonInput source) {
+        return createIndex(Requests.createIndexRequest(index).source(jsonToString(source)));
+    }
+
+    public JsonOutput createIndex(String index, String source) {
+        return createIndex(Requests.createIndexRequest(index).source(source));
+    }
+
+    public JsonOutput createIndex(CreateIndexRequest request) {
+        return new CreateIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    protected String jsonToString(JsonInput source) {
+        return jsonSerializer.jsonToString(source, false);
     }
 }

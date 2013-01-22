@@ -16,49 +16,43 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.core;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for index API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for delete API
  */
-public class IndexRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<IndexRequest, IndexResponse, JsonInput, JsonOutput> {
+public class DeleteRequestExecutor <JsonInput, JsonOutput> extends AbstractRequestExecutor<DeleteRequest, DeleteResponse, JsonInput, JsonOutput> {
 
-    public IndexRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public DeleteRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<IndexResponse> doExecute(IndexRequest request) {
-        return client.index(request);
+    protected ActionFuture<DeleteResponse> doExecute(DeleteRequest request) {
+        return client.delete(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(IndexRequest request, IndexResponse response, XContentBuilder builder) throws IOException {
-        builder.startObject()
+    protected XContentBuilder toXContent(DeleteRequest request, DeleteResponse response, XContentBuilder builder) throws IOException {
+        return builder.startObject()
                 .field(Fields.OK, true)
+                .field(Fields.FOUND, !response.notFound())
                 .field(Fields._INDEX, response.index())
                 .field(Fields._TYPE, response.type())
                 .field(Fields._ID, response.id())
-                .field(Fields._VERSION, response.version());
-        if (response.matches() != null) {
-            builder.startArray(Fields.MATCHES);
-            for (String match : response.matches()) {
-                builder.value(match);
-            }
-            builder.endArray();
-        }
-        builder.endObject();
-        return builder;
+                .field(Fields._VERSION, response.version())
+                .endObject();
     }
 }

@@ -16,38 +16,41 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.core;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutorToXContent;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for create index API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for search API
  */
-public class CreateIndexRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<CreateIndexRequest, CreateIndexResponse, JsonInput, JsonOutput> {
+public class SearchRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutorToXContent<SearchRequest, SearchResponse, JsonInput, JsonOutput> {
 
-    public CreateIndexRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public SearchRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<CreateIndexResponse> doExecute(CreateIndexRequest request) {
-        return client.admin().indices().create(request);
+    protected ActionFuture<SearchResponse> doExecute(SearchRequest request) {
+        return client.search(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(CreateIndexRequest request, CreateIndexResponse response, XContentBuilder builder) throws IOException {
-        return builder.startObject()
-                .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged())
-                .endObject();
+    protected XContentBuilder initContentBuilder() throws IOException {
+        return super.initContentBuilder().startObject();
+    }
+
+    @Override
+    protected XContentBuilder toXContent(SearchRequest request, SearchResponse response, XContentBuilder builder) throws IOException {
+        return super.toXContent(request, response, builder).endObject();
     }
 }

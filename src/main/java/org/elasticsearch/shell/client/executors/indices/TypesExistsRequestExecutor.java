@@ -16,40 +16,38 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.count.CountRequest;
-import org.elasticsearch.action.count.CountResponse;
+import org.elasticsearch.action.admin.indices.exists.types.TypesExistsRequest;
+import org.elasticsearch.action.admin.indices.exists.types.TypesExistsResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
-
-import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastShardsHeader;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for count API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for types exists API
  */
-public class CountRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<CountRequest, CountResponse, JsonInput, JsonOutput> {
+public class TypesExistsRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<TypesExistsRequest, TypesExistsResponse, JsonInput, JsonOutput> {
 
-    public CountRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public TypesExistsRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<CountResponse> doExecute(CountRequest request) {
-        return client.count(request);
+    protected ActionFuture<TypesExistsResponse> doExecute(TypesExistsRequest request) {
+        return client.admin().indices().typesExists(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(CountRequest request, CountResponse response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(TypesExistsRequest request, TypesExistsResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field(Fields.COUNT, response.count());
-        buildBroadcastShardsHeader(builder, response);
+        builder.field(Fields.OK, response.exists());
         builder.endObject();
         return builder;
     }

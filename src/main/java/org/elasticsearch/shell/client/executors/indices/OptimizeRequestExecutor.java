@@ -16,42 +16,41 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.percolate.PercolateRequest;
-import org.elasticsearch.action.percolate.PercolateResponse;
+import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
+import org.elasticsearch.action.admin.indices.optimize.OptimizeResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
+
+import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastShardsHeader;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for percolate API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for optimize API
  */
-public class PercolateRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<PercolateRequest, PercolateResponse, JsonInput, JsonOutput> {
+public class OptimizeRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<OptimizeRequest, OptimizeResponse, JsonInput, JsonOutput> {
 
-    public PercolateRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public OptimizeRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<PercolateResponse> doExecute(PercolateRequest request) {
-        return client.percolate(request);
+    protected ActionFuture<OptimizeResponse> doExecute(OptimizeRequest request) {
+        return client.admin().indices().optimize(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(PercolateRequest request, PercolateResponse response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(OptimizeRequest request, OptimizeResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
         builder.field(Fields.OK, true);
-        builder.startArray(Fields.MATCHES);
-        for (String match : response) {
-            builder.value(match);
-        }
-        builder.endArray();
+        buildBroadcastShardsHeader(builder, response);
         builder.endObject();
         return builder;
     }

@@ -16,15 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.segments.IndicesSegmentResponse;
-import org.elasticsearch.action.admin.indices.segments.IndicesSegmentsRequest;
+import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheRequest;
+import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
@@ -33,25 +33,24 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
 /**
  * @author Luca Cavanna
  *
- * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for segments API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for clear cache API
  */
-public class SegmentsRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<IndicesSegmentsRequest, IndicesSegmentResponse, JsonInput, JsonOutput> {
+public class ClearCacheRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<ClearIndicesCacheRequest, ClearIndicesCacheResponse, JsonInput, JsonOutput> {
 
-    public SegmentsRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public ClearCacheRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<IndicesSegmentResponse> doExecute(IndicesSegmentsRequest request) {
-        return client.admin().indices().segments(request);
+    protected ActionFuture<ClearIndicesCacheResponse> doExecute(ClearIndicesCacheRequest request) {
+        return client.admin().indices().clearCache(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(IndicesSegmentsRequest request, IndicesSegmentResponse response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(ClearIndicesCacheRequest request, ClearIndicesCacheResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
         builder.field(Fields.OK, true);
         buildBroadcastShardsHeader(builder, response);
-        response.toXContent(builder, ToXContent.EMPTY_PARAMS);
         builder.endObject();
         return builder;
     }

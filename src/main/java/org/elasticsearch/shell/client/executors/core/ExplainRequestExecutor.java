@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.core;
 
 import org.apache.lucene.search.Explanation;
 import org.elasticsearch.action.ActionFuture;
@@ -27,13 +27,14 @@ import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.get.GetResult;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for explain API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for explain API
  */
 public class ExplainRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<ExplainRequest, ExplainResponse, JsonInput, JsonOutput> {
 

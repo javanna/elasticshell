@@ -16,38 +16,39 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.exists.types.TypesExistsRequest;
-import org.elasticsearch.action.admin.indices.exists.types.TypesExistsResponse;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for types exists API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for create index API
  */
-public class TypesExistsRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<TypesExistsRequest, TypesExistsResponse, JsonInput, JsonOutput> {
+public class CreateIndexRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<CreateIndexRequest, CreateIndexResponse, JsonInput, JsonOutput> {
 
-    public TypesExistsRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public CreateIndexRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<TypesExistsResponse> doExecute(TypesExistsRequest request) {
-        return client.admin().indices().typesExists(request);
+    protected ActionFuture<CreateIndexResponse> doExecute(CreateIndexRequest request) {
+        return client.admin().indices().create(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(TypesExistsRequest request, TypesExistsResponse response, XContentBuilder builder) throws IOException {
-        builder.startObject();
-        builder.field(Fields.OK, response.exists());
-        builder.endObject();
-        return builder;
+    protected XContentBuilder toXContent(CreateIndexRequest request, CreateIndexResponse response, XContentBuilder builder) throws IOException {
+        return builder.startObject()
+                .field(Fields.OK, true)
+                .field(Fields.ACKNOWLEDGED, response.acknowledged())
+                .endObject();
     }
 }

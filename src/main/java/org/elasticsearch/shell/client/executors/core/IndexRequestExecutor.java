@@ -16,49 +16,42 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.core;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for update API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for index API
  */
-public class UpdateRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<UpdateRequest, UpdateResponse, JsonInput, JsonOutput> {
+public class IndexRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<IndexRequest, IndexResponse, JsonInput, JsonOutput> {
 
-    public UpdateRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public IndexRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<UpdateResponse> doExecute(UpdateRequest request) {
-        return client.update(request);
+    protected ActionFuture<IndexResponse> doExecute(IndexRequest request) {
+        return client.index(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(UpdateRequest request, UpdateResponse response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(IndexRequest request, IndexResponse response, XContentBuilder builder) throws IOException {
         builder.startObject()
                 .field(Fields.OK, true)
                 .field(Fields._INDEX, response.index())
                 .field(Fields._TYPE, response.type())
                 .field(Fields._ID, response.id())
                 .field(Fields._VERSION, response.version());
-
-        if (response.getResult() != null) {
-            builder.startObject(Fields.GET);
-            response.getResult().toXContentEmbedded(builder, ToXContent.EMPTY_PARAMS);
-            builder.endObject();
-        }
-
         if (response.matches() != null) {
             builder.startArray(Fields.MATCHES);
             for (String match : response.matches()) {

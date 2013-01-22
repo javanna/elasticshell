@@ -16,42 +16,43 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.core;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.stats.IndicesStats;
-import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
+import org.elasticsearch.action.percolate.PercolateRequest;
+import org.elasticsearch.action.percolate.PercolateResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
-
-import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastShardsHeader;
 
 /**
  * @author Luca Cavanna
  *
- * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for stats API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for percolate API
  */
-public class StatsRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<IndicesStatsRequest, IndicesStats, JsonInput, JsonOutput> {
+public class PercolateRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<PercolateRequest, PercolateResponse, JsonInput, JsonOutput> {
 
-    public StatsRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public PercolateRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<IndicesStats> doExecute(IndicesStatsRequest request) {
-        return client.admin().indices().stats(request);
+    protected ActionFuture<PercolateResponse> doExecute(PercolateRequest request) {
+        return client.percolate(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(IndicesStatsRequest request, IndicesStats response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(PercolateRequest request, PercolateResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
         builder.field(Fields.OK, true);
-        buildBroadcastShardsHeader(builder, response);
-        response.toXContent(builder, ToXContent.EMPTY_PARAMS);
+        builder.startArray(Fields.MATCHES);
+        for (String match : response) {
+            builder.value(match);
+        }
+        builder.endArray();
         builder.endObject();
         return builder;
     }

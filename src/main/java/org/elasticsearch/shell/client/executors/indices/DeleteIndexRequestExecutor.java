@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -24,13 +24,14 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for delete index API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for delete index API
  */
 public class DeleteIndexRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<DeleteIndexRequest, DeleteIndexResponse, JsonInput, JsonOutput> {
 

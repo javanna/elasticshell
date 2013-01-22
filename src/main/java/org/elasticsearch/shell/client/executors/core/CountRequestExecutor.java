@@ -16,14 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.core;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.flush.FlushRequest;
-import org.elasticsearch.action.admin.indices.flush.FlushResponse;
+import org.elasticsearch.action.count.CountRequest;
+import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
@@ -32,23 +33,23 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
 /**
  * @author Luca Cavanna
  *
- * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for flush API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for count API
  */
-public class FlushRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<FlushRequest, FlushResponse, JsonInput, JsonOutput> {
+public class CountRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<CountRequest, CountResponse, JsonInput, JsonOutput> {
 
-    public FlushRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public CountRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<FlushResponse> doExecute(FlushRequest request) {
-        return client.admin().indices().flush(request);
+    protected ActionFuture<CountResponse> doExecute(CountRequest request) {
+        return client.count(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(FlushRequest request, FlushResponse response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(CountRequest request, CountResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field(Fields.OK, true);
+        builder.field(Fields.COUNT, response.count());
         buildBroadcastShardsHeader(builder, response);
         builder.endObject();
         return builder;

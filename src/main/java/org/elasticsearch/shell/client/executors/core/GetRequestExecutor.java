@@ -16,18 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.core;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutorToXContent;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for get API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for get API
  */
 public class GetRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutorToXContent<GetRequest, GetResponse, JsonInput, JsonOutput> {
 

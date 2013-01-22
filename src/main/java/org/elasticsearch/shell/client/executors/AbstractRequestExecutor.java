@@ -95,21 +95,21 @@ public abstract class AbstractRequestExecutor<Request extends ActionRequest<Requ
      */
     protected abstract XContentBuilder toXContent(Request request, Response response, XContentBuilder builder) throws IOException;
 
-    static final class Fields {
-        static final XContentBuilderString OK = new XContentBuilderString("ok");
-        static final XContentBuilderString _INDEX = new XContentBuilderString("_index");
-        static final XContentBuilderString _TYPE = new XContentBuilderString("_type");
-        static final XContentBuilderString _ID = new XContentBuilderString("_id");
-        static final XContentBuilderString _VERSION = new XContentBuilderString("_version");
-        static final XContentBuilderString MATCHES = new XContentBuilderString("matches");
-        static final XContentBuilderString FOUND = new XContentBuilderString("found");
-        static final XContentBuilderString COUNT = new XContentBuilderString("count");
-        static final XContentBuilderString GET = new XContentBuilderString("get");
-        static final XContentBuilderString MATCHED = new XContentBuilderString("matched");
-        static final XContentBuilderString EXPLANATION = new XContentBuilderString("explanation");
-        static final XContentBuilderString VALUE = new XContentBuilderString("value");
-        static final XContentBuilderString DESCRIPTION = new XContentBuilderString("description");
-        static final XContentBuilderString DETAILS = new XContentBuilderString("details");
-        static final XContentBuilderString ACKNOWLEDGED = new XContentBuilderString("acknowledged");
+    protected static final class Fields {
+        public static final XContentBuilderString OK = new XContentBuilderString("ok");
+        public static final XContentBuilderString _INDEX = new XContentBuilderString("_index");
+        public static final XContentBuilderString _TYPE = new XContentBuilderString("_type");
+        public static final XContentBuilderString _ID = new XContentBuilderString("_id");
+        public static final XContentBuilderString _VERSION = new XContentBuilderString("_version");
+        public static final XContentBuilderString MATCHES = new XContentBuilderString("matches");
+        public static final XContentBuilderString FOUND = new XContentBuilderString("found");
+        public static final XContentBuilderString COUNT = new XContentBuilderString("count");
+        public static final XContentBuilderString GET = new XContentBuilderString("get");
+        public static final XContentBuilderString MATCHED = new XContentBuilderString("matched");
+        public static final XContentBuilderString EXPLANATION = new XContentBuilderString("explanation");
+        public static final XContentBuilderString VALUE = new XContentBuilderString("value");
+        public static final XContentBuilderString DESCRIPTION = new XContentBuilderString("description");
+        public static final XContentBuilderString DETAILS = new XContentBuilderString("details");
+        public static final XContentBuilderString ACKNOWLEDGED = new XContentBuilderString("acknowledged");
     }
 }

@@ -16,40 +16,39 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.mlt.MoreLikeThisRequest;
-import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for more like this API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for indices exists API
  */
-public class MoreLikeThisRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutorToXContent<MoreLikeThisRequest, SearchResponse, JsonInput, JsonOutput> {
+public class IndicesExistsRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<IndicesExistsRequest, IndicesExistsResponse, JsonInput, JsonOutput> {
 
-    public MoreLikeThisRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public IndicesExistsRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<SearchResponse> doExecute(MoreLikeThisRequest request) {
-        return client.moreLikeThis(request);
+    protected ActionFuture<IndicesExistsResponse> doExecute(IndicesExistsRequest request) {
+        return client.admin().indices().exists(request);
     }
 
     @Override
-    protected XContentBuilder initContentBuilder() throws IOException {
-        return super.initContentBuilder().startObject();
-    }
-
-    @Override
-    protected XContentBuilder toXContent(MoreLikeThisRequest request, SearchResponse response, XContentBuilder builder) throws IOException {
-        return super.toXContent(request, response, builder).endObject();
+    protected XContentBuilder toXContent(IndicesExistsRequest request, IndicesExistsResponse response, XContentBuilder builder) throws IOException {
+        builder.startObject();
+        builder.field(Fields.OK, response.exists());
+        builder.endObject();
+        return builder;
     }
 }

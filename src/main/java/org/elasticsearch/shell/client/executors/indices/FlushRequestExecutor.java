@@ -16,14 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
-import org.elasticsearch.action.admin.indices.refresh.RefreshResponse;
+import org.elasticsearch.action.admin.indices.flush.FlushRequest;
+import org.elasticsearch.action.admin.indices.flush.FlushResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
@@ -32,21 +33,21 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for refresh API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for flush API
  */
-public class RefreshRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<RefreshRequest, RefreshResponse, JsonInput, JsonOutput> {
+public class FlushRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<FlushRequest, FlushResponse, JsonInput, JsonOutput> {
 
-    public RefreshRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public FlushRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<RefreshResponse> doExecute(RefreshRequest request) {
-        return client.admin().indices().refresh(request);
+    protected ActionFuture<FlushResponse> doExecute(FlushRequest request) {
+        return client.admin().indices().flush(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(RefreshRequest request, RefreshResponse response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(FlushRequest request, FlushResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
         builder.field(Fields.OK, true);
         buildBroadcastShardsHeader(builder, response);

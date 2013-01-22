@@ -35,7 +35,7 @@ import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.shell.client.executors.MoreLikeThisHelper;
+import org.elasticsearch.shell.client.executors.core.MoreLikeThisHelper;
 
 /**
  * @author Luca Cavanna

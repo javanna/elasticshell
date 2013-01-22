@@ -16,40 +16,39 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
+import org.elasticsearch.action.admin.indices.open.OpenIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for search API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for open index API
  */
-public class SearchRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutorToXContent<SearchRequest, SearchResponse, JsonInput, JsonOutput> {
+public class OpenIndexRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<OpenIndexRequest, OpenIndexResponse, JsonInput, JsonOutput> {
 
-    public SearchRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public OpenIndexRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<SearchResponse> doExecute(SearchRequest request) {
-        return client.search(request);
+    protected ActionFuture<OpenIndexResponse> doExecute(OpenIndexRequest request) {
+        return client.admin().indices().open(request);
     }
 
     @Override
-    protected XContentBuilder initContentBuilder() throws IOException {
-        return super.initContentBuilder().startObject();
-    }
-
-    @Override
-    protected XContentBuilder toXContent(SearchRequest request, SearchResponse response, XContentBuilder builder) throws IOException {
-        return super.toXContent(request, response, builder).endObject();
+    protected XContentBuilder toXContent(OpenIndexRequest request, OpenIndexResponse response, XContentBuilder builder) throws IOException {
+        return builder.startObject()
+                .field(Fields.OK, true)
+                .field(Fields.ACKNOWLEDGED, response.acknowledged())
+                .endObject();
     }
 }

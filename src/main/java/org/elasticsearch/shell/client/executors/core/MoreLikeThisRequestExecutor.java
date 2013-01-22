@@ -16,38 +16,41 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.core;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
-import org.elasticsearch.action.admin.indices.open.OpenIndexResponse;
+import org.elasticsearch.action.mlt.MoreLikeThisRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutorToXContent;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for open index API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for more like this API
  */
-public class OpenIndexRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<OpenIndexRequest, OpenIndexResponse, JsonInput, JsonOutput> {
+public class MoreLikeThisRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutorToXContent<MoreLikeThisRequest, SearchResponse, JsonInput, JsonOutput> {
 
-    public OpenIndexRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public MoreLikeThisRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<OpenIndexResponse> doExecute(OpenIndexRequest request) {
-        return client.admin().indices().open(request);
+    protected ActionFuture<SearchResponse> doExecute(MoreLikeThisRequest request) {
+        return client.moreLikeThis(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(OpenIndexRequest request, OpenIndexResponse response, XContentBuilder builder) throws IOException {
-        return builder.startObject()
-                .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged())
-                .endObject();
+    protected XContentBuilder initContentBuilder() throws IOException {
+        return super.initContentBuilder().startObject();
+    }
+
+    @Override
+    protected XContentBuilder toXContent(MoreLikeThisRequest request, SearchResponse response, XContentBuilder builder) throws IOException {
+        return super.toXContent(request, response, builder).endObject();
     }
 }

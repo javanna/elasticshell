@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateRequest;
@@ -26,6 +26,7 @@ import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.MetaData;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 import java.util.Map;
@@ -33,7 +34,7 @@ import java.util.Map;
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for get settings API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for get settings API
  */
 public class GetSettingsRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<ClusterStateRequest, ClusterStateResponse, JsonInput, JsonOutput> {
 

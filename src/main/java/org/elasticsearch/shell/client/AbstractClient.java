@@ -38,7 +38,7 @@ import org.elasticsearch.common.bytes.BytesArray;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.shell.JsonSerializer;
-import org.elasticsearch.shell.client.executors.*;
+import org.elasticsearch.shell.client.executors.core.*;
 
 import java.io.Closeable;
 import java.util.ArrayList;

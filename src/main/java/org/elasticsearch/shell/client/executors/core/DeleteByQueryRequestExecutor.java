@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.core;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryRequest;
@@ -25,13 +25,14 @@ import org.elasticsearch.action.deletebyquery.IndexDeleteByQueryResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for delete by query API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for delete by query API
  */
 public class DeleteByQueryRequestExecutor<JsonInput, JsonOutput>  extends AbstractRequestExecutor<DeleteByQueryRequest, DeleteByQueryResponse, JsonInput, JsonOutput> {
 

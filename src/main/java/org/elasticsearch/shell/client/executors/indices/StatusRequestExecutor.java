@@ -16,14 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheRequest;
-import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheResponse;
+import org.elasticsearch.action.admin.indices.status.IndicesStatusRequest;
+import org.elasticsearch.action.admin.indices.status.IndicesStatusResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
@@ -32,24 +34,25 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for clear cache API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for status API
  */
-public class ClearCacheRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<ClearIndicesCacheRequest, ClearIndicesCacheResponse, JsonInput, JsonOutput> {
+public class StatusRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<IndicesStatusRequest, IndicesStatusResponse, JsonInput, JsonOutput> {
 
-    public ClearCacheRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public StatusRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<ClearIndicesCacheResponse> doExecute(ClearIndicesCacheRequest request) {
-        return client.admin().indices().clearCache(request);
+    protected ActionFuture<IndicesStatusResponse> doExecute(IndicesStatusRequest request) {
+        return client.admin().indices().status(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(ClearIndicesCacheRequest request, ClearIndicesCacheResponse response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(IndicesStatusRequest request, IndicesStatusResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
         builder.field(Fields.OK, true);
         buildBroadcastShardsHeader(builder, response);
+        response.toXContent(builder, ToXContent.EMPTY_PARAMS);
         builder.endObject();
         return builder;
     }

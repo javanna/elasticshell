@@ -16,14 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client.executors;
+package org.elasticsearch.shell.client.executors.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
-import org.elasticsearch.action.admin.indices.optimize.OptimizeResponse;
+import org.elasticsearch.action.admin.indices.segments.IndicesSegmentResponse;
+import org.elasticsearch.action.admin.indices.segments.IndicesSegmentsRequest;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
 
@@ -32,24 +34,25 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
 /**
  * @author Luca Cavanna
  *
- * {@link RequestExecutor} implementation for optimize API
+ * {@link org.elasticsearch.shell.client.executors.RequestExecutor} implementation for segments API
  */
-public class OptimizeRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<OptimizeRequest, OptimizeResponse, JsonInput, JsonOutput> {
+public class SegmentsRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<IndicesSegmentsRequest, IndicesSegmentResponse, JsonInput, JsonOutput> {
 
-    public OptimizeRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    public SegmentsRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, jsonSerializer);
     }
 
     @Override
-    protected ActionFuture<OptimizeResponse> doExecute(OptimizeRequest request) {
-        return client.admin().indices().optimize(request);
+    protected ActionFuture<IndicesSegmentResponse> doExecute(IndicesSegmentsRequest request) {
+        return client.admin().indices().segments(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(OptimizeRequest request, OptimizeResponse response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(IndicesSegmentsRequest request, IndicesSegmentResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
         builder.field(Fields.OK, true);
         buildBroadcastShardsHeader(builder, response);
+        response.toXContent(builder, ToXContent.EMPTY_PARAMS);
         builder.endObject();
         return builder;
     }

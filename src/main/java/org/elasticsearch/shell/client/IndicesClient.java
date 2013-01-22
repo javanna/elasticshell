@@ -21,14 +21,14 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.action.admin.indices.close.CloseIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.flush.FlushRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
+import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.shell.JsonSerializer;
-import org.elasticsearch.shell.client.executors.CloseIndexRequestExecutor;
-import org.elasticsearch.shell.client.executors.CreateIndexRequestExecutor;
-import org.elasticsearch.shell.client.executors.DeleteIndexRequestExecutor;
-import org.elasticsearch.shell.client.executors.OpenIndexRequestExecutor;
+import org.elasticsearch.shell.client.executors.*;
 
 /**
  * @author Luca Cavanna
@@ -76,12 +76,36 @@ public class IndicesClient<JsonInput, JsonOutput> {
         return new DeleteIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
+    public JsonOutput flush(String index) {
+        return flush(Requests.flushRequest(index));
+    }
+
+    public JsonOutput flush(FlushRequest request) {
+        return new FlushRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
     public JsonOutput openIndex(String index) {
         return openIndex(Requests.openIndexRequest(index));
     }
 
     public JsonOutput openIndex(OpenIndexRequest request) {
         return new OpenIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput optimize(String index) {
+        return optimize(Requests.optimizeRequest(index));
+    }
+
+    public JsonOutput optimize(OptimizeRequest request) {
+        return new OptimizeRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput refresh(String index) {
+        return refresh(Requests.refreshRequest(index));
+    }
+
+    public JsonOutput refresh(RefreshRequest request) {
+        return new RefreshRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     protected String jsonToString(JsonInput source) {

@@ -35,6 +35,7 @@ import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.shell.client.executors.MoreLikeThisHelper;
 
 /**
  * @author Luca Cavanna
@@ -74,72 +75,39 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return getIndex().aliases();
     }
 
-    public JsonOutput index(String type, String id, String source) {
-        return shellClient.index(indexName, type, id, source);
+    public JsonOutput count() {
+        return shellClient.count(Requests.countRequest(indexName));
     }
 
-    public JsonOutput index(String type, String source) {
-        return shellClient.index(indexName, type, null, source);
+    public JsonOutput count(String source) {
+        return shellClient.count(indexName, source);
     }
 
-    public JsonOutput index(String type, String id, JsonInput source) {
-        return shellClient.index(indexName, type, id, source);
+    public JsonOutput count(JsonInput source) {
+        return shellClient.count(indexName, source);
     }
 
-    public JsonOutput index(String type, JsonInput source) {
-        return shellClient.index(indexName, type, null, source);
+    public JsonOutput count(QueryBuilder queryBuilder) {
+        return shellClient.count(indexName, queryBuilder);
     }
 
-    public JsonOutput index(IndexRequest indexRequest) {
-        if (indexRequest != null) {
-            indexRequest.index(indexName);
+    public JsonOutput count(String type, String source) {
+        return shellClient.count(indexName, type, source);
+    }
+
+    public JsonOutput count(String type, JsonInput source) {
+        return shellClient.count(indexName, type, source);
+    }
+
+    public JsonOutput count(String type, QueryBuilder queryBuilder) {
+        return shellClient.count(indexName, type, queryBuilder);
+    }
+
+    public JsonOutput count(CountRequest countRequest) {
+        if (countRequest != null) {
+            countRequest.indices(indexName);
         }
-        return shellClient.index(indexRequest);
-    }
-
-    public JsonOutput get(String type, String id) {
-        return shellClient.get(indexName, type, id);
-    }
-
-    public JsonOutput get(GetRequest getRequest) {
-        if (getRequest != null) {
-            getRequest.index(indexName);
-        }
-        return shellClient.get(getRequest);
-    }
-
-    public JsonOutput moreLikeThis(String type, String id) {
-        return shellClient.moreLikeThis(indexName, type, id);
-    }
-
-    public JsonOutput moreLikeThis(MoreLikeThisRequest moreLikeThisRequest) {
-        if (moreLikeThisRequest != null) {
-            if (!indexName.equals(moreLikeThisRequest.index())) {
-                throw new RuntimeException("Unable to overwrite the index name in the moreLikeThisRequest");
-            }
-            //the needed method is not public yet
-            //moreLikeThisRequest.index(indexName);
-        }
-        return shellClient.moreLikeThis(moreLikeThisRequest);
-    }
-
-    public JsonOutput explain(String type, String id, JsonInput source) {
-        return shellClient.explain(indexName, type, id, source);
-    }
-
-    public JsonOutput explain(String type, String id, String source) {
-        return shellClient.explain(indexName, type, id, source);
-    }
-
-    public JsonOutput explain(String type, String id, ExplainSourceBuilder explainSourceBuilder) {
-        return shellClient.explain(indexName, type, id, explainSourceBuilder);
-    }
-
-    public JsonOutput explain(ExplainRequest explainRequest) {
-        if (explainRequest != null) {
-            explainRequest.index(indexName);
-        }
-        return shellClient.explain(explainRequest);
+        return shellClient.count(countRequest);
     }
 
     public JsonOutput delete(String type, String id) {
@@ -184,6 +152,89 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.deleteByQuery(deleteByQueryRequest);
     }
 
+    public JsonOutput explain(String type, String id, JsonInput source) {
+        return shellClient.explain(indexName, type, id, source);
+    }
+
+    public JsonOutput explain(String type, String id, String source) {
+        return shellClient.explain(indexName, type, id, source);
+    }
+
+    public JsonOutput explain(String type, String id, ExplainSourceBuilder explainSourceBuilder) {
+        return shellClient.explain(indexName, type, id, explainSourceBuilder);
+    }
+
+    public JsonOutput explain(ExplainRequest explainRequest) {
+        if (explainRequest != null) {
+            explainRequest.index(indexName);
+        }
+        return shellClient.explain(explainRequest);
+    }
+
+    public JsonOutput get(String type, String id) {
+        return shellClient.get(indexName, type, id);
+    }
+
+    public JsonOutput get(GetRequest getRequest) {
+        if (getRequest != null) {
+            getRequest.index(indexName);
+        }
+        return shellClient.get(getRequest);
+    }
+
+    public JsonOutput index(String type, String id, String source) {
+        return shellClient.index(indexName, type, id, source);
+    }
+
+    public JsonOutput index(String type, String source) {
+        return shellClient.index(indexName, type, null, source);
+    }
+
+    public JsonOutput index(String type, String id, JsonInput source) {
+        return shellClient.index(indexName, type, id, source);
+    }
+
+    public JsonOutput index(String type, JsonInput source) {
+        return shellClient.index(indexName, type, null, source);
+    }
+
+    public JsonOutput index(IndexRequest indexRequest) {
+        if (indexRequest != null) {
+            indexRequest.index(indexName);
+        }
+        return shellClient.index(indexRequest);
+    }
+
+    public JsonOutput moreLikeThis(String type, String id) {
+        return shellClient.moreLikeThis(indexName, type, id);
+    }
+
+    public JsonOutput moreLikeThis(MoreLikeThisRequest moreLikeThisRequest) {
+        if (moreLikeThisRequest != null) {
+            if (!indexName.equals(moreLikeThisRequest.index())) {
+                //the needed method is not public, creating a brand new request
+                //moreLikeThisRequest.index(indexName);
+                moreLikeThisRequest = MoreLikeThisHelper.newMoreLikeThisRequest(moreLikeThisRequest, indexName);
+            }
+        }
+        return shellClient.moreLikeThis(moreLikeThisRequest);
+    }
+
+    public JsonOutput percolate(String type, JsonInput source) {
+        return shellClient.percolate(indexName, type, source);
+    }
+
+    public JsonOutput percolate(String type, String source) {
+        return shellClient.percolate(indexName, type, source);
+    }
+
+    public JsonOutput percolate(PercolateRequest percolateRequest) {
+        if (percolateRequest != null) {
+            percolateRequest.index(indexName);
+        }
+        return shellClient.percolate(percolateRequest);
+    }
+
     public JsonOutput search() {
         return shellClient.search(Requests.searchRequest(indexName));
     }
@@ -219,41 +270,6 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.search(searchRequest);
     }
 
-    public JsonOutput count() {
-        return shellClient.count(Requests.countRequest(indexName));
-    }
-
-    public JsonOutput count(String source) {
-        return shellClient.count(indexName, source);
-    }
-
-    public JsonOutput count(JsonInput source) {
-        return shellClient.count(indexName, source);
-    }
-
-    public JsonOutput count(QueryBuilder queryBuilder) {
-        return shellClient.count(indexName, queryBuilder);
-    }
-
-    public JsonOutput count(String type, String source) {
-        return shellClient.count(indexName, type, source);
-    }
-
-    public JsonOutput count(String type, JsonInput source) {
-        return shellClient.count(indexName, type, source);
-    }
-
-    public JsonOutput count(String type, QueryBuilder queryBuilder) {
-        return shellClient.count(indexName, type, queryBuilder);
-    }
-
-    public JsonOutput count(CountRequest countRequest) {
-        if (countRequest != null) {
-            countRequest.indices(indexName);
-        }
-        return shellClient.count(countRequest);
-    }
-
     public JsonOutput update(String type, String id, String script) {
         return shellClient.update(new UpdateRequest(indexName, type, id).script(script));
     }
@@ -263,21 +279,6 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
             updateRequest.index(indexName);
         }
         return shellClient.update(updateRequest);
-    }
-
-    public JsonOutput percolate(String type, JsonInput source) {
-        return shellClient.percolate(indexName, type, source);
-    }
-
-    public JsonOutput percolate(String type, String source) {
-        return shellClient.percolate(indexName, type, source);
-    }
-
-    public JsonOutput percolate(PercolateRequest percolateRequest) {
-        if (percolateRequest != null) {
-            percolateRequest.index(indexName);
-        }
-        return shellClient.percolate(percolateRequest);
     }
 
     public JsonOutput validate(JsonInput source) {

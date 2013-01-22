@@ -33,6 +33,7 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.shell.client.executors.MoreLikeThisHelper;
 
 /**
  * @author Luca Cavanna
@@ -61,73 +62,27 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return typeName;
     }
 
-    public JsonOutput index(String source) {
-        return shellClient.index(indexName, typeName, null, source);
+    public JsonOutput count() {
+        return shellClient.count(Requests.countRequest(indexName).types(typeName));
     }
 
-    public JsonOutput index(JsonInput source) {
-        return shellClient.index(indexName, typeName, null, source);
+    public JsonOutput count(String source) {
+        return shellClient.count(indexName, typeName, source);
     }
 
-    public JsonOutput index(String id, String source) {
-        return shellClient.index(indexName, typeName, id, source);
+    public JsonOutput count(JsonInput source) {
+        return shellClient.count(indexName, typeName, source);
     }
 
-    public JsonOutput index(String id, JsonInput source) {
-        return shellClient.index(indexName, typeName, id, source);
+    public JsonOutput count(QueryBuilder queryBuilder) {
+        return shellClient.count(indexName, typeName, queryBuilder);
     }
 
-    public JsonOutput index(IndexRequest indexRequest) {
-        if (indexRequest != null) {
-            indexRequest.index(indexName).type(typeName);
+    public JsonOutput count(CountRequest countRequest) {
+        if (countRequest != null) {
+            countRequest.indices(indexName).types(typeName);
         }
-        return shellClient.index(indexRequest);
-    }
-
-    public JsonOutput get(String id) {
-        return shellClient.get(indexName, typeName, id);
-    }
-
-    public JsonOutput get(GetRequest getRequest) {
-        if (getRequest != null) {
-            getRequest.index(indexName).type(typeName);
-        }
-        return shellClient.get(getRequest);
-    }
-
-    public JsonOutput moreLikeThis(String id) {
-        return shellClient.moreLikeThis(indexName, typeName, id);
-    }
-
-    public JsonOutput moreLikeThis(MoreLikeThisRequest moreLikeThisRequest) {
-        if (moreLikeThisRequest != null) {
-            if (!indexName.equals(moreLikeThisRequest.index())) {
-                throw new RuntimeException("Unable to overwrite the index name in the moreLikeThisRequest");
-            }
-            //the needed method is not public
-            //moreLikeThisRequest.index(indexName);
-            moreLikeThisRequest.type(typeName);
-        }
-        return shellClient.moreLikeThis(moreLikeThisRequest);
-    }
-
-    public JsonOutput explain(String id, JsonInput source) {
-        return shellClient.explain(indexName, typeName, id, source);
-    }
-
-    public JsonOutput explain(String id, String source) {
-        return shellClient.explain(indexName, typeName, id, source);
-    }
-
-    public JsonOutput explain(String id, ExplainSourceBuilder explainSourceBuilder) {
-        return shellClient.explain(indexName, typeName, id, explainSourceBuilder);
-    }
-
-    public JsonOutput explain(ExplainRequest explainRequest) {
-        if (explainRequest != null) {
-            explainRequest.index(indexName).type(typeName);
-        }
-        return shellClient.explain(explainRequest);
+        return shellClient.count(countRequest);
     }
 
     public JsonOutput delete(String id) {
@@ -160,6 +115,90 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return shellClient.deleteByQuery(deleteByQueryRequest);
     }
 
+    public JsonOutput explain(String id, JsonInput source) {
+        return shellClient.explain(indexName, typeName, id, source);
+    }
+
+    public JsonOutput explain(String id, String source) {
+        return shellClient.explain(indexName, typeName, id, source);
+    }
+
+    public JsonOutput explain(String id, ExplainSourceBuilder explainSourceBuilder) {
+        return shellClient.explain(indexName, typeName, id, explainSourceBuilder);
+    }
+
+    public JsonOutput explain(ExplainRequest explainRequest) {
+        if (explainRequest != null) {
+            explainRequest.index(indexName).type(typeName);
+        }
+        return shellClient.explain(explainRequest);
+    }
+
+    public JsonOutput get(String id) {
+        return shellClient.get(indexName, typeName, id);
+    }
+
+    public JsonOutput get(GetRequest getRequest) {
+        if (getRequest != null) {
+            getRequest.index(indexName).type(typeName);
+        }
+        return shellClient.get(getRequest);
+    }
+
+    public JsonOutput index(String source) {
+        return shellClient.index(indexName, typeName, null, source);
+    }
+
+    public JsonOutput index(JsonInput source) {
+        return shellClient.index(indexName, typeName, null, source);
+    }
+
+    public JsonOutput index(String id, String source) {
+        return shellClient.index(indexName, typeName, id, source);
+    }
+
+    public JsonOutput index(String id, JsonInput source) {
+        return shellClient.index(indexName, typeName, id, source);
+    }
+
+    public JsonOutput index(IndexRequest indexRequest) {
+        if (indexRequest != null) {
+            indexRequest.index(indexName).type(typeName);
+        }
+        return shellClient.index(indexRequest);
+    }
+
+    public JsonOutput moreLikeThis(String id) {
+        return shellClient.moreLikeThis(indexName, typeName, id);
+    }
+
+    public JsonOutput moreLikeThis(MoreLikeThisRequest moreLikeThisRequest) {
+        if (moreLikeThisRequest != null) {
+            if (!indexName.equals(moreLikeThisRequest.index())) {
+                //the needed method is not public, creating a brand new request
+                //moreLikeThisRequest.index(indexName);
+                moreLikeThisRequest = MoreLikeThisHelper.newMoreLikeThisRequest(moreLikeThisRequest, indexName);
+            }
+            moreLikeThisRequest.type(typeName);
+        }
+        return shellClient.moreLikeThis(moreLikeThisRequest);
+    }
+
+    public JsonOutput percolate(JsonInput source) {
+        return shellClient.percolate(indexName, typeName, source);
+    }
+
+    public JsonOutput percolate(String source) {
+        return shellClient.percolate(indexName, typeName, source);
+    }
+
+    public JsonOutput percolate(PercolateRequest percolateRequest) {
+        if (percolateRequest != null) {
+            percolateRequest.index(indexName).type(typeName);
+        }
+        return shellClient.percolate(percolateRequest);
+    }
+
     public JsonOutput search() {
         return shellClient.search(Requests.searchRequest(indexName).types(typeName));
     }
@@ -183,29 +222,6 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return shellClient.search(searchRequest);
     }
 
-    public JsonOutput count() {
-        return shellClient.count(Requests.countRequest(indexName).types(typeName));
-    }
-
-    public JsonOutput count(String source) {
-        return shellClient.count(indexName, typeName, source);
-    }
-
-    public JsonOutput count(JsonInput source) {
-        return shellClient.count(indexName, typeName, source);
-    }
-
-    public JsonOutput count(QueryBuilder queryBuilder) {
-        return shellClient.count(indexName, typeName, queryBuilder);
-    }
-
-    public JsonOutput count(CountRequest countRequest) {
-        if (countRequest != null) {
-            countRequest.indices(indexName).types(typeName);
-        }
-        return shellClient.count(countRequest);
-    }
-
     public JsonOutput update(String id, String script) {
         return shellClient.update(new UpdateRequest(indexName, typeName, id).script(script));
     }
@@ -215,21 +231,6 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
             updateRequest.index(indexName).type(typeName);
         }
         return shellClient.update(updateRequest);
-    }
-
-    public JsonOutput percolate(JsonInput source) {
-        return shellClient.percolate(indexName, typeName, source);
-    }
-
-    public JsonOutput percolate(String source) {
-        return shellClient.percolate(indexName, typeName, source);
-    }
-
-    public JsonOutput percolate(PercolateRequest percolateRequest) {
-        if (percolateRequest != null) {
-            percolateRequest.index(indexName).type(typeName);
-        }
-        return shellClient.percolate(percolateRequest);
     }
 
     public JsonOutput validate(JsonInput source) {

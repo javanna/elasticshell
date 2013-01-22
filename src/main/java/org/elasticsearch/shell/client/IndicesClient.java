@@ -85,8 +85,21 @@ public class IndicesClient<JsonInput, JsonOutput> {
         return new FlushRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
+    public JsonOutput getMapping() {
+        return getMapping(new String[0]);
+    }
+
+    public JsonOutput getMapping(String... indices) {
+        ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
+                .filterRoutingTable(true)
+                .filterNodes(true)
+                .filteredIndices(indices);
+        clusterStateRequest.listenerThreaded(false);
+        return new GetMappingRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(clusterStateRequest);
+    }
+
     public JsonOutput getSettings() {
-        return getSettings(null);
+        return getSettings(new String[0]);
     }
 
     public JsonOutput getSettings(String... indices) {

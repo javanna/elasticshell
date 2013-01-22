@@ -26,6 +26,7 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.types.TypesExistsRequest;
 import org.elasticsearch.action.admin.indices.flush.FlushRequest;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
 import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
@@ -163,6 +164,26 @@ public class IndicesClient<JsonInput, JsonOutput> {
 
     public JsonOutput optimize(OptimizeRequest request) {
         return new OptimizeRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput putMapping(String index, String type, JsonInput source) {
+        return putMapping(Requests.putMappingRequest(index).type(type).source(jsonToString(source)));
+    }
+
+    public JsonOutput putMapping(String index, String type, String source) {
+        return putMapping(Requests.putMappingRequest(index).type(type).source(source));
+    }
+
+    public JsonOutput putMapping(String[] index, String type, JsonInput source) {
+        return putMapping(Requests.putMappingRequest(index).type(type).source(jsonToString(source)));
+    }
+
+    public JsonOutput putMapping(String[] index, String type, String source) {
+        return putMapping(Requests.putMappingRequest(index).type(type).source(source));
+    }
+
+    public JsonOutput putMapping(PutMappingRequest request) {
+        return new PutMappingRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     public JsonOutput refresh() {

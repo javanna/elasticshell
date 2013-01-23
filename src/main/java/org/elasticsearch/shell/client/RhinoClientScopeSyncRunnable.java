@@ -41,18 +41,18 @@ public class RhinoClientScopeSyncRunnable extends ClientScopeSyncRunnable {
     }
 
     @Override
-    protected void registerIndexAndTypes(InternalIndexClient indexClient, InternalTypeClient... typeClients) {
+    protected void registerIndexAndTypes(IndexClient indexClient, TypeClient... typeClients) {
         //We are in a different thread, therefore we cannot rely on the current shell context but we need to create a new one
         Context context = Context.enter();
         try {
             //register index
-            NativeJavaObject indexNativeJavaObject = new NativeJavaObject(shellNativeClient.getParentScope(), indexClient, InternalIndexClient.class);
+            NativeJavaObject indexNativeJavaObject = new NativeJavaObject(shellNativeClient.getParentScope(), indexClient, IndexClient.class);
             indexNativeJavaObject.setPrototype(context.newObject(shellNativeClient.getParentScope()));
 
             if (typeClients != null) {
                 //register types
-                for (InternalTypeClient typeClient : typeClients) {
-                    NativeJavaObject typeNativeJavaObject = new NativeJavaObject(shellNativeClient.getParentScope(), typeClient, InternalTypeClient.class);
+                for (TypeClient typeClient : typeClients) {
+                    NativeJavaObject typeNativeJavaObject = new NativeJavaObject(shellNativeClient.getParentScope(), typeClient, TypeClient.class);
                     ScriptableObject.putProperty(indexNativeJavaObject, typeClient.typeName(), typeNativeJavaObject);
                 }
             }

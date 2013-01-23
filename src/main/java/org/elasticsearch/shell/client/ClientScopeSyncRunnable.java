@@ -100,22 +100,22 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
      * @param index the index that needs to be registered to the shell scope
      */
     protected void registerIndex(Index index) {
-        InternalIndexClient indexClient = new InternalIndexClient(shellClient, index.name());
-        InternalTypeClient[] typeClients = new InternalTypeClient[index.types().length];
+        IndexClient indexClient = new IndexClient(shellClient, index.name());
+        TypeClient[] typeClients = new TypeClient[index.types().length];
         if (index.types() != null) {
             for (int i = 0; i < index.types().length; i++) {
-                typeClients[i] = new InternalTypeClient(shellClient, index.name(), index.types()[i]);
+                typeClients[i] = new TypeClient(shellClient, index.name(), index.types()[i]);
             }
         }
         registerIndexAndTypes(indexClient, typeClients);
     }
 
     /**
-     * Registers the {@link InternalIndexClient} and related {@link InternalTypeClient} for each available type
+     * Registers the {@link IndexClient} and related {@link TypeClient} for each available type
      * @param indexClient clients that exposes only the index-specific operations
      * @param typeClients list of clients that expose only the type-specific operations
      */
-    protected abstract void registerIndexAndTypes(InternalIndexClient indexClient, InternalTypeClient... typeClients);
+    protected abstract void registerIndexAndTypes(IndexClient indexClient, TypeClient... typeClients);
 
     /**
      * Unregisters an index from the shell scope

@@ -26,6 +26,7 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.types.TypesExistsRequest;
 import org.elasticsearch.action.admin.indices.flush.FlushRequest;
+import org.elasticsearch.action.admin.indices.mapping.delete.DeleteMappingRequest;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
 import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
@@ -86,6 +87,14 @@ public class IndicesClient<JsonInput, JsonOutput> {
 
     public JsonOutput createIndex(CreateIndexRequest request) {
         return new CreateIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput deleteMapping(String index, String type) {
+        return deleteMapping(Requests.deleteMappingRequest(index).type(type));
+    }
+
+    public JsonOutput deleteMapping(DeleteMappingRequest request) {
+        return new DeleteMappingRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     public JsonOutput deleteIndex(String index) {

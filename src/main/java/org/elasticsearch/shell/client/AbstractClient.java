@@ -38,6 +38,8 @@ import org.elasticsearch.action.admin.indices.segments.IndicesSegmentsRequest;
 import org.elasticsearch.action.admin.indices.settings.UpdateSettingsRequest;
 import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
 import org.elasticsearch.action.admin.indices.status.IndicesStatusRequest;
+import org.elasticsearch.action.admin.indices.template.delete.DeleteIndexTemplateRequest;
+import org.elasticsearch.action.admin.indices.template.put.PutIndexTemplateRequest;
 import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -599,6 +601,40 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
 
     public JsonOutput status(IndicesStatusRequest request) {
         return new StatusRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput getTemplate(String name) {
+        ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
+                .filterRoutingTable(true)
+                .filterNodes(true)
+                .filteredIndexTemplates(name)
+                .filteredIndices("_na")
+                .listenerThreaded(false);
+        return getTemplate(clusterStateRequest);
+    }
+
+    protected JsonOutput getTemplate(ClusterStateRequest request) {
+        return new GetIndexTemplateRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput deleteTemplate(String name) {
+        return deleteTemplate(new DeleteIndexTemplateRequest(name));
+    }
+
+    public JsonOutput deleteTemplate(DeleteIndexTemplateRequest request) {
+        return new DeleteIndexTemplateRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput putTemplate(String name, String template, JsonInput source) {
+        return putTemplate(new PutIndexTemplateRequest(name).template(template).source(jsonToString(source)));
+    }
+
+    public JsonOutput putTemplate(String name, String template, String source) {
+        return putTemplate(new PutIndexTemplateRequest(name).template(template).source(source));
+    }
+
+    public JsonOutput putTemplate(PutIndexTemplateRequest request) {
+        return new PutIndexTemplateRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     public JsonOutput updateSettings(String settings) {

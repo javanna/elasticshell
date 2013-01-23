@@ -44,13 +44,14 @@ import org.elasticsearch.shell.client.executors.core.MoreLikeThisHelper;
  * @param <JsonInput> the shell native object that represents a json object received as input from the shell
  * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
-public class TypeClient<JsonInput, JsonOutput> {
+@SuppressWarnings("unused")
+public class InternalTypeClient<JsonInput, JsonOutput> {
 
     private final AbstractClient<JsonInput, JsonOutput> shellClient;
     private final String indexName;
     private final String typeName;
 
-    public TypeClient(AbstractClient<JsonInput, JsonOutput> shellClient, String indexName, String typeName) {
+    public InternalTypeClient(AbstractClient<JsonInput, JsonOutput> shellClient, String indexName, String typeName) {
         this.shellClient = shellClient;
         this.indexName = indexName;
         this.typeName = typeName;

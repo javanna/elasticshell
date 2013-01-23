@@ -70,6 +70,7 @@ import java.util.List;
  * @param <JsonInput> the shell native object that represents a json object received as input from the shell
  * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
+@SuppressWarnings("unused")
 public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable {
 
     private final Client client;
@@ -80,7 +81,6 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         this.jsonSerializer = jsonSerializer;
     }
 
-    @SuppressWarnings("unused")
     public Index[] showIndexes() {
         ClusterStateResponse response = client.admin().cluster().prepareState().setLocal(true).setFilterBlocks(true)
                 .setFilterRoutingTable(true).setFilterNodes(true).setListenerThreaded(false).execute().actionGet();

@@ -47,7 +47,7 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput,
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractClientFactory.class);
 
-    private static final String DEFAULT_NODE_NAME = "elasticsearch-shell";
+    private static final String DEFAULT_NODE_NAME = "elasticshell";
     private static final String DEFAULT_CLUSTER_NAME = "elasticsearch";
 
     private static final String DEFAULT_TRANSPORT_HOST = "localhost";

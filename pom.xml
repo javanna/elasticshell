@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.elasticsearch</groupId>
-    <artifactId>elasticsearch-shell</artifactId>
+    <artifactId>elasticshell</artifactId>
     <version>0.1-SNAPSHOT</version>
 
     <properties>
@@ -13,7 +13,6 @@
         <main.class>org.elasticsearch.shell.Main</main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
 
     <dependencies>
         <dependency>

@@ -350,6 +350,14 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.addAlias(indexName, alias, filterBuilder);
     }
 
+    public JsonOutput analyzeByField(String text, String field) {
+        return shellClient.analyzeByField(indexName, text, field);
+    }
+
+    public JsonOutput analyze(String text) {
+        return shellClient.analyze(indexName, text);
+    }
+
     public JsonOutput removeAlias(String alias) {
         return shellClient.removeAlias(indexName, alias);
     }

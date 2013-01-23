@@ -21,6 +21,7 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateRequest;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheRequest;
 import org.elasticsearch.action.admin.indices.close.CloseIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
@@ -387,6 +388,30 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
 
     public JsonOutput updateAliases(IndicesAliasesRequest request) {
         return new UpdateIndicesAliasesRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput analyzeByField(String index, String text, String field) {
+        return analyze(new AnalyzeRequest(index, text).field(field));
+    }
+
+    public JsonOutput analyzeByTokenizer(String text, String tokenizer, String... tokenFilters) {
+        return analyze(new AnalyzeRequest(text).tokenizer(tokenizer).tokenFilters(tokenFilters));
+    }
+
+    public JsonOutput analyzeByAnalyzer(String text, String analyzer) {
+        return analyze(new AnalyzeRequest(text).analyzer(analyzer));
+    }
+
+    public JsonOutput analyze(String index, String text) {
+        return analyze(new AnalyzeRequest(index, text));
+    }
+
+    public JsonOutput analyze(String text) {
+        return analyze(new AnalyzeRequest(text));
+    }
+
+    public JsonOutput analyze(AnalyzeRequest request) {
+        return new AnalyzeRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     public JsonOutput clearCache() {

@@ -35,6 +35,7 @@ import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
 import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.admin.indices.segments.IndicesSegmentsRequest;
+import org.elasticsearch.action.admin.indices.settings.UpdateSettingsRequest;
 import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
 import org.elasticsearch.action.admin.indices.status.IndicesStatusRequest;
 import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
@@ -600,11 +601,30 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return new StatusRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
+    public JsonOutput updateSettings(String settings) {
+        return updateSettings(Requests.updateSettingsRequest().settings(settings));
+    }
 
+    public JsonOutput updateSettings(JsonInput settings) {
+        return updateSettings(Requests.updateSettingsRequest().settings(jsonToString(settings)));
+    }
+
+    public JsonOutput updateSettings(String index, String settings) {
+        return updateSettings(Requests.updateSettingsRequest(index).settings(settings));
+    }
+
+    public JsonOutput updateSettings(String index, JsonInput settings) {
+        return updateSettings(Requests.updateSettingsRequest(index).settings(jsonToString(settings)));
+    }
+
+    public JsonOutput updateSettings(UpdateSettingsRequest request) {
+        return new UpdateSettingsRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
 
     /*
     Cluster APIs
      */
+
 
 
     JsonSerializer<JsonInput, JsonOutput> jsonSerializer() {

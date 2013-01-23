@@ -515,6 +515,14 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.status(request);
     }
 
+    public JsonOutput updateSettings(String settings) {
+        return shellClient.updateSettings(indexName, settings);
+    }
+
+    public JsonOutput updateSettings(JsonInput settings) {
+        return shellClient.updateSettings(indexName, settings);
+    }
+
     @Override
     public String toString() {
         return shellClient.toString() + " - " + (alias ? "alias" : "index") + " [" + indexName + "]";

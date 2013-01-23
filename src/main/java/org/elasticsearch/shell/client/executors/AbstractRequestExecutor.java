@@ -36,6 +36,14 @@ import java.io.IOException;
  *
  * {@link RequestExecutor} base implementation which contains the common methods to handle an execution
  * together with its {@link ActionResponse}, which needs to be converted to native json
+ *
+ * Why not using the already available elasticsearch RequestBuilders, which do pretty much the same?
+ * Mostly because we don't want to expose the RequestBuilders to the shell since they require an es client and they are auto-executable.
+ * We want to expose our client wrappers and only simple ActionRequest pojos to the shell. Since it's not possible to
+ * create a RequestBuilder given an ActionRequest, we need this abstraction over ActionRequests. Therefore we can avoid
+ * exposing and using RequestBuilders at all and always rely on the same mechanism, for both execution coming from the users and
+ * internal executions.
+ *
  * @param <Request> the type of the {@link ActionRequest}
  * @param <Response> the type of the {@link ActionResponse}
  * @param <JsonInput> the native json received as input, depending on the script engine in use

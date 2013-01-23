@@ -20,6 +20,7 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateRequest;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
 import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheRequest;
 import org.elasticsearch.action.admin.indices.close.CloseIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
@@ -49,8 +50,10 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Requests;
+import org.elasticsearch.cluster.metadata.AliasAction;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.bytes.BytesArray;
+import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.shell.JsonSerializer;
@@ -330,6 +333,62 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     /*
     Indices APIs
      */
+
+    public JsonOutput getAliases() {
+        ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
+                .filterRoutingTable(true)
+                .filterNodes(true)
+                .listenerThreaded(false);
+        return getAliases(clusterStateRequest);
+    }
+
+    public JsonOutput getAliases(String... indices) {
+        ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
+                .filterRoutingTable(true)
+                .filterNodes(true)
+                .filteredIndices(indices)
+                .listenerThreaded(false);
+        return getAliases(clusterStateRequest);
+    }
+
+    protected JsonOutput getAliases(ClusterStateRequest request) {
+        return new GetAliasesIndicesRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput addAlias(String index, String alias) {
+        return updateAliases(Requests.indexAliasesRequest().addAlias(index, alias));
+    }
+
+    public JsonOutput addAlias(String index, String alias, String filter) {
+        return updateAliases(Requests.indexAliasesRequest().addAlias(index, alias, filter));
+    }
+
+    public JsonOutput addAlias(String index, String alias, JsonInput filter) {
+        return updateAliases(Requests.indexAliasesRequest().addAlias(index, alias, jsonToString(filter)));
+    }
+
+    public JsonOutput addAlias(String index, String alias, FilterBuilder filterBuilder) {
+        return updateAliases(Requests.indexAliasesRequest().addAlias(index, alias, filterBuilder));
+    }
+
+    public JsonOutput removeAlias(String index, String alias) {
+        return updateAliases(Requests.indexAliasesRequest().removeAlias(index, alias));
+    }
+
+    public JsonOutput updateAliases(AliasAction... aliasActions) {
+        IndicesAliasesRequest request = Requests.indexAliasesRequest();
+        if (aliasActions != null){
+            for (AliasAction action : aliasActions) {
+                request.addAliasAction(action);
+            }
+        }
+        return updateAliases(request);
+    }
+
+    public JsonOutput updateAliases(IndicesAliasesRequest request) {
+        return new UpdateIndicesAliasesRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
     public JsonOutput clearCache() {
         return clearCache(new String[0]);
     }

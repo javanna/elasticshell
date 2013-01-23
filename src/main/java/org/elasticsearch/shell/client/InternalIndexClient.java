@@ -45,6 +45,7 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.shell.client.executors.core.MoreLikeThisHelper;
@@ -61,10 +62,12 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
 
     private final AbstractClient<JsonInput, JsonOutput> shellClient;
     private final String indexName;
+    private final boolean alias;
 
-    public InternalIndexClient(AbstractClient<JsonInput, JsonOutput> shellClient, String indexName) {
+    public InternalIndexClient(AbstractClient<JsonInput, JsonOutput> shellClient, String indexName, boolean alias) {
         this.shellClient = shellClient;
         this.indexName = indexName;
+        this.alias = alias;
     }
 
     String indexName() {
@@ -79,16 +82,9 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet());
     }
 
-    @SuppressWarnings("unused")
     public String[] showTypes() {
         return getIndex().types();
     }
-
-    @SuppressWarnings("unused")
-    public String[] showAliases() {
-        return getIndex().aliases();
-    }
-
 
     /*
     Core Apis
@@ -334,6 +330,30 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     /*
     Indices APIs that make sense for a specific index
      */
+    public JsonOutput getAliases() {
+        return shellClient.getAliases(indexName);
+    }
+
+    public JsonOutput addAlias(String alias) {
+        return shellClient.addAlias(indexName, alias);
+    }
+
+    public JsonOutput addAlias(String alias, String filter) {
+        return shellClient.addAlias(indexName, alias, filter);
+    }
+
+    public JsonOutput addAlias(String alias, JsonInput filter) {
+        return shellClient.addAlias(indexName, alias, filter);
+    }
+
+    public JsonOutput addAlias(String alias, FilterBuilder filterBuilder) {
+        return shellClient.addAlias(indexName, alias, filterBuilder);
+    }
+
+    public JsonOutput removeAlias(String alias) {
+        return shellClient.removeAlias(indexName, alias);
+    }
+
     public JsonOutput clearCache() {
         return shellClient.clearCache(indexName);
     }
@@ -489,6 +509,6 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
 
     @Override
     public String toString() {
-        return shellClient.toString() + " - index [" + indexName + "]";
+        return shellClient.toString() + " - " + (alias ? "alias" : "index") + " [" + indexName + "]";
     }
 }

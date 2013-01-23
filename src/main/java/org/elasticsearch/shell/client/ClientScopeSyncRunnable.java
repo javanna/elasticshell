@@ -68,9 +68,9 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
             logger.trace("Processing index {}", indexMetaData.index());
 
             Set<String> indexNames = indexMetaData.mappings().keySet();
-            newIndexes.add(new Index(indexMetaData.index(), indexNames.toArray(new String[indexNames.size()])));
+            newIndexes.add(new Index(indexMetaData.index(), false, indexNames.toArray(new String[indexNames.size()])));
             for (String alias : indexMetaData.aliases().keySet()) {
-                newIndexes.add(new Index(alias, indexMetaData.mappings().keySet().toArray(new String[indexNames.size()])));
+                newIndexes.add(new Index(alias, true, indexMetaData.mappings().keySet().toArray(new String[indexNames.size()])));
             }
         }
         return newIndexes;
@@ -100,7 +100,7 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
      * @param index the index that needs to be registered to the shell scope
      */
     protected void registerIndex(Index index) {
-        InternalIndexClient indexClient = new InternalIndexClient(shellClient, index.name());
+        InternalIndexClient indexClient = new InternalIndexClient(shellClient, index.name(), index.isAlias());
         InternalTypeClient[] typeClients = new InternalTypeClient[index.types().length];
         if (index.types() != null) {
             for (int i = 0; i < index.types().length; i++) {
@@ -130,10 +130,12 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
 
         private final String name;
         private final String[] types;
+        private final boolean alias;
 
-        Index(String name, String... types) {
+        Index(String name, boolean alias, String... types) {
             this.name = name;
             this.types = types;
+            this.alias = alias;
         }
 
         public String name() {
@@ -142,6 +144,10 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
 
         public String[] types() {
             return types;
+        }
+
+        public boolean isAlias() {
+            return alias;
         }
 
         @Override

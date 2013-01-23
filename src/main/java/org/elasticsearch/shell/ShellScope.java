@@ -25,6 +25,7 @@ import org.elasticsearch.action.explain.ExplainRequest;
 import org.elasticsearch.action.percolate.PercolateRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Requests;
+import org.elasticsearch.cluster.metadata.AliasAction;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -67,6 +68,7 @@ public abstract class ShellScope<Scope> {
         registerJavaClass(ValidateQueryRequest.class);
         registerJavaClass(TypesExistsRequest.class);
         registerJavaClass(IndicesStatsRequest.class);
+        registerJavaClass(AliasAction.class);
     }
 
     /**

@@ -18,6 +18,8 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.admin.indices.mapping.delete.DeleteMappingRequest;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -61,6 +63,10 @@ public class TypeClient<JsonInput, JsonOutput> {
     String typeName() {
         return typeName;
     }
+
+    /*
+    Core APIs
+     */
 
     public JsonOutput count() {
         return shellClient.count(Requests.countRequest(indexName).types(typeName));
@@ -251,6 +257,46 @@ public class TypeClient<JsonInput, JsonOutput> {
         }
         return shellClient.validate(validateQueryRequest);
     }
+
+    /*
+    Indices APIs that make sense for a type
+     */
+    public JsonOutput deleteMapping() {
+        return shellClient.deleteMapping(indexName, typeName);
+    }
+
+    public JsonOutput deleteMapping(DeleteMappingRequest request) {
+        if (request != null) {
+            request.indices(new String[]{indexName}).type(typeName);
+        }
+        return shellClient.deleteMapping(request);
+    }
+
+    public JsonOutput getMapping() {
+        //TODO filtering by type in shellClient
+        return shellClient.getMapping(indexName);
+    }
+
+    public JsonOutput putMapping(JsonInput source) {
+        return shellClient.putMapping(indexName, typeName, source);
+    }
+
+    public JsonOutput putMapping(String source) {
+        return shellClient.putMapping(indexName, typeName, source);
+    }
+
+    public JsonOutput putMapping(PutMappingRequest request) {
+        if (request != null) {
+            request.indices(new String[]{indexName}).type(typeName);
+        }
+        return shellClient.putMapping(request);
+    }
+
+
+    /*
+    Cluster APIs
+     */
+
 
     @Override
     public String toString() {

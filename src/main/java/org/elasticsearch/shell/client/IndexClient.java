@@ -19,6 +19,18 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
+import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheRequest;
+import org.elasticsearch.action.admin.indices.close.CloseIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.flush.FlushRequest;
+import org.elasticsearch.action.admin.indices.mapping.delete.DeleteMappingRequest;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
+import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
+import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.admin.indices.segments.IndicesSegmentsRequest;
+import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
+import org.elasticsearch.action.admin.indices.status.IndicesStatusRequest;
 import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -75,6 +87,11 @@ public class IndexClient<JsonInput, JsonOutput> {
     public String[] showAliases() {
         return getIndex().aliases();
     }
+
+
+    /*
+    Core Apis
+     */
 
     public JsonOutput count() {
         return shellClient.count(Requests.countRequest(indexName));
@@ -311,6 +328,162 @@ public class IndexClient<JsonInput, JsonOutput> {
             validateQueryRequest.indices(indexName);
         }
         return shellClient.validate(validateQueryRequest);
+    }
+
+    /*
+    Indices APIs that make sense for a specific index
+     */
+    public JsonOutput clearCache() {
+        return shellClient.clearCache(indexName);
+    }
+
+    public JsonOutput clearCache(ClearIndicesCacheRequest request) {
+        if (request != null) {
+            request.indices(indexName);
+        }
+        return shellClient.clearCache(request);
+    }
+
+    public JsonOutput closeIndex() {
+        return shellClient.closeIndex(indexName);
+    }
+
+    public JsonOutput closeIndex(CloseIndexRequest request) {
+        if (request != null) {
+            request.index(indexName);
+        }
+        return shellClient.closeIndex(request);
+    }
+
+    public JsonOutput deleteIndex() {
+        return shellClient.deleteIndex(indexName);
+    }
+
+    public JsonOutput deleteIndex(DeleteIndexRequest request) {
+        if (request != null) {
+            request.indices(indexName);
+        }
+        return shellClient.deleteIndex(request);
+    }
+
+    public JsonOutput deleteMapping(String type) {
+        return shellClient.deleteMapping(indexName, type);
+    }
+
+    public JsonOutput deleteMapping(DeleteMappingRequest request) {
+        if (request != null) {
+            request.indices(new String[]{indexName});
+        }
+        return shellClient.deleteMapping(request);
+    }
+
+    public JsonOutput typesExists(String... types) {
+        return shellClient.typesExists(indexName, types);
+    }
+
+    public JsonOutput flush() {
+        return shellClient.flush(indexName);
+    }
+
+    public JsonOutput flush(FlushRequest request) {
+        if (request != null) {
+            request.indices(indexName);
+        }
+        return shellClient.flush(request);
+    }
+
+    public JsonOutput getMapping() {
+        return shellClient.getMapping(indexName);
+    }
+
+    public JsonOutput getMapping(String type) {
+        //TODO filtering by type in shellClient
+        return shellClient.getMapping(indexName);
+    }
+
+    public JsonOutput getSettings() {
+        return shellClient.getSettings(indexName);
+    }
+
+    public JsonOutput openIndex() {
+        return shellClient.openIndex(indexName);
+    }
+
+    public JsonOutput openIndex(OpenIndexRequest request) {
+        if (request != null) {
+            request.index(indexName);
+        }
+        return shellClient.openIndex(request);
+    }
+
+    public JsonOutput optimize() {
+        return shellClient.optimize(indexName);
+    }
+
+    public JsonOutput optimize(OptimizeRequest request) {
+        if (request != null) {
+            request.indices(indexName);
+        }
+        return shellClient.optimize(request);
+    }
+
+    public JsonOutput putMapping(String type, JsonInput source) {
+        return shellClient.putMapping(indexName, type, source);
+    }
+
+    public JsonOutput putMapping(String type, String source) {
+        return shellClient.putMapping(indexName, type, source);
+    }
+
+    public JsonOutput putMapping(PutMappingRequest request) {
+        if (request != null) {
+            request.indices(new String[]{indexName});
+        }
+        return shellClient.putMapping(request);
+    }
+
+    public JsonOutput refresh() {
+        return shellClient.refresh(indexName);
+    }
+
+    public JsonOutput refresh(RefreshRequest request) {
+        if (request != null) {
+            request.indices(indexName);
+        }
+        return shellClient.refresh(request);
+    }
+
+    public JsonOutput segments() {
+        return shellClient.segments(indexName);
+    }
+
+    public JsonOutput segments(IndicesSegmentsRequest request) {
+        if (request != null) {
+            request.indices(indexName);
+        }
+        return shellClient.segments(request);
+    }
+
+    public JsonOutput stats() {
+        return shellClient.stats(indexName);
+    }
+
+    public JsonOutput stats(IndicesStatsRequest request) {
+        if (request != null) {
+            request.indices(indexName);
+        }
+        return shellClient.stats(request);
+    }
+
+    public JsonOutput status() {
+        return shellClient.status(indexName);
+    }
+
+    public JsonOutput status(IndicesStatusRequest request) {
+        if (request != null) {
+            request.indices(indexName);
+        }
+        return shellClient.status(request);
     }
 
     @Override

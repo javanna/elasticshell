@@ -49,12 +49,14 @@ import org.elasticsearch.shell.client.executors.indices.*;
  */
 public class IndicesClient<JsonInput, JsonOutput> {
 
+    private final AbstractClient<JsonInput, JsonOutput> shellClient;
     private final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
     private final Client client;
 
-    public IndicesClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        this.client = client;
-        this.jsonSerializer = jsonSerializer;
+    public IndicesClient(AbstractClient<JsonInput, JsonOutput> shellClient) {
+        this.client = shellClient.client();
+        this.jsonSerializer = shellClient.jsonSerializer();
+        this.shellClient = shellClient;
     }
 
     public JsonOutput clearCache() {
@@ -245,5 +247,10 @@ public class IndicesClient<JsonInput, JsonOutput> {
 
     protected String jsonToString(JsonInput source) {
         return jsonSerializer.jsonToString(source, false);
+    }
+
+    @Override
+    public String toString() {
+        return shellClient.toString();
     }
 }

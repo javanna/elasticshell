@@ -32,11 +32,22 @@ import org.elasticsearch.shell.JsonSerializer;
  */
 public class ClusterClient<JsonInput, JsonOutput> {
 
-    private final Client client;
+    private final AbstractClient<JsonInput, JsonOutput> shellClient;
     private final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
+    private final Client client;
 
-    public ClusterClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        this.client = client;
-        this.jsonSerializer = jsonSerializer;
+    public ClusterClient(AbstractClient<JsonInput, JsonOutput> shellClient) {
+        this.client = shellClient.client();
+        this.jsonSerializer = shellClient.jsonSerializer();
+        this.shellClient = shellClient;
+    }
+
+    protected String jsonToString(JsonInput source) {
+        return jsonSerializer.jsonToString(source, false);
+    }
+
+    @Override
+    public String toString() {
+        return shellClient.toString();
     }
 }

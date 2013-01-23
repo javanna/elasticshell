@@ -57,16 +57,14 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
 
     private final Client client;
     private final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
-    private final AdminClient<JsonInput, JsonOutput> adminClient;
+    private final IndicesClient<JsonInput, JsonOutput> indicesClient;
+    private final ClusterClient<JsonInput, JsonOutput> clusterClient;
 
     protected AbstractClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         this.client = client;
         this.jsonSerializer = jsonSerializer;
-        this.adminClient = new AdminClient<JsonInput, JsonOutput>(client, jsonSerializer);
-    }
-
-    public AdminClient<JsonInput, JsonOutput> admin() {
-        return adminClient;
+        this.indicesClient = new IndicesClient<JsonInput, JsonOutput>(this);
+        this.clusterClient = new ClusterClient<JsonInput, JsonOutput>(this);
     }
 
     @SuppressWarnings("unused")
@@ -314,6 +312,18 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
 
     public JsonOutput validate(ValidateQueryRequest validateQueryRequest) {
         return new ValidateQueryRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(validateQueryRequest);
+    }
+
+    JsonSerializer<JsonInput, JsonOutput> jsonSerializer() {
+        return jsonSerializer;
+    }
+
+    public IndicesClient<JsonInput, JsonOutput> indices() {
+        return indicesClient;
+    }
+
+    public ClusterClient<JsonInput, JsonOutput> cluster() {
+        return clusterClient;
     }
 
     Client client() {

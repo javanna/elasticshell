@@ -293,11 +293,17 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return shellClient.putMapping(request);
     }
 
+    public JsonOutput putWarmer(String name, SearchSourceBuilder searchSourceBuilder) {
+        return shellClient.putWarmer(indexName, typeName, name, searchSourceBuilder);
+    }
 
-    /*
-    Cluster APIs
-     */
+    public JsonOutput putWarmer(String name, JsonInput source) {
+        return shellClient.putWarmer(indexName, typeName, name, source);
+    }
 
+    public JsonOutput putWarmer(String name, String source) {
+        return shellClient.putWarmer(indexName, typeName, name, source);
+    }
 
     @Override
     public String toString() {

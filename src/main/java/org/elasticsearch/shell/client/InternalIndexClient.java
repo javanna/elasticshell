@@ -523,6 +523,46 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.updateSettings(indexName, settings);
     }
 
+    public JsonOutput getWarmer() {
+        return shellClient.getWarmer(indexName, null);
+    }
+
+    public JsonOutput getWarmer(String name) {
+        return shellClient.getWarmer(indexName, name);
+    }
+
+    public JsonOutput putWarmer(String type, String name, SearchSourceBuilder searchSourceBuilder) {
+        return shellClient.putWarmer(indexName, type, name, searchSourceBuilder);
+    }
+
+    public JsonOutput putWarmer(String type, String name, JsonInput source) {
+        return shellClient.putWarmer(indexName, type, name, source);
+    }
+
+    public JsonOutput putWarmer(String type, String name, String source) {
+        return shellClient.putWarmer(indexName, type, name, source);
+    }
+
+    public JsonOutput putWarmer(String name, SearchSourceBuilder searchSourceBuilder) {
+        return shellClient.putWarmer(indexName, name, searchSourceBuilder);
+    }
+
+    public JsonOutput putWarmer(String name, JsonInput source) {
+        return shellClient.putWarmer(indexName, name, source);
+    }
+
+    public JsonOutput putWarmer(String name, String source) {
+        return shellClient.putWarmer(indexName, name, source);
+    }
+
+    public JsonOutput deleteWarmer() {
+        return shellClient.deleteWarmer(indexName);
+    }
+
+    public JsonOutput deleteWarmer(String name) {
+        return shellClient.deleteWarmer(indexName, name);
+    }
+
     @Override
     public String toString() {
         return shellClient.toString() + " - " + (alias ? "alias" : "index") + " [" + indexName + "]";

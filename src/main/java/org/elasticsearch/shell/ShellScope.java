@@ -22,6 +22,8 @@ import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.exists.types.TypesExistsRequest;
 import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
 import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
+import org.elasticsearch.action.admin.indices.warmer.delete.DeleteWarmerRequest;
+import org.elasticsearch.action.admin.indices.warmer.put.PutWarmerRequest;
 import org.elasticsearch.action.explain.ExplainRequest;
 import org.elasticsearch.action.percolate.PercolateRequest;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -71,6 +73,8 @@ public abstract class ShellScope<Scope> {
         registerJavaClass(IndicesStatsRequest.class);
         registerJavaClass(AliasAction.class);
         registerJavaClass(AnalyzeRequest.class);
+        registerJavaClass(PutWarmerRequest.class);
+        registerJavaClass(DeleteWarmerRequest.class);
     }
 
     /**

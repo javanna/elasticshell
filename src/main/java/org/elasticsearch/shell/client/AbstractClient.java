@@ -41,6 +41,8 @@ import org.elasticsearch.action.admin.indices.status.IndicesStatusRequest;
 import org.elasticsearch.action.admin.indices.template.delete.DeleteIndexTemplateRequest;
 import org.elasticsearch.action.admin.indices.template.put.PutIndexTemplateRequest;
 import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
+import org.elasticsearch.action.admin.indices.warmer.delete.DeleteWarmerRequest;
+import org.elasticsearch.action.admin.indices.warmer.put.PutWarmerRequest;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryRequest;
@@ -655,6 +657,79 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
 
     public JsonOutput updateSettings(UpdateSettingsRequest request) {
         return new UpdateSettingsRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput getWarmer(){
+        ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
+                .filterAll()
+                .filterMetaData(false)
+                .listenerThreaded(false);
+        return getWarmer(clusterStateRequest, null);
+    }
+
+    public JsonOutput getWarmer(String name){
+        ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
+                .filterAll()
+                .filterMetaData(false)
+                .listenerThreaded(false);
+        return getWarmer(clusterStateRequest, name);
+    }
+
+    public JsonOutput getWarmer(String index, String name){
+        ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
+                .filterAll()
+                .filterMetaData(false)
+                .filteredIndices(index)
+                .listenerThreaded(false);
+        return getWarmer(clusterStateRequest, name);
+    }
+
+    protected JsonOutput getWarmer(ClusterStateRequest request, String name) {
+        return new GetWarmerRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer, name).execute(request);
+    }
+
+    public JsonOutput putWarmer(String name, SearchRequest searchRequest) {
+        return putWarmer(new PutWarmerRequest(name).searchRequest(searchRequest));
+    }
+
+    public JsonOutput putWarmer(String index, String type, String name, SearchSourceBuilder searchSourceBuilder) {
+        return putWarmer(new PutWarmerRequest(name).searchRequest(Requests.searchRequest(index).types(type).source(searchSourceBuilder)));
+    }
+
+    public JsonOutput putWarmer(String index, String type, String name, JsonInput source) {
+        return putWarmer(new PutWarmerRequest(name).searchRequest(Requests.searchRequest(index).types(type).source(jsonToString(source))));
+    }
+
+    public JsonOutput putWarmer(String index, String type, String name, String source) {
+        return putWarmer(new PutWarmerRequest(name).searchRequest(Requests.searchRequest(index).types(type).source(source)));
+    }
+
+    public JsonOutput putWarmer(String index, String name, SearchSourceBuilder searchSourceBuilder) {
+        return putWarmer(new PutWarmerRequest(name).searchRequest(Requests.searchRequest(index).source(searchSourceBuilder)));
+    }
+
+    public JsonOutput putWarmer(String index, String name, JsonInput source) {
+        return putWarmer(new PutWarmerRequest(name).searchRequest(Requests.searchRequest(index).source(jsonToString(source))));
+    }
+
+    public JsonOutput putWarmer(String index, String name, String source) {
+        return putWarmer(new PutWarmerRequest(name).searchRequest(Requests.searchRequest(index).source(source)));
+    }
+
+    public JsonOutput putWarmer(PutWarmerRequest request) {
+        return new PutWarmerRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
+    }
+
+    public JsonOutput deleteWarmer(String... indices) {
+        return deleteWarmer(new DeleteWarmerRequest(null).indices(indices));
+    }
+
+    public JsonOutput deleteWarmer(String index, String name) {
+        return deleteWarmer(new DeleteWarmerRequest(name).indices(new String[]{index}));
+    }
+
+    public JsonOutput deleteWarmer(DeleteWarmerRequest request) {
+        return new DeleteWarmerRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
     /*

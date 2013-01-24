@@ -439,6 +439,10 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return new CloseIndexRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(request);
     }
 
+    public JsonOutput createIndex(String index) {
+        return createIndex(Requests.createIndexRequest(index));
+    }
+
     public JsonOutput createIndex(String index, JsonInput source) {
         return createIndex(Requests.createIndexRequest(index).source(jsonToString(source)));
     }

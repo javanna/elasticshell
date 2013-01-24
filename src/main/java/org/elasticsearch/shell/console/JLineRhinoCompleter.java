@@ -111,7 +111,7 @@ public class JLineRhinoCompleter implements Completer {
         for (int i = 0; i < names.length - 1; i++) {
             String currentName = names[i];
             Object val = object.get(currentName, this.shellScope.get());
-            logger.trace("Found {} while looking for [{}] in {}", val, currentName, object.getClass());
+            logger.debug("Found {} while looking for [{}] in {}", val.getClass(), currentName, object.getClass());
             if (!(val instanceof Scriptable)) {
                 if (object.getPrototype() == null) {
                     return buffer.length(); // no matches

@@ -27,6 +27,7 @@ import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.RhinoCustomWrapFactory;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 
 import java.io.PrintStream;
@@ -55,6 +56,7 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
     public void run() {
         Context context = Context.enter();
         context.setErrorReporter(new ToolErrorReporter(false, console.out()));
+        context.setWrapFactory(new RhinoCustomWrapFactory());
         try {
             super.run();
         } finally {

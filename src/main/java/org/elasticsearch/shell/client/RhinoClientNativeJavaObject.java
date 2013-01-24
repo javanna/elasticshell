@@ -19,7 +19,7 @@
 package org.elasticsearch.shell.client;
 
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.RhinoCustomNativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -27,7 +27,7 @@ import org.mozilla.javascript.Scriptable;
  *
  * Rhino native object that represents a client within the shell
  */
-public class RhinoClientNativeJavaObject extends NativeJavaObject {
+public class RhinoClientNativeJavaObject extends RhinoCustomNativeJavaObject {
 
     private final AbstractClient shellClient;
 

@@ -19,7 +19,7 @@
 package org.elasticsearch.shell;
 
 import org.elasticsearch.common.inject.Inject;
-import org.mozilla.javascript.NativeJavaClass;
+import org.mozilla.javascript.RhinoCustomNativeJavaClass;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
@@ -45,6 +45,6 @@ public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
 
     @Override
     public void registerJavaClass(Class<?> clazz) {
-        ScriptableObject.putProperty(get(), clazz.getSimpleName(), new NativeJavaClass(get(), clazz));
+        ScriptableObject.putProperty(get(), clazz.getSimpleName(), new RhinoCustomNativeJavaClass(get(), clazz));
     }
 }

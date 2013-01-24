@@ -20,6 +20,7 @@ package org.elasticsearch.shell.client;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.RhinoCustomNativeJavaObject;
 import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,13 +47,13 @@ public class RhinoClientScopeSyncRunnable extends ClientScopeSyncRunnable {
         Context context = Context.enter();
         try {
             //register index
-            NativeJavaObject indexNativeJavaObject = new NativeJavaObject(shellNativeClient.getParentScope(), indexClient, InternalIndexClient.class);
+            NativeJavaObject indexNativeJavaObject = new RhinoCustomNativeJavaObject(shellNativeClient.getParentScope(), indexClient, InternalIndexClient.class);
             indexNativeJavaObject.setPrototype(context.newObject(shellNativeClient.getParentScope()));
 
             if (typeClients != null) {
                 //register types
                 for (InternalTypeClient typeClient : typeClients) {
-                    NativeJavaObject typeNativeJavaObject = new NativeJavaObject(shellNativeClient.getParentScope(), typeClient, InternalTypeClient.class);
+                    NativeJavaObject typeNativeJavaObject = new RhinoCustomNativeJavaObject(shellNativeClient.getParentScope(), typeClient, InternalTypeClient.class);
                     ScriptableObject.putProperty(indexNativeJavaObject, typeClient.typeName(), typeNativeJavaObject);
                 }
             }

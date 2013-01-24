@@ -480,16 +480,24 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     }
 
     public JsonOutput getMapping() {
-        return getMapping(new String[0]);
+        ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
+                .filterRoutingTable(true)
+                .filterNodes(true);
+        clusterStateRequest.listenerThreaded(false);
+        return getMapping(clusterStateRequest, new String[0]);
     }
 
-    public JsonOutput getMapping(String... indices) {
+    public JsonOutput getMapping(String index, String... types) {
         ClusterStateRequest clusterStateRequest = Requests.clusterStateRequest()
                 .filterRoutingTable(true)
                 .filterNodes(true)
-                .filteredIndices(indices);
+                .filteredIndices(index);
         clusterStateRequest.listenerThreaded(false);
-        return new GetMappingRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer).execute(clusterStateRequest);
+        return getMapping(clusterStateRequest, types);
+    }
+
+    protected JsonOutput getMapping(ClusterStateRequest clusterStateRequest, String... types) {
+        return new GetMappingRequestExecutor<JsonInput, JsonOutput>(client, jsonSerializer, types).execute(clusterStateRequest);
     }
 
     public JsonOutput getSettings() {

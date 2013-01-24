@@ -425,9 +425,8 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.getMapping(indexName);
     }
 
-    public JsonOutput getMapping(String type) {
-        //TODO filtering by type in shellClient
-        return shellClient.getMapping(indexName);
+    public JsonOutput getMapping(String... type) {
+        return shellClient.getMapping(indexName, type);
     }
 
     public JsonOutput getSettings() {

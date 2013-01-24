@@ -25,11 +25,13 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.cluster.metadata.MetaData;
+import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.JsonSerializer;
 import org.elasticsearch.shell.client.executors.AbstractRequestExecutor;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * @author Luca Cavanna
@@ -38,8 +40,11 @@ import java.io.IOException;
  */
 public class GetMappingRequestExecutor<JsonInput, JsonOutput> extends AbstractRequestExecutor<ClusterStateRequest, ClusterStateResponse, JsonInput, JsonOutput> {
 
-    public GetMappingRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    private final Set<String> types;
+
+    public GetMappingRequestExecutor(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer, String... types) {
         super(client, jsonSerializer);
+        this.types = ImmutableSet.copyOf(types);
     }
 
     @Override
@@ -51,23 +56,45 @@ public class GetMappingRequestExecutor<JsonInput, JsonOutput> extends AbstractRe
     protected XContentBuilder toXContent(ClusterStateRequest request, ClusterStateResponse response, XContentBuilder builder) throws IOException {
 
         MetaData metaData = response.state().metaData();
+
         builder.startObject();
 
-        if (request.filteredIndices() != null && request.filteredIndices().length == 1
-                && metaData.indices().isEmpty()) {
+        if (metaData.indices().isEmpty()) {
             return builder.endObject();
         }
 
-        for (IndexMetaData indexMetaData : metaData) {
-            builder.startObject(indexMetaData.index(), XContentBuilder.FieldCaseConversion.NONE);
+        if (request.filteredIndices() != null && request.filteredIndices().length == 1 && types.size() == 1) {
+            boolean foundType = false;
+            IndexMetaData indexMetaData = metaData.iterator().next();
             for (MappingMetaData mappingMd : indexMetaData.mappings().values()) {
+                if (!types.isEmpty() && !types.contains(mappingMd.type())) {
+                    // filter this type out...
+                    continue;
+                }
+                foundType = true;
                 builder.field(mappingMd.type());
                 builder.map(mappingMd.sourceAsMap());
             }
-            builder.endObject();
+            if (!foundType) {
+                return builder.endObject();
+            }
+        } else {
+            for (IndexMetaData indexMetaData : metaData) {
+                builder.startObject(indexMetaData.index(), XContentBuilder.FieldCaseConversion.NONE);
+
+                for (MappingMetaData mappingMd : indexMetaData.mappings().values()) {
+                    if (!types.isEmpty() && !types.contains(mappingMd.type())) {
+                        // filter this type out...
+                        continue;
+                    }
+                    builder.field(mappingMd.type());
+                    builder.map(mappingMd.sourceAsMap());
+                }
+
+                builder.endObject();
+            }
         }
 
-        builder.endObject();
-        return builder;
+        return builder.endObject();
     }
 }

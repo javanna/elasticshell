@@ -274,8 +274,7 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     }
 
     public JsonOutput getMapping() {
-        //TODO filtering by type in shellClient
-        return shellClient.getMapping(indexName);
+        return shellClient.getMapping(indexName, typeName);
     }
 
     public JsonOutput putMapping(JsonInput source) {

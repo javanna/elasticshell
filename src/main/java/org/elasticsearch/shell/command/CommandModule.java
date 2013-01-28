@@ -19,11 +19,7 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.common.inject.TypeLiteral;
 import org.elasticsearch.common.inject.multibindings.Multibinder;
-import org.elasticsearch.shell.client.ClientFactory;
-import org.elasticsearch.shell.client.RhinoClientFactory;
-import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
 
 /**
  * Guice module that binds all the needed objects to provide and register commands to the shell
@@ -41,7 +37,6 @@ public class CommandModule extends AbstractModule {
         multiBinder.addBinding().to(RhinoNodeClientCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(RhinoTransportClientCommand.class).asEagerSingleton();
 
-        bind(new TypeLiteral<ClientFactory<RhinoClientNativeJavaObject>>() {}).to(RhinoClientFactory.class);
         bind(RhinoCommandRegistrar.class).asEagerSingleton();
     }
 }

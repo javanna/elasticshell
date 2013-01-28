@@ -76,6 +76,16 @@ public class BasicShell<ShellNativeClient> implements Shell {
     @Override
     public void run() {
 
+        init();
+
+        try {
+            doRun();
+        } finally {
+            close();
+        }
+    }
+
+    protected void doRun() {
         printWelcomeMessage();
 
         tryRegisterDefaultClient();
@@ -100,6 +110,20 @@ public class BasicShell<ShellNativeClient> implements Shell {
                 }
             }
         }
+    }
+
+    /**
+     * Initializes the shell: nothing to do here but can be overriden
+     */
+    void init() {
+
+    }
+
+    /**
+     * Close the shell: nothing to do here but can be overriden
+     */
+    void close() {
+
     }
 
     protected void printWelcomeMessage() {

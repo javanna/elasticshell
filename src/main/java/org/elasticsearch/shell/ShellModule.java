@@ -22,9 +22,12 @@ import jline.console.completer.Completer;
 import org.elasticsearch.common.inject.AbstractModule;
 import org.elasticsearch.common.inject.TypeLiteral;
 import org.elasticsearch.common.inject.name.Names;
+import org.elasticsearch.shell.client.ClientFactory;
+import org.elasticsearch.shell.client.RhinoClientFactory;
+import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.console.JLineConsole;
-import org.elasticsearch.shell.console.JLineRhinoCompleter;
+import org.elasticsearch.shell.console.completer.JLineRhinoCompleter;
 import org.elasticsearch.shell.script.RhinoScriptExecutor;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.InputAnalyzer;
@@ -59,5 +62,7 @@ public class ShellModule extends AbstractModule {
         bind(ScriptExecutor.class).to(RhinoScriptExecutor.class).asEagerSingleton();
         bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class).asEagerSingleton();
         bind(Shell.class).to(RhinoShell.class).asEagerSingleton();
+
+        bind(new TypeLiteral<ClientFactory<RhinoClientNativeJavaObject>>() {}).to(RhinoClientFactory.class);
     }
 }

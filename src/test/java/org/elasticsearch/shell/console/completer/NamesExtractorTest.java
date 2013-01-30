@@ -276,4 +276,40 @@ public class NamesExtractorTest {
         Assert.assertEquals(names.size(), 1);
         Assert.assertEquals(names.get(0), "");
     }
+
+    @Test
+    public void testNamesConstructor() throws Exception {
+        String buffer = "x= new Name2().";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+        Assert.assertEquals(names.size(), 3);
+        Assert.assertEquals(names.get(0), "new");
+        Assert.assertEquals(names.get(1), "Name2");
+        Assert.assertEquals(names.get(2), "");
+    }
+
+    @Test
+    public void testNamesConstructor2() throws Exception {
+        String buffer = "x= new    Name2().";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+        Assert.assertEquals(names.size(), 3);
+        Assert.assertEquals(names.get(0), "new");
+        Assert.assertEquals(names.get(1), "Name2");
+        Assert.assertEquals(names.get(2), "");
+    }
+
+    @Test
+    public void testNamesConstructor3() throws Exception {
+        String buffer = "x= new2    Name2().";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+
+        //TODO ?????
+        Assert.assertEquals(names.size(), 0);
+    }
+
+    //TODO Requests(). returns static methods
+
+    //TODO whitespaces
 }

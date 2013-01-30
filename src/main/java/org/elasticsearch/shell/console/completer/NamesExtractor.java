@@ -50,44 +50,37 @@ public class NamesExtractor {
         List<String> names = new ArrayList<String>();
         StringBuilder name = new StringBuilder();
         while (m >= 0) {
-            char c = buffer.charAt(m);
-            if (!Character.isJavaIdentifierPart(c)) {
-
-                //no need to reverse if it's empty or only one char
-                names.add(name.length() > 1 ? name.reverse().toString() : name.toString());
-                name.setLength(0);
-
-                if (c != '.') {
-                    break;
-                }
-
-                int m2 = m - 1;
-                //if we've found ). we then ignore all the arguments from the function call, till the previous open bracket
-                if (m2 > 0 && buffer.charAt(m2) == ')') {
-                    m -= 2;
-                    int innerBrackets = 0;
-                    while (m >= 0) {
-                        char c2 = buffer.charAt(m);
-                        if (c2 == ')') {
-                            innerBrackets++;
-                        }
-                        if (c2 == '(' && innerBrackets-- == 0) {
-                            break;
-                        }
-                        m--;
-                    }
-                }
-
-            } else {
+            char c = buffer.charAt(m--);
+            //we keep adding chars to the same name till the identifier is finished
+            if (Character.isJavaIdentifierPart(c)) {
                 name.append(c);
+                continue;
             }
 
-            m--;
+            //when the identifier is finished we add it to the list of identifiers found
+            names.add(name.reverse().toString());
+            //adn we start with a new identifier
+            name.setLength(0);
+
+            if (c == ' ' && isNewKeyword(buffer, m)) {
+                names.add("new");
+                break;
+            }
+
+            if (c != '.') {
+                break;
+            }
+
+            //if we've found ). we ignore all the arguments from the function call, till the previous open bracket
+            if (c == '.' && m > 1 && buffer.charAt(m) == ')') {
+                m = stripArguments(buffer, m - 1);
+            }
+
         }
 
         if (name.length() > 0 || names.isEmpty()) {
             //adding the last name
-            names.add(name.length() > 1 ? name.reverse().toString() : name.toString());
+            names.add(name.reverse().toString());
         }
 
         //no need to reverse if empty or only one element
@@ -96,5 +89,43 @@ public class NamesExtractor {
         }
 
         return names;
+    }
+
+    private int stripArguments(String buffer, int cursor) {
+        int innerBrackets = 0;
+        while (cursor >= 0) {
+            char c2 = buffer.charAt(cursor);
+            if (c2 == ')') {
+                innerBrackets++;
+            }
+            if (c2 == '(' && --innerBrackets == -1) {
+                return --cursor;
+            }
+            cursor--;
+        }
+        return cursor;
+    }
+
+    private boolean isNewKeyword(String buffer, int cursor) {
+        char[] newOp = new char[]{'n', 'e', 'w'};
+        int pos = newOp.length - 1;
+        while (cursor > 0) {
+            char c = buffer.charAt(cursor--);
+            //ignores any additional whitespace e.g. new    Test().
+            while (c == ' ' && cursor > 0) {
+                c = buffer.charAt(cursor--);
+            }
+
+            if (c != newOp[pos--]) {
+                break;
+            }
+
+            if (pos == 0 && cursor > 1) {
+                //TODO whitespaces
+                char c2 = buffer.charAt(cursor-1);
+                return c2 == ' ' || c2 == '=';
+            }
+        }
+        return false;
     }
 }

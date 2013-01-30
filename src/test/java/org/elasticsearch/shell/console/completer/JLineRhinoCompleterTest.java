@@ -306,4 +306,6 @@ public class JLineRhinoCompleterTest {
     //TODO non java identifier example  e.g. es.index1['type-name']
 
     //TODO array[0]
+
+    //new AliasAction*().
 }

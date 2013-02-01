@@ -294,18 +294,132 @@ public class JLineRhinoCompleterTest {
         Assert.assertEquals(candidates.get(6), "util");
 
         /*
-        TODO Would be nice to give the classes that belong to that package instead of only the packages (e.g. zip)
+        TODO Would be nice to give back the classes that belong to that package instead of only the packages (e.g. zip)
         candidates.clear();
         input = "java.util.";
         completer.complete(input, input.length(), candidates);
         */
     }
 
-    //TODO Constructors new AliasAction(). now provides static methods from AliasAction
+    @Test
+    public void testCompleteConstructor_StartBuffer() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        //String input = "Requests.indexRequest().index(new AliasAction().";
+        String input = "new AliasAction().";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 15);
+        //contains both static and instance methods
+        Assert.assertTrue(candidates.contains("filter("));
+        Assert.assertTrue(candidates.contains("routing("));
+        Assert.assertTrue(candidates.contains("newAddAliasAction("));
+    }
+
+    @Test
+    public void testCompleteConstructor_StartBufferWithLastPart() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        //String input = "Requests.indexRequest().index(new AliasAction().";
+        String input = "new AliasAction().fil";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "filter(");
+    }
+
+    @Test
+    public void testCompleteConstructor_StartBufferMultipleMethods() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        //String input = "Requests.indexRequest().index(new AliasAction().";
+        String input = "new AliasAction().filter('args').rou";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "routing(");
+    }
+
+    @Test
+    public void testCompleteConstructor_StartBufferQualifiedPackage() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        String input = "new java.util.Date().";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 27);
+        Assert.assertTrue(candidates.contains("after("));
+        Assert.assertTrue(candidates.contains("before("));
+        Assert.assertTrue(candidates.contains("getDay("));
+    }
+
+    @Test
+    public void testCompleteConstructor_StartBufferQualifiedPackageWithLastPart() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        String input = "new java.util.Date().af";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "after(");
+    }
+
+    @Test
+    public void testCompleteConstructor_StartBufferQualifiedPackageMultipleMethods() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        String input = "new org.elasticsearch.action.index.IndexRequest().id('blablabla').ty";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "type(");
+    }
+
+    @Test
+    public void testCompleteConstructor_FunctionArg() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        //String input = "Requests.indexRequest().index(new AliasAction().";
+        String input = "function(new AliasAction().";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 15);
+        //contains both static and instance methods
+        Assert.assertTrue(candidates.contains("filter("));
+        Assert.assertTrue(candidates.contains("routing("));
+        Assert.assertTrue(candidates.contains("newAddAliasAction("));
+    }
+
+    @Test
+    public void testCompleteConstructor_FunctionArgWithLastPart() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        //String input = "Requests.indexRequest().index(new AliasAction().";
+        String input = "function(new AliasAction().fil";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "filter(");
+    }
+
+    @Test
+    public void testCompleteConstructor_FunctionArgMultipleMethods() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        //String input = "Requests.indexRequest().index(new AliasAction().";
+        String input = "function(new AliasAction().filter('args').rou";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "routing(");
+    }
+
+    @Test
+    public void testCompleteConstructor_FunctionArgQualifiedPackageWithLastPart() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        String input = "function(new java.util.Date().af";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "after(");
+    }
+
+    @Test
+    public void testCompleteConstructor_FunctionArgQualifiedPackageMultipleMethods() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        String input = "function(new org.elasticsearch.action.index.IndexRequest().id('blablabla').ty";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "type(");
+    }
+
 
     //TODO non java identifier example  e.g. es.index1['type-name']
 
+    //TODO cursor in the middle
+
     //TODO array[0]
 
-    //new AliasAction*().
+    //TODO new java.util.Date().
 }

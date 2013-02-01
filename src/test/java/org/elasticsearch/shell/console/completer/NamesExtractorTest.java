@@ -305,11 +305,53 @@ public class NamesExtractorTest {
         List<String> names = namesExtractor.extractNames(buffer, buffer.length());
         Assert.assertNotNull(names);
 
-        //TODO ?????
-        Assert.assertEquals(names.size(), 0);
+        //TODO Requests(). returns static methods
+        // this is not quite what I would want to see but for now it's ok
+        Assert.assertEquals(names.size(), 2);
+        Assert.assertEquals(names.get(0), "Name2");
+        Assert.assertEquals(names.get(1), "");
     }
 
-    //TODO Requests(). returns static methods
+    @Test
+    public void testNamesConstructor4() throws Exception {
+        String buffer = "x= n2w    Name2().";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
 
-    //TODO whitespaces
+        //TODO Requests(). returns static methods
+        // this is not quite what I would want to see but for now it's ok
+        Assert.assertEquals(names.size(), 2);
+        Assert.assertEquals(names.get(0), "Name2");
+        Assert.assertEquals(names.get(1), "");
+    }
+
+    @Test
+    public void testNamesConstructor5() throws Exception {
+        String buffer = "new Name().";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+
+        Assert.assertEquals(names.size(), 3);
+        Assert.assertEquals(names.get(0), "new");
+        Assert.assertEquals(names.get(1), "Name");
+        Assert.assertEquals(names.get(2), "");
+    }
+
+    @Test
+    public void testNamesConstructor6() throws Exception {
+        String buffer = "Requests.indexRequest(new Name().";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+
+        Assert.assertEquals(names.size(), 3);
+        Assert.assertEquals(names.get(0), "new");
+        Assert.assertEquals(names.get(1), "Name");
+        Assert.assertEquals(names.get(2), "");
+    }
+
+/*
+    cursor + 1 with inner parentheses   FilterBuilders.queryFilter(QueryBuilders.)
+
+    FilterBuilders.queryFilter(QueryBuilders.  no suggestions
+*/
 }

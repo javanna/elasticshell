@@ -29,8 +29,11 @@ package org.mozilla.javascript;
  */
 public class RhinoCustomNativeJavaClass extends NativeJavaClass {
 
+    private final Class<?> clazz;
+
     public RhinoCustomNativeJavaClass(Scriptable scope, Class<?> cl) {
         super(scope, cl);
+        this.clazz = cl;
     }
 
     @Override
@@ -42,5 +45,9 @@ public class RhinoCustomNativeJavaClass extends NativeJavaClass {
             return javaMethod;
         }
         return res;
+    }
+
+    public Class<?> getClazz() {
+        return clazz;
     }
 }

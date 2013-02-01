@@ -78,15 +78,46 @@ public class JLineRhinoCompleter implements Completer {
         //looks for the last object whose name is complete
         Scriptable object = this.shellScope.get();
         Set<Class<?>> returnTypes = null;
+        boolean newFound = false;
         for (int i = 0; i < names.size() - 1; i++) {
             String currentName = names.get(i);
+
+            //when we get to the new keyword we just go ahead with the next name (we'll take into account later)
+            if ("new".equals(currentName)) {
+                newFound = true;
+                continue;
+            }
+
             Object val;
             try {
                 val = object.get(currentName, this.shellScope.get());
                 logger.debug("Found {} while looking for [{}] in {}", val.getClass(), currentName, object.getClass());
+
+                if (newFound && !(val instanceof NativeJavaPackage) && !(val instanceof NativeJavaClass)) {
+                    newFound = false;
+                }
+
             } catch(EvaluatorException e) {
                 logger.debug("Error while looking for [{}] in {}", currentName, object.getClass());
                 return buffer.length(); //no matches
+            }
+
+            if (val instanceof RhinoCustomNativeJavaClass && newFound) {
+                Class<?> clazz = ((RhinoCustomNativeJavaClass) val).getClazz();
+                returnTypes = new HashSet<Class<?>>();
+                returnTypes.add(clazz);
+
+                for (int j = i + 1; j < names.size() - 1; j++) {
+                    if (returnTypes.isEmpty()) {
+                        return buffer.length(); // no matches
+                    }
+
+                    //gets all the possible return types given the input types
+                    returnTypes = findReturnTypes(returnTypes, names.get(j));
+                }
+
+                break;
+
             }
 
             //If we have a java method we won't find it within the parent object
@@ -185,7 +216,7 @@ public class JLineRhinoCompleter implements Completer {
         return returnTypes;
     }
 
-    //TODO performance might suck! Caching???
+    //TODO performance might suck! Caching?
     private Set<Class<?>> findReturnTypes(Class<?> clazz, String methodName) {
         Set<Class<?>> returnTypes = new HashSet<Class<?>>();
         for (Method method : clazz.getMethods()) {

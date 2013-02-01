@@ -107,25 +107,24 @@ public class NamesExtractor {
     }
 
     private boolean isNewKeyword(String buffer, int cursor) {
+        char c = buffer.charAt(cursor);
+        //ignores any additional whitespace e.g. new    Test().
+        while (c == ' ' && cursor > 0) {
+            cursor--;
+            c = buffer.charAt(cursor);
+        }
+
         char[] newOp = new char[]{'n', 'e', 'w'};
         int pos = newOp.length - 1;
-        while (cursor > 0) {
-            char c = buffer.charAt(cursor--);
-            //ignores any additional whitespace e.g. new    Test().
-            while (c == ' ' && cursor > 0) {
-                c = buffer.charAt(cursor--);
-            }
 
+        while (cursor > 0 && pos >= 0) {
             if (c != newOp[pos--]) {
-                break;
+                return false;
             }
-
-            if (pos == 0 && cursor > 1) {
-                //TODO whitespaces
-                char c2 = buffer.charAt(cursor-1);
-                return c2 == ' ' || c2 == '=';
-            }
+            c = buffer.charAt(--cursor);
         }
-        return false;
+        //new can be the first word, otherwise it must not appear after a java identifier part to be the new keyword
+        return (cursor == 0 && pos == 0)
+                || !Character.isJavaIdentifierPart(buffer.charAt(cursor));
     }
 }

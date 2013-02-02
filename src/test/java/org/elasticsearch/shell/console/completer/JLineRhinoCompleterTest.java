@@ -18,12 +18,12 @@
  */
 package org.elasticsearch.shell.console.completer;
 
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.inject.Guice;
 import org.elasticsearch.common.inject.Injector;
 import org.elasticsearch.shell.ShellModule;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.RhinoCustomWrapFactory;
+import org.mozilla.javascript.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -273,6 +273,102 @@ public class JLineRhinoCompleterTest {
     }
 
     @Test
+    public void testCompleteNestedNativeJavaObject() {
+        NativeJavaObject nativeJavaObject = new RhinoCustomNativeJavaObject(completer.getScope().get(), Requests.indexRequest("index_name"), IndexRequest.class);
+        nativeJavaObject.setPrototype(Context.getCurrentContext().newObject(completer.getScope().get()));
+
+        NativeJavaObject nestedDativeJavaObject = new RhinoCustomNativeJavaObject(completer.getScope().get(), Requests.indexRequest("index_name"), IndexRequest.class);
+        nestedDativeJavaObject.setPrototype(Context.getCurrentContext().newObject(completer.getScope().get()));
+
+        ScriptableObject.putProperty(nativeJavaObject, "typeNested", nestedDativeJavaObject);
+        completer.getScope().registerJavaObject("ir", nativeJavaObject);
+
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        String input = "ir.ty";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 2);
+        Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(candidates.get(1), "typeNested");
+
+        candidates.clear();
+        input = "ir.type('type_name').id";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "id(");
+
+        candidates.clear();
+        input = "ir.type('type_name').id(\"id\").so";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 2);
+        Assert.assertEquals(candidates.get(0), "source(");
+        Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+
+        candidates.clear();
+        input = "ir.typeNested.ty";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "type(");
+
+        candidates.clear();
+        input = "ir.typeNested.type('type_name').id";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "id(");
+
+        candidates.clear();
+        input = "ir.typeNested.type('type_name').id(\"id\").so";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 2);
+        Assert.assertEquals(candidates.get(0), "source(");
+        Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+    }
+
+    @Test
+    public void testCompleteNestedNativeJavaObjectNonJavaIdentifier() {
+        NativeJavaObject nativeJavaObject = new RhinoCustomNativeJavaObject(completer.getScope().get(), Requests.indexRequest("index_name"), IndexRequest.class);
+        nativeJavaObject.setPrototype(Context.getCurrentContext().newObject(completer.getScope().get()));
+
+        NativeJavaObject nestedDativeJavaObject = new RhinoCustomNativeJavaObject(completer.getScope().get(), Requests.indexRequest("index_name"), IndexRequest.class);
+        nestedDativeJavaObject.setPrototype(Context.getCurrentContext().newObject(completer.getScope().get()));
+
+        ScriptableObject.putProperty(nativeJavaObject, "type-name", nestedDativeJavaObject);
+        completer.getScope().registerJavaObject("ir", nativeJavaObject);
+
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        String input = "ir.ty";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 2);
+        Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(candidates.get(1), "type-name");
+
+        candidates.clear();
+        input = "ir.type('type_name').id";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "id(");
+
+        candidates.clear();
+        input = "ir.type('type_name').id(\"id\").so";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 2);
+        Assert.assertEquals(candidates.get(0), "source(");
+        Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+
+        candidates.clear();
+        input = "ir['type-name'].ty";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertEquals(candidates.get(0), "type(");
+
+        candidates.clear();
+        input = "ir['type-name'].type('type_name').id(\"id\").so";
+        completer.complete(input, input.length(), candidates);
+        Assert.assertEquals(candidates.size(), 2);
+        Assert.assertEquals(candidates.get(0), "source(");
+        Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+    }
+
+    @Test
     public void testCompletePackages() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "ja";
@@ -414,12 +510,16 @@ public class JLineRhinoCompleterTest {
         Assert.assertEquals(candidates.get(0), "type(");
     }
 
-
-    //TODO non java identifier example  e.g. es.index1['type-name']
-
     //TODO cursor in the middle
+
+    //TODO complete packages
 
     //TODO array[0]
 
-    //TODO new java.util.Date().
+    /* TODO
+    cursor + 1 with inner parentheses   FilterBuilders.queryFilter(QueryBuilders.)
+
+    FilterBuilders.queryFilter(QueryBuilders.  no suggestions
+*/
+
 }

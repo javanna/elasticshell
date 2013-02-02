@@ -51,21 +51,50 @@ public class NamesExtractor {
         StringBuilder name = new StringBuilder();
         while (m >= 0) {
             char c = buffer.charAt(m--);
+            //TODO potential bug: javaIdentifierStart != javaIdentifierPart
             //we keep adding chars to the same name till the identifier is finished
             if (Character.isJavaIdentifierPart(c)) {
                 name.append(c);
                 continue;
             }
 
-            //when the identifier is finished we add it to the list of identifiers found
+            if (c == ']' && mightBeIdentifier(buffer, m)) {
+                //TODO we only support identifiers among square brackets and quotation marks, no support for arrays
+                int m2 = m - 1;
+                char c2 = buffer.charAt(m2);
+                boolean foundIdentifier = false;
+                StringBuilder identifier = new StringBuilder();
+                while (m2 > 0) {
+                    if (c2=='"' || c2 == '\'') {
+                        if (buffer.charAt(--m2)=='[') {
+                            names.add(identifier.reverse().toString());
+                            foundIdentifier = true;
+                            m = m2 - 1;
+                        }
+                        break;
+                    }
+
+                    identifier.append(c2);
+                    c2 = buffer.charAt(--m2);
+                }
+
+                if (foundIdentifier) {
+                    continue;
+                } else {
+                    break;
+                }
+            }
+
+            //when the identifier is finished we add it to the list of identifiers found and we start with a new identifier
             names.add(name.reverse().toString());
-            //adn we start with a new identifier
             name.setLength(0);
 
             if (c == ' ' && isNewKeyword(buffer, m)) {
                 names.add("new");
                 break;
             }
+
+
 
             if (c != '.') {
                 break;
@@ -104,6 +133,15 @@ public class NamesExtractor {
             cursor--;
         }
         return cursor;
+    }
+
+    private boolean mightBeIdentifier(String buffer, int cursor) {
+        //not enough characters for an identifier among square brackets  e.g. a['b']
+        if (cursor < 4) {
+            return false;
+        }
+        char c = buffer.charAt(cursor);
+        return c == '"' | c == '\'';
     }
 
     private boolean isNewKeyword(String buffer, int cursor) {

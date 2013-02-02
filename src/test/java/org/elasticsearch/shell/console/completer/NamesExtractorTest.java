@@ -349,9 +349,73 @@ public class NamesExtractorTest {
         Assert.assertEquals(names.get(2), "");
     }
 
-/*
-    cursor + 1 with inner parentheses   FilterBuilders.queryFilter(QueryBuilders.)
+    @Test
+    public void testNamesSquareBrackets() throws Exception {
+        String buffer = "es.index['type-name'].";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
 
-    FilterBuilders.queryFilter(QueryBuilders.  no suggestions
-*/
+        //test input errors
+
+        Assert.assertEquals(names.size(), 4);
+        Assert.assertEquals(names.get(0), "es");
+        Assert.assertEquals(names.get(1), "index");
+        Assert.assertEquals(names.get(2), "type-name");
+        Assert.assertEquals(names.get(3), "");
+    }
+
+    @Test
+    public void testNamesSquareBrackets2() throws Exception {
+        String buffer = "es.index['type-name'].typ";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+        Assert.assertEquals(names.size(), 4);
+        Assert.assertEquals(names.get(0), "es");
+        Assert.assertEquals(names.get(1), "index");
+        Assert.assertEquals(names.get(2), "type-name");
+        Assert.assertEquals(names.get(3), "typ");
+    }
+
+    @Test
+    public void testNamesSquareBrackets3() throws Exception {
+        String buffer = "es.index[\"type-name\"].";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+        Assert.assertEquals(names.size(), 4);
+        Assert.assertEquals(names.get(0), "es");
+        Assert.assertEquals(names.get(1), "index");
+        Assert.assertEquals(names.get(2), "type-name");
+        Assert.assertEquals(names.get(3), "");
+    }
+
+    @Test
+    public void testNamesSquareBrackets4() throws Exception {
+        //no auto-complete for non java identifier within square brackets for now
+        String buffer = "es.index['type-na";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+        Assert.assertEquals(names.size(), 1);
+        Assert.assertEquals(names.get(0), "na");
+    }
+
+    @Test
+    public void testNamesSquareBracketsWrongInput() throws Exception {
+        String buffer = "es.index[type-name'].typ";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+        Assert.assertEquals(names.size(), 1);
+        Assert.assertEquals(names.get(0), "typ");
+    }
+
+    @Test
+    public void testNamesSquareBracketsWrongInput2() throws Exception {
+        String buffer = "es.index.type-name'].typ";
+        List<String> names = namesExtractor.extractNames(buffer, buffer.length());
+        Assert.assertNotNull(names);
+        Assert.assertEquals(names.size(), 1);
+        Assert.assertEquals(names.get(0), "typ");
+    }
+
+
+
 }

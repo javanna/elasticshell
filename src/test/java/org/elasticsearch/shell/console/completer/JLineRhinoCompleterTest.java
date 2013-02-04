@@ -56,197 +56,219 @@ public class JLineRhinoCompleterTest {
     public void testComplete_EmptyInput() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), completer.getScope().get().getAllIds().length);
+        Assert.assertEquals(output, 0);
     }
 
     @Test
     public void testCompleteNativeJavaClass_Name() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requ";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "Requests");
+        Assert.assertEquals(output, 0);
     }
 
     @Test
     public void testCompleteNativeJavaClass_WholeName() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "Requests");
+        Assert.assertEquals(output, 0);
     }
 
     @Test
     public void testComplete_Nothing() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests1";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 0);
+        Assert.assertEquals(output, 0);
     }
 
     @Test
     public void testCompleteNativeJavaClass_AllMethods() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 35);
+        Assert.assertEquals(output, 9);
     }
 
     @Test
     public void testCompleteNativeJavaClass_FilteredMethods() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.index";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "indexAliasesRequest(");
         Assert.assertEquals(candidates.get(1), "indexRequest(");
+        Assert.assertEquals(output, 9);
     }
 
     @Test
     public void testCompleteImportCommand() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "impo";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "importClass(");
         Assert.assertEquals(candidates.get(1), "importPackage(");
+        Assert.assertEquals(output, 0);
     }
 
     @Test
     public void testCompleteNativeJavaClass_MethodNotFound() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.doesntExist().";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 0);
+        Assert.assertEquals(output, 23);
     }
 
     @Test
     public void testCompleteNativeJavaClass_MethodNotFound2() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.doesntExist('abcd').";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 0);
+        Assert.assertEquals(output, 29);
     }
 
     @Test
     public void testCompleteNativeJavaClass_MethodNotFound3() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.doesntExist().test";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 0);
+        Assert.assertEquals(output, 23);
     }
 
     @Test
     public void testCompleteNativeJavaClass_MethodNotFound4() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.doesntExist('abcd').test";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 0);
+        Assert.assertEquals(output, 29);
     }
 
     @Test
     public void testCompleteNativeJavaMethod_1MethodReflection() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.indexRequest().";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 34);
+        Assert.assertEquals(output, 24);
     }
 
     @Test
     public void testCompleteNativeJavaMethod_1MethodReflectionWithArguments() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.indexRequest(QueryBuilders.try(ddd)).";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 34);
+        Assert.assertEquals(output, 46);
     }
 
     @Test
     public void testCompleteNativeJavaMethod_1MethodReflection2() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.indexRequest('index_name').ty";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(output, 36);
     }
 
     @Test
     public void testCompleteNativeJavaMethod_2MethodsReflection() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.indexRequest('index_name').type('index_name').id";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(output, 55);
     }
 
     @Test
     public void testCompleteNativeJavaMethod_3MethodsReflection() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.indexRequest('index_name').type(\"type_name\").id('id').so";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "source(");
         Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+        Assert.assertEquals(output, 63);
     }
 
     @Test
     public void testCompleteNativeJavaMethod_MethodNotFound() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.indexRequest('index_name').notFound(\"type_name\").id('id').so";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 0);
+        Assert.assertEquals(output, 67);
     }
 
     @Test
     public void testCompleteNativeJavaClassNotImported() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "java.util.Collections.empty";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 3);
         Assert.assertEquals(candidates.get(0), "emptyList(");
         Assert.assertEquals(candidates.get(1), "emptyMap(");
         Assert.assertEquals(candidates.get(2), "emptySet(");
+        Assert.assertEquals(output, 22);
     }
 
     @Test
     public void testCompleteNativeJavaClassNotImported2() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "java.util.Collections.emptyList(blablabla).add";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "add(");
         Assert.assertEquals(candidates.get(1), "addAll(");
+        Assert.assertEquals(output, 43);
     }
 
     @Test
     public void testCompleteNativeJavaClassNotImported3() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "java.util.Collections.emptyList(blablabla).get(0).";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 3);
         Assert.assertEquals(candidates.get(0), "equals(");
         Assert.assertEquals(candidates.get(1), "getClass(");
         Assert.assertEquals(candidates.get(2), "toString(");
+        Assert.assertEquals(output, 50);
     }
 
     @Test
     public void testCompleteNativeJavaClassNotImported_Void() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "java.util.Collections.sort(sdfsdf).";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 0);
+        Assert.assertEquals(output, 35);
     }
 
     @Test
     public void testCompleteNativeJavaClass_MultipleReturnTypes() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.indexRequest().index().";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         //merge between String return type and ShardReplicationOperationRequest
         Assert.assertEquals(candidates.size(), 56);
         Assert.assertTrue(candidates.contains("substring("));
         Assert.assertTrue(candidates.contains("replicationType("));
+        Assert.assertEquals(output, 32);
     }
 
     @Test
@@ -254,22 +276,25 @@ public class JLineRhinoCompleterTest {
         completer.getScope().registerJavaObject("ir", Context.javaToJS(Requests.indexRequest("index_name"), completer.getScope().get()));
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "ir.ty";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(output, 3);
 
         candidates.clear();
         input = "ir.type('type_name').id";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(output, 21);
 
         candidates.clear();
         input = "ir.type('type_name').id(\"id\").so";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "source(");
         Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+        Assert.assertEquals(output, 30);
     }
 
     @Test
@@ -285,42 +310,48 @@ public class JLineRhinoCompleterTest {
 
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "ir.ty";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "type(");
         Assert.assertEquals(candidates.get(1), "typeNested");
+        Assert.assertEquals(output, 3);
 
         candidates.clear();
         input = "ir.type('type_name').id";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(output, 21);
 
         candidates.clear();
         input = "ir.type('type_name').id(\"id\").so";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "source(");
         Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+        Assert.assertEquals(output, 30);
 
         candidates.clear();
         input = "ir.typeNested.ty";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(output, 14);
 
         candidates.clear();
         input = "ir.typeNested.type('type_name').id";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(output, 32);
 
         candidates.clear();
         input = "ir.typeNested.type('type_name').id(\"id\").so";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "source(");
         Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+        Assert.assertEquals(output, 41);
     }
 
     @Test
@@ -336,50 +367,56 @@ public class JLineRhinoCompleterTest {
 
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "ir.ty";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "type(");
         Assert.assertEquals(candidates.get(1), "type-name");
+        Assert.assertEquals(output, 3);
 
         candidates.clear();
         input = "ir.type('type_name').id";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(output, 21);
 
         candidates.clear();
         input = "ir.type('type_name').id(\"id\").so";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "source(");
         Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+        Assert.assertEquals(output, 30);
 
         candidates.clear();
         input = "ir['type-name'].ty";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(output, 16);
 
         candidates.clear();
         input = "ir['type-name'].type('type_name').id(\"id\").so";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "source(");
         Assert.assertEquals(candidates.get(1), "sourceAsMap(");
+        Assert.assertEquals(output, 43);
     }
 
     @Test
     public void testCompletePackages() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "ja";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
         Assert.assertEquals(candidates.get(0), "java");
         Assert.assertEquals(candidates.get(1), "javax");
+        Assert.assertEquals(output, 0);
 
         candidates.clear();
         input = "java.";
-        completer.complete(input, input.length(), candidates);
+        output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 7);
         Assert.assertEquals(candidates.get(0), "applet");
         Assert.assertEquals(candidates.get(1), "io");
@@ -388,126 +425,127 @@ public class JLineRhinoCompleterTest {
         Assert.assertEquals(candidates.get(4), "net");
         Assert.assertEquals(candidates.get(5), "text");
         Assert.assertEquals(candidates.get(6), "util");
+        Assert.assertEquals(output, 5);
 
-        /*
-        TODO Would be nice to give back the classes that belong to that package instead of only the packages (e.g. zip)
-        candidates.clear();
-        input = "java.util.";
-        completer.complete(input, input.length(), candidates);
-        */
+        //TODO Would be nice to give back the classes that belong to that package instead of only the packages (e.g. zip)
     }
 
     @Test
     public void testCompleteConstructor_StartBuffer() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
-        //String input = "Requests.indexRequest().index(new AliasAction().";
         String input = "new AliasAction().";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 15);
         //contains both static and instance methods
         Assert.assertTrue(candidates.contains("filter("));
         Assert.assertTrue(candidates.contains("routing("));
         Assert.assertTrue(candidates.contains("newAddAliasAction("));
+        Assert.assertEquals(output, 18);
     }
 
     @Test
     public void testCompleteConstructor_StartBufferWithLastPart() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
-        //String input = "Requests.indexRequest().index(new AliasAction().";
         String input = "new AliasAction().fil";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "filter(");
+        Assert.assertEquals(output, 18);
     }
 
     @Test
     public void testCompleteConstructor_StartBufferMultipleMethods() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
-        //String input = "Requests.indexRequest().index(new AliasAction().";
         String input = "new AliasAction().filter('args').rou";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "routing(");
+        Assert.assertEquals(output, 33);
     }
 
     @Test
     public void testCompleteConstructor_StartBufferQualifiedPackage() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "new java.util.Date().";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 27);
         Assert.assertTrue(candidates.contains("after("));
         Assert.assertTrue(candidates.contains("before("));
         Assert.assertTrue(candidates.contains("getDay("));
+        Assert.assertEquals(output, 21);
     }
 
     @Test
     public void testCompleteConstructor_StartBufferQualifiedPackageWithLastPart() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "new java.util.Date().af";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "after(");
+        Assert.assertEquals(output, 21);
     }
 
     @Test
     public void testCompleteConstructor_StartBufferQualifiedPackageMultipleMethods() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "new org.elasticsearch.action.index.IndexRequest().id('blablabla').ty";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(output, 66);
     }
 
     @Test
     public void testCompleteConstructor_FunctionArg() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
-        //String input = "Requests.indexRequest().index(new AliasAction().";
         String input = "function(new AliasAction().";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 15);
         //contains both static and instance methods
         Assert.assertTrue(candidates.contains("filter("));
         Assert.assertTrue(candidates.contains("routing("));
         Assert.assertTrue(candidates.contains("newAddAliasAction("));
+        Assert.assertEquals(output, 27);
     }
 
     @Test
     public void testCompleteConstructor_FunctionArgWithLastPart() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
-        //String input = "Requests.indexRequest().index(new AliasAction().";
         String input = "function(new AliasAction().fil";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "filter(");
+        Assert.assertEquals(output, 27);
     }
 
     @Test
     public void testCompleteConstructor_FunctionArgMultipleMethods() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
-        //String input = "Requests.indexRequest().index(new AliasAction().";
         String input = "function(new AliasAction().filter('args').rou";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "routing(");
+        Assert.assertEquals(output, 42);
     }
 
     @Test
     public void testCompleteConstructor_FunctionArgQualifiedPackageWithLastPart() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "function(new java.util.Date().af";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "after(");
+        Assert.assertEquals(output, 30);
     }
 
     @Test
     public void testCompleteConstructor_FunctionArgQualifiedPackageMultipleMethods() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "function(new org.elasticsearch.action.index.IndexRequest().id('blablabla').ty";
-        completer.complete(input, input.length(), candidates);
+        int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
         Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(output, 75);
     }
 
     //TODO cursor in the middle
@@ -517,6 +555,7 @@ public class JLineRhinoCompleterTest {
     //TODO array[0]
 
     /* TODO
+
     cursor + 1 with inner parentheses   FilterBuilders.queryFilter(QueryBuilders.)
 
     FilterBuilders.queryFilter(QueryBuilders.  no suggestions

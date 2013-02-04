@@ -42,7 +42,7 @@ public class JLineRhinoCompleter implements Completer {
     private final ShellScope<RhinoShellTopLevel> shellScope;
     private final List<String> excludeList = new ArrayList<String>();
 
-    private final NamesExtractor namesExtractor = new NamesExtractor();
+    private final IdentifierTokenizer idTokenizer = new IdentifierTokenizer();
 
     @Inject
     JLineRhinoCompleter(ShellScope<RhinoShellTopLevel> shellScope) {
@@ -71,16 +71,15 @@ public class JLineRhinoCompleter implements Completer {
 
         logger.debug("Trying to complete buffer [{}], cursor {}", buffer, cursor);
 
-        List<String> names = namesExtractor.extractNames(buffer, cursor);
-
-        logger.debug("Names: {}", names);
+        List<Identifier> identifiers = idTokenizer.tokenize(buffer, cursor);
+        logger.debug("Identifiers: {}", identifiers);
 
         //looks for the last object whose name is complete
         Scriptable object = this.shellScope.get();
         Set<Class<?>> returnTypes = null;
         boolean newFound = false;
-        for (int i = 0; i < names.size() - 1; i++) {
-            String currentName = names.get(i);
+        for (int i = 0; i < identifiers.size() - 1; i++) {
+            String currentName = identifiers.get(i).getName();
 
             //when we get to the new keyword we just go ahead with the next name (we'll take into account later)
             if ("new".equals(currentName)) {
@@ -99,7 +98,7 @@ public class JLineRhinoCompleter implements Completer {
 
             } catch(EvaluatorException e) {
                 logger.debug("Error while looking for [{}] in {}", currentName, object.getClass());
-                return buffer.length(); //no matches
+                return getLastPartStartPosition(identifiers); // no matches
             }
 
             if (val instanceof RhinoCustomNativeJavaClass && newFound) {
@@ -107,13 +106,13 @@ public class JLineRhinoCompleter implements Completer {
                 returnTypes = new HashSet<Class<?>>();
                 returnTypes.add(clazz);
 
-                for (int j = i + 1; j < names.size() - 1; j++) {
+                for (int j = i + 1; j < identifiers.size() - 1; j++) {
                     if (returnTypes.isEmpty()) {
-                        return buffer.length(); // no matches
+                        return getLastPartStartPosition(identifiers); // no matches
                     }
 
                     //gets all the possible return types given the input types
-                    returnTypes = findReturnTypes(returnTypes, names.get(j));
+                    returnTypes = findReturnTypes(returnTypes, identifiers.get(j).getName());
                 }
 
                 break;
@@ -121,18 +120,18 @@ public class JLineRhinoCompleter implements Completer {
             }
 
             //If we have a java method we won't find it within the parent object
-            //we need to search through reflections for the remaining elements
+            //we need to lookup the remaining elements through reflections
             if (val instanceof RhinoCustomNativeJavaMethod) {
                 RhinoCustomNativeJavaMethod nativeJavaMethod = (RhinoCustomNativeJavaMethod) val;
                 //gets the return types given the native java method
                 returnTypes = nativeJavaMethod.getReturnTypes();
 
-                for (int j = i + 1; j < names.size() - 1; j++) {
+                for (int j = i + 1; j < identifiers.size() - 1; j++) {
                     if (returnTypes.isEmpty()) {
-                        return buffer.length(); // no matches
+                        return getLastPartStartPosition(identifiers); // no matches
                     }
                     //gets all the possible return types given the input types
-                    returnTypes = findReturnTypes(returnTypes, names.get(j));
+                    returnTypes = findReturnTypes(returnTypes, identifiers.get(j).getName());
                 }
 
                 break;
@@ -140,25 +139,24 @@ public class JLineRhinoCompleter implements Completer {
 
             if (!(val instanceof Scriptable)) {
                 if (object.getPrototype() == null) {
-                    return buffer.length(); // no matches
+                    return getLastPartStartPosition(identifiers); // no matches
                 }
                 val = object.getPrototype().get(currentName, this.shellScope.get());
                 if (!(val instanceof Scriptable)) {
-                    return buffer.length(); // no matches
+                    return getLastPartStartPosition(identifiers); // no matches
                 }
             }
             object = (Scriptable)val;
         }
 
-        String lastPart = names.get(names.size() - 1);
+        Identifier lastPart = identifiers.get(identifiers.size() - 1);
         logger.debug("LastPart: {}", lastPart);
 
         if (returnTypes == null) {
-            findCandidatesInScriptable(object, lastPart, candidates);
+            findCandidatesInScriptable(object, lastPart.getName(), candidates);
         } else {
-            findCandidatesInReturnTypes(returnTypes, lastPart, candidates);
+            findCandidatesInReturnTypes(returnTypes, lastPart.getName(), candidates);
         }
-
 
         Collections.sort(candidates, new Comparator<CharSequence>() {
             @Override
@@ -167,7 +165,11 @@ public class JLineRhinoCompleter implements Completer {
             }
         });
 
-        return buffer.length() - lastPart.length();
+        return lastPart.getStartPosition();
+    }
+
+    private int getLastPartStartPosition(List<Identifier> identifiers) {
+        return identifiers.get(identifiers.size() - 1).getStartPosition();
     }
 
     private void findCandidatesInScriptable(Scriptable object, String prefix, List<CharSequence> candidates) {

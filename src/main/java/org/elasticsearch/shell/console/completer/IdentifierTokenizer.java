@@ -29,7 +29,7 @@ import java.util.List;
  * from the current user input, given also the cursor position
  *
  */
-public class NamesExtractor {
+public class IdentifierTokenizer {
 
     /**
      * Extracts the name of the objects that are useful in order to provide suggestions
@@ -38,47 +38,51 @@ public class NamesExtractor {
      * e.g. Given Requests.indexRequests.index('index_name').ty will return [Requests,indexRequest,index,ty]
      * @param buffer the user input
      * @param cursor the cursor position
-     * @return the list of the names useful to provide suggestions
+     * @return the list of the identifiers useful to provide suggestions
      */
-    public List<String> extractNames(String buffer, int cursor) {
-
-        int m = cursor - 1;
-
+    public List<Identifier> tokenize(String buffer, int cursor) {
         //Looks backward and collects a list of identifiers
         //We stop as soon as we find something that is not a java identifier part or . or ).
         //We also strip out the arguments from any function call
-        List<String> names = new ArrayList<String>();
-        StringBuilder name = new StringBuilder();
+        List<Identifier> identifiers = new ArrayList<Identifier>();
+        Identifier identifier = new Identifier(cursor);
+        int m = cursor - 1;
         while (m >= 0) {
+            //identifier = new Identifier(m);
             char c = buffer.charAt(m--);
-            //TODO potential bug: javaIdentifierStart != javaIdentifierPart
             //we keep adding chars to the same name till the identifier is finished
+            //using isJavaIdentifierPart even though it isn't always correct. Javascript identifiers have different rules,
+            //and the first character is quite different too.
             if (Character.isJavaIdentifierPart(c)) {
-                name.append(c);
+                if (identifier.getEndPosition() == cursor) {
+                    identifier = new Identifier(cursor - 1);
+                }
+                identifier.append(c);
                 continue;
             }
 
             if (c == ']' && mightBeIdentifier(buffer, m)) {
-                //TODO we only support identifiers among square brackets and quotation marks, no support for arrays
+                //TODO only support for identifiers among square brackets and quotation marks, no support for arrays
                 int m2 = m - 1;
                 char c2 = buffer.charAt(m2);
                 boolean foundIdentifier = false;
-                StringBuilder identifier = new StringBuilder();
+                Identifier id = new Identifier(m+1).incrementLength(2);
                 while (m2 > 0) {
                     if (c2=='"' || c2 == '\'') {
                         if (buffer.charAt(--m2)=='[') {
-                            names.add(identifier.reverse().toString());
+                            id.incrementLength(2);
                             foundIdentifier = true;
-                            m = m2 - 1;
                         }
                         break;
                     }
-
-                    identifier.append(c2);
+                    id.append(c2);
                     c2 = buffer.charAt(--m2);
                 }
 
                 if (foundIdentifier) {
+                    identifiers.add(id.reverse());
+                    m = m2 - 1;
+                    identifier = new Identifier(m);
                     continue;
                 } else {
                     break;
@@ -86,15 +90,16 @@ public class NamesExtractor {
             }
 
             //when the identifier is finished we add it to the list of identifiers found and we start with a new identifier
-            names.add(name.reverse().toString());
-            name.setLength(0);
+            identifiers.add(identifier.reverse());
+            identifier = new Identifier(m);
 
-            if (c == ' ' && isNewKeyword(buffer, m)) {
-                names.add("new");
-                break;
+            if (c == ' ') {
+                Identifier newKeyword = extractNewKeyword(buffer, m);
+                if (newKeyword != null) {
+                    identifiers.add(newKeyword.reverse());
+                    break;
+                }
             }
-
-
 
             if (c != '.') {
                 break;
@@ -102,22 +107,27 @@ public class NamesExtractor {
 
             //if we've found ). we ignore all the arguments from the function call, till the previous open bracket
             if (c == '.' && m > 1 && buffer.charAt(m) == ')') {
-                m = stripArguments(buffer, m - 1);
+                int m2 = stripArguments(buffer, m - 1);
+                if (m2 < 0) {
+                    break;
+                }
+                identifier.incrementLength(m - m2);
+                m = m2;
             }
 
         }
 
-        if (name.length() > 0 || names.isEmpty()) {
-            //adding the last name
-            names.add(name.reverse().toString());
+        if (identifier.getLength() > 0 || identifiers.isEmpty()) {
+            //adding the last identifier
+            identifiers.add(identifier.reverse());
         }
 
         //no need to reverse if empty or only one element
-        if (names.size() > 1) {
-            Collections.reverse(names);
+        if (identifiers.size() > 1) {
+            Collections.reverse(identifiers);
         }
 
-        return names;
+        return identifiers;
     }
 
     private int stripArguments(String buffer, int cursor) {
@@ -144,25 +154,34 @@ public class NamesExtractor {
         return c == '"' | c == '\'';
     }
 
-    private boolean isNewKeyword(String buffer, int cursor) {
-        char c = buffer.charAt(cursor);
+    private Identifier extractNewKeyword(String buffer, int cursor) {
+        int m = cursor;
+        char c = buffer.charAt(m);
         //ignores any additional whitespace e.g. new    Test().
-        while (c == ' ' && cursor > 0) {
-            cursor--;
-            c = buffer.charAt(cursor);
+        while (c == ' ' && m > 0) {
+            m--;
+            c = buffer.charAt(m);
         }
 
         char[] newOp = new char[]{'n', 'e', 'w'};
         int pos = newOp.length - 1;
 
-        while (cursor > 0 && pos >= 0) {
+        while (m > 0 && pos >= 0) {
             if (c != newOp[pos--]) {
-                return false;
+                return null;
             }
-            c = buffer.charAt(--cursor);
+            c = buffer.charAt(--m);
         }
-        //new can be the first word, otherwise it must not appear after a java identifier part to be the new keyword
-        return (cursor == 0 && pos == 0)
-                || !Character.isJavaIdentifierPart(buffer.charAt(cursor));
+        //new can be the first word, otherwise it must not appear after a java identifier part (e.g. abcnew )
+        if ( (m == 0 && pos == 0)
+                || !Character.isJavaIdentifierPart(buffer.charAt(m)) ) {
+            Identifier id = new Identifier("wen", cursor);
+            int diff = cursor - m;
+            if (diff>3) {
+                id.incrementLength(diff - 3);
+            }
+            return id;
+        }
+        return null;
     }
 }

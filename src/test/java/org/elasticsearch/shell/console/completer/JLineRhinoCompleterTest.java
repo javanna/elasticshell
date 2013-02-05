@@ -548,17 +548,22 @@ public class JLineRhinoCompleterTest {
         Assert.assertEquals(output, 75);
     }
 
-    //TODO cursor in the middle
+    @Test
+    public void test() {
+        List<CharSequence> candidates = new ArrayList<CharSequence>();
+        String input = "FilterBuilders.queryFilter(QueryBuilders.)";
+        String inputLength = "FilterBuilders.queryFilter(QueryBuilders.";
+        int output = completer.complete(input, inputLength.length(), candidates);
+        Assert.assertEquals(candidates.size(), 47);
+        Assert.assertTrue(candidates.contains("matchAllQuery("));
+        Assert.assertTrue(candidates.contains("termQuery("));
+        Assert.assertEquals(output, inputLength.length());
+    }
 
     //TODO complete packages
 
     //TODO array[0]
 
-    /* TODO
-
-    cursor + 1 with inner parentheses   FilterBuilders.queryFilter(QueryBuilders.)
-
-    FilterBuilders.queryFilter(QueryBuilders.  no suggestions
-*/
+    //TODO cursor + 1 with inner parentheses   FilterBuilders.queryFilter(QueryBuilders.)
 
 }

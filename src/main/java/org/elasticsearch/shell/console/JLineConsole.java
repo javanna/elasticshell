@@ -21,6 +21,7 @@ package org.elasticsearch.shell.console;
 
 import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
+import jline.console.completer.CompletionHandler;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.name.Named;
 import org.slf4j.Logger;
@@ -59,6 +60,9 @@ public class JLineConsole extends AbstractConsole {
             if (completerHolder.completer != null) {
                 reader.addCompleter(completerHolder.completer);
             }
+            if (completerHolder.completionHandler != null) {
+                reader.setCompletionHandler(completerHolder.completionHandler);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -66,6 +70,7 @@ public class JLineConsole extends AbstractConsole {
 
     static class CompleterHolder {
         @Inject(optional=true) Completer completer;
+        @Inject(optional=true) CompletionHandler completionHandler;
     }
 
     /**

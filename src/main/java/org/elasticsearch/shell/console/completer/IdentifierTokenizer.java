@@ -54,7 +54,7 @@ public class IdentifierTokenizer {
             //using isJavaIdentifierPart even though it isn't always correct. Javascript identifiers have different rules,
             //and the first character is quite different too.
             if (Character.isJavaIdentifierPart(c)) {
-                if (identifier.getEndPosition() == cursor) {
+                if (identifier.getLastPosition() == cursor) {
                     identifier = new Identifier(cursor - 1);
                 }
                 identifier.append(c);
@@ -66,11 +66,11 @@ public class IdentifierTokenizer {
                 int m2 = m - 1;
                 char c2 = buffer.charAt(m2);
                 boolean foundIdentifier = false;
-                Identifier id = new Identifier(m+1).incrementLength(2);
+                Identifier id = new Identifier(m+1).incrementOffset(2);
                 while (m2 > 0) {
                     if (c2=='"' || c2 == '\'') {
                         if (buffer.charAt(--m2)=='[') {
-                            id.incrementLength(2);
+                            id.incrementOffset(2);
                             foundIdentifier = true;
                         }
                         break;
@@ -80,7 +80,7 @@ public class IdentifierTokenizer {
                 }
 
                 if (foundIdentifier) {
-                    identifiers.add(id.reverse());
+                    identifiers.add(id.reverseName());
                     m = m2 - 1;
                     identifier = new Identifier(m);
                     continue;
@@ -90,13 +90,13 @@ public class IdentifierTokenizer {
             }
 
             //when the identifier is finished we add it to the list of identifiers found and we start with a new identifier
-            identifiers.add(identifier.reverse());
+            identifiers.add(identifier.reverseName());
             identifier = new Identifier(m);
 
             if (c == ' ') {
                 Identifier newKeyword = extractNewKeyword(buffer, m);
                 if (newKeyword != null) {
-                    identifiers.add(newKeyword.reverse());
+                    identifiers.add(newKeyword.reverseName());
                     break;
                 }
             }
@@ -111,18 +111,18 @@ public class IdentifierTokenizer {
                 if (m2 < 0) {
                     break;
                 }
-                identifier.incrementLength(m - m2);
+                identifier.incrementOffset(m - m2);
                 m = m2;
             }
 
         }
 
-        if (identifier.getLength() > 0 || identifiers.isEmpty()) {
+        if (identifier.getOffset() > 0 || identifiers.isEmpty()) {
             //adding the last identifier
-            identifiers.add(identifier.reverse());
+            identifiers.add(identifier.reverseName());
         }
 
-        //no need to reverse if empty or only one element
+        //no need to reverseName if empty or only one element
         if (identifiers.size() > 1) {
             Collections.reverse(identifiers);
         }
@@ -178,7 +178,7 @@ public class IdentifierTokenizer {
             Identifier id = new Identifier("wen", cursor);
             int diff = cursor - m;
             if (diff>3) {
-                id.incrementLength(diff - 3);
+                id.incrementOffset(diff - 3);
             }
             return id;
         }

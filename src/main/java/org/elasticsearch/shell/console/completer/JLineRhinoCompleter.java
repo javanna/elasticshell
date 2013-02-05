@@ -158,18 +158,11 @@ public class JLineRhinoCompleter implements Completer {
             findCandidatesInReturnTypes(returnTypes, lastPart.getName(), candidates);
         }
 
-        Collections.sort(candidates, new Comparator<CharSequence>() {
-            @Override
-            public int compare(CharSequence o1, CharSequence o2) {
-                return o1.toString().compareTo(o2.toString());
-            }
-        });
-
-        return lastPart.getStartPosition();
+        return lastPart.getFirstPosition();
     }
 
     private int getLastPartStartPosition(List<Identifier> identifiers) {
-        return identifiers.get(identifiers.size() - 1).getStartPosition();
+        return identifiers.get(identifiers.size() - 1).getFirstPosition();
     }
 
     private void findCandidatesInScriptable(Scriptable object, String prefix, List<CharSequence> candidates) {

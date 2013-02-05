@@ -37,9 +37,9 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 1);
         Assert.assertEquals(identifiers.get(0).getName(), "");
-        Assert.assertEquals(identifiers.get(0).getLength(), 0);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 0);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
     }
 
     @Test
@@ -49,13 +49,13 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 2);
         Assert.assertEquals(identifiers.get(0).getName(), "Requests");
-        Assert.assertEquals(identifiers.get(0).getLength(), 8);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "");
-        Assert.assertEquals(identifiers.get(1).getLength(), 0);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 9);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 9);
     }
 
     @Test
@@ -65,13 +65,13 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 2);
         Assert.assertEquals(identifiers.get(0).getName(), "Requests");
-        Assert.assertEquals(identifiers.get(0).getLength(), 8);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "ind");
-        Assert.assertEquals(identifiers.get(1).getLength(), 3);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 11);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 11);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 9);
     }
     
     @Test
@@ -81,21 +81,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "es");
-        Assert.assertEquals(identifiers.get(0).getLength(), 2);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 1);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 2);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 1);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "index");
-        Assert.assertEquals(identifiers.get(1).getLength(), 5);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 3);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 5);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 3);
         Assert.assertEquals(identifiers.get(2).getName(), "type");
-        Assert.assertEquals(identifiers.get(2).getLength(), 4);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 12);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 4);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 12);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 9);
         Assert.assertEquals(identifiers.get(3).getName(), "");
-        Assert.assertEquals(identifiers.get(3).getLength(), 0);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 14);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 14);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 14);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 14);
     }
 
     @Test
@@ -105,21 +105,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "es");
-        Assert.assertEquals(identifiers.get(0).getLength(), 2);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 1);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 2);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 1);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "index");
-        Assert.assertEquals(identifiers.get(1).getLength(), 5);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 3);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 5);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 3);
         Assert.assertEquals(identifiers.get(2).getName(), "type");
-        Assert.assertEquals(identifiers.get(2).getLength(), 4);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 12);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 4);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 12);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 9);
         Assert.assertEquals(identifiers.get(3).getName(), "ind");
-        Assert.assertEquals(identifiers.get(3).getLength(), 3);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 16);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 14);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 16);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 14);
     }
 
     @Test
@@ -129,17 +129,17 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 3);
         Assert.assertEquals(identifiers.get(0).getName(), "Requests");
-        Assert.assertEquals(identifiers.get(0).getLength(), 8);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "indexRequest");
-        Assert.assertEquals(identifiers.get(1).getLength(), 14);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 22);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 14);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 22);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 9);
         Assert.assertEquals(identifiers.get(2).getName(), "");
-        Assert.assertEquals(identifiers.get(2).getLength(), 0);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 24);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 24);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 24);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 24);
     }
 
     @Test
@@ -149,17 +149,17 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 3);
         Assert.assertEquals(identifiers.get(0).getName(), "Requests");
-        Assert.assertEquals(identifiers.get(0).getLength(), 8);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "indexRequest");
-        Assert.assertEquals(identifiers.get(1).getLength(), 14);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 22);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 14);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 22);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 9);
         Assert.assertEquals(identifiers.get(2).getName(), "ind");
-        Assert.assertEquals(identifiers.get(2).getLength(), 3);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 26);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 24);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 26);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 24);
     }
 
     @Test
@@ -169,21 +169,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "Requests");
-        Assert.assertEquals(identifiers.get(0).getLength(), 8);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "indexRequest");
-        Assert.assertEquals(identifiers.get(1).getLength(), 14);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 22);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 14);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 22);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 9);
         Assert.assertEquals(identifiers.get(2).getName(), "index");
-        Assert.assertEquals(identifiers.get(2).getLength(), 7);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 30);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 24);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 7);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 30);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 24);
         Assert.assertEquals(identifiers.get(3).getName(), "");
-        Assert.assertEquals(identifiers.get(3).getLength(), 0);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 32);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 32);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 32);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 32);
     }
 
     @Test
@@ -193,21 +193,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "Requests");
-        Assert.assertEquals(identifiers.get(0).getLength(), 8);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "indexRequest");
-        Assert.assertEquals(identifiers.get(1).getLength(), 14);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 22);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 14);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 22);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 9);
         Assert.assertEquals(identifiers.get(2).getName(), "index");
-        Assert.assertEquals(identifiers.get(2).getLength(), 7);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 30);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 24);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 7);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 30);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 24);
         Assert.assertEquals(identifiers.get(3).getName(), "ind");
-        Assert.assertEquals(identifiers.get(3).getLength(), 3);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 34);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 32);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 34);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 32);
     }
 
     @Test
@@ -217,21 +217,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "Requests");
-        Assert.assertEquals(identifiers.get(0).getLength(), 8);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "indexRequest");
-        Assert.assertEquals(identifiers.get(1).getLength(), 14);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 22);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 14);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 22);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 9);
         Assert.assertEquals(identifiers.get(2).getName(), "index");
-        Assert.assertEquals(identifiers.get(2).getLength(), 20);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 43);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 24);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 20);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 43);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 24);
         Assert.assertEquals(identifiers.get(3).getName(), "");
-        Assert.assertEquals(identifiers.get(3).getLength(), 0);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 45);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 45);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 45);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 45);
     }
 
     @Test
@@ -241,21 +241,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "Requests");
-        Assert.assertEquals(identifiers.get(0).getLength(), 8);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "indexRequest");
-        Assert.assertEquals(identifiers.get(1).getLength(), 25);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 33);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 25);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 33);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 9);
         Assert.assertEquals(identifiers.get(2).getName(), "index");
-        Assert.assertEquals(identifiers.get(2).getLength(), 20);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 54);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 35);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 20);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 54);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 35);
         Assert.assertEquals(identifiers.get(3).getName(), "");
-        Assert.assertEquals(identifiers.get(3).getLength(), 0);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 56);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 56);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 56);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 56);
     }
 
     @Test
@@ -265,21 +265,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "Requests");
-        Assert.assertEquals(identifiers.get(0).getLength(), 8);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "indexRequest");
-        Assert.assertEquals(identifiers.get(1).getLength(), 28);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 36);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 28);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 36);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 9);
         Assert.assertEquals(identifiers.get(2).getName(), "index");
-        Assert.assertEquals(identifiers.get(2).getLength(), 19);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 56);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 38);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 19);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 56);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 38);
         Assert.assertEquals(identifiers.get(3).getName(), "ind");
-        Assert.assertEquals(identifiers.get(3).getLength(), 3);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 60);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 58);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 60);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 58);
     }
 
     @Test
@@ -289,21 +289,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "SearchSourceBuilder");
-        Assert.assertEquals(identifiers.get(0).getLength(), 19);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 18);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 19);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 18);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "searchSource");
-        Assert.assertEquals(identifiers.get(1).getLength(), 14);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 33);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 20);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 14);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 33);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 20);
         Assert.assertEquals(identifiers.get(2).getName(), "query");
-        Assert.assertEquals(identifiers.get(2).getLength(), 36);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 70);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 35);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 36);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 70);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 35);
         Assert.assertEquals(identifiers.get(3).getName(), "");
-        Assert.assertEquals(identifiers.get(3).getLength(), 0);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 72);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 72);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 72);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 72);
     }
 
     @Test
@@ -313,25 +313,25 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 5);
         Assert.assertEquals(identifiers.get(0).getName(), "SearchSourceBuilder");
-        Assert.assertEquals(identifiers.get(0).getLength(), 19);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 18);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 19);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 18);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "searchSource");
-        Assert.assertEquals(identifiers.get(1).getLength(), 14);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 33);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 20);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 14);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 33);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 20);
         Assert.assertEquals(identifiers.get(2).getName(), "query");
-        Assert.assertEquals(identifiers.get(2).getLength(), 36);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 70);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 35);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 36);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 70);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 35);
         Assert.assertEquals(identifiers.get(3).getName(), "facets");
-        Assert.assertEquals(identifiers.get(3).getLength(), 8);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 79);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 72);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 79);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 72);
         Assert.assertEquals(identifiers.get(4).getName(), "sor");
-        Assert.assertEquals(identifiers.get(4).getLength(), 3);
-        Assert.assertEquals(identifiers.get(4).getEndPosition(), 83);
-        Assert.assertEquals(identifiers.get(4).getStartPosition(), 81);
+        Assert.assertEquals(identifiers.get(4).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(4).getLastPosition(), 83);
+        Assert.assertEquals(identifiers.get(4).getFirstPosition(), 81);
     }
 
     @Test
@@ -341,25 +341,25 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 5);
         Assert.assertEquals(identifiers.get(0).getName(), "SearchSourceBuilder");
-        Assert.assertEquals(identifiers.get(0).getLength(), 19);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 18);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 19);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 18);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "searchSource");
-        Assert.assertEquals(identifiers.get(1).getLength(), 14);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 33);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 20);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 14);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 33);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 20);
         Assert.assertEquals(identifiers.get(2).getName(), "query");
-        Assert.assertEquals(identifiers.get(2).getLength(), 59);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 93);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 35);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 59);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 93);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 35);
         Assert.assertEquals(identifiers.get(3).getName(), "facets");
-        Assert.assertEquals(identifiers.get(3).getLength(), 8);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 102);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 95);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 8);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 102);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 95);
         Assert.assertEquals(identifiers.get(4).getName(), "sor");
-        Assert.assertEquals(identifiers.get(4).getLength(), 3);
-        Assert.assertEquals(identifiers.get(4).getEndPosition(), 106);
-        Assert.assertEquals(identifiers.get(4).getStartPosition(), 104);
+        Assert.assertEquals(identifiers.get(4).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(4).getLastPosition(), 106);
+        Assert.assertEquals(identifiers.get(4).getFirstPosition(), 104);
     }
 
     @Test
@@ -369,13 +369,13 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 2);
         Assert.assertEquals(identifiers.get(0).getName(), "Nested1");
-        Assert.assertEquals(identifiers.get(0).getLength(), 7);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 47);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 41);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 7);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 47);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 41);
         Assert.assertEquals(identifiers.get(1).getName(), "fun");
-        Assert.assertEquals(identifiers.get(1).getLength(), 3);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 51);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 49);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 51);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 49);
     }
 
     @Test
@@ -385,17 +385,17 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 3);
         Assert.assertEquals(identifiers.get(0).getName(), "Nested1");
-        Assert.assertEquals(identifiers.get(0).getLength(), 7);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 47);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 41);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 7);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 47);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 41);
         Assert.assertEquals(identifiers.get(1).getName(), "function1");
-        Assert.assertEquals(identifiers.get(1).getLength(), 17);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 65);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 49);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 17);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 65);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 49);
         Assert.assertEquals(identifiers.get(2).getName(), "fun");
-        Assert.assertEquals(identifiers.get(2).getLength(), 3);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 69);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 67);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 69);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 67);
     }
 
     @Test
@@ -405,17 +405,17 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 3);
         Assert.assertEquals(identifiers.get(0).getName(), "Nested1");
-        Assert.assertEquals(identifiers.get(0).getLength(), 7);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 80);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 74);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 7);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 80);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 74);
         Assert.assertEquals(identifiers.get(1).getName(), "function1");
-        Assert.assertEquals(identifiers.get(1).getLength(), 17);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 98);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 82);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 17);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 98);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 82);
         Assert.assertEquals(identifiers.get(2).getName(), "fun");
-        Assert.assertEquals(identifiers.get(2).getLength(), 3);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 102);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 100);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 102);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 100);
     }
 
     @Test
@@ -425,13 +425,13 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 2);
         Assert.assertEquals(identifiers.get(0).getName(), "QueryBuilders");
-        Assert.assertEquals(identifiers.get(0).getLength(), 13);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 61);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 49);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 13);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 61);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 49);
         Assert.assertEquals(identifiers.get(1).getName(), "match");
-        Assert.assertEquals(identifiers.get(1).getLength(), 5);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 67);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 63);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 5);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 67);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 63);
     }
 
     @Test
@@ -441,17 +441,17 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 3);
         Assert.assertEquals(identifiers.get(0).getName(), "SearchSourceBuilder");
-        Assert.assertEquals(identifiers.get(0).getLength(), 19);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 18);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 19);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 18);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "searchSource");
-        Assert.assertEquals(identifiers.get(1).getLength(), 14);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 33);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 20);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 14);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 33);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 20);
         Assert.assertEquals(identifiers.get(2).getName(), "tes");
-        Assert.assertEquals(identifiers.get(2).getLength(), 3);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 37);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 35);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 37);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 35);
     }
 
     @Test
@@ -461,21 +461,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "name1");
-        Assert.assertEquals(identifiers.get(0).getLength(), 5);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 4);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 5);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 4);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "name2");
-        Assert.assertEquals(identifiers.get(1).getLength(), 5);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 10);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 6);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 5);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 10);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 6);
         Assert.assertEquals(identifiers.get(2).getName(), "");
-        Assert.assertEquals(identifiers.get(2).getLength(), 0);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 11); //11 and not 12???
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 11); //11 and not 12???
+        Assert.assertEquals(identifiers.get(2).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 11); //11 and not 12???
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 11); //11 and not 12???
         Assert.assertEquals(identifiers.get(3).getName(), "name3");
-        Assert.assertEquals(identifiers.get(3).getLength(), 5);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 17);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 13);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 5);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 17);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 13);
     }
 
     @Test
@@ -485,9 +485,9 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 1);
         Assert.assertEquals(identifiers.get(0).getName(), "");
-        Assert.assertEquals(identifiers.get(0).getLength(), 0);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 15);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 15);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 15);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 15);
     }
 
     @Test
@@ -497,17 +497,17 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 3);
         Assert.assertEquals(identifiers.get(0).getName(), "new");
-        Assert.assertEquals(identifiers.get(0).getLength(), 3);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 5);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 3);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 5);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 3);
         Assert.assertEquals(identifiers.get(1).getName(), "Name2");
-        Assert.assertEquals(identifiers.get(1).getLength(), 7);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 13);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 7);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 7);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 13);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 7);
         Assert.assertEquals(identifiers.get(2).getName(), "");
-        Assert.assertEquals(identifiers.get(2).getLength(), 0);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 15);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 15);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 15);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 15);
     }
 
     @Test
@@ -517,17 +517,17 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 3);
         Assert.assertEquals(identifiers.get(0).getName(), "new");
-        Assert.assertEquals(identifiers.get(0).getLength(), 6); //counts additional whitespaces but not the normal one
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 8);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 3);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 6); //counts additional whitespaces but not the normal one
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 8);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 3);
         Assert.assertEquals(identifiers.get(1).getName(), "Name2");
-        Assert.assertEquals(identifiers.get(1).getLength(), 7);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 16);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 10);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 7);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 16);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 10);
         Assert.assertEquals(identifiers.get(2).getName(), "");
-        Assert.assertEquals(identifiers.get(2).getLength(), 0);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 18);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 18);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 18);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 18);
     }
 
     @Test
@@ -540,13 +540,13 @@ public class IdentifierTokenizerTest {
         // this is not quite what I would want to see but for now it's ok
         Assert.assertEquals(identifiers.size(), 2);
         Assert.assertEquals(identifiers.get(0).getName(), "Name2");
-        Assert.assertEquals(identifiers.get(0).getLength(), 7);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 17);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 11);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 7);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 17);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 11);
         Assert.assertEquals(identifiers.get(1).getName(), "");
-        Assert.assertEquals(identifiers.get(1).getLength(), 0);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 19);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 19);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 19);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 19);
     }
 
     @Test
@@ -558,13 +558,13 @@ public class IdentifierTokenizerTest {
         //Again, this is not quite what I would want to see but for now it's ok
         Assert.assertEquals(identifiers.size(), 2);
         Assert.assertEquals(identifiers.get(0).getName(), "Name2");
-        Assert.assertEquals(identifiers.get(0).getLength(), 7);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 16);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 10);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 7);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 16);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 10);
         Assert.assertEquals(identifiers.get(1).getName(), "");
-        Assert.assertEquals(identifiers.get(1).getLength(), 0);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 18);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 18);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 18);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 18);
     }
 
     @Test
@@ -575,17 +575,17 @@ public class IdentifierTokenizerTest {
 
         Assert.assertEquals(identifiers.size(), 3);
         Assert.assertEquals(identifiers.get(0).getName(), "new");
-        Assert.assertEquals(identifiers.get(0).getLength(), 3);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 2);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 2);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "Name");
-        Assert.assertEquals(identifiers.get(1).getLength(), 6);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 9);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 4);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 6);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 9);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 4);
         Assert.assertEquals(identifiers.get(2).getName(), "");
-        Assert.assertEquals(identifiers.get(2).getLength(), 0);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 11);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 11);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 11);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 11);
     }
 
     @Test
@@ -596,17 +596,17 @@ public class IdentifierTokenizerTest {
 
         Assert.assertEquals(identifiers.size(), 3);
         Assert.assertEquals(identifiers.get(0).getName(), "new");
-        Assert.assertEquals(identifiers.get(0).getLength(), 3);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 24);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 22);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 24);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 22);
         Assert.assertEquals(identifiers.get(1).getName(), "Name");
-        Assert.assertEquals(identifiers.get(1).getLength(),6);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 31);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 26);
+        Assert.assertEquals(identifiers.get(1).getOffset(),6);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 31);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 26);
         Assert.assertEquals(identifiers.get(2).getName(), "");
-        Assert.assertEquals(identifiers.get(2).getLength(), 0);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 33);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 33);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 33);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 33);
     }
 
     @Test
@@ -616,21 +616,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "es");
-        Assert.assertEquals(identifiers.get(0).getLength(), 2);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 1);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 2);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 1);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "index");
-        Assert.assertEquals(identifiers.get(1).getLength(), 5);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 3);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 5);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 3);
         Assert.assertEquals(identifiers.get(2).getName(), "type-name");
-        Assert.assertEquals(identifiers.get(2).getLength(), 13);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 20);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 8);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 13);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 20);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 8);
         Assert.assertEquals(identifiers.get(3).getName(), "");
-        Assert.assertEquals(identifiers.get(3).getLength(), 0);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 22);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 22);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 22);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 22);
     }
 
     @Test
@@ -640,21 +640,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "es");
-        Assert.assertEquals(identifiers.get(0).getLength(), 2);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 1);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 2);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 1);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "index");
-        Assert.assertEquals(identifiers.get(1).getLength(), 5);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 3);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 5);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 3);
         Assert.assertEquals(identifiers.get(2).getName(), "type-name");
-        Assert.assertEquals(identifiers.get(2).getLength(), 13);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 20);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 8);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 13);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 20);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 8);
         Assert.assertEquals(identifiers.get(3).getName(), "typ");
-        Assert.assertEquals(identifiers.get(3).getLength(), 3);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 24);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 22);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 24);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 22);
     }
 
     @Test
@@ -664,21 +664,21 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 4);
         Assert.assertEquals(identifiers.get(0).getName(), "es");
-        Assert.assertEquals(identifiers.get(0).getLength(), 2);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 1);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 0);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 2);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 1);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 0);
         Assert.assertEquals(identifiers.get(1).getName(), "index");
-        Assert.assertEquals(identifiers.get(1).getLength(), 5);
-        Assert.assertEquals(identifiers.get(1).getEndPosition(), 7);
-        Assert.assertEquals(identifiers.get(1).getStartPosition(), 3);
+        Assert.assertEquals(identifiers.get(1).getOffset(), 5);
+        Assert.assertEquals(identifiers.get(1).getLastPosition(), 7);
+        Assert.assertEquals(identifiers.get(1).getFirstPosition(), 3);
         Assert.assertEquals(identifiers.get(2).getName(), "type-name");
-        Assert.assertEquals(identifiers.get(2).getLength(), 13);
-        Assert.assertEquals(identifiers.get(2).getEndPosition(), 20);
-        Assert.assertEquals(identifiers.get(2).getStartPosition(), 8);
+        Assert.assertEquals(identifiers.get(2).getOffset(), 13);
+        Assert.assertEquals(identifiers.get(2).getLastPosition(), 20);
+        Assert.assertEquals(identifiers.get(2).getFirstPosition(), 8);
         Assert.assertEquals(identifiers.get(3).getName(), "");
-        Assert.assertEquals(identifiers.get(3).getLength(), 0);
-        Assert.assertEquals(identifiers.get(3).getEndPosition(), 22);
-        Assert.assertEquals(identifiers.get(3).getStartPosition(), 22);
+        Assert.assertEquals(identifiers.get(3).getOffset(), 0);
+        Assert.assertEquals(identifiers.get(3).getLastPosition(), 22);
+        Assert.assertEquals(identifiers.get(3).getFirstPosition(), 22);
     }
 
     @Test
@@ -690,9 +690,9 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 1);
         Assert.assertEquals(identifiers.get(0).getName(), "na");
-        Assert.assertEquals(identifiers.get(0).getLength(), 2);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 16);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 15);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 2);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 16);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 15);
     }
 
     @Test
@@ -702,9 +702,9 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 1);
         Assert.assertEquals(identifiers.get(0).getName(), "typ");
-        Assert.assertEquals(identifiers.get(0).getLength(), 3);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 23);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 21);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 23);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 21);
     }
 
     @Test
@@ -714,8 +714,8 @@ public class IdentifierTokenizerTest {
         Assert.assertNotNull(identifiers);
         Assert.assertEquals(identifiers.size(), 1);
         Assert.assertEquals(identifiers.get(0).getName(), "typ");
-        Assert.assertEquals(identifiers.get(0).getLength(), 3);
-        Assert.assertEquals(identifiers.get(0).getEndPosition(), 23);
-        Assert.assertEquals(identifiers.get(0).getStartPosition(), 21);
+        Assert.assertEquals(identifiers.get(0).getOffset(), 3);
+        Assert.assertEquals(identifiers.get(0).getLastPosition(), 23);
+        Assert.assertEquals(identifiers.get(0).getFirstPosition(), 21);
     }
 }

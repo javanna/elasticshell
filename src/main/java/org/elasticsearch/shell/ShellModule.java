@@ -19,6 +19,7 @@
 package org.elasticsearch.shell;
 
 import jline.console.completer.Completer;
+import jline.console.completer.CompletionHandler;
 import org.elasticsearch.common.inject.AbstractModule;
 import org.elasticsearch.common.inject.TypeLiteral;
 import org.elasticsearch.common.inject.name.Names;
@@ -27,6 +28,7 @@ import org.elasticsearch.shell.client.RhinoClientFactory;
 import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.console.JLineConsole;
+import org.elasticsearch.shell.console.completer.JLineCompletionHandler;
 import org.elasticsearch.shell.console.completer.JLineRhinoCompleter;
 import org.elasticsearch.shell.script.RhinoScriptExecutor;
 import org.elasticsearch.shell.script.ScriptExecutor;
@@ -54,6 +56,7 @@ public class ShellModule extends AbstractModule {
         //JLine bindings
         bind(new TypeLiteral<Console<PrintStream>>(){}).to(JLineConsole.class).asEagerSingleton();
         bind(Completer.class).to(JLineRhinoCompleter.class).asEagerSingleton();
+        bind(CompletionHandler.class).to(JLineCompletionHandler.class).asEagerSingleton();
 
         //Rhino bindings
         bind(new TypeLiteral<JsonSerializer<NativeObject, Object>>(){}).to(RhinoJsonSerializer.class).asEagerSingleton();

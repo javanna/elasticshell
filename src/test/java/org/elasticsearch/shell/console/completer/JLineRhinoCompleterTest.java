@@ -37,10 +37,6 @@ import java.util.List;
  */
 public class JLineRhinoCompleterTest {
 
-    //TODO complete packages
-    //TODO array[0]
-    //TODO cursor + 1 with inner parentheses   FilterBuilders.queryFilter(QueryBuilders.)
-
     JLineRhinoCompleter completer;
 
     @BeforeClass

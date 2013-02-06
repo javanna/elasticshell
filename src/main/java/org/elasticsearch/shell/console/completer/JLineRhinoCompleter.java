@@ -32,6 +32,13 @@ import java.util.*;
 
 /**
  * JLine completer based on the Rhino engine and its top-level object (scope)
+ * Looks within the Rhino scope to find available objects.
+ * Uses reflection to find suggestions given the return type of a method (fluent interface)
+ * In case of methods with different signatures (same name but different return types) all the possible matches
+ * will be merged and provided as suggestions
+ *
+ * It doesn't support auto-suggestions for array elements
+ * It doesn't complete packages with contained classes
  *
  * @author Luca Cavanna
  */
@@ -211,7 +218,6 @@ public class JLineRhinoCompleter implements Completer {
         return returnTypes;
     }
 
-    //TODO performance might suck! Caching?
     private Set<Class<?>> findReturnTypes(Class<?> clazz, String methodName) {
         Set<Class<?>> returnTypes = new HashSet<Class<?>>();
         for (Method method : clazz.getMethods()) {

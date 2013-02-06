@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * JLine {@link CompletionHandler} used to display auto-suggestions
+ * JLine {@link CompletionHandler} that displays auto-suggestions
  * @see CandidateListCompletionHandler
  *
  * @author Luca Cavanna
@@ -49,13 +49,13 @@ public class JLineCompletionHandler implements CompletionHandler {
                 return false;
             }
 
-            setBuffer(reader, candidate, pos);
+            updateBuffer(reader, candidate, pos);
             return true;
         }
 
         if (candidates.size() > 1) {
             String commonPrefix = getUnambiguousCompletions(candidates);
-            setBuffer(reader, commonPrefix, pos);
+            updateBuffer(reader, commonPrefix, pos);
         }
 
         printCandidates(reader, candidates);
@@ -64,62 +64,57 @@ public class JLineCompletionHandler implements CompletionHandler {
     }
 
     /**
-     * Print out the candidates. If the size of the candidates is greater than the
-     * {@link ConsoleReader#getAutoprintThreshold}, they prompt with a warning.
+     * Prints out the candidates. If the size of the candidates is greater than the
+     * {@link ConsoleReader#getAutoprintThreshold}, a warning is printed
      *
      * @param candidates the list of candidates to print
      */
     protected void printCandidates(final ConsoleReader reader, List<CharSequence> candidates) throws IOException {
 
         Set<CharSequence> distinctCandidates = new HashSet<CharSequence>(candidates);
-
         if (distinctCandidates.size() > reader.getAutoprintThreshold()) {
+            reader.println();
             reader.print(Messages.DISPLAY_CANDIDATES.format(candidates.size()));
             reader.flush();
 
+            char[] allowed = {'y', 'n'};
             int c;
-
-            String noOpt = Messages.DISPLAY_CANDIDATES_NO.format();
-            String yesOpt = Messages.DISPLAY_CANDIDATES_YES.format();
-            char[] allowed = {yesOpt.charAt(0), noOpt.charAt(0)};
-
             while ((c = reader.readCharacter(allowed)) != -1) {
-                String tmp = new StringBuilder(c).toString();
-                if (noOpt.startsWith(tmp)) {
+                //String input = new StringBuilder(c).toString();
+                if (c=='n') {
                     reader.println();
                     return;
                 }
-                if (yesOpt.startsWith(tmp)) {
+                if (c=='y') {
                     break;
                 }
                 reader.beep();
             }
         }
 
-        List<CharSequence> orderedCandidates = new ArrayList<CharSequence>(distinctCandidates);
+        reader.println();
+        reader.printColumns(sortCandidates(distinctCandidates));
+    }
+
+    protected List<CharSequence> sortCandidates(Set<CharSequence> candidates) {
+        List<CharSequence> orderedCandidates = new ArrayList<CharSequence>(candidates);
         Collections.sort(orderedCandidates, new Comparator<CharSequence>() {
             @Override
             public int compare(CharSequence o1, CharSequence o2) {
                 return o1.toString().compareTo(o2.toString());
             }
         });
-
-        reader.println();
-        reader.printColumns(orderedCandidates);
+        return orderedCandidates;
     }
 
-    //TODO check maximum number of suggestions and related behaviour
-
-    protected void setBuffer(final ConsoleReader reader, final CharSequence value, final int offset) throws IOException {
+    protected void updateBuffer(final ConsoleReader reader, final CharSequence output, final int offset) throws IOException {
         while ((reader.getCursorBuffer().cursor > offset) && reader.backspace()) {
-            logger.debug("cursor[{}] > offset[{}]", reader.getCursorBuffer().cursor, offset);
+
         }
 
-        if (value != null && value.length() > 0) {
-            logger.debug("Putting value [{}] into buffer [{}]", value, reader.getCursorBuffer().buffer);
-            reader.putString(value);
-            logger.debug("Moving cursor from [{}] to [{}]", reader.getCursorBuffer().cursor, offset + value.length());
-            reader.setCursorPosition(offset + value.length());
+        if (output != null && output.length() > 0) {
+            reader.putString(output);
+            reader.setCursorPosition(offset + output.length());
         }
     }
 
@@ -159,9 +154,7 @@ public class JLineCompletionHandler implements CompletionHandler {
     }
 
     private static enum Messages {
-        DISPLAY_CANDIDATES,
-        DISPLAY_CANDIDATES_YES,
-        DISPLAY_CANDIDATES_NO,;
+        DISPLAY_CANDIDATES;
 
         private static final ResourceBundle bundle = ResourceBundle.getBundle(CandidateListCompletionHandler.class.getName(), Locale.getDefault());
 

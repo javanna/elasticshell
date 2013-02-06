@@ -59,6 +59,8 @@ public class JLineCompletionHandler implements CompletionHandler {
         }
 
         printCandidates(reader, candidates);
+        //next line seems to cause small problems when cursor is  not at the end of the buffer
+        //e.g. FilterBuilders.queryFilter(QueryBuilders.)
         reader.drawLine();
         return true;
     }

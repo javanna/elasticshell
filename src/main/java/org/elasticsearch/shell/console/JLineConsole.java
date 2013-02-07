@@ -56,7 +56,7 @@ public class JLineConsole extends AbstractConsole {
         super(out);
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
-            this.reader.setAutoprintThreshold(50);
+            //this.reader.setAutoprintThreshold(50);
             reader.setBellEnabled(false);
             if (completerHolder.completer != null) {
                 reader.addCompleter(completerHolder.completer);

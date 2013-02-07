@@ -103,7 +103,7 @@ public class JLineCompletionHandler implements CompletionHandler {
         Collections.sort(orderedCandidates, new Comparator<CharSequence>() {
             @Override
             public int compare(CharSequence o1, CharSequence o2) {
-                return o1.toString().compareTo(o2.toString());
+                return o1.toString().compareToIgnoreCase(o2.toString());
             }
         });
         return orderedCandidates;

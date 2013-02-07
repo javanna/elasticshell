@@ -18,24 +18,10 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.action.admin.indices.mapping.delete.DeleteMappingRequest;
-import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
-import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
-import org.elasticsearch.action.count.CountRequest;
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.deletebyquery.DeleteByQueryRequest;
-import org.elasticsearch.action.explain.ExplainRequest;
-import org.elasticsearch.action.explain.ExplainSourceBuilder;
-import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.mlt.MoreLikeThisRequest;
-import org.elasticsearch.action.percolate.PercolateRequest;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.client.Requests;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.shell.client.executors.core.MoreLikeThisHelper;
+import org.elasticsearch.shell.client.executors.core.*;
+import org.elasticsearch.shell.client.executors.indices.DeleteMappingRequestBuilder;
+import org.elasticsearch.shell.client.executors.indices.GetMappingRequestBuilder;
+import org.elasticsearch.shell.client.executors.indices.PutMappingRequestBuilder;
 
 /**
  * @author Luca Cavanna
@@ -68,240 +54,64 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     /*
     Core APIs
      */
-
-    public JsonOutput count() {
-        return shellClient.count(Requests.countRequest(indexName).types(typeName));
+    public CountRequestBuilder count() {
+        return shellClient.count().indices(indexName).types(typeName);
     }
 
-    public JsonOutput count(String source) {
-        return shellClient.count(indexName, typeName, source);
+    public DeleteRequestBuilder delete() {
+        return shellClient.delete().index(indexName).type(typeName);
     }
 
-    public JsonOutput count(JsonInput source) {
-        return shellClient.count(indexName, typeName, source);
+    public DeleteByQueryRequestBuilder deleteByQuery() {
+        return shellClient.deleteByQuery().indices(indexName).types(typeName);
     }
 
-    public JsonOutput count(QueryBuilder queryBuilder) {
-        return shellClient.count(indexName, typeName, queryBuilder);
+    public ExplainRequestBuilder explain() {
+        return shellClient.explain().index(indexName).type(typeName);
     }
 
-    public JsonOutput count(CountRequest countRequest) {
-        if (countRequest != null) {
-            countRequest.indices(indexName).types(typeName);
-        }
-        return shellClient.count(countRequest);
+    public GetRequestBuilder get() {
+        return shellClient.get().index(indexName).type(typeName);
     }
 
-    public JsonOutput delete(String id) {
-        return shellClient.delete(indexName, typeName, id);
+    public IndexRequestBuilder index() {
+        return shellClient.index().index(indexName).type(typeName);
     }
 
-    public JsonOutput delete(DeleteRequest deleteRequest) {
-        if (deleteRequest != null) {
-            deleteRequest.index(indexName).type(typeName);
-        }
-        return shellClient.delete(deleteRequest);
+    public MoreLikeThisRequestBuilder moreLikeThis() {
+        return shellClient.moreLikeThis().index(indexName).type(typeName);
     }
 
-    public JsonOutput deleteByQuery(JsonInput query) {
-        return shellClient.deleteByQuery(indexName, typeName, query);
+    public PercolateRequestBuilder percolate() {
+        return shellClient.percolate().index(indexName).type(typeName);
     }
 
-    public JsonOutput deleteByQuery(String query) {
-        return shellClient.deleteByQuery(indexName, typeName, query);
+    public SearchRequestBuilder search() {
+        return shellClient.search().indices(indexName).types(typeName);
     }
 
-    public JsonOutput deleteByQuery(QueryBuilder queryBuilder) {
-        return shellClient.deleteByQuery(indexName, typeName, queryBuilder);
+    public UpdateRequestBuilder update() {
+        return shellClient.update().index(indexName).type(typeName);
     }
 
-    public JsonOutput deleteByQuery(DeleteByQueryRequest deleteByQueryRequest) {
-        if (deleteByQueryRequest != null) {
-            deleteByQueryRequest.indices(new String[]{indexName}).types(typeName);
-        }
-        return shellClient.deleteByQuery(deleteByQueryRequest);
+    public ValidateQueryRequestBuilder validate() {
+        return shellClient.validate().indices(indexName).types(typeName);
     }
 
-    public JsonOutput explain(String id, JsonInput source) {
-        return shellClient.explain(indexName, typeName, id, source);
-    }
-
-    public JsonOutput explain(String id, String source) {
-        return shellClient.explain(indexName, typeName, id, source);
-    }
-
-    public JsonOutput explain(String id, ExplainSourceBuilder explainSourceBuilder) {
-        return shellClient.explain(indexName, typeName, id, explainSourceBuilder);
-    }
-
-    public JsonOutput explain(ExplainRequest explainRequest) {
-        if (explainRequest != null) {
-            explainRequest.index(indexName).type(typeName);
-        }
-        return shellClient.explain(explainRequest);
-    }
-
-    public JsonOutput get(String id) {
-        return shellClient.get(indexName, typeName, id);
-    }
-
-    public JsonOutput get(GetRequest getRequest) {
-        if (getRequest != null) {
-            getRequest.index(indexName).type(typeName);
-        }
-        return shellClient.get(getRequest);
-    }
-
-    public JsonOutput index(String source) {
-        return shellClient.index(indexName, typeName, null, source);
-    }
-
-    public JsonOutput index(JsonInput source) {
-        return shellClient.index(indexName, typeName, null, source);
-    }
-
-    public JsonOutput index(String id, String source) {
-        return shellClient.index(indexName, typeName, id, source);
-    }
-
-    public JsonOutput index(String id, JsonInput source) {
-        return shellClient.index(indexName, typeName, id, source);
-    }
-
-    public JsonOutput index(IndexRequest indexRequest) {
-        if (indexRequest != null) {
-            indexRequest.index(indexName).type(typeName);
-        }
-        return shellClient.index(indexRequest);
-    }
-
-    public JsonOutput moreLikeThis(String id) {
-        return shellClient.moreLikeThis(indexName, typeName, id);
-    }
-
-    public JsonOutput moreLikeThis(MoreLikeThisRequest moreLikeThisRequest) {
-        if (moreLikeThisRequest != null) {
-            if (!indexName.equals(moreLikeThisRequest.index())) {
-                //the needed method is not public, creating a brand new request
-                //moreLikeThisRequest.index(indexName);
-                moreLikeThisRequest = MoreLikeThisHelper.newMoreLikeThisRequest(moreLikeThisRequest, indexName);
-            }
-            moreLikeThisRequest.type(typeName);
-        }
-        return shellClient.moreLikeThis(moreLikeThisRequest);
-    }
-
-    public JsonOutput percolate(JsonInput source) {
-        return shellClient.percolate(indexName, typeName, source);
-    }
-
-    public JsonOutput percolate(String source) {
-        return shellClient.percolate(indexName, typeName, source);
-    }
-
-    public JsonOutput percolate(PercolateRequest percolateRequest) {
-        if (percolateRequest != null) {
-            percolateRequest.index(indexName).type(typeName);
-        }
-        return shellClient.percolate(percolateRequest);
-    }
-
-    public JsonOutput search() {
-        return shellClient.search(Requests.searchRequest(indexName).types(typeName));
-    }
-
-    public JsonOutput search(String source) {
-        return shellClient.search(indexName, typeName, source);
-    }
-
-    public JsonOutput search(JsonInput source) {
-        return shellClient.search(indexName, typeName, source);
-    }
-
-    public JsonOutput search(SearchSourceBuilder searchSourceBuilder) {
-        return shellClient.search(Requests.searchRequest(indexName).types(typeName).source(searchSourceBuilder));
-    }
-
-    public JsonOutput search(SearchRequest searchRequest) {
-        if (searchRequest != null) {
-            searchRequest.indices(indexName).types(typeName);
-        }
-        return shellClient.search(searchRequest);
-    }
-
-    public JsonOutput update(String id, String script) {
-        return shellClient.update(new UpdateRequest(indexName, typeName, id).script(script));
-    }
-
-    public JsonOutput update(UpdateRequest updateRequest) {
-        if (updateRequest != null) {
-            updateRequest.index(indexName).type(typeName);
-        }
-        return shellClient.update(updateRequest);
-    }
-
-    public JsonOutput validate(JsonInput source) {
-        return shellClient.validate(indexName, typeName, source);
-    }
-
-    public JsonOutput validate(String source) {
-        return shellClient.validate(indexName, typeName, source);
-    }
-
-    public JsonOutput validate(QueryBuilder queryBuilder) {
-        return shellClient.validate(indexName, typeName, queryBuilder);
-    }
-
-    public JsonOutput validate(ValidateQueryRequest validateQueryRequest) {
-        if (validateQueryRequest != null) {
-            validateQueryRequest.indices(indexName).types(typeName);
-        }
-        return shellClient.validate(validateQueryRequest);
-    }
 
     /*
-    Indices APIs that make sense for a type
+    Indices APIs that make sense for a specific type
      */
-    public JsonOutput deleteMapping() {
-        return shellClient.deleteMapping(indexName, typeName);
+    public DeleteMappingRequestBuilder deleteMapping() {
+        return shellClient.deleteMapping().indices(indexName).type(typeName);
     }
 
-    public JsonOutput deleteMapping(DeleteMappingRequest request) {
-        if (request != null) {
-            request.indices(new String[]{indexName}).type(typeName);
-        }
-        return shellClient.deleteMapping(request);
+    public GetMappingRequestBuilder getMapping() {
+        return shellClient.getMapping().indices(indexName).types(typeName);
     }
 
-    public JsonOutput getMapping() {
-        return shellClient.getMapping(indexName, typeName);
-    }
-
-    public JsonOutput putMapping(JsonInput source) {
-        return shellClient.putMapping(indexName, typeName, source);
-    }
-
-    public JsonOutput putMapping(String source) {
-        return shellClient.putMapping(indexName, typeName, source);
-    }
-
-    public JsonOutput putMapping(PutMappingRequest request) {
-        if (request != null) {
-            request.indices(new String[]{indexName}).type(typeName);
-        }
-        return shellClient.putMapping(request);
-    }
-
-    public JsonOutput putWarmer(String name, SearchSourceBuilder searchSourceBuilder) {
-        return shellClient.putWarmer(indexName, typeName, name, searchSourceBuilder);
-    }
-
-    public JsonOutput putWarmer(String name, JsonInput source) {
-        return shellClient.putWarmer(indexName, typeName, name, source);
-    }
-
-    public JsonOutput putWarmer(String name, String source) {
-        return shellClient.putWarmer(indexName, typeName, name, source);
+    public PutMappingRequestBuilder putMapping() {
+        return shellClient.putMapping().indices(indexName).type(typeName);
     }
 
     @Override

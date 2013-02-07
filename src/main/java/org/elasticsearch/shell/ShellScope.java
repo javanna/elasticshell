@@ -18,15 +18,6 @@
  */
 package org.elasticsearch.shell;
 
-import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
-import org.elasticsearch.action.admin.indices.exists.types.TypesExistsRequest;
-import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
-import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
-import org.elasticsearch.action.admin.indices.warmer.delete.DeleteWarmerRequest;
-import org.elasticsearch.action.admin.indices.warmer.put.PutWarmerRequest;
-import org.elasticsearch.action.explain.ExplainRequest;
-import org.elasticsearch.action.percolate.PercolateRequest;
-import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.AliasAction;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -65,16 +56,7 @@ public abstract class ShellScope<Scope> {
         registerJavaClass(FilterBuilders.class);
         registerJavaClass(SortBuilders.class);
         registerJavaClass(FacetBuilders.class);
-        registerJavaClass(UpdateRequest.class);
-        registerJavaClass(PercolateRequest.class);
-        registerJavaClass(ExplainRequest.class);
-        registerJavaClass(ValidateQueryRequest.class);
-        registerJavaClass(TypesExistsRequest.class);
-        registerJavaClass(IndicesStatsRequest.class);
         registerJavaClass(AliasAction.class);
-        registerJavaClass(AnalyzeRequest.class);
-        registerJavaClass(PutWarmerRequest.class);
-        registerJavaClass(DeleteWarmerRequest.class);
     }
 
     /**

@@ -20,8 +20,8 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
-import org.elasticsearch.shell.client.executors.core.*;
-import org.elasticsearch.shell.client.executors.indices.*;
+import org.elasticsearch.shell.client.builders.core.*;
+import org.elasticsearch.shell.client.builders.indices.*;
 
 /**
  * @author Luca Cavanna

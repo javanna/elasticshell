@@ -18,10 +18,10 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.shell.client.executors.core.*;
-import org.elasticsearch.shell.client.executors.indices.DeleteMappingRequestBuilder;
-import org.elasticsearch.shell.client.executors.indices.GetMappingRequestBuilder;
-import org.elasticsearch.shell.client.executors.indices.PutMappingRequestBuilder;
+import org.elasticsearch.shell.client.builders.core.*;
+import org.elasticsearch.shell.client.builders.indices.DeleteMappingRequestBuilder;
+import org.elasticsearch.shell.client.builders.indices.GetMappingRequestBuilder;
+import org.elasticsearch.shell.client.builders.indices.PutMappingRequestBuilder;
 
 /**
  * @author Luca Cavanna

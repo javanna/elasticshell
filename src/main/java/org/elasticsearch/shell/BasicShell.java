@@ -128,7 +128,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
 
     protected void printWelcomeMessage() {
         //TODO nicer welcome message, version etc.
-        console.println("Welcome to the elasticsearch shell");
+        console.println("Welcome to the elasticshell");
         console.println("----------------------------------");
     }
 

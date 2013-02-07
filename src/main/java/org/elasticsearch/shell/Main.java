@@ -25,7 +25,7 @@ import org.elasticsearch.shell.command.CommandModule;
 import org.elasticsearch.shell.scheduler.SchedulerModule;
 
 /**
- * Main class for the elasticsearch shell
+ * Main class for the elasticshell
  *
  * @author Luca Cavanna
  */

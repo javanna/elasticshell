@@ -28,6 +28,7 @@ import org.elasticsearch.common.bytes.BytesArray;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.facet.AbstractFacetBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
@@ -50,7 +51,7 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
     private SearchSourceBuilder sourceBuilder;
 
     public SearchRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new SearchRequest(), jsonSerializer);
+        super(client, new SearchRequest(new String[0]), jsonSerializer);
     }
 
     public SearchRequestBuilder indices(String... indices) {
@@ -333,7 +334,9 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
     @Override
     public SearchRequest request() {
         if (sourceBuilder != null) {
-            request.source(sourceBuilder());
+            request.source(sourceBuilder);
+        } else {
+            request.source(sourceBuilder().query(QueryBuilders.matchAllQuery()));
         }
         return request;
     }

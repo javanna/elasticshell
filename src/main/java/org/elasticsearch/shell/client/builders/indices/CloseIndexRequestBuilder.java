@@ -37,7 +37,7 @@ import java.io.IOException;
 public class CloseIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<CloseIndexRequest, CloseIndexResponse, JsonInput, JsonOutput> {
 
     public CloseIndexRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new CloseIndexRequest(""), jsonSerializer);
+        super(client, new CloseIndexRequest(null), jsonSerializer);
     }
 
     public CloseIndexRequestBuilder index(String index) {

@@ -37,7 +37,7 @@ import java.io.IOException;
 public class DeleteWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<DeleteWarmerRequest, DeleteWarmerResponse, JsonInput, JsonOutput> {
 
     public DeleteWarmerRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new DeleteWarmerRequest(""), jsonSerializer);
+        super(client, new DeleteWarmerRequest(null), jsonSerializer);
     }
 
     public DeleteWarmerRequestBuilder indices(String... indices) {

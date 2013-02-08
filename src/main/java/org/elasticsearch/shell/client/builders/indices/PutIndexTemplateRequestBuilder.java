@@ -37,7 +37,7 @@ import java.io.IOException;
 public class PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<PutIndexTemplateRequest, PutIndexTemplateResponse, JsonInput, JsonOutput> {
 
     public PutIndexTemplateRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new PutIndexTemplateRequest(""), jsonSerializer);
+        super(client, new PutIndexTemplateRequest(null), jsonSerializer);
     }
 
     public PutIndexTemplateRequestBuilder template(String template) {

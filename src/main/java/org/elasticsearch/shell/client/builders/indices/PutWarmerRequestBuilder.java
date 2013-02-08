@@ -39,7 +39,7 @@ import java.io.IOException;
 public class PutWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<PutWarmerRequest, PutWarmerResponse, JsonInput, JsonOutput> {
 
     public PutWarmerRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new PutWarmerRequest(""), jsonSerializer);
+        super(client, new PutWarmerRequest(null), jsonSerializer);
     }
 
     public PutWarmerRequestBuilder name(String name) {

@@ -41,7 +41,14 @@ public class AnalyzeRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
     }
 
     public AnalyzeRequestBuilder text(String text) {
-        request = new AnalyzeRequest(text);
+        //we need to create a new request since there's no setter for index
+        AnalyzeRequest newRequest = new AnalyzeRequest(text);
+        newRequest.index(request.index())
+                .analyzer(request.analyzer())
+                .field(request.field())
+                .tokenizer(request.tokenizer())
+                .tokenFilters(request.tokenFilters());
+        this.request = newRequest;
         return this;
     }
 

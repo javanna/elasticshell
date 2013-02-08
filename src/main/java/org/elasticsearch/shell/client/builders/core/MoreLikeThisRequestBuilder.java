@@ -43,7 +43,28 @@ public class MoreLikeThisRequestBuilder<JsonInput, JsonOutput> extends AbstractR
     }
 
     public MoreLikeThisRequestBuilder index(String index) {
-        this.request = new MoreLikeThisRequest(index);
+        //we need to recreate a new whole request in order to set the index (no setter)
+        MoreLikeThisRequest newRequest = new MoreLikeThisRequest(index);
+        newRequest.type(this.request.type())
+                .percentTermsToMatch(this.request.percentTermsToMatch())
+                .boostTerms(this.request.boostTerms())
+                .searchIndices(this.request.searchIndices())
+                .searchTypes(this.request.searchTypes())
+                .searchFrom(this.request.searchFrom())
+                .searchSize(this.request.searchSize())
+                .searchScroll(this.request.searchScroll())
+                .minWordLen(this.request.minWordLen())
+                .maxWordLen(this.request.maxWordLen())
+                .maxDocFreq(this.request.maxDocFreq())
+                .minTermFreq(this.request.minTermFreq())
+                .maxDocFreq(this.request.maxDocFreq())
+                .minDocFreq(this.request.minDocFreq())
+                .stopWords(this.request.stopWords())
+                .maxQueryTerms(this.request.maxQueryTerms())
+                .searchSource(this.request.searchSource(), false)
+                .fields(this.request.fields())
+                .routing(this.request.routing());
+        this.request = newRequest;
         return this;
     }
 

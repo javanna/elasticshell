@@ -37,7 +37,7 @@ import java.io.IOException;
 public class OpenIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<OpenIndexRequest, OpenIndexResponse, JsonInput, JsonOutput> {
 
     public OpenIndexRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new OpenIndexRequest(""), jsonSerializer);
+        super(client, new OpenIndexRequest(null), jsonSerializer);
     }
 
     public OpenIndexRequestBuilder index(String index) {

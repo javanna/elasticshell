@@ -64,7 +64,6 @@ public abstract class AbstractRequestBuilder<Request extends ActionRequest<Reque
             try {
                 XContentBuilder builder = initContentBuilder();
                 builder.startObject().startArray("errors");
-                StringBuilder errors = new StringBuilder("{errors:[");
                 for (String error : validationException.validationErrors()) {
                     builder.value(error);
                 }

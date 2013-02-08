@@ -20,6 +20,7 @@ package org.elasticsearch.shell.client.builders;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.ActionRequest;
+import org.elasticsearch.action.ActionRequestValidationException;
 import org.elasticsearch.action.ActionResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -58,6 +59,21 @@ public abstract class AbstractRequestBuilder<Request extends ActionRequest<Reque
     }
 
     public JsonOutput execute() {
+        ActionRequestValidationException validationException = request().validate();
+        if (validationException != null) {
+            try {
+                XContentBuilder builder = initContentBuilder();
+                builder.startObject().startArray("errors");
+                StringBuilder errors = new StringBuilder("{errors:[");
+                for (String error : validationException.validationErrors()) {
+                    builder.value(error);
+                }
+                builder.endArray().endObject();
+                return jsonSerializer.stringToJson(builder.string());
+            } catch(IOException e) {
+                logger.error("Error while writing the errors in the output json object", e);
+            }
+        }
         return responseToJson(request, doExecute(request()).actionGet());
     }
 

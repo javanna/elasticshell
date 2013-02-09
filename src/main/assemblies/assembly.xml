@@ -11,7 +11,7 @@
 	<dependencySets>
 		<dependencySet>
 			<useTransitiveDependencies>true</useTransitiveDependencies>
-			<outputDirectory>${project.name}/lib</outputDirectory>
+			<outputDirectory>lib</outputDirectory>
 		</dependencySet>
 	</dependencySets>
 	<fileSets>

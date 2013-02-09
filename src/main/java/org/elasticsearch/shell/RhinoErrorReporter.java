@@ -33,8 +33,6 @@ import java.io.PrintStream;
  */
 public class RhinoErrorReporter implements ErrorReporter {
 
-    private final static String MESSAGE_PREFIX = "js: ";
-
     private final boolean reportWarnings;
     private final PrintStream err;
 
@@ -75,10 +73,10 @@ public class RhinoErrorReporter implements ErrorReporter {
         if (justWarning) {
             message = ToolErrorReporter.getMessage("msg.warning", message);
         }
-        err.println(MESSAGE_PREFIX + message);
+        err.println(message);
         if (null != lineSource) {
-            err.println(MESSAGE_PREFIX + lineSource);
-            err.println(MESSAGE_PREFIX + buildIndicator(lineOffset));
+            err.println(lineSource);
+            err.println(buildIndicator(lineOffset));
         }
     }
 

@@ -131,11 +131,6 @@ public class UpdateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public UpdateRequestBuilder doc(String source) {
-        request.doc(source);
-        return this;
-    }
-
     public UpdateRequestBuilder doc(JsonInput source) {
         request.doc(jsonToString(source));
         return this;
@@ -146,18 +141,8 @@ public class UpdateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public UpdateRequestBuilder upsert(String source) {
-        request.upsert(source);
-        return this;
-    }
-
     public UpdateRequestBuilder upsert(JsonInput source) {
         request.upsert(jsonToString(source));
-        return this;
-    }
-
-    public UpdateRequestBuilder source(String source) throws Exception {
-        request.source(new BytesArray(source));
         return this;
     }
 

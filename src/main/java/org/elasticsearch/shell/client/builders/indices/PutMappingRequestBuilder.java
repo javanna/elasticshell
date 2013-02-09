@@ -50,11 +50,6 @@ public class PutMappingRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
         return this;
     }
 
-    public PutMappingRequestBuilder source(String mappingSource) {
-        request.source(mappingSource);
-        return this;
-    }
-
     public PutMappingRequestBuilder source(JsonInput mappingSource) {
         request.source(jsonToString(mappingSource));
         return this;

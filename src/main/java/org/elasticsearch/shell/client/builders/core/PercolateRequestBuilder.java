@@ -50,11 +50,6 @@ public class PercolateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
         return this;
     }
 
-    public PercolateRequestBuilder source(String source) {
-        request.source(source);
-        return this;
-    }
-
     public PercolateRequestBuilder source(JsonInput source) {
         request.source(jsonToString(source));
         return this;

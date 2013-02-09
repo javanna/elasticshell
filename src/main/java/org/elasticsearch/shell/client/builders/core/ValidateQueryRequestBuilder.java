@@ -60,11 +60,6 @@ public class ValidateQueryRequestBuilder<JsonInput, JsonOutput> extends Abstract
         return this;
     }
 
-    public ValidateQueryRequestBuilder query(String query) {
-        request.query(query);
-        return this;
-    }
-
     public ValidateQueryRequestBuilder query(JsonInput query) {
         request.query(jsonToString(query));
         return this;

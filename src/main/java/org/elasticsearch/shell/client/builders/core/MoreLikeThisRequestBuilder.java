@@ -133,11 +133,6 @@ public class MoreLikeThisRequestBuilder<JsonInput, JsonOutput> extends AbstractR
         return this;
     }
 
-    public MoreLikeThisRequestBuilder searchSource(String searchSource) {
-        request.searchSource(searchSource);
-        return this;
-    }
-
     public MoreLikeThisRequestBuilder searchSource(JsonInput searchSource) {
         request.searchSource(jsonToString(searchSource));
         return this;

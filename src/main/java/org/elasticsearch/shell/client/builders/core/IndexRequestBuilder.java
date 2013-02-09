@@ -62,11 +62,6 @@ public class IndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         return this;
     }
 
-    public IndexRequestBuilder source(String source) {
-        request.source(source);
-        return this;
-    }
-
     public IndexRequestBuilder source(JsonInput source) {
         request.source(jsonToString(source));
         return this;

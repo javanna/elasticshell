@@ -45,11 +45,6 @@ public class UpdateSettingsRequestBuilder<JsonInput, JsonOutput> extends Abstrac
         return this;
     }
 
-    public UpdateSettingsRequestBuilder settings(String source) {
-        request.settings(source);
-        return this;
-    }
-
     public UpdateSettingsRequestBuilder settings(JsonInput source) {
         request.settings(jsonToString(source));
         return this;

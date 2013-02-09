@@ -47,11 +47,6 @@ public class UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> extends A
         return this;
     }
 
-    public UpdateIndicesAliasesRequestBuilder addAlias(String index, String alias, String filter) {
-        request.addAlias(index, alias, filter);
-        return this;
-    }
-
     public UpdateIndicesAliasesRequestBuilder addAlias(String index, String alias, JsonInput filter) {
         request.addAlias(index, alias, jsonToString(filter));
         return this;

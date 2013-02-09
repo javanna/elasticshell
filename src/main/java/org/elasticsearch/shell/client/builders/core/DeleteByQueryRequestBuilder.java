@@ -63,11 +63,6 @@ public class DeleteByQueryRequestBuilder<JsonInput, JsonOutput>  extends Abstrac
         return this;
     }
 
-    public DeleteByQueryRequestBuilder query(String query) {
-        request.query(query);
-        return this;
-    }
-
     public DeleteByQueryRequestBuilder query(JsonInput query) {
         request.query(jsonToString(query));
         return this;

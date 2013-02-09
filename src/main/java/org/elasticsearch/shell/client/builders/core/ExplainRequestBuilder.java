@@ -81,13 +81,8 @@ public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
         return this;
     }
 
-    public ExplainRequestBuilder query(String query) {
-        request.source(new ExplainSourceBuilder().query(new BytesArray(query)));
-        return this;
-    }
-
-    public ExplainRequestBuilder source(String source) {
-        request.source(new BytesArray(source), false);
+    public ExplainRequestBuilder query(JsonInput query) {
+        request.source(new ExplainSourceBuilder().query(new BytesArray(jsonToString(query))));
         return this;
     }
 

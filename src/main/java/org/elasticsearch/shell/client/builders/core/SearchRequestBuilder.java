@@ -109,22 +109,12 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public SearchRequestBuilder query(String query) {
-        sourceBuilder().query(query);
-        return this;
-    }
-
     public SearchRequestBuilder query(JsonInput query) {
         sourceBuilder().query(jsonToString(query));
         return this;
     }
 
     public SearchRequestBuilder filter(FilterBuilder filter) {
-        sourceBuilder().filter(filter);
-        return this;
-    }
-
-    public SearchRequestBuilder filter(String filter) {
         sourceBuilder().filter(filter);
         return this;
     }

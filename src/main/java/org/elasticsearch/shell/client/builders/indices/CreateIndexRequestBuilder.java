@@ -45,18 +45,8 @@ public class CreateIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
         return this;
     }
 
-    public CreateIndexRequestBuilder settings(String source) {
-        request.settings(source);
-        return this;
-    }
-
     public CreateIndexRequestBuilder settings(JsonInput source) {
         request.settings(jsonToString(source));
-        return this;
-    }
-
-    public CreateIndexRequestBuilder mapping(String type, String source) {
-        request.mapping(type, source);
         return this;
     }
 
@@ -67,11 +57,6 @@ public class CreateIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
 
     public CreateIndexRequestBuilder cause(String cause) {
         request.cause(cause);
-        return this;
-    }
-
-    public CreateIndexRequestBuilder source(String source) {
-        request.source(source);
         return this;
     }
 

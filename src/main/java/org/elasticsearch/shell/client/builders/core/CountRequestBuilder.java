@@ -73,11 +73,6 @@ public class CountRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         return this;
     }
 
-    public CountRequestBuilder query(String query) {
-        request.query(query);
-        return this;
-    }
-
     public CountRequestBuilder query(JsonInput query) {
         request.query(jsonToString(query));
         return this;

@@ -22,8 +22,8 @@ import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.shell.JsonSerializer;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
+import org.elasticsearch.shell.json.JsonSerializer;
 
 /**
  * @author Luca Cavanna

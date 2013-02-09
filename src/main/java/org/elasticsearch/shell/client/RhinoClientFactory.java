@@ -21,9 +21,9 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.node.Node;
-import org.elasticsearch.shell.JsonSerializer;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
+import org.elasticsearch.shell.json.JsonSerializer;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.mozilla.javascript.NativeObject;
 

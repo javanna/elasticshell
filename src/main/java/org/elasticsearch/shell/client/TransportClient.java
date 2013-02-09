@@ -22,7 +22,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.collect.ImmutableList;
 import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
 import java.util.ArrayList;

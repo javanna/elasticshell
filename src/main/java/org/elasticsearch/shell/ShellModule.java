@@ -30,6 +30,8 @@ import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.console.JLineConsole;
 import org.elasticsearch.shell.console.completer.JLineCompletionHandler;
 import org.elasticsearch.shell.console.completer.JLineRhinoCompleter;
+import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.RhinoJsonSerializer;
 import org.elasticsearch.shell.script.RhinoScriptExecutor;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.InputAnalyzer;

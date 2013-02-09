@@ -34,8 +34,8 @@ import org.elasticsearch.search.facet.AbstractFacetBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
-import org.elasticsearch.shell.JsonSerializer;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
+import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
 import java.util.Map;

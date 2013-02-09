@@ -28,8 +28,8 @@ import org.elasticsearch.common.compress.CompressedString;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentParser;
-import org.elasticsearch.shell.JsonSerializer;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
 import java.util.Map;

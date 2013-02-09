@@ -51,7 +51,7 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
         try {
             syncIndexes(getIndexes());
         } catch(Throwable t) {
-            logger.error("Error while synchronizing the scope", t);
+            logger.info("Error while synchronizing the scope", t);
         }
     }
 

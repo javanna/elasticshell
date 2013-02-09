@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell;
+package org.elasticsearch.shell.json;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJSON;

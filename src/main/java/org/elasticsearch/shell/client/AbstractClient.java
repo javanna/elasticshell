@@ -21,9 +21,9 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
-import org.elasticsearch.shell.JsonSerializer;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.*;
+import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.Closeable;
 import java.util.ArrayList;

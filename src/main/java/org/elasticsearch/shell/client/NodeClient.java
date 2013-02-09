@@ -20,7 +20,7 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
-import org.elasticsearch.shell.JsonSerializer;
+import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
 

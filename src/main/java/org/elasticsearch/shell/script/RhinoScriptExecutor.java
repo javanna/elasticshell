@@ -20,6 +20,7 @@ package org.elasticsearch.shell.script;
 
 
 import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.shell.RhinoErrorHelper;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
 import org.elasticsearch.shell.source.CompilableSource;
@@ -55,13 +56,14 @@ public class RhinoScriptExecutor implements ScriptExecutor {
                 Object result = script.exec(Context.getCurrentContext(), shellScope.get());
                 logger.debug("Returned object [{}]", result);
                 //Avoids printing out undefined all the time
-                if (result != Context.getUndefinedValue()) {
-                    return result;
-                }
+                //if (result != Context.getUndefinedValue()) {
+                return result;
+                //}
             }
         } catch(RhinoException rex) {
             logger.error(rex.getMessage(), rex);
-            ToolErrorReporter.reportException(Context.getCurrentContext().getErrorReporter(), rex);
+            String msg = RhinoErrorHelper.getExceptionMessage(rex);
+            Context.reportError(msg, rex.sourceName(), rex.lineNumber(), rex.lineSource(), rex.columnNumber());
         } catch(VirtualMachineError ex) {
             logger.error(ex.getMessage(), ex);
             String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ex.toString());

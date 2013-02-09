@@ -18,8 +18,6 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.*;
 
@@ -47,22 +45,9 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return indexName;
     }
 
-    protected Index getIndex() {
-        ClusterStateResponse response = shellClient.client().admin().cluster().prepareState().setLocal(true)
-                .setFilterBlocks(true).setFilterRoutingTable(true).setFilterNodes(true).setFilterIndices(indexName)
-                .setListenerThreaded(false).execute().actionGet();
-        IndexMetaData indexMetaData = response.state().metaData().indices().values().iterator().next();
-        return new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet());
-    }
-
-    public String[] showTypes() {
-        return getIndex().types();
-    }
-
     /*
     Core Apis
      */
-
     public CountRequestBuilder count() {
         return shellClient.count().indices(indexName);
     }

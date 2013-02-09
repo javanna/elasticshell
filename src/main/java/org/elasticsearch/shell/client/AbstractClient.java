@@ -18,16 +18,12 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.*;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.Closeable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Luca Cavanna
@@ -47,16 +43,6 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     protected AbstractClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         this.client = client;
         this.jsonSerializer = jsonSerializer;
-    }
-
-    public Index[] showIndexes() {
-        ClusterStateResponse response = client.admin().cluster().prepareState().setLocal(true).setFilterBlocks(true)
-                .setFilterRoutingTable(true).setFilterNodes(true).setListenerThreaded(false).execute().actionGet();
-        List<Index> indexes = new ArrayList<Index>();
-        for (IndexMetaData indexMetaData : response.state().metaData().indices().values()) {
-            indexes.add(new Index(indexMetaData.index(), indexMetaData.mappings().keySet(), indexMetaData.aliases().keySet()));
-        }
-        return indexes.toArray(new Index[indexes.size()]);
     }
 
     public CountRequestBuilder count() {

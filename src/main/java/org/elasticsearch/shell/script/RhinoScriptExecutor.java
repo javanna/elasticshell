@@ -54,10 +54,7 @@ public class RhinoScriptExecutor implements ScriptExecutor {
                 logger.debug("Executing compiled script");
                 Object result = script.exec(Context.getCurrentContext(), shellScope.get());
                 logger.debug("Returned object [{}]", result);
-                //Avoids printing out undefined all the time
-                //if (result != Context.getUndefinedValue()) {
                 return result;
-                //}
             }
         } catch(RhinoException rex) {
             logger.error(rex.getMessage(), rex);

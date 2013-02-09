@@ -61,17 +61,7 @@ public abstract class AbstractRequestBuilder<Request extends ActionRequest<Reque
     public JsonOutput execute() {
         ActionRequestValidationException validationException = request().validate();
         if (validationException != null) {
-            try {
-                XContentBuilder builder = initContentBuilder();
-                builder.startObject().startArray("errors");
-                for (String error : validationException.validationErrors()) {
-                    builder.value(error);
-                }
-                builder.endArray().endObject();
-                return jsonSerializer.stringToJson(builder.string());
-            } catch(IOException e) {
-                logger.error("Error while writing the errors in the output json object", e);
-            }
+            throw validationException;
         }
         return responseToJson(request, doExecute(request()).actionGet());
     }

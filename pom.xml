@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name>elasticshell</name>
     <groupId>org.elasticsearch</groupId>
     <artifactId>elasticshell</artifactId>
     <version>0.1-SNAPSHOT</version>
@@ -109,7 +110,6 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <mainClass>${main.class}</mainClass>
-                            <!--<classpathPrefix>./lib</classpathPrefix> -->
                         </manifest>
                     </archive>
                 </configuration>
@@ -117,6 +117,13 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.3</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <outputDirectory>${project.build.directory}/releases/</outputDirectory>
+                    <descriptors>
+                        <descriptor>${basedir}/src/main/assemblies/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
                 <executions>
                     <execution>
                         <id>shell</id>
@@ -124,13 +131,6 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
-                        <configuration>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <outputDirectory>${project.build.directory}/releases/</outputDirectory>
-                            <descriptors>
-                                <descriptor>${basedir}/src/main/assemblies/assembly.xml</descriptor>
-                            </descriptors>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

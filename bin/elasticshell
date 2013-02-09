@@ -1,6 +1,3 @@
-APP_NAME=elasticshell
-VERSION=0.1-SNAPSHOT
-
 PRG="$0"
 while [ -h "$PRG" ] ; do
     ls=`ls -ld "$PRG"`
@@ -21,4 +18,4 @@ else
     JAVA=java
 fi
 
-$JAVA $JAVA_OPTS -jar lib/$APP_NAME-$VERSION.jar
+$JAVA $JAVA_OPTS -jar lib/${project.build.finalName}.jar

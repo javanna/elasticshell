@@ -6,7 +6,7 @@
 	<formats>
 		<format>zip</format>
 	</formats>
-	<includeBaseDirectory>false</includeBaseDirectory>
+	<includeBaseDirectory>true</includeBaseDirectory>
 
 	<dependencySets>
 		<dependencySet>
@@ -14,11 +14,36 @@
 			<outputDirectory>${project.name}/lib</outputDirectory>
 		</dependencySet>
 	</dependencySets>
-	<!--<fileSets>
+	<fileSets>
 		<fileSet>
 			<directory>.</directory>
-			<includes><include>README.txt</include></includes>
-			<outputDirectory>shell</outputDirectory>
+			<includes>
+                <include>README.md</include>
+                <include>LICENSE.txt</include>
+                <include>NOTICE.txt</include>
+            </includes>
+			<outputDirectory>./</outputDirectory>
 		</fileSet>
-	</fileSets>-->
+        <fileSet>
+            <filtered>true</filtered>
+            <directory>bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <lineEnding>dos</lineEnding>
+            <includes>
+                <include>elasticshell.bat</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <filtered>true</filtered>
+            <directory>bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <lineEnding>unix</lineEnding>
+            <includes>
+                <include>elasticshell</include>
+            </includes>
+        </fileSet>
+	</fileSets>
+
 </assembly>

@@ -30,3 +30,6 @@ es['index'] instead of es.index if index contain special characters
 percolate example
 
 multi index and multi type command only using builders
+
+
+https://github.com/fusesource/jansi jansi and windows XP dependency

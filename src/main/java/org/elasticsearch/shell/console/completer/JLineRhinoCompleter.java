@@ -201,7 +201,7 @@ public class JLineRhinoCompleter implements Completer {
                     Object object = parent.get(id, parent);
                     if (!(object instanceof UniqueTag)) {
                         if (object instanceof Function && !(object instanceof NativeJavaClass)) {
-                            id += "(";
+                            id += "()";
                         }
                         candidates.add(id);
                     }
@@ -238,7 +238,7 @@ public class JLineRhinoCompleter implements Completer {
         Set<String> returnTypes = new HashSet<String>();
         for (Method method : clazz.getMethods()) {
             if (method.getName().startsWith(methodPrefix) && !excludeList.contains(method.getName())) {
-                returnTypes.add(method.getName() + "(");
+                returnTypes.add(method.getName() + "()");
             }
         }
 

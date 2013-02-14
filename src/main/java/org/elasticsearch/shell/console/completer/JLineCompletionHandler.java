@@ -41,7 +41,7 @@ public class JLineCompletionHandler implements CompletionHandler {
     public boolean complete(final ConsoleReader reader, final List<CharSequence> candidates, final int pos) throws IOException {
         CursorBuffer buffer = reader.getCursorBuffer();
 
-        // if there is only one completion, then fill in the buffer
+        // if there is only one completion, then fill in the buffer, that's all
         if (candidates.size() == 1) {
             CharSequence candidate = candidates.get(0);
             // fail if the only candidate is the same as the current buffer
@@ -53,12 +53,15 @@ public class JLineCompletionHandler implements CompletionHandler {
             return true;
         }
 
+        //if there are more suggestions, then fill in the buffer with the longer common prefix available
+        //and show auto-suggestions
         if (candidates.size() > 1) {
             String commonPrefix = getUnambiguousCompletions(candidates);
             updateBuffer(reader, commonPrefix, pos);
         }
 
         printCandidates(reader, candidates);
+
         //next line seems to cause small problems when cursor is  not at the end of the buffer
         //e.g. FilterBuilders.queryFilter(QueryBuilders.)
         reader.drawLine();
@@ -82,7 +85,6 @@ public class JLineCompletionHandler implements CompletionHandler {
             char[] allowed = {'y', 'n'};
             int c;
             while ((c = reader.readCharacter(allowed)) != -1) {
-                //String input = new StringBuilder(c).toString();
                 if (c=='n') {
                     reader.println();
                     return;
@@ -116,7 +118,12 @@ public class JLineCompletionHandler implements CompletionHandler {
 
         if (output != null && output.length() > 0) {
             reader.putString(output);
-            reader.setCursorPosition(offset + output.length());
+            int newCursorPosition = offset + output.length();
+            if (output.charAt(output.length()-1) == ')' && output.charAt(output.length()-2) == '(' ) {
+                //we want to put the cursor between the parentheses here
+                newCursorPosition--;
+            }
+            reader.setCursorPosition(newCursorPosition);
         }
     }
 

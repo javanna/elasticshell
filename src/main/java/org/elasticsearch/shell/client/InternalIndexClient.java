@@ -48,131 +48,268 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     /*
     Core Apis
      */
-    public CountRequestBuilder count() {
-        return shellClient.count().indices(indexName);
+    public CountRequestBuilder<JsonInput, JsonOutput> countBuilder() {
+        return shellClient.countBuilder().indices(indexName);
     }
 
-    public DeleteRequestBuilder delete() {
-        return shellClient.delete().index(indexName);
+    public JsonOutput count() {
+        return countBuilder().execute();
     }
 
-    public DeleteByQueryRequestBuilder deleteByQuery() {
-        return shellClient.deleteByQuery().indices(indexName);
+    public JsonOutput count(JsonInput query) {
+        return countBuilder().query(query).execute();
     }
 
-    public ExplainRequestBuilder explain() {
-        return shellClient.explain().index(indexName);
+    public DeleteRequestBuilder<JsonInput, JsonOutput> deleteBuilder() {
+        return shellClient.deleteBuilder().index(indexName);
     }
 
-    public GetRequestBuilder get() {
-        return shellClient.get().index(indexName);
+    public JsonOutput delete(String type, String id) {
+        return deleteBuilder().type(type).id(id).execute();
     }
 
-    public IndexRequestBuilder index() {
-        return shellClient.index().index(indexName);
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> deleteByQueryBuilder() {
+        return shellClient.deleteByQueryBuilder().indices(indexName);
     }
 
-    public MoreLikeThisRequestBuilder moreLikeThis() {
-        return shellClient.moreLikeThis().index(indexName);
+    public JsonOutput deleteByQuery(JsonInput query) {
+        return deleteByQueryBuilder().query(query).execute();
     }
 
-    public PercolateRequestBuilder percolate() {
-        return shellClient.percolate().index(indexName);
+    public ExplainRequestBuilder<JsonInput, JsonOutput> explainBuilder() {
+        return shellClient.explainBuilder().index(indexName);
     }
 
-    public SearchRequestBuilder search() {
-        return shellClient.search().indices(indexName);
+    public JsonOutput explain(String type, String id, JsonInput source) {
+        return explainBuilder().type(type).id(id).source(source).execute();
     }
 
-    public UpdateRequestBuilder update() {
-        return shellClient.update().index(indexName);
+    public GetRequestBuilder<JsonInput, JsonOutput> getBuilder() {
+        return shellClient.getBuilder().index(indexName);
     }
 
-    public ValidateQueryRequestBuilder validate() {
-        return shellClient.validate().indices(indexName);
+    public JsonOutput get(String type, String id) {
+        return getBuilder().type(type).id(id).execute();
+    }
+
+    public IndexRequestBuilder<JsonInput, JsonOutput> indexBuilder() {
+        return shellClient.indexBuilder().index(indexName);
+    }
+
+    public JsonOutput index(String type, String id, JsonInput source) {
+        return indexBuilder().type(type).id(id).source(source).execute();
+    }
+
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> moreLikeThisBuilder() {
+        return shellClient.moreLikeThisBuilder(indexName);
+    }
+
+    public JsonOutput moreLikeThis(String type, String id) {
+        return moreLikeThisBuilder().type(type).id(id).execute();
+    }
+
+    public PercolateRequestBuilder<JsonInput, JsonOutput> percolateBuilder() {
+        return shellClient.percolateBuilder().index(indexName);
+    }
+
+    public JsonOutput percolate(String type, JsonInput source) {
+        return percolateBuilder().type(type).source(source).execute();
+    }
+
+    public SearchRequestBuilder<JsonInput, JsonOutput> searchBuilder() {
+        return shellClient.searchBuilder().indices(indexName);
+    }
+
+    public JsonOutput search() {
+        return searchBuilder().execute();
+    }
+
+    public JsonOutput search(JsonInput source) {
+        return searchBuilder().source(source).execute();
+    }
+
+    public UpdateRequestBuilder<JsonInput, JsonOutput> updateBuilder() {
+        return shellClient.updateBuilder().index(indexName);
+    }
+
+    public JsonOutput update(String type, String id, JsonInput doc) {
+        return updateBuilder().type(type).id(id).doc(doc).execute();
+    }
+
+    public JsonOutput update(String type, String id, String script) {
+        return updateBuilder().type(type).id(id).script(script).execute();
+    }
+
+    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> validateBuilder() {
+        return shellClient.validateBuilder().indices(indexName);
+    }
+
+    public JsonOutput validate(JsonInput query) {
+        return validateBuilder().query(query).execute();
     }
 
     /*
     Indices APIs that make sense for a specific index
      */
-    public GetAliasesIndicesRequestBuilder getAliases() {
-        return shellClient.getAliases().indices(indexName);
+    public GetAliasesIndicesRequestBuilder<JsonInput, JsonOutput> aliasesGetBuilder() {
+        return shellClient.aliasesGetBuilder().indices(indexName);
     }
 
-    public AnalyzeRequestBuilder analyze() {
-        return shellClient.analyze().index(indexName);
+    public JsonOutput aliasesGet() {
+        return aliasesGetBuilder().execute();
     }
 
-    public ClearCacheRequestBuilder clearCache() {
-        return shellClient.clearCache().indices(indexName);
+    public AnalyzeRequestBuilder<JsonInput, JsonOutput> analyzeBuilder() {
+        return shellClient.analyzeBuilder().index(indexName);
     }
 
-    public CloseIndexRequestBuilder closeIndex() {
-        return shellClient.closeIndex().index(indexName);
+    public ClearCacheRequestBuilder<JsonInput, JsonOutput> clearCacheBuilder() {
+        return shellClient.clearCacheBuilder().indices(indexName);
     }
 
-    public DeleteIndexRequestBuilder deleteIndex() {
-        return shellClient.deleteIndex().indices(indexName);
+    public JsonOutput clearCache() {
+        return clearCacheBuilder().execute();
     }
 
-    public DeleteMappingRequestBuilder deleteMapping() {
-        return shellClient.deleteMapping().indices(indexName);
+    public CloseIndexRequestBuilder<JsonInput, JsonOutput> closeIndexBuilder() {
+        return shellClient.closeIndexBuilder().index(indexName);
     }
 
-    public FlushRequestBuilder flush() {
-        return shellClient.flush().indices(indexName);
+    public JsonOutput closeIndex() {
+        return closeIndexBuilder().execute();
     }
 
-    public GetMappingRequestBuilder getMapping() {
-        return shellClient.getMapping().indices(indexName);
+    public DeleteIndexRequestBuilder<JsonInput, JsonOutput> deleteIndexBuilder() {
+        return shellClient.deleteIndexBuilder().indices(indexName);
     }
 
-    public GetSettingsRequestBuilder getSettings() {
-        return shellClient.getSettings().indices(indexName);
+    public JsonOutput deleteIndex() {
+        return deleteIndexBuilder().execute();
     }
 
-    public OpenIndexRequestBuilder openIndex() {
-        return shellClient.openIndex().index(indexName);
+    public FlushRequestBuilder<JsonInput, JsonOutput> flushBuilder() {
+        return shellClient.flushBuilder().indices(indexName);
     }
 
-    public OptimizeRequestBuilder optimize() {
-        return shellClient.optimize().indices(indexName);
+    public JsonOutput flush() {
+        return flushBuilder().execute();
     }
 
-    public PutMappingRequestBuilder putMapping() {
-        return shellClient.putMapping().indices(indexName);
+    public GetMappingRequestBuilder<JsonInput, JsonOutput> mappingGetBuilder() {
+        return shellClient.mappingGetBuilder().indices(indexName);
     }
 
-    public RefreshRequestBuilder refresh() {
-        return shellClient.refresh().indices(indexName);
+    public JsonOutput mappingGet() {
+        return mappingGetBuilder().execute();
     }
 
-    public SegmentsRequestBuilder segments() {
-        return shellClient.segments().indices(indexName);
+    public DeleteMappingRequestBuilder<JsonInput, JsonOutput> mappingDeleteBuilder() {
+        return shellClient.mappingDeleteBuilder().indices(indexName);
     }
 
-    public StatsRequestBuilder stats() {
-        return shellClient.stats().indices(indexName);
+    public JsonOutput mappingDelete(String type) {
+        return mappingDeleteBuilder().type(type).execute();
     }
 
-    public StatusRequestBuilder status() {
-        return shellClient.status().indices(indexName);
+    public PutMappingRequestBuilder<JsonInput, JsonOutput> mappingPutBuilder() {
+        return shellClient.mappingPutBuilder().indices(indexName);
     }
 
-    public TypesExistsRequestBuilder typesExists() {
-        return shellClient.typesExists().indices(indexName);
+    public JsonOutput mappingPut(String type, JsonInput source) {
+        return mappingPutBuilder().type(type).source(source).execute();
     }
 
-    public UpdateSettingsRequestBuilder updateSettings() {
-        return shellClient.updateSettings().indices(indexName);
+    public OpenIndexRequestBuilder<JsonInput, JsonOutput> openIndexBuilder() {
+        return shellClient.openIndexBuilder().index(indexName);
     }
 
-    public GetWarmerRequestBuilder getWarmer() {
-        return shellClient.getWarmer().indices(indexName);
+    public JsonOutput openIndex() {
+        return openIndexBuilder().execute();
     }
 
-    public DeleteWarmerRequestBuilder deleteWarmer() {
-        return shellClient.deleteWarmer().indices(indexName);
+    public OptimizeRequestBuilder<JsonInput, JsonOutput> optimizeBuilder() {
+        return shellClient.optimizeBuilder().indices(indexName);
+    }
+
+    public JsonOutput optimize() {
+        return optimizeBuilder().execute();
+    }
+
+    public RefreshRequestBuilder<JsonInput, JsonOutput> refreshBuilder() {
+        return shellClient.refreshBuilder().indices(indexName);
+    }
+
+    public JsonOutput refresh() {
+        return refreshBuilder().execute();
+    }
+
+    public SegmentsRequestBuilder<JsonInput, JsonOutput> segmentsBuilder() {
+        return shellClient.segmentsBuilder().indices(indexName);
+    }
+
+    public JsonOutput segments() {
+        return segmentsBuilder().execute();
+    }
+
+    public GetSettingsRequestBuilder<JsonInput, JsonOutput> settingsGetBuilder() {
+        return shellClient.settingsGetBuilder().indices(indexName);
+    }
+
+    public JsonOutput settingsGet() {
+        return settingsGetBuilder().execute();
+    }
+
+    public UpdateSettingsRequestBuilder<JsonInput, JsonOutput> settingsUpdateBuilder() {
+        return shellClient.settingsUpdateBuilder().indices(indexName);
+    }
+
+    public JsonOutput settingsUpdate(JsonInput source) {
+        return settingsUpdateBuilder().settings(source).execute();
+    }
+
+
+    public StatsRequestBuilder<JsonInput, JsonOutput> statsBuilder() {
+        return shellClient.statsBuilder().indices(indexName);
+    }
+
+    public JsonOutput stats() {
+        return statsBuilder().execute();
+    }
+
+    public StatusRequestBuilder<JsonInput, JsonOutput> statusBuilder() {
+        return shellClient.statusBuilder().indices(indexName);
+    }
+
+    public JsonOutput status() {
+        return statusBuilder().execute();
+    }
+
+    public TypesExistsRequestBuilder<JsonInput, JsonOutput> typesExistsBuilder() {
+        return shellClient.typesExistsBuilder().indices(indexName);
+    }
+
+    public JsonOutput typesExists(String type) {
+        return typesExistsBuilder().types(type).execute();
+    }
+
+    public GetWarmerRequestBuilder<JsonInput, JsonOutput> warmerGetBuilder() {
+        return shellClient.warmerGetBuilder().indices(indexName);
+    }
+
+    public JsonOutput warmerGet() {
+        return warmerGetBuilder().execute();
+    }
+
+    public DeleteWarmerRequestBuilder<JsonInput, JsonOutput> warmerDeleteBuilder() {
+        return shellClient.warmerDeleteBuilder().indices(indexName);
+    }
+
+    public JsonOutput warmerDelete(String name) {
+        return warmerDeleteBuilder().name(name).execute();
+    }
+
+    public JsonOutput warmerDelete() {
+        return warmerDeleteBuilder().execute();
     }
 
     @Override

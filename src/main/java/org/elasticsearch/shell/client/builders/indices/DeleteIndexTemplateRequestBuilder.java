@@ -36,15 +36,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<DeleteIndexTemplateRequest, DeleteIndexTemplateResponse, JsonInput, JsonOutput> {
 
-    public DeleteIndexTemplateRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new DeleteIndexTemplateRequest(null), jsonSerializer);
-    }
-
-    public DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> name(String name) {
-        //need to create a new because it's the only way to set the name (private field without setter)
-        DeleteIndexTemplateRequest newRequest = new DeleteIndexTemplateRequest(name);
-        this.request = newRequest;
-        return this;
+    public DeleteIndexTemplateRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer, String name) {
+        super(client, new DeleteIndexTemplateRequest(name), jsonSerializer);
     }
 
     public DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {

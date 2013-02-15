@@ -54,64 +54,131 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     /*
     Core APIs
      */
-    public CountRequestBuilder count() {
-        return shellClient.count().indices(indexName).types(typeName);
+    public CountRequestBuilder<JsonInput, JsonOutput> countBuilder() {
+        return shellClient.countBuilder().indices(indexName).types(typeName);
     }
 
-    public DeleteRequestBuilder delete() {
-        return shellClient.delete().index(indexName).type(typeName);
+    public JsonOutput count() {
+        return countBuilder().execute();
     }
 
-    public DeleteByQueryRequestBuilder deleteByQuery() {
-        return shellClient.deleteByQuery().indices(indexName).types(typeName);
+    public JsonOutput count(JsonInput query) {
+        return countBuilder().query(query).execute();
     }
 
-    public ExplainRequestBuilder explain() {
-        return shellClient.explain().index(indexName).type(typeName);
+    public DeleteRequestBuilder<JsonInput, JsonOutput> deleteBuilder() {
+        return shellClient.deleteBuilder().index(indexName).type(typeName);
     }
 
-    public GetRequestBuilder get() {
-        return shellClient.get().index(indexName).type(typeName);
+    public JsonOutput delete(String id) {
+        return deleteBuilder().id(id).execute();
     }
 
-    public IndexRequestBuilder index() {
-        return shellClient.index().index(indexName).type(typeName);
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> deleteByQueryBuilder() {
+        return shellClient.deleteByQueryBuilder().indices(indexName).types(typeName);
     }
 
-    public MoreLikeThisRequestBuilder moreLikeThis() {
-        return shellClient.moreLikeThis().index(indexName).type(typeName);
+    public JsonOutput deleteByQuery(JsonInput query) {
+        return deleteByQueryBuilder().query(query).execute();
     }
 
-    public PercolateRequestBuilder percolate() {
-        return shellClient.percolate().index(indexName).type(typeName);
+    public ExplainRequestBuilder<JsonInput, JsonOutput> explainBuilder() {
+        return shellClient.explainBuilder().index(indexName).type(typeName);
     }
 
-    public SearchRequestBuilder search() {
-        return shellClient.search().indices(indexName).types(typeName);
+    public JsonOutput explain(String id, JsonInput source) {
+        return explainBuilder().id(id).source(source).execute();
     }
 
-    public UpdateRequestBuilder update() {
-        return shellClient.update().index(indexName).type(typeName);
+    public GetRequestBuilder<JsonInput, JsonOutput> getBuilder() {
+        return shellClient.getBuilder().index(indexName).type(typeName);
     }
 
-    public ValidateQueryRequestBuilder validate() {
-        return shellClient.validate().indices(indexName).types(typeName);
+    public JsonOutput get(String id) {
+        return getBuilder().id(id).execute();
     }
 
+    public IndexRequestBuilder<JsonInput, JsonOutput> indexBuilder() {
+        return shellClient.indexBuilder().index(indexName).type(typeName);
+    }
+
+    public JsonOutput index(String id, JsonInput source) {
+        return indexBuilder().id(id).source(source).execute();
+    }
+
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> moreLikeThisBuilder() {
+        return shellClient.moreLikeThisBuilder(indexName).type(typeName);
+    }
+
+    public JsonOutput moreLikeThis(String id) {
+        return moreLikeThisBuilder().id(id).execute();
+    }
+
+    public PercolateRequestBuilder<JsonInput, JsonOutput> percolateBuilder() {
+        return shellClient.percolateBuilder().index(indexName).type(typeName);
+    }
+
+    public JsonOutput percolate(JsonInput source) {
+        return percolateBuilder().source(source).execute();
+    }
+
+    public SearchRequestBuilder<JsonInput, JsonOutput> searchBuilder() {
+        return shellClient.searchBuilder().indices(indexName).types(typeName);
+    }
+
+    public JsonOutput search() {
+        return searchBuilder().execute();
+    }
+
+    public JsonOutput search(JsonInput source) {
+        return searchBuilder().source(source).execute();
+    }
+
+    public UpdateRequestBuilder<JsonInput, JsonOutput> updateBuilder() {
+        return shellClient.updateBuilder().index(indexName).type(typeName);
+    }
+
+    public JsonOutput update(String id, JsonInput doc) {
+        return updateBuilder().id(id).doc(doc).execute();
+    }
+
+    public JsonOutput update(String id, String script) {
+        return updateBuilder().id(id).script(script).execute();
+    }
+
+    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> validateBuilder() {
+        return shellClient.validateBuilder().indices(indexName).types(typeName);
+    }
+
+    public JsonOutput validate(JsonInput query) {
+        return validateBuilder().query(query).execute();
+    }
 
     /*
     Indices APIs that make sense for a specific type
      */
-    public DeleteMappingRequestBuilder deleteMapping() {
-        return shellClient.deleteMapping().indices(indexName).type(typeName);
+    public GetMappingRequestBuilder<JsonInput, JsonOutput> mappingGetBuilder() {
+        return shellClient.mappingGetBuilder().indices(indexName).types(typeName);
     }
 
-    public GetMappingRequestBuilder getMapping() {
-        return shellClient.getMapping().indices(indexName).types(typeName);
+    public JsonOutput mappingGet() {
+        return mappingGetBuilder().execute();
     }
 
-    public PutMappingRequestBuilder putMapping() {
-        return shellClient.putMapping().indices(indexName).type(typeName);
+    public DeleteMappingRequestBuilder<JsonInput, JsonOutput> mappingDeleteBuilder() {
+        return shellClient.mappingDeleteBuilder().indices(indexName).type(typeName);
+    }
+
+    public JsonOutput mappingDelete() {
+        return mappingDeleteBuilder().execute();
+    }
+
+    public PutMappingRequestBuilder<JsonInput, JsonOutput> mappingPutBuilder() {
+        return shellClient.mappingPutBuilder().indices(indexName).type(typeName);
+    }
+
+    public JsonOutput mappingPut(JsonInput source) {
+        return mappingPutBuilder().source(source).execute();
     }
 
     @Override

@@ -42,6 +42,8 @@ public class GetClusterSettingsRequestBuilder<JsonInput, JsonOutput> extends Abs
         this.request.listenerThreaded(false).filterRoutingTable(true).filterNodes(true);
     }
 
+
+
     @Override
     protected ActionFuture<ClusterStateResponse> doExecute(ClusterStateRequest request) {
         return client.admin().cluster().state(request);

@@ -58,7 +58,7 @@ public class UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput> extends 
     @Override
     protected XContentBuilder toXContent(ClusterUpdateSettingsRequest request, ClusterUpdateSettingsResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field("ok", true);
+        builder.field(Fields.OK, true);
         builder.endObject();
         return builder;
     }

@@ -48,12 +48,12 @@ public class GetWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
         this.request.filterAll().filterMetaData(false).listenerThreaded(false);
     }
 
-    public GetWarmerRequestBuilder indices(String... indices) {
+    public GetWarmerRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         this.request.filteredIndices(indices);
         return this;
     }
 
-    public GetWarmerRequestBuilder name(String name) {
+    public GetWarmerRequestBuilder<JsonInput, JsonOutput> name(String name) {
         this.name = name;
         return this;
     }

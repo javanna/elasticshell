@@ -59,6 +59,7 @@ public class GetIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends Abstr
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected XContentBuilder toXContent(ClusterStateRequest request, ClusterStateResponse response, XContentBuilder builder) throws IOException {
 
         MetaData metaData = response.state().metaData();

@@ -20,6 +20,7 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.shell.client.builders.cluster.ClusterHealthRequestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.*;
 import org.elasticsearch.shell.json.JsonSerializer;
@@ -361,7 +362,13 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     /*
     Cluster APIs
      */
+    public ClusterHealthRequestBuilder<JsonInput, JsonOutput> clusterHealthBuilder() {
+        return new ClusterHealthRequestBuilder<JsonInput, JsonOutput>(client, jsonSerializer);
+    }
 
+    public JsonOutput clusterHealth(String... indices) {
+        return clusterHealthBuilder().indices(indices).execute();
+    }
 
 
     JsonSerializer<JsonInput, JsonOutput> jsonSerializer() {

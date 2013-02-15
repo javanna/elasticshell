@@ -126,6 +126,22 @@ public abstract class AbstractRequestBuilder<Request extends ActionRequest<Reque
         public static final XContentBuilderString DESCRIPTION = new XContentBuilderString("description");
         public static final XContentBuilderString DETAILS = new XContentBuilderString("details");
         public static final XContentBuilderString ACKNOWLEDGED = new XContentBuilderString("acknowledged");
+        public static final XContentBuilderString CLUSTER_NAME = new XContentBuilderString("cluster_name");
+        public static final XContentBuilderString STATUS = new XContentBuilderString("status");
+        public static final XContentBuilderString TIMED_OUT = new XContentBuilderString("timed_out");
+        public static final XContentBuilderString NUMBER_OF_SHARDS = new XContentBuilderString("number_of_shards");
+        public static final XContentBuilderString NUMBER_OF_REPLICAS = new XContentBuilderString("number_of_replicas");
+        public static final XContentBuilderString NUMBER_OF_NODES = new XContentBuilderString("number_of_nodes");
+        public static final XContentBuilderString NUMBER_OF_DATA_NODES = new XContentBuilderString("number_of_data_nodes");
+        public static final XContentBuilderString ACTIVE_PRIMARY_SHARDS = new XContentBuilderString("active_primary_shards");
+        public static final XContentBuilderString ACTIVE_SHARDS = new XContentBuilderString("active_shards");
+        public static final XContentBuilderString RELOCATING_SHARDS = new XContentBuilderString("relocating_shards");
+        public static final XContentBuilderString INITIALIZING_SHARDS = new XContentBuilderString("initializing_shards");
+        public static final XContentBuilderString UNASSIGNED_SHARDS = new XContentBuilderString("unassigned_shards");
+        public static final XContentBuilderString VALIDATION_FAILURES = new XContentBuilderString("validation_failures");
+        public static final XContentBuilderString INDICES = new XContentBuilderString("indices");
+        public static final XContentBuilderString SHARDS = new XContentBuilderString("shards");
+        public static final XContentBuilderString PRIMARY_ACTIVE = new XContentBuilderString("primary_active");
     }
 
     @Override

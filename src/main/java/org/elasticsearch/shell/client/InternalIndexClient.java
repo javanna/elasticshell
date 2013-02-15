@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.shell.client.builders.cluster.ClusterHealthRequestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.*;
 
@@ -311,6 +312,18 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     public JsonOutput warmerDelete() {
         return warmerDeleteBuilder().execute();
     }
+
+    /*
+    Cluster APIs that make sense for a specific index
+     */
+    public ClusterHealthRequestBuilder<JsonInput, JsonOutput> clusterHealthBuilder() {
+        return shellClient.clusterHealthBuilder().indices(indexName);
+    }
+
+    public JsonOutput clusterHealth() {
+        return clusterHealthBuilder().execute();
+    }
+
 
     @Override
     public String toString() {

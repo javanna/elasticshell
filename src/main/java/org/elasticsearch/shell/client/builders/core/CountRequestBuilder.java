@@ -43,37 +43,37 @@ public class CountRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         super(client, new CountRequest(), jsonSerializer);
     }
 
-    public CountRequestBuilder indices(String... indices) {
+    public CountRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public CountRequestBuilder types(String... types) {
+    public CountRequestBuilder<JsonInput, JsonOutput> types(String... types) {
         request.types(types);
         return this;
     }
 
-    public CountRequestBuilder minScore(float minScore) {
+    public CountRequestBuilder<JsonInput, JsonOutput> minScore(float minScore) {
         request.minScore(minScore);
         return this;
     }
 
-    public CountRequestBuilder queryHint(String queryHint) {
+    public CountRequestBuilder<JsonInput, JsonOutput> queryHint(String queryHint) {
         request.queryHint(queryHint);
         return this;
     }
 
-    public CountRequestBuilder routing(String... routing) {
+    public CountRequestBuilder<JsonInput, JsonOutput> routing(String... routing) {
         request.routing(routing);
         return this;
     }
 
-    public CountRequestBuilder query(QueryBuilder queryBuilder) {
+    public CountRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder queryBuilder) {
         request.query(queryBuilder);
         return this;
     }
 
-    public CountRequestBuilder query(JsonInput query) {
+    public CountRequestBuilder<JsonInput, JsonOutput> query(JsonInput query) {
         request.query(jsonToString(query));
         return this;
     }

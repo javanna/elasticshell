@@ -46,107 +46,107 @@ public class UpdateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         super(client, new UpdateRequest(null, null, null), jsonSerializer);
     }
 
-    public UpdateRequestBuilder index(String index) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }
 
-    public UpdateRequestBuilder timeout(String timeout) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }
 
-    public UpdateRequestBuilder type(String type) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> type(String type) {
         request.type(type);
         return this;
     }
 
-    public UpdateRequestBuilder id(String id) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> id(String id) {
         request.id(id);
         return this;
     }
 
-    public UpdateRequestBuilder routing(String routing) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> routing(String routing) {
         request.routing(routing);
         return this;
     }
 
-    public UpdateRequestBuilder parent(String parent) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> parent(String parent) {
         request.parent(parent);
         return this;
     }
 
-    public UpdateRequestBuilder script(String script) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> script(String script) {
         request.script(script);
         return this;
     }
 
-    public UpdateRequestBuilder scriptLang(String scriptLang) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> scriptLang(String scriptLang) {
         request.scriptLang(scriptLang);
         return this;
     }
 
-    public UpdateRequestBuilder scriptParams(Map<String, Object> scriptParams) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> scriptParams(Map<String, Object> scriptParams) {
         request.scriptParams(scriptParams);
         return this;
     }
 
-    public UpdateRequestBuilder addScriptParam(String name, Object value) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> addScriptParam(String name, Object value) {
         request.addScriptParam(name, value);
         return this;
     }
 
-    public UpdateRequestBuilder fields(String... fields) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> fields(String... fields) {
         request.fields(fields);
         return this;
     }
 
-    public UpdateRequestBuilder retryOnConflict(int retryOnConflict) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> retryOnConflict(int retryOnConflict) {
         request.retryOnConflict(retryOnConflict);
         return this;
     }
 
-    public UpdateRequestBuilder refresh(boolean refresh) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> refresh(boolean refresh) {
         request.refresh(refresh);
         return this;
     }
 
-    public UpdateRequestBuilder replicationType(String replicationType) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> replicationType(String replicationType) {
         request.replicationType(ReplicationType.fromString(replicationType));
         return this;
     }
 
-    public UpdateRequestBuilder consistencyLevel(String consistencyLevel) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> consistencyLevel(String consistencyLevel) {
         request.consistencyLevel(WriteConsistencyLevel.fromString(consistencyLevel));
         return this;
     }
 
-    public UpdateRequestBuilder percolate(String percolate) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> percolate(String percolate) {
         request.percolate(percolate);
         return this;
     }
 
-    public UpdateRequestBuilder doc(IndexRequest indexRequest) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> doc(IndexRequest indexRequest) {
         request.doc(indexRequest);
         return this;
     }
 
-    public UpdateRequestBuilder doc(JsonInput source) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> doc(JsonInput source) {
         request.doc(jsonToString(source));
         return this;
     }
 
-    public UpdateRequestBuilder upsert(IndexRequest indexRequest) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> upsert(IndexRequest indexRequest) {
         request.upsert(indexRequest);
         return this;
     }
 
-    public UpdateRequestBuilder upsert(JsonInput source) {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> upsert(JsonInput source) {
         request.upsert(jsonToString(source));
         return this;
     }
 
-    public UpdateRequestBuilder source(JsonInput source) throws Exception {
+    public UpdateRequestBuilder<JsonInput, JsonOutput> source(JsonInput source) throws Exception {
         request.source(new BytesArray(jsonToString(source)));
         return this;
     }

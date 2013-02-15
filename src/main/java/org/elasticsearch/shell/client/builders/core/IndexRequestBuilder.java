@@ -42,87 +42,87 @@ public class IndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         super(client, new IndexRequest(), jsonSerializer);
     }
 
-    public IndexRequestBuilder type(String type) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> type(String type) {
         request.type(type);
         return this;
     }
 
-    public IndexRequestBuilder id(String id) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> id(String id) {
         request.id(id);
         return this;
     }
 
-    public IndexRequestBuilder routing(String routing) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> routing(String routing) {
         request.routing(routing);
         return this;
     }
 
-    public IndexRequestBuilder parent(String parent) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> parent(String parent) {
         request.parent(parent);
         return this;
     }
 
-    public IndexRequestBuilder source(JsonInput source) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> source(JsonInput source) {
         request.source(jsonToString(source));
         return this;
     }
 
-    public IndexRequestBuilder opType(String opType) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> opType(String opType) {
         request.opType(opType);
         return this;
     }
 
-    public IndexRequestBuilder create(boolean create) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> create(boolean create) {
         request.create(create);
         return this;
     }
 
-    public IndexRequestBuilder refresh(boolean refresh) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> refresh(boolean refresh) {
         request.refresh(refresh);
         return this;
     }
 
-    public IndexRequestBuilder replicationType(String replicationType) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> replicationType(String replicationType) {
         request.replicationType(replicationType);
         return this;
     }
 
-    public IndexRequestBuilder consistencyLevel(String consistencyLevel) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> consistencyLevel(String consistencyLevel) {
         request.consistencyLevel(WriteConsistencyLevel.fromString(consistencyLevel));
         return this;
     }
 
-    public IndexRequestBuilder version(long version) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> version(long version) {
         request.version(version);
         return this;
     }
 
-    public IndexRequestBuilder versionType(String versionType) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> versionType(String versionType) {
         request.versionType(VersionType.fromString(versionType));
         return this;
     }
 
-    public IndexRequestBuilder percolate(String percolate) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> percolate(String percolate) {
         request.percolate(percolate);
         return this;
     }
 
-    public IndexRequestBuilder timestamp(String timestamp) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> timestamp(String timestamp) {
         request.timestamp(timestamp);
         return this;
     }
 
-    public IndexRequestBuilder ttl(long ttl) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> ttl(long ttl) {
         request.ttl(ttl);
         return this;
     }
 
-    public IndexRequestBuilder timeout(String timeout) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }
 
-    public IndexRequestBuilder index(String index) {
+    public IndexRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }

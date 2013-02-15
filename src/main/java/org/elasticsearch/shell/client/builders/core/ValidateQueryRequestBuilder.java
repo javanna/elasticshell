@@ -45,32 +45,32 @@ public class ValidateQueryRequestBuilder<JsonInput, JsonOutput> extends Abstract
         super(client, new ValidateQueryRequest(), jsonSerializer);
     }
 
-    public ValidateQueryRequestBuilder indices(String... indices) {
+    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public ValidateQueryRequestBuilder types(String... types) {
+    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> types(String... types) {
         request.types(types);
         return this;
     }
 
-    public ValidateQueryRequestBuilder query(QueryBuilder queryBuilder) {
+    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder queryBuilder) {
         request.query(queryBuilder);
         return this;
     }
 
-    public ValidateQueryRequestBuilder query(JsonInput query) {
+    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> query(JsonInput query) {
         request.query(jsonToString(query));
         return this;
     }
 
-    public ValidateQueryRequestBuilder explain(boolean explain) {
+    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> explain(boolean explain) {
         request.explain(explain);
         return this;
     }
 
-    public ValidateQueryRequestBuilder ignoreIndices(String ignoreIndices) {
+    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
         request.ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
         return this;
     }

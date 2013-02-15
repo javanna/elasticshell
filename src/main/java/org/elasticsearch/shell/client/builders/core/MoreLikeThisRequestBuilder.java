@@ -42,7 +42,7 @@ public class MoreLikeThisRequestBuilder<JsonInput, JsonOutput> extends AbstractR
         super(client, new MoreLikeThisRequest(null), jsonSerializer);
     }
 
-    public MoreLikeThisRequestBuilder index(String index) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> index(String index) {
         //we need to recreate a new whole request in order to set the index (no setter)
         MoreLikeThisRequest newRequest = new MoreLikeThisRequest(index);
         newRequest.type(this.request.type())
@@ -68,102 +68,102 @@ public class MoreLikeThisRequestBuilder<JsonInput, JsonOutput> extends AbstractR
         return this;
     }
 
-    public MoreLikeThisRequestBuilder type(String type) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> type(String type) {
         request.type(type);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder fields(String... fields) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> fields(String... fields) {
         request.fields(fields);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder routing(String routing) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> routing(String routing) {
         request.routing(routing);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder percentTermsToMatch(float percentTermsToMatch) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> percentTermsToMatch(float percentTermsToMatch) {
         request.percentTermsToMatch(percentTermsToMatch);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder minTermFreq(int minTermFreq) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> minTermFreq(int minTermFreq) {
         request.minTermFreq(minTermFreq);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder maxQueryTerms(int maxQueryTerms) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> maxQueryTerms(int maxQueryTerms) {
         request.maxQueryTerms(maxQueryTerms);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder stopWords(String... stopWords) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> stopWords(String... stopWords) {
         request.stopWords(stopWords);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder minDocFreq(int minDocFreq) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> minDocFreq(int minDocFreq) {
         request.minDocFreq(minDocFreq);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder maxDocFreq(int maxDocFreq) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> maxDocFreq(int maxDocFreq) {
         request.maxDocFreq(maxDocFreq);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder minWordLen(int minWordLen) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> minWordLen(int minWordLen) {
         request.minWordLen(minWordLen);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder maxWordLen(int maxWordLen) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> maxWordLen(int maxWordLen) {
         request.maxWordLen(maxWordLen);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder boostTerms(float boostTerms) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> boostTerms(float boostTerms) {
         request.boostTerms(boostTerms);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder searchSource(SearchSourceBuilder sourceBuilder) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchSource(SearchSourceBuilder sourceBuilder) {
         request.searchSource(sourceBuilder);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder searchSource(JsonInput searchSource) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchSource(JsonInput searchSource) {
         request.searchSource(jsonToString(searchSource));
         return this;
     }
 
-    public MoreLikeThisRequestBuilder searchType(String searchType) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchType(String searchType) {
         request.searchType(searchType);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder searchIndices(String... searchIndices) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchIndices(String... searchIndices) {
         request.searchIndices(searchIndices);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder searchTypes(String... searchTypes) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchTypes(String... searchTypes) {
         request.searchTypes(searchTypes);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder searchScroll(Scroll searchScroll) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchScroll(Scroll searchScroll) {
         request.searchScroll(searchScroll);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder searchSize(int size) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchSize(int size) {
         request.searchSize(size);
         return this;
     }
 
-    public MoreLikeThisRequestBuilder searchFrom(int from) {
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchFrom(int from) {
         request.searchFrom(from);
         return this;
     }

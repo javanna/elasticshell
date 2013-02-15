@@ -46,52 +46,52 @@ public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
         super(client, new ExplainRequest(null, null, null), jsonSerializer);
     }
 
-    public ExplainRequestBuilder index(String index) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }
 
-    public ExplainRequestBuilder type(String type) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> type(String type) {
         request.type(type);
         return this;
     }
 
-    public ExplainRequestBuilder id(String id) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> id(String id) {
         request.id(id);
         return this;
     }
 
-    public ExplainRequestBuilder routing(String routing) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> routing(String routing) {
         request.routing(routing);
         return this;
     }
 
-    public ExplainRequestBuilder parent(String parent) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> parent(String parent) {
         request.parent(parent);
         return this;
     }
 
-    public ExplainRequestBuilder preference(String preference) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> preference(String preference) {
         request.preference(preference);
         return this;
     }
 
-    public ExplainRequestBuilder query(QueryBuilder query) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder query) {
         request.source(new ExplainSourceBuilder().query(query));
         return this;
     }
 
-    public ExplainRequestBuilder query(JsonInput query) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> query(JsonInput query) {
         request.source(new ExplainSourceBuilder().query(new BytesArray(jsonToString(query))));
         return this;
     }
 
-    public ExplainRequestBuilder source(JsonInput source) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> source(JsonInput source) {
         request.source(new BytesArray(jsonToString(source)), false);
         return this;
     }
 
-    public ExplainRequestBuilder fields(String... fields) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> fields(String... fields) {
         request.fields(fields);
         return this;
     }

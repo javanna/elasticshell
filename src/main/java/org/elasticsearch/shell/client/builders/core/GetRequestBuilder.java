@@ -37,47 +37,47 @@ public class GetRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBui
         super(client, new GetRequest(null), jsonSerializer);
     }
 
-    public GetRequestBuilder index(String index) {
+    public GetRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }
 
-    public GetRequestBuilder type(String type) {
+    public GetRequestBuilder<JsonInput, JsonOutput> type(String type) {
         request.type(type);
         return this;
     }
 
-    public GetRequestBuilder id(String id) {
+    public GetRequestBuilder<JsonInput, JsonOutput> id(String id) {
         request.id(id);
         return this;
     }
 
-    public GetRequestBuilder parent(String parent) {
+    public GetRequestBuilder<JsonInput, JsonOutput> parent(String parent) {
         request.parent(parent);
         return this;
     }
 
-    public GetRequestBuilder routing(String routing) {
+    public GetRequestBuilder<JsonInput, JsonOutput> routing(String routing) {
         request.routing(routing);
         return this;
     }
 
-    public GetRequestBuilder preference(String preference) {
+    public GetRequestBuilder<JsonInput, JsonOutput> preference(String preference) {
         request.preference(preference);
         return this;
     }
 
-    public GetRequestBuilder fields(String... fields) {
+    public GetRequestBuilder<JsonInput, JsonOutput> fields(String... fields) {
         request.fields(fields);
         return this;
     }
 
-    public GetRequestBuilder refresh(boolean refresh) {
+    public GetRequestBuilder<JsonInput, JsonOutput> refresh(boolean refresh) {
         request.refresh(refresh);
         return this;
     }
 
-    public GetRequestBuilder realtime(boolean realtime) {
+    public GetRequestBuilder<JsonInput, JsonOutput> realtime(boolean realtime) {
         request.realtime(realtime);
         return this;
     }

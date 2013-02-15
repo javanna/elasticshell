@@ -54,258 +54,258 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         super(client, new SearchRequest(new String[0]), jsonSerializer);
     }
 
-    public SearchRequestBuilder indices(String... indices) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public SearchRequestBuilder types(String... types) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> types(String... types) {
         request.types(types);
         return this;
     }
 
-    public SearchRequestBuilder searchType(String searchType) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> searchType(String searchType) {
         request.searchType(searchType);
         return this;
     }
 
-    public SearchRequestBuilder scroll(String keepAlive) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> scroll(String keepAlive) {
         request.scroll(keepAlive);
         return this;
     }
 
-    public SearchRequestBuilder timeout(String timeout) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         sourceBuilder().timeout(timeout);
         return this;
     }
 
-    public SearchRequestBuilder queryHint(String queryHint) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> queryHint(String queryHint) {
         request.queryHint(queryHint);
         return this;
     }
 
-    public SearchRequestBuilder routing(String... routing) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> routing(String... routing) {
         request.routing(routing);
         return this;
     }
 
-    public SearchRequestBuilder preference(String preference) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> preference(String preference) {
         request.preference(preference);
         return this;
     }
 
-    public SearchRequestBuilder operationThreading(String operationThreading) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> operationThreading(String operationThreading) {
         request.operationThreading(operationThreading);
         return this;
     }
 
-    public SearchRequestBuilder ignoreIndices(String ignoreIndices) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
         request().ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
         return this;
     }
 
-    public SearchRequestBuilder query(QueryBuilder queryBuilder) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder queryBuilder) {
         sourceBuilder().query(queryBuilder);
         return this;
     }
 
-    public SearchRequestBuilder query(JsonInput query) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> query(JsonInput query) {
         sourceBuilder().query(jsonToString(query));
         return this;
     }
 
-    public SearchRequestBuilder filter(FilterBuilder filter) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> filter(FilterBuilder filter) {
         sourceBuilder().filter(filter);
         return this;
     }
 
-    public SearchRequestBuilder filter(JsonInput filter) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> filter(JsonInput filter) {
         sourceBuilder().filter(jsonToString(filter));
         return this;
     }
 
-    public SearchRequestBuilder minScore(float minScore) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> minScore(float minScore) {
         sourceBuilder().minScore(minScore);
         return this;
     }
 
-    public SearchRequestBuilder from(int from) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> from(int from) {
         sourceBuilder().from(from);
         return this;
     }
 
-    public SearchRequestBuilder size(int size) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> size(int size) {
         sourceBuilder().size(size);
         return this;
     }
 
-    public SearchRequestBuilder explain(boolean explain) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> explain(boolean explain) {
         sourceBuilder().explain(explain);
         return this;
     }
 
-    public SearchRequestBuilder version(boolean version) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> version(boolean version) {
         sourceBuilder().version(version);
         return this;
     }
 
-    public SearchRequestBuilder indexBoost(String index, float indexBoost) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> indexBoost(String index, float indexBoost) {
         sourceBuilder().indexBoost(index, indexBoost);
         return this;
     }
 
-    public SearchRequestBuilder stats(String... statsGroups) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> stats(String... statsGroups) {
         sourceBuilder().stats(statsGroups);
         return this;
     }
 
-    public SearchRequestBuilder noFields() {
+    public SearchRequestBuilder<JsonInput, JsonOutput> noFields() {
         sourceBuilder().noFields();
         return this;
     }
 
-    public SearchRequestBuilder scriptField(String name, String script) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> scriptField(String name, String script) {
         sourceBuilder().scriptField(name, script);
         return this;
     }
 
-    public SearchRequestBuilder scriptField(String name, String script, Map<String, Object> params) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> scriptField(String name, String script, Map<String, Object> params) {
         sourceBuilder().scriptField(name, script, params);
         return this;
     }
 
-    public SearchRequestBuilder partialField(String name, @Nullable String include, @Nullable String exclude) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> partialField(String name, @Nullable String include, @Nullable String exclude) {
         sourceBuilder().partialField(name, include, exclude);
         return this;
     }
 
-    public SearchRequestBuilder partialField(String name, @Nullable String[] includes, @Nullable String[] excludes) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> partialField(String name, @Nullable String[] includes, @Nullable String[] excludes) {
         sourceBuilder().partialField(name, includes, excludes);
         return this;
     }
 
-    public SearchRequestBuilder scriptField(String name, String lang, String script, Map<String, Object> params) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> scriptField(String name, String lang, String script, Map<String, Object> params) {
         sourceBuilder().scriptField(name, lang, script, params);
         return this;
     }
 
-    public SearchRequestBuilder sort(String field, SortOrder order) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> sort(String field, SortOrder order) {
         sourceBuilder().sort(field, order);
         return this;
     }
 
-    public SearchRequestBuilder sort(SortBuilder sort) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> sort(SortBuilder sort) {
         sourceBuilder().sort(sort);
         return this;
     }
 
-    public SearchRequestBuilder trackScores(boolean trackScores) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> trackScores(boolean trackScores) {
         sourceBuilder().trackScores(trackScores);
         return this;
     }
 
-    public SearchRequestBuilder fields(String... fields) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> fields(String... fields) {
         sourceBuilder().fields(fields);
         return this;
     }
 
-    public SearchRequestBuilder facet(AbstractFacetBuilder facet) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> facet(AbstractFacetBuilder facet) {
         sourceBuilder().facet(facet);
         return this;
     }
 
-    public SearchRequestBuilder facets(String facets) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> facets(String facets) {
         sourceBuilder().facets(new BytesArray(facets));
         return this;
     }
 
-    public SearchRequestBuilder facets(JsonInput facets) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> facets(JsonInput facets) {
         sourceBuilder().facets(new BytesArray(jsonToString(facets)));
         return this;
     }
 
-    public SearchRequestBuilder source(String source) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> source(String source) {
         request.source(source);
         return this;
     }
 
-    public SearchRequestBuilder source(JsonInput source) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> source(JsonInput source) {
         request.source(jsonToString(source));
         return this;
     }
 
-    public SearchRequestBuilder extraSource(String source) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> extraSource(String source) {
         request.extraSource(source);
         return this;
     }
 
-    public SearchRequestBuilder extraSource(JsonInput source) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> extraSource(JsonInput source) {
         request.extraSource(jsonToString(source));
         return this;
     }
 
-    public SearchRequestBuilder highlightedField(String name) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlightedField(String name) {
         highlightBuilder().field(name);
         return this;
     }
 
-    public SearchRequestBuilder highlightedField(String name, int fragmentSize) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlightedField(String name, int fragmentSize) {
         highlightBuilder().field(name, fragmentSize);
         return this;
     }
 
-    public SearchRequestBuilder highlightedField(String name, int fragmentSize, int numberOfFragments) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlightedField(String name, int fragmentSize, int numberOfFragments) {
         highlightBuilder().field(name, fragmentSize, numberOfFragments);
         return this;
     }
 
-    public SearchRequestBuilder highlightedField(String name, int fragmentSize, int numberOfFragments,
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlightedField(String name, int fragmentSize, int numberOfFragments,
                                                     int fragmentOffset) {
         highlightBuilder().field(name, fragmentSize, numberOfFragments, fragmentOffset);
         return this;
     }
 
-    public SearchRequestBuilder highlightedField(HighlightBuilder.Field field) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlightedField(HighlightBuilder.Field field) {
         highlightBuilder().field(field);
         return this;
     }
 
-    public SearchRequestBuilder highlighterTagsSchema(String schemaName) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlighterTagsSchema(String schemaName) {
         highlightBuilder().tagsSchema(schemaName);
         return this;
     }
 
-    public SearchRequestBuilder highlighterPreTags(String... preTags) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlighterPreTags(String... preTags) {
         highlightBuilder().preTags(preTags);
         return this;
     }
 
-    public SearchRequestBuilder highlighterPostTags(String... postTags) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlighterPostTags(String... postTags) {
         highlightBuilder().postTags(postTags);
         return this;
     }
 
-    public SearchRequestBuilder highlighterOrder(String order) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlighterOrder(String order) {
         highlightBuilder().order(order);
         return this;
     }
 
-    public SearchRequestBuilder highlighterEncoder(String encoder) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlighterEncoder(String encoder) {
         highlightBuilder().encoder(encoder);
         return this;
     }
 
-    public SearchRequestBuilder highlighterRequireFieldMatch(boolean requireFieldMatch) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlighterRequireFieldMatch(boolean requireFieldMatch) {
         highlightBuilder().requireFieldMatch(requireFieldMatch);
         return this;
     }
 
-    public SearchRequestBuilder highlighterType(String type) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlighterType(String type) {
         highlightBuilder().highlighterType(type);
         return this;
     }
 
-    public SearchRequestBuilder highlight(HighlightBuilder highlightBuilder) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> highlight(HighlightBuilder highlightBuilder) {
         sourceBuilder().highlight(highlightBuilder);
         return this;
     }

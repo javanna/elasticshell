@@ -40,22 +40,22 @@ public class PercolateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
         super(client, new PercolateRequest(), jsonSerializer);
     }
 
-    public PercolateRequestBuilder index(String index) {
+    public PercolateRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }
 
-    public PercolateRequestBuilder type(String type) {
+    public PercolateRequestBuilder<JsonInput, JsonOutput> type(String type) {
         request.type(type);
         return this;
     }
 
-    public PercolateRequestBuilder source(JsonInput source) {
+    public PercolateRequestBuilder<JsonInput, JsonOutput> source(JsonInput source) {
         request.source(jsonToString(source));
         return this;
     }
 
-    public PercolateRequestBuilder preferLocal(boolean preferLocal) {
+    public PercolateRequestBuilder<JsonInput, JsonOutput> preferLocal(boolean preferLocal) {
         request.preferLocal(preferLocal);
         return this;
     }

@@ -42,57 +42,57 @@ public class DeleteRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         super(client,new DeleteRequest(), jsonSerializer);
     }
 
-    public DeleteRequestBuilder timeout(String timeout) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }
 
-    public DeleteRequestBuilder index(String index) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }
 
-    public DeleteRequestBuilder type(String type) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> type(String type) {
         request.type(type);
         return this;
     }
 
-    public DeleteRequestBuilder id(String id) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> id(String id) {
         request.id(id);
         return this;
     }
 
-    public DeleteRequestBuilder parent(String parent) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> parent(String parent) {
         request.parent(parent);
         return this;
     }
 
-    public DeleteRequestBuilder routing(String routing) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> routing(String routing) {
         request.routing(routing);
         return this;
     }
 
-    public DeleteRequestBuilder refresh(boolean refresh) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> refresh(boolean refresh) {
         request.refresh(refresh);
         return this;
     }
 
-    public DeleteRequestBuilder version(long version) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> version(long version) {
         request.version(version);
         return this;
     }
 
-    public DeleteRequestBuilder versionType(String versionType) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> versionType(String versionType) {
         request.versionType(VersionType.fromString(versionType));
         return this;
     }
 
-    public DeleteRequestBuilder replicationType(String replicationType) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> replicationType(String replicationType) {
         request.replicationType(replicationType);
         return this;
     }
 
-    public DeleteRequestBuilder consistencyLevel(String consistencyLevel) {
+    public DeleteRequestBuilder<JsonInput, JsonOutput> consistencyLevel(String consistencyLevel) {
         request.consistencyLevel(WriteConsistencyLevel.fromString(consistencyLevel));
         return this;
     }

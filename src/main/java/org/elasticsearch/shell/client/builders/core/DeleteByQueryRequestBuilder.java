@@ -43,47 +43,47 @@ public class DeleteByQueryRequestBuilder<JsonInput, JsonOutput>  extends Abstrac
         super(client, new DeleteByQueryRequest(), jsonSerializer);
     }
 
-    public DeleteByQueryRequestBuilder types(String... types) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> types(String... types) {
         request.types(types);
         return this;
     }
 
-    public DeleteByQueryRequestBuilder routing(String routing) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> routing(String routing) {
         request.routing(routing);
         return this;
     }
 
-    public DeleteByQueryRequestBuilder routing(String... routing) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> routing(String... routing) {
         request.routing(routing);
         return this;
     }
 
-    public DeleteByQueryRequestBuilder query(QueryBuilder queryBuilder) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder queryBuilder) {
         request.query(queryBuilder);
         return this;
     }
 
-    public DeleteByQueryRequestBuilder query(JsonInput query) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> query(JsonInput query) {
         request.query(jsonToString(query));
         return this;
     }
 
-    public DeleteByQueryRequestBuilder replicationType(String replicationType) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> replicationType(String replicationType) {
         request.replicationType(replicationType);
         return this;
     }
 
-    public DeleteByQueryRequestBuilder consistencyLevel(String consistencyLevel) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> consistencyLevel(String consistencyLevel) {
         request.consistencyLevel(WriteConsistencyLevel.fromString(consistencyLevel));
         return this;
     }
 
-    public DeleteByQueryRequestBuilder timeout(String timeout) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }
 
-    public DeleteByQueryRequestBuilder indices(String... indices) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }

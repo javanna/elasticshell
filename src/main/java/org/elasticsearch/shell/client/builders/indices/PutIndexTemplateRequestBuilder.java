@@ -70,11 +70,6 @@ public class PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends Abstr
         return this;
     }
 
-    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> source(String templateSource) {
-        request.source(templateSource);
-        return this;
-    }
-
     public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> source(JsonInput templateSource) {
         request.source(jsonToString(templateSource));
         return this;

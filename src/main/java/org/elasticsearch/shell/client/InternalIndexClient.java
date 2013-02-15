@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.shell.client.builders.cluster.ClusterHealthRequestBuilder;
+import org.elasticsearch.shell.client.builders.cluster.ClusterStateRequestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.*;
 
@@ -322,6 +323,14 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
 
     public JsonOutput clusterHealth() {
         return clusterHealthBuilder().execute();
+    }
+
+    public ClusterStateRequestBuilder<JsonInput, JsonOutput> clusterStateBuilder() {
+        return shellClient.clusterStateBuilder().filterIndices(indexName);
+    }
+
+    public JsonOutput clusterState() {
+        return clusterStateBuilder().execute();
     }
 
 

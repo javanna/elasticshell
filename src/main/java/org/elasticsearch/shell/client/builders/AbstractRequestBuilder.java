@@ -130,6 +130,10 @@ public abstract class AbstractRequestBuilder<Request extends ActionRequest<Reque
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "<" + request.getClass().getSimpleName() + ">\n" + request.toString();
+        String message = "%s for the underlying %s that follows:\n%s" +
+                "\nYou might want to use the execute() method to send the request.";
+
+        return String.format(message, getClass().getSimpleName(), request.getClass().getSimpleName()
+                , request.toString());
     }
 }

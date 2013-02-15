@@ -141,7 +141,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
 
     protected void registerClient(ShellNativeClient shellNativeClient) {
         shellScope.registerJavaObject("es", shellNativeClient);
-        console.println(shellNativeClient.toString());
+        console.println(shellNativeClient.toString() + " registered with name es");
     }
 
     /**

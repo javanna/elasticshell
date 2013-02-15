@@ -81,7 +81,7 @@ public class RhinoErrorReporter implements ErrorReporter {
     }
 
     private String buildIndicator(int offset) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < offset - 1; i++)
             sb.append(".");
         sb.append("^");

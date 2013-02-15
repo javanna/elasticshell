@@ -38,33 +38,15 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class MoreLikeThisRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderToXContent<MoreLikeThisRequest, SearchResponse, JsonInput, JsonOutput> {
 
-    public MoreLikeThisRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new MoreLikeThisRequest(null), jsonSerializer);
+    public MoreLikeThisRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer, String index) {
+        super(client, new MoreLikeThisRequest(index), jsonSerializer);
     }
 
-    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> index(String index) {
-        //we need to recreate a new whole request in order to set the index (no setter)
-        MoreLikeThisRequest newRequest = new MoreLikeThisRequest(index);
-        newRequest.type(this.request.type())
-                .percentTermsToMatch(this.request.percentTermsToMatch())
-                .boostTerms(this.request.boostTerms())
-                .searchIndices(this.request.searchIndices())
-                .searchTypes(this.request.searchTypes())
-                .searchFrom(this.request.searchFrom())
-                .searchSize(this.request.searchSize())
-                .searchScroll(this.request.searchScroll())
-                .minWordLen(this.request.minWordLen())
-                .maxWordLen(this.request.maxWordLen())
-                .maxDocFreq(this.request.maxDocFreq())
-                .minTermFreq(this.request.minTermFreq())
-                .maxDocFreq(this.request.maxDocFreq())
-                .minDocFreq(this.request.minDocFreq())
-                .stopWords(this.request.stopWords())
-                .maxQueryTerms(this.request.maxQueryTerms())
-                .searchSource(this.request.searchSource(), false)
-                .fields(this.request.fields())
-                .routing(this.request.routing());
-        this.request = newRequest;
+    //The index is received as input in the constructor and is not modifiable after the creation of the builder
+    //since there's no index setter exposed on MoreLikeThisRequest
+
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> id(String id) {
+        request.id(id);
         return this;
     }
 

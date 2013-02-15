@@ -99,6 +99,7 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
      * Registers an index to the shell scope
      * @param index the index that needs to be registered to the shell scope
      */
+    @SuppressWarnings("unchecked")
     protected void registerIndex(Index index) {
         InternalIndexClient indexClient = new InternalIndexClient(shellClient, index.name(), index.isAlias());
         InternalTypeClient[] typeClients = new InternalTypeClient[index.types().length];

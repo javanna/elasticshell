@@ -393,12 +393,20 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return clusterSettingsUpdateBuilder().transientSettings(settings).execute();
     }
 
-    public NodesInfoRequestBuilder<JsonInput, JsonOutput> clusterNodesInfoBuilder() {
+    public NodesInfoRequestBuilder<JsonInput, JsonOutput> nodesInfoBuilder() {
         return new NodesInfoRequestBuilder<JsonInput, JsonOutput>(client, jsonSerializer);
     }
 
-    public JsonOutput clusterNodesInfo() {
-        return clusterNodesInfoBuilder().execute();
+    public JsonOutput nodesInfo() {
+        return nodesInfoBuilder().execute();
+    }
+
+    public NodesStatsRequestBuilder<JsonInput, JsonOutput> nodesStatsBuilder() {
+        return new NodesStatsRequestBuilder<JsonInput, JsonOutput>(client, jsonSerializer);
+    }
+
+    public JsonOutput nodesStats() {
+        return nodesStatsBuilder().execute();
     }
 
     JsonSerializer<JsonInput, JsonOutput> jsonSerializer() {

@@ -22,6 +22,8 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.shell.client.builders.cluster.ClusterHealthRequestBuilder;
 import org.elasticsearch.shell.client.builders.cluster.ClusterStateRequestBuilder;
+import org.elasticsearch.shell.client.builders.cluster.GetClusterSettingsRequestBuilder;
+import org.elasticsearch.shell.client.builders.cluster.UpdateClusterSettingsRequestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.*;
 import org.elasticsearch.shell.json.JsonSerializer;
@@ -359,7 +361,6 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return warmerDeleteBuilder().indices(index).execute();
     }
 
-
     /*
     Cluster APIs
      */
@@ -378,6 +379,23 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
     public JsonOutput clusterState() {
         return clusterStateBuilder().execute();
     }
+
+    public GetClusterSettingsRequestBuilder<JsonInput, JsonOutput> clusterSettingsGetBuilder() {
+        return new GetClusterSettingsRequestBuilder<JsonInput, JsonOutput>(client, jsonSerializer);
+    }
+
+    public JsonOutput clusterSettingsGet() {
+        return clusterSettingsGetBuilder().execute();
+    }
+
+    public UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput> clusterSettingsUpdateBuilder() {
+        return new UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput>(client, jsonSerializer);
+    }
+
+    public JsonOutput clusterSettingsUpdate(JsonInput settings) {
+        return clusterSettingsUpdateBuilder().transientSettings(settings).execute();
+    }
+
 
     JsonSerializer<JsonInput, JsonOutput> jsonSerializer() {
         return jsonSerializer;

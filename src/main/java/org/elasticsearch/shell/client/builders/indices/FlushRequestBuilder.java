@@ -42,17 +42,17 @@ public class FlushRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         super(client, new FlushRequest(), jsonSerializer);
     }
 
-    public FlushRequestBuilder indices(String... indices) {
+    public FlushRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public FlushRequestBuilder refresh(boolean refresh) {
+    public FlushRequestBuilder<JsonInput, JsonOutput> refresh(boolean refresh) {
         request.refresh(refresh);
         return this;
     }
 
-    public FlushRequestBuilder full(boolean full) {
+    public FlushRequestBuilder<JsonInput, JsonOutput> full(boolean full) {
         request.full(full);
         return this;
     }

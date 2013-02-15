@@ -40,7 +40,7 @@ public class IndicesExistsRequestBuilder<JsonInput, JsonOutput> extends Abstract
         super(client, new IndicesExistsRequest(), jsonSerializer);
     }
 
-    public IndicesExistsRequestBuilder indices(String... indices) {
+    public IndicesExistsRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         this.request.indices(indices);
         return this;
     }

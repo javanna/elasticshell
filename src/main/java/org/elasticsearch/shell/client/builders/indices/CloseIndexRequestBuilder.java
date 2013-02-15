@@ -40,12 +40,12 @@ public class CloseIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
         super(client, new CloseIndexRequest(null), jsonSerializer);
     }
 
-    public CloseIndexRequestBuilder index(String index) {
+    public CloseIndexRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }
 
-    public CloseIndexRequestBuilder timeout(String timeout) {
+    public CloseIndexRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }

@@ -40,27 +40,27 @@ public class PutMappingRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
         super(client, new PutMappingRequest(), jsonSerializer);
     }
 
-    public PutMappingRequestBuilder indices(String... indices) {
+    public PutMappingRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public PutMappingRequestBuilder type(String type) {
+    public PutMappingRequestBuilder<JsonInput, JsonOutput> type(String type) {
         request.type(type);
         return this;
     }
 
-    public PutMappingRequestBuilder source(JsonInput mappingSource) {
+    public PutMappingRequestBuilder<JsonInput, JsonOutput> source(JsonInput mappingSource) {
         request.source(jsonToString(mappingSource));
         return this;
     }
 
-    public PutMappingRequestBuilder timeout(String timeout) {
+    public PutMappingRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }
 
-    public PutMappingRequestBuilder ignoreConflicts(boolean ignoreConflicts) {
+    public PutMappingRequestBuilder<JsonInput, JsonOutput> ignoreConflicts(boolean ignoreConflicts) {
         request.ignoreConflicts(ignoreConflicts);
         return this;
     }

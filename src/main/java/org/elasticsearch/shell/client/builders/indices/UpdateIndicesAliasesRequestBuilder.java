@@ -42,32 +42,32 @@ public class UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> extends A
         super(client, new IndicesAliasesRequest(), jsonSerializer);
     }
 
-    public UpdateIndicesAliasesRequestBuilder addAlias(String index, String alias) {
+    public UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> addAlias(String index, String alias) {
         request.addAlias(index, alias);
         return this;
     }
 
-    public UpdateIndicesAliasesRequestBuilder addAlias(String index, String alias, JsonInput filter) {
+    public UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> addAlias(String index, String alias, JsonInput filter) {
         request.addAlias(index, alias, jsonToString(filter));
         return this;
     }
 
-    public UpdateIndicesAliasesRequestBuilder addAlias(String index, String alias, FilterBuilder filterBuilder) {
+    public UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> addAlias(String index, String alias, FilterBuilder filterBuilder) {
         request.addAlias(index, alias, filterBuilder);
         return this;
     }
 
-    public UpdateIndicesAliasesRequestBuilder addAliasAction(AliasAction aliasAction) {
+    public UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> addAliasAction(AliasAction aliasAction) {
         request.addAliasAction(aliasAction);
         return this;
     }
 
-    public UpdateIndicesAliasesRequestBuilder removeAlias(String index, String alias) {
+    public UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> removeAlias(String index, String alias) {
         request.removeAlias(index, alias);
         return this;
     }
 
-    public UpdateIndicesAliasesRequestBuilder timeout(String timeout) {
+    public UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }

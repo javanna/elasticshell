@@ -43,37 +43,37 @@ public class ClearCacheRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
         super(client, new ClearIndicesCacheRequest(), jsonSerializer);
     }
 
-    public final ClearCacheRequestBuilder indices(String... indices) {
+    public ClearCacheRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public final ClearCacheRequestBuilder ignoreIndices(String ignoreIndices) {
+    public ClearCacheRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
         request.ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
         return this;
     }
 
-    public ClearCacheRequestBuilder filterCache(boolean filterCache) {
+    public ClearCacheRequestBuilder<JsonInput, JsonOutput> filterCache(boolean filterCache) {
         request.filterCache(filterCache);
         return this;
     }
 
-    public ClearCacheRequestBuilder fieldDataCache(boolean fieldDataCache) {
+    public ClearCacheRequestBuilder<JsonInput, JsonOutput> fieldDataCache(boolean fieldDataCache) {
         request.fieldDataCache(fieldDataCache);
         return this;
     }
 
-    public ClearCacheRequestBuilder fields(String... fields) {
+    public ClearCacheRequestBuilder<JsonInput, JsonOutput> fields(String... fields) {
         request.fields(fields);
         return this;
     }
 
-    public ClearCacheRequestBuilder idCache(boolean idCache) {
+    public ClearCacheRequestBuilder<JsonInput, JsonOutput> idCache(boolean idCache) {
         request.idCache(idCache);
         return this;
     }
 
-    public ClearCacheRequestBuilder bloomCache(boolean bloomCache) {
+    public ClearCacheRequestBuilder<JsonInput, JsonOutput> bloomCache(boolean bloomCache) {
         request.bloomCache(bloomCache);
         return this;
     }

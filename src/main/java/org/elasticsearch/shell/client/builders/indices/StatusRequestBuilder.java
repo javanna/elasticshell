@@ -43,17 +43,17 @@ public class StatusRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         super(client, new IndicesStatusRequest(), jsonSerializer);
     }
 
-    public StatusRequestBuilder indices(String... indices) {
+    public StatusRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public StatusRequestBuilder recovery(boolean recovery) {
+    public StatusRequestBuilder<JsonInput, JsonOutput> recovery(boolean recovery) {
         request.recovery(recovery);
         return this;
     }
 
-    public StatusRequestBuilder snapshot(boolean snapshot) {
+    public StatusRequestBuilder<JsonInput, JsonOutput> snapshot(boolean snapshot) {
         request.snapshot(snapshot);
         return this;
     }

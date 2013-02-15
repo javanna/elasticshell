@@ -40,12 +40,12 @@ public class UpdateSettingsRequestBuilder<JsonInput, JsonOutput> extends Abstrac
         super(client, new UpdateSettingsRequest(), jsonSerializer);
     }
 
-    public UpdateSettingsRequestBuilder indices(String... indices) {
+    public UpdateSettingsRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public UpdateSettingsRequestBuilder settings(JsonInput source) {
+    public UpdateSettingsRequestBuilder<JsonInput, JsonOutput> settings(JsonInput source) {
         request.settings(jsonToString(source));
         return this;
     }

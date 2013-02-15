@@ -48,7 +48,7 @@ public class GetIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends Abstr
                 .filteredIndices("_na").listenerThreaded(false);
     }
 
-    public GetIndexTemplateRequestBuilder names(String... names) {
+    public GetIndexTemplateRequestBuilder<JsonInput, JsonOutput> names(String... names) {
         this.request.filteredIndexTemplates(names);
         return this;
     }

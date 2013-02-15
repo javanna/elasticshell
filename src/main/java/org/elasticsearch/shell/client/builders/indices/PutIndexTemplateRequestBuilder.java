@@ -40,47 +40,47 @@ public class PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends Abstr
         super(client, new PutIndexTemplateRequest(null), jsonSerializer);
     }
 
-    public PutIndexTemplateRequestBuilder template(String template) {
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> template(String template) {
         request.template(template);
         return this;
     }
 
-    public PutIndexTemplateRequestBuilder order(int order) {
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> order(int order) {
         request.order(order);
         return this;
     }
 
-    public PutIndexTemplateRequestBuilder create(boolean create) {
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> create(boolean create) {
         request.create(create);
         return this;
     }
 
-    public PutIndexTemplateRequestBuilder settings(JsonInput source) {
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> settings(JsonInput source) {
         request.settings(jsonToString(source));
         return this;
     }
 
-    public PutIndexTemplateRequestBuilder mapping(String type, JsonInput source) {
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> mapping(String type, JsonInput source) {
         request.mapping(type, jsonToString(source));
         return this;
     }
 
-    public PutIndexTemplateRequestBuilder cause(String cause) {
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> cause(String cause) {
         request.cause(cause);
         return this;
     }
 
-    public PutIndexTemplateRequestBuilder source(String templateSource) {
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> source(String templateSource) {
         request.source(templateSource);
         return this;
     }
 
-    public PutIndexTemplateRequestBuilder source(JsonInput templateSource) {
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> source(JsonInput templateSource) {
         request.source(jsonToString(templateSource));
         return this;
     }
 
-    public PutIndexTemplateRequestBuilder timeout(String timeout) {
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }

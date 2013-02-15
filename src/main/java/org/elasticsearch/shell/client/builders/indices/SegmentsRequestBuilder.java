@@ -43,7 +43,7 @@ public class SegmentsRequestBuilder<JsonInput, JsonOutput> extends AbstractReque
         super(client, new IndicesSegmentsRequest(), jsonSerializer);
     }
 
-    public SegmentsRequestBuilder indices(String... indices) {
+    public SegmentsRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         this.request.indices(indices);
         return this;
     }

@@ -40,12 +40,12 @@ public class OpenIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
         super(client, new OpenIndexRequest(null), jsonSerializer);
     }
 
-    public OpenIndexRequestBuilder index(String index) {
+    public OpenIndexRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }
 
-    public OpenIndexRequestBuilder timeout(String timeout) {
+    public OpenIndexRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }

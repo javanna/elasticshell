@@ -44,7 +44,7 @@ public class GetSettingsRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
         this.request.filterRoutingTable(true).filterNodes(true);
     }
 
-    public GetSettingsRequestBuilder indices(String... indices) {
+    public GetSettingsRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         this.request.filteredIndices(indices);
         return this;
     }

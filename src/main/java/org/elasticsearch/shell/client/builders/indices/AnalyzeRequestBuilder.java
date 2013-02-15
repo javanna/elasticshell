@@ -40,7 +40,7 @@ public class AnalyzeRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
         super(client, new AnalyzeRequest(null), jsonSerializer);
     }
 
-    public AnalyzeRequestBuilder text(String text) {
+    public AnalyzeRequestBuilder<JsonInput, JsonOutput> text(String text) {
         //we need to create a new request since there's no setter for index
         AnalyzeRequest newRequest = new AnalyzeRequest(text);
         newRequest.index(request.index())
@@ -52,27 +52,27 @@ public class AnalyzeRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
         return this;
     }
 
-    public AnalyzeRequestBuilder index(String index) {
+    public AnalyzeRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }
 
-    public AnalyzeRequestBuilder analyzer(String analyzer) {
+    public AnalyzeRequestBuilder<JsonInput, JsonOutput> analyzer(String analyzer) {
         request.analyzer(analyzer);
         return this;
     }
 
-    public AnalyzeRequestBuilder field(String field) {
+    public AnalyzeRequestBuilder<JsonInput, JsonOutput> field(String field) {
         request.field(field);
         return this;
     }
 
-    public AnalyzeRequestBuilder tokenizer(String tokenizer) {
+    public AnalyzeRequestBuilder<JsonInput, JsonOutput> tokenizer(String tokenizer) {
         request.tokenizer(tokenizer);
         return this;
     }
 
-    public AnalyzeRequestBuilder tokenFilters(String... tokenFilters) {
+    public AnalyzeRequestBuilder<JsonInput, JsonOutput> tokenFilters(String... tokenFilters) {
         request.tokenFilters(tokenFilters);
         return this;
     }

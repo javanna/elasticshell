@@ -40,12 +40,12 @@ public class DeleteIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
         super(client, new DeleteIndexRequest(), jsonSerializer);
     }
 
-    public DeleteIndexRequestBuilder indices(String... indices) {
+    public DeleteIndexRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public DeleteIndexRequestBuilder timeout(String timeout) {
+    public DeleteIndexRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }

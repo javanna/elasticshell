@@ -41,17 +41,17 @@ public class TypesExistsRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
         super(client, new TypesExistsRequest(new String[0]), jsonSerializer);
     }
 
-    public TypesExistsRequestBuilder indices(String... indices) {
+    public TypesExistsRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public TypesExistsRequestBuilder types(String... types) {
+    public TypesExistsRequestBuilder<JsonInput, JsonOutput> types(String... types) {
         request.types(types);
         return this;
     }
 
-    public TypesExistsRequestBuilder ignoreIndices(String ignoreIndices) {
+    public TypesExistsRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
         request.ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
         return this;
     }

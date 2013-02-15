@@ -42,7 +42,7 @@ public class RefreshRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
         super(client, new RefreshRequest(), jsonSerializer);
     }
 
-    public RefreshRequestBuilder indices(String... indices) {
+    public RefreshRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         this.request.indices(indices);
         return this;
     }

@@ -43,72 +43,72 @@ public class StatsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         super(client, new IndicesStatsRequest(), jsonSerializer);
     }
 
-    public StatsRequestBuilder indices(String... indices) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         this.request.indices(indices);
         return this;
     }
 
-    public StatsRequestBuilder all() {
+    public StatsRequestBuilder<JsonInput, JsonOutput> all() {
         request.all();
         return this;
     }
 
-    public StatsRequestBuilder clear() {
+    public StatsRequestBuilder<JsonInput, JsonOutput> clear() {
         request.clear();
         return this;
     }
 
-    public StatsRequestBuilder types(String... types) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> types(String... types) {
         request.types(types);
         return this;
     }
 
-    public StatsRequestBuilder groups(String... groups) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> groups(String... groups) {
         request.groups(groups);
         return this;
     }
 
-    public StatsRequestBuilder docs(boolean docs) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> docs(boolean docs) {
         request.docs(docs);
         return this;
     }
 
-    public StatsRequestBuilder store(boolean store) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> store(boolean store) {
         request.store(store);
         return this;
     }
 
-    public StatsRequestBuilder indexing(boolean indexing) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> indexing(boolean indexing) {
         request.indexing(indexing);
         return this;
     }
 
-    public StatsRequestBuilder get(boolean get) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> get(boolean get) {
         request.get(get);
         return this;
     }
 
-    public StatsRequestBuilder search(boolean search) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> search(boolean search) {
         request.search(search);
         return this;
     }
 
-    public StatsRequestBuilder merge(boolean merge) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> merge(boolean merge) {
         request.merge(merge);
         return this;
     }
 
-    public StatsRequestBuilder refresh(boolean refresh) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> refresh(boolean refresh) {
         request.refresh(refresh);
         return this;
     }
 
-    public StatsRequestBuilder flush(boolean flush) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> flush(boolean flush) {
         request.flush(flush);
         return this;
     }
 
-    public StatsRequestBuilder warmer(boolean warmer) {
+    public StatsRequestBuilder<JsonInput, JsonOutput> warmer(boolean warmer) {
         request.warmer(warmer);
         return this;
     }

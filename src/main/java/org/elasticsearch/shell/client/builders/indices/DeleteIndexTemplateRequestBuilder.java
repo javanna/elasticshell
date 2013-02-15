@@ -40,14 +40,14 @@ public class DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends Ab
         super(client, new DeleteIndexTemplateRequest(null), jsonSerializer);
     }
 
-    public DeleteIndexTemplateRequestBuilder name(String name) {
+    public DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> name(String name) {
         //need to create a new because it's the only way to set the name (private field without setter)
         DeleteIndexTemplateRequest newRequest = new DeleteIndexTemplateRequest(name);
         this.request = newRequest;
         return this;
     }
 
-    public DeleteIndexTemplateRequestBuilder timeout(String timeout) {
+    public DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }

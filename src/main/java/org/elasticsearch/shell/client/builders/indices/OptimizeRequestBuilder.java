@@ -42,32 +42,32 @@ public class OptimizeRequestBuilder<JsonInput, JsonOutput> extends AbstractReque
         super(client, new OptimizeRequest(), jsonSerializer);
     }
 
-    public final OptimizeRequestBuilder indices(String... indices) {
+    public OptimizeRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public OptimizeRequestBuilder waitForMerge(boolean waitForMerge) {
+    public OptimizeRequestBuilder<JsonInput, JsonOutput> waitForMerge(boolean waitForMerge) {
         request.waitForMerge(waitForMerge);
         return this;
     }
 
-    public OptimizeRequestBuilder maxNumSegments(int maxNumSegments) {
+    public OptimizeRequestBuilder<JsonInput, JsonOutput> maxNumSegments(int maxNumSegments) {
         request.maxNumSegments(maxNumSegments);
         return this;
     }
 
-    public OptimizeRequestBuilder onlyExpungeDeletes(boolean onlyExpungeDeletes) {
+    public OptimizeRequestBuilder<JsonInput, JsonOutput> onlyExpungeDeletes(boolean onlyExpungeDeletes) {
         request.onlyExpungeDeletes(onlyExpungeDeletes);
         return this;
     }
 
-    public OptimizeRequestBuilder flush(boolean flush) {
+    public OptimizeRequestBuilder<JsonInput, JsonOutput> flush(boolean flush) {
         request.flush(flush);
         return this;
     }
 
-    public OptimizeRequestBuilder refresh(boolean refresh) {
+    public OptimizeRequestBuilder<JsonInput, JsonOutput> refresh(boolean refresh) {
         request.refresh(refresh);
         return this;
     }

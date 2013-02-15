@@ -42,17 +42,17 @@ public class PutWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
         super(client, new PutWarmerRequest(null), jsonSerializer);
     }
 
-    public PutWarmerRequestBuilder name(String name) {
+    public PutWarmerRequestBuilder<JsonInput, JsonOutput> name(String name) {
         this.request.name(name);
         return this;
     }
 
-    public PutWarmerRequestBuilder searchRequest(SearchRequest searchRequest) {
+    public PutWarmerRequestBuilder<JsonInput, JsonOutput> searchRequest(SearchRequest searchRequest) {
         request.searchRequest(searchRequest);
         return this;
     }
 
-    public PutWarmerRequestBuilder searchRequest(SearchRequestBuilder searchRequest) {
+    public PutWarmerRequestBuilder<JsonInput, JsonOutput> searchRequest(SearchRequestBuilder searchRequest) {
         request.searchRequest(searchRequest);
         return this;
     }

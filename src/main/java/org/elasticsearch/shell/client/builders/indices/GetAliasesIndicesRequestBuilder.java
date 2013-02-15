@@ -45,7 +45,7 @@ public class GetAliasesIndicesRequestBuilder<JsonInput, JsonOutput> extends Abst
         this.request.filterRoutingTable(true).filterNodes(true).listenerThreaded(false);
     }
 
-    public GetAliasesIndicesRequestBuilder indices(String... indices) {
+    public GetAliasesIndicesRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         this.request.filteredIndices(indices);
         return this;
     }

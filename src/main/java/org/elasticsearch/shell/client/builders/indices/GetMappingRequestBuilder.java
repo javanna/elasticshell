@@ -48,12 +48,12 @@ public class GetMappingRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
         this.request.filterRoutingTable(true).filterNodes(true).listenerThreaded(false);
     }
 
-    public GetMappingRequestBuilder indices(String... indices) {
+    public GetMappingRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         this.request.filteredIndices(indices);
         return this;
     }
 
-    public GetMappingRequestBuilder types(String... types) {
+    public GetMappingRequestBuilder<JsonInput, JsonOutput> types(String... types) {
         this.types = types;
         return this;
     }

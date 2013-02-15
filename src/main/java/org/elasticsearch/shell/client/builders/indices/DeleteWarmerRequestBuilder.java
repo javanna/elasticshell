@@ -40,12 +40,12 @@ public class DeleteWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractR
         super(client, new DeleteWarmerRequest(null), jsonSerializer);
     }
 
-    public DeleteWarmerRequestBuilder indices(String... indices) {
+    public DeleteWarmerRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public DeleteWarmerRequestBuilder name(String name) {
+    public DeleteWarmerRequestBuilder<JsonInput, JsonOutput> name(String name) {
         request.name(name);
         return this;
     }

@@ -40,32 +40,32 @@ public class CreateIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
         super(client, new CreateIndexRequest(null), jsonSerializer);
     }
 
-    public CreateIndexRequestBuilder index(String index) {
+    public CreateIndexRequestBuilder<JsonInput, JsonOutput> index(String index) {
         request.index(index);
         return this;
     }
 
-    public CreateIndexRequestBuilder settings(JsonInput source) {
+    public CreateIndexRequestBuilder<JsonInput, JsonOutput> settings(JsonInput source) {
         request.settings(jsonToString(source));
         return this;
     }
 
-    public CreateIndexRequestBuilder mapping(String type, JsonInput source) {
+    public CreateIndexRequestBuilder<JsonInput, JsonOutput> mapping(String type, JsonInput source) {
         request.mapping(type, jsonToString(source));
         return this;
     }
 
-    public CreateIndexRequestBuilder cause(String cause) {
+    public CreateIndexRequestBuilder<JsonInput, JsonOutput> cause(String cause) {
         request.cause(cause);
         return this;
     }
 
-    public CreateIndexRequestBuilder source(JsonInput source) {
+    public CreateIndexRequestBuilder<JsonInput, JsonOutput> source(JsonInput source) {
         request.source(jsonToString(source));
         return this;
     }
 
-    public CreateIndexRequestBuilder timeout(String timeout) {
+    public CreateIndexRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         request.timeout(timeout);
         return this;
     }

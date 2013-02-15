@@ -40,12 +40,12 @@ public class DeleteMappingRequestBuilder<JsonInput, JsonOutput> extends Abstract
         super(client, new DeleteMappingRequest(), jsonSerializer);
     }
 
-    public DeleteMappingRequestBuilder indices(String... indices) {
+    public DeleteMappingRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
         return this;
     }
 
-    public DeleteMappingRequestBuilder type(String type) {
+    public DeleteMappingRequestBuilder<JsonInput, JsonOutput> type(String type) {
         request.type(type);
         return this;
     }

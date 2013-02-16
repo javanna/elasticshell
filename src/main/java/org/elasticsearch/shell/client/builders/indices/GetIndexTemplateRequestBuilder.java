@@ -29,7 +29,8 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentParser;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 import java.util.Map;
@@ -42,8 +43,8 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class GetIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ClusterStateRequest, ClusterStateResponse, JsonInput, JsonOutput> {
 
-    public GetIndexTemplateRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new ClusterStateRequest(), jsonSerializer);
+    public GetIndexTemplateRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new ClusterStateRequest(), jsonToString, stringToJson);
         this.request.filterRoutingTable(true).filterNodes(true)
                 .filteredIndices("_na").listenerThreaded(false);
     }

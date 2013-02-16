@@ -30,7 +30,8 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.get.GetResult;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -42,8 +43,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ExplainRequest, ExplainResponse, JsonInput, JsonOutput> {
 
-    public ExplainRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new ExplainRequest(null, null, null), jsonSerializer);
+    public ExplainRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new ExplainRequest(null, null, null), jsonToString, stringToJson);
     }
 
     public ExplainRequestBuilder<JsonInput, JsonOutput> index(String index) {

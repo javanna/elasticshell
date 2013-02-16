@@ -24,7 +24,8 @@ import org.elasticsearch.action.admin.indices.template.delete.DeleteIndexTemplat
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -36,8 +37,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<DeleteIndexTemplateRequest, DeleteIndexTemplateResponse, JsonInput, JsonOutput> {
 
-    public DeleteIndexTemplateRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer, String name) {
-        super(client, new DeleteIndexTemplateRequest(name), jsonSerializer);
+    public DeleteIndexTemplateRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson, String name) {
+        super(client, new DeleteIndexTemplateRequest(name), jsonToString, stringToJson);
     }
 
     public DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {

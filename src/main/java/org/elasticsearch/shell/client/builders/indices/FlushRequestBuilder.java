@@ -24,7 +24,8 @@ import org.elasticsearch.action.admin.indices.flush.FlushResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -38,8 +39,8 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
 @SuppressWarnings("unused")
 public class FlushRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<FlushRequest, FlushResponse, JsonInput, JsonOutput> {
 
-    public FlushRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new FlushRequest(), jsonSerializer);
+    public FlushRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new FlushRequest(), jsonToString, stringToJson);
     }
 
     public FlushRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {

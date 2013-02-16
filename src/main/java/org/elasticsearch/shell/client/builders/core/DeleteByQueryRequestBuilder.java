@@ -27,7 +27,8 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -39,8 +40,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class DeleteByQueryRequestBuilder<JsonInput, JsonOutput>  extends AbstractRequestBuilderJsonOutput<DeleteByQueryRequest, DeleteByQueryResponse, JsonInput, JsonOutput> {
 
-    public DeleteByQueryRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new DeleteByQueryRequest(), jsonSerializer);
+    public DeleteByQueryRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new DeleteByQueryRequest(), jsonToString, stringToJson);
     }
 
     public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> types(String... types) {

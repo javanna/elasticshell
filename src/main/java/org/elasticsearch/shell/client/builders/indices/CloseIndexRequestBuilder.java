@@ -24,7 +24,8 @@ import org.elasticsearch.action.admin.indices.close.CloseIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -36,8 +37,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class CloseIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<CloseIndexRequest, CloseIndexResponse, JsonInput, JsonOutput> {
 
-    public CloseIndexRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new CloseIndexRequest(null), jsonSerializer);
+    public CloseIndexRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new CloseIndexRequest(null), jsonToString, stringToJson);
     }
 
     public CloseIndexRequestBuilder<JsonInput, JsonOutput> index(String index) {

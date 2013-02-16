@@ -28,7 +28,8 @@ import org.elasticsearch.cluster.metadata.MetaData;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -40,8 +41,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class GetAliasesIndicesRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ClusterStateRequest, ClusterStateResponse, JsonInput, JsonOutput> {
 
-    public GetAliasesIndicesRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new ClusterStateRequest(), jsonSerializer);
+    public GetAliasesIndicesRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new ClusterStateRequest(), jsonToString, stringToJson);
         this.request.filterRoutingTable(true).filterNodes(true).listenerThreaded(false);
     }
 

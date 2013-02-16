@@ -26,7 +26,8 @@ import org.elasticsearch.cluster.metadata.AliasAction;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -38,8 +39,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<IndicesAliasesRequest, IndicesAliasesResponse, JsonInput, JsonOutput> {
 
-    public UpdateIndicesAliasesRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new IndicesAliasesRequest(), jsonSerializer);
+    public UpdateIndicesAliasesRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new IndicesAliasesRequest(), jsonToString, stringToJson);
     }
 
     public UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> addAlias(String index, String alias) {

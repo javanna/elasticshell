@@ -29,7 +29,8 @@ import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.search.warmer.IndexWarmersMetaData;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -43,8 +44,8 @@ public class GetWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
 
     private String name;
 
-    public GetWarmerRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new ClusterStateRequest(), jsonSerializer);
+    public GetWarmerRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new ClusterStateRequest(), jsonToString, stringToJson);
         this.request.filterAll().filterMetaData(false).listenerThreaded(false);
     }
 

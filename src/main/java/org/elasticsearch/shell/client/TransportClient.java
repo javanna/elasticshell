@@ -22,7 +22,8 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.collect.ImmutableList;
 import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,8 +38,8 @@ import java.util.List;
  */
 public class TransportClient<JsonInput, JsonOutput> extends AbstractClient<JsonInput, JsonOutput> {
 
-    protected TransportClient(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, jsonSerializer);
+    protected TransportClient(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, jsonToString, stringToJson);
     }
 
     @Override

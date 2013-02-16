@@ -26,7 +26,8 @@ import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.MetaData;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 import java.util.Map;
@@ -39,8 +40,8 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class GetSettingsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ClusterStateRequest, ClusterStateResponse, JsonInput, JsonOutput> {
 
-    public GetSettingsRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new ClusterStateRequest(), jsonSerializer);
+    public GetSettingsRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new ClusterStateRequest(), jsonToString, stringToJson);
         this.request.filterRoutingTable(true).filterNodes(true);
     }
 

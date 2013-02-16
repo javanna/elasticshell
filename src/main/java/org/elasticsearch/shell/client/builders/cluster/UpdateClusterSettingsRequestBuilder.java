@@ -24,7 +24,8 @@ import org.elasticsearch.action.admin.cluster.settings.ClusterUpdateSettingsResp
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -36,8 +37,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ClusterUpdateSettingsRequest, ClusterUpdateSettingsResponse, JsonInput, JsonOutput> {
 
-    public UpdateClusterSettingsRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new ClusterUpdateSettingsRequest(), jsonSerializer);
+    public UpdateClusterSettingsRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new ClusterUpdateSettingsRequest(), jsonToString, stringToJson);
     }
 
     public UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput> transientSettings(JsonInput settings) {

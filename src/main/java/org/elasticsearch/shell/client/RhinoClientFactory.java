@@ -23,7 +23,8 @@ import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.RhinoJsonToString;
+import org.elasticsearch.shell.json.RhinoStringToJson;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.mozilla.javascript.NativeObject;
 
@@ -35,8 +36,9 @@ import org.mozilla.javascript.NativeObject;
 public class RhinoClientFactory extends AbstractClientFactory<RhinoClientNativeJavaObject, RhinoShellTopLevel, NativeObject, Object> {
 
     @Inject
-    public RhinoClientFactory(ShellScope<RhinoShellTopLevel> shellScope, SchedulerHolder schedulerHolder, JsonSerializer<NativeObject, Object> jsonSerializer) {
-        super(shellScope, jsonSerializer, schedulerHolder.scheduler);
+    public RhinoClientFactory(ShellScope<RhinoShellTopLevel> shellScope, SchedulerHolder schedulerHolder,
+                              RhinoJsonToString jsonToString, RhinoStringToJson stringToJson) {
+        super(shellScope, jsonToString, stringToJson, schedulerHolder.scheduler);
     }
 
     static class SchedulerHolder {
@@ -46,12 +48,12 @@ public class RhinoClientFactory extends AbstractClientFactory<RhinoClientNativeJ
 
     @Override
     protected NodeClient newNodeClient(Node node, Client client) {
-        return new NodeClient<NativeObject, Object>(node, client, jsonSerializer);
+        return new NodeClient<NativeObject, Object>(node, client, jsonToString, stringToJson);
     }
 
     @Override
     protected TransportClient newTransportClient(Client client) {
-        return new TransportClient<NativeObject, Object>(client, jsonSerializer);
+        return new TransportClient<NativeObject, Object>(client, jsonToString, stringToJson);
     }
 
     @Override

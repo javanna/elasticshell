@@ -30,8 +30,10 @@ import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.console.JLineConsole;
 import org.elasticsearch.shell.console.completer.JLineCompletionHandler;
 import org.elasticsearch.shell.console.completer.JLineRhinoCompleter;
-import org.elasticsearch.shell.json.JsonSerializer;
-import org.elasticsearch.shell.json.RhinoJsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.RhinoJsonToString;
+import org.elasticsearch.shell.json.RhinoStringToJson;
+import org.elasticsearch.shell.json.StringToJson;
 import org.elasticsearch.shell.script.RhinoScriptExecutor;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.InputAnalyzer;
@@ -61,7 +63,8 @@ public class ShellModule extends AbstractModule {
         bind(CompletionHandler.class).to(JLineCompletionHandler.class).asEagerSingleton();
 
         //Rhino bindings
-        bind(new TypeLiteral<JsonSerializer<NativeObject, Object>>(){}).to(RhinoJsonSerializer.class).asEagerSingleton();
+        bind(new TypeLiteral<JsonToString<NativeObject>>(){}).to(RhinoJsonToString.class).asEagerSingleton();
+        bind(new TypeLiteral<StringToJson<Object>>(){}).to(RhinoStringToJson.class).asEagerSingleton();
         bind(Unwrapper.class).to(RhinoUnwrapper.class).asEagerSingleton();
         bind(new TypeLiteral<ShellScope<RhinoShellTopLevel>>(){}).to(RhinoShellScope.class).asEagerSingleton();
         bind(ScriptExecutor.class).to(RhinoScriptExecutor.class).asEagerSingleton();

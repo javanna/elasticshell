@@ -29,7 +29,8 @@ import org.elasticsearch.common.bytes.BytesArray;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 import java.util.Map;
@@ -42,8 +43,8 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class UpdateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<UpdateRequest, UpdateResponse, JsonInput, JsonOutput> {
 
-    public UpdateRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new UpdateRequest(null, null, null), jsonSerializer);
+    public UpdateRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new UpdateRequest(null, null, null), jsonToString, stringToJson);
     }
 
     public UpdateRequestBuilder<JsonInput, JsonOutput> index(String index) {

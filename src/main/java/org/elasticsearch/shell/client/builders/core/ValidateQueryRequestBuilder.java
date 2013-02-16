@@ -27,7 +27,8 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -41,8 +42,8 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
 @SuppressWarnings("unused")
 public class ValidateQueryRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ValidateQueryRequest, ValidateQueryResponse, JsonInput, JsonOutput> {
 
-    public ValidateQueryRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new ValidateQueryRequest(), jsonSerializer);
+    public ValidateQueryRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new ValidateQueryRequest(), jsonToString, stringToJson);
     }
 
     public ValidateQueryRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {

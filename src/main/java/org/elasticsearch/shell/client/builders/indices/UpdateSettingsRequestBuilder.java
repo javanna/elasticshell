@@ -24,7 +24,8 @@ import org.elasticsearch.action.admin.indices.settings.UpdateSettingsResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -36,8 +37,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class UpdateSettingsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<UpdateSettingsRequest, UpdateSettingsResponse, JsonInput, JsonOutput> {
 
-    public UpdateSettingsRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new UpdateSettingsRequest(), jsonSerializer);
+    public UpdateSettingsRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new UpdateSettingsRequest(), jsonToString, stringToJson);
     }
 
     public UpdateSettingsRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {

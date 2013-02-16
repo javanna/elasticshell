@@ -23,7 +23,8 @@ import org.elasticsearch.action.ActionResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -39,8 +40,8 @@ import java.io.IOException;
 public abstract class AbstractRequestBuilderToXContent<Request extends ActionRequest<Request>, Response extends ActionResponse & ToXContent, JsonInput, JsonOutput>
         extends AbstractRequestBuilderJsonOutput<Request, Response, JsonInput, JsonOutput> {
 
-    protected AbstractRequestBuilderToXContent(Client client, Request request, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, request, jsonSerializer);
+    protected AbstractRequestBuilderToXContent(Client client, Request request, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, request, jsonToString, stringToJson);
     }
 
     @Override

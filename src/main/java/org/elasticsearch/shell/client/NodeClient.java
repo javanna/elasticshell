@@ -20,7 +20,8 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -35,8 +36,8 @@ public class NodeClient<JsonInput, JsonOutput> extends AbstractClient<JsonInput,
 
     private final Node node;
 
-    public NodeClient(Node node, Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, jsonSerializer);
+    public NodeClient(Node node, Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, jsonToString, stringToJson);
         this.node = node;
     }
 

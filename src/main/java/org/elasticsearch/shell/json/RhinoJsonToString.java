@@ -22,36 +22,18 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJSON;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.ScriptRuntime;
-import org.mozilla.javascript.json.JsonParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Luca Cavanna
  *
- * Handles the conversion from string to native json and the other way around depending on the rhino engine
- * A {@link NativeObject} is received as input and converted to a <code>String</code> while a
- * generic <code>Object</code> is produced from a String
+ * Handles the conversion from native json to string depending on the rhino engine
+ * A {@link NativeObject} is received as input and converted to a <code>String</code>
  */
-public class RhinoJsonSerializer implements JsonSerializer<NativeObject, Object> {
-
-    private static final Logger logger = LoggerFactory.getLogger(RhinoJsonSerializer.class);
-
+public class RhinoJsonToString implements JsonToString<NativeObject> {
     @Override
     public String jsonToString(NativeObject json, boolean prettify) {
         Context context = Context.getCurrentContext();
         Object jsonString = NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), json, null, prettify ? "  " : null);
         return jsonString.toString();
-    }
-
-    @Override
-    public Object stringToJson(String json) {
-        Context context = Context.getCurrentContext();
-        try {
-            return new JsonParser(context, ScriptRuntime.getGlobal(context)).parseValue(json);
-        } catch (JsonParser.ParseException e) {
-            logger.error("Unable to create a json object from string {}", json, e);
-            return null;
-        }
     }
 }

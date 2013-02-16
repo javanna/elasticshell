@@ -24,7 +24,8 @@ import org.elasticsearch.action.admin.indices.warmer.delete.DeleteWarmerResponse
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -36,8 +37,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class DeleteWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<DeleteWarmerRequest, DeleteWarmerResponse, JsonInput, JsonOutput> {
 
-    public DeleteWarmerRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new DeleteWarmerRequest(null), jsonSerializer);
+    public DeleteWarmerRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new DeleteWarmerRequest(null), jsonToString, stringToJson);
     }
 
     public DeleteWarmerRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {

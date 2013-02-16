@@ -24,7 +24,8 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -36,8 +37,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class CreateIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<CreateIndexRequest, CreateIndexResponse, JsonInput, JsonOutput> {
 
-    public CreateIndexRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new CreateIndexRequest(null), jsonSerializer);
+    public CreateIndexRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new CreateIndexRequest(null), jsonToString, stringToJson);
     }
 
     public CreateIndexRequestBuilder<JsonInput, JsonOutput> index(String index) {

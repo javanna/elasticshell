@@ -23,6 +23,7 @@ import org.elasticsearch.action.ActionRequest;
 import org.elasticsearch.action.ActionRequestValidationException;
 import org.elasticsearch.action.ActionResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.shell.json.JsonToString;
 
 /**
  * @author Luca Cavanna
@@ -39,10 +40,12 @@ public abstract class AbstractRequestBuilder<Request extends ActionRequest<Reque
 
     protected final Client client;
     protected Request request;
+    protected final JsonToString<JsonInput> jsonToString;
 
-    protected AbstractRequestBuilder(Client client, Request request) {
+    protected AbstractRequestBuilder(Client client, Request request, JsonToString<JsonInput> jsonToString) {
         this.client = client;
         this.request = request;
+        this.jsonToString = jsonToString;
     }
 
     /**
@@ -74,6 +77,15 @@ public abstract class AbstractRequestBuilder<Request extends ActionRequest<Reque
 
     protected Request request() {
         return request;
+    }
+
+    /**
+     * Helper common method that converts a native json as input to its string representation
+     * @param source the native json as input
+     * @return the json as string
+     */
+    protected String jsonToString(JsonInput source) {
+        return jsonToString.jsonToString(source, false);
     }
 
     @Override

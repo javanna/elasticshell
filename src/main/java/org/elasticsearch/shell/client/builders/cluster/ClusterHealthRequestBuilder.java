@@ -26,7 +26,8 @@ import org.elasticsearch.action.admin.cluster.health.ClusterShardHealth;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -40,8 +41,8 @@ public class ClusterHealthRequestBuilder<JsonInput, JsonOutput> extends Abstract
 
     private String level;
 
-    public ClusterHealthRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new ClusterHealthRequest(), jsonSerializer);
+    public ClusterHealthRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new ClusterHealthRequest(), jsonToString, stringToJson);
     }
 
     public ClusterHealthRequestBuilder<JsonInput, JsonOutput> level(String level) {

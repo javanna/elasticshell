@@ -26,7 +26,8 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.VersionType;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -38,8 +39,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class IndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<IndexRequest, IndexResponse, JsonInput, JsonOutput> {
 
-    public IndexRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new IndexRequest(), jsonSerializer);
+    public IndexRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new IndexRequest(), jsonToString, stringToJson);
     }
 
     public IndexRequestBuilder<JsonInput, JsonOutput> type(String type) {

@@ -24,7 +24,8 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentBuilderString;
 import org.elasticsearch.common.xcontent.json.JsonXContent;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,11 +46,11 @@ public abstract class AbstractRequestBuilderJsonOutput<Request extends ActionReq
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractRequestBuilderJsonOutput.class);
 
-    protected final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
+    protected final StringToJson<JsonOutput> stringToJson;
 
-    protected AbstractRequestBuilderJsonOutput(Client client, Request request, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, request);
-        this.jsonSerializer = jsonSerializer;
+    protected AbstractRequestBuilderJsonOutput(Client client, Request request, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, request, jsonToString);
+        this.stringToJson = stringToJson;
     }
 
     protected XContentBuilder initContentBuilder() throws IOException {
@@ -65,20 +66,11 @@ public abstract class AbstractRequestBuilderJsonOutput<Request extends ActionReq
     @Override
     protected JsonOutput responseToOutput(Request request, Response response) {
         try {
-            return jsonSerializer.stringToJson(toXContent(request, response, initContentBuilder()).string());
+            return stringToJson.stringToJson(toXContent(request, response, initContentBuilder()).string());
         } catch (IOException e) {
             logger.error("Error while generating the XContent response", e);
             return null;
         }
-    }
-
-    /**
-     * Helper common method that converts a native json as input to its string representation
-     * @param source the native json as input
-     * @return the json as string
-     */
-    protected String jsonToString(JsonInput source) {
-        return jsonSerializer.jsonToString(source, false);
     }
 
     /**

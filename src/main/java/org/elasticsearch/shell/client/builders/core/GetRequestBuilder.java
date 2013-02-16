@@ -23,7 +23,8 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 /**
  * @author Luca Cavanna
@@ -33,8 +34,8 @@ import org.elasticsearch.shell.json.JsonSerializer;
 @SuppressWarnings("unused")
 public class GetRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderToXContent<GetRequest, GetResponse, JsonInput, JsonOutput> {
 
-    public GetRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new GetRequest(null), jsonSerializer);
+    public GetRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new GetRequest(null), jsonToString, stringToJson);
     }
 
     public GetRequestBuilder<JsonInput, JsonOutput> index(String index) {

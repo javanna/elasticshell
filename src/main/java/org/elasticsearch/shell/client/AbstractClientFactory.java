@@ -28,7 +28,8 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.shell.ShellScope;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,8 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput,
 
     protected final ShellScope<Scope> shellScope;
     protected final Scheduler scheduler;
-    protected final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
+    protected final JsonToString<JsonInput> jsonToString;
+    protected final StringToJson<JsonOutput> stringToJson;
 
     /**
      * Creates the AbstractClientFactory given the shell scope and the scheduler (optional)
@@ -63,9 +65,10 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput,
      * @param shellScope the shell scope
      * @param scheduler the scheduler used to schedule runnable actions
      */
-    protected AbstractClientFactory(ShellScope<Scope> shellScope, JsonSerializer<JsonInput, JsonOutput> jsonSerializer, Scheduler scheduler) {
+    protected AbstractClientFactory(ShellScope<Scope> shellScope, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson, Scheduler scheduler) {
         this.shellScope = shellScope;
-        this.jsonSerializer = jsonSerializer;
+        this.jsonToString = jsonToString;
+        this.stringToJson = stringToJson;
         this.scheduler = scheduler;
     }
 

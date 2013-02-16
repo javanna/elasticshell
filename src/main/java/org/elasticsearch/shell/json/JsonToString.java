@@ -21,11 +21,10 @@ package org.elasticsearch.shell.json;
 /**
  * @author Luca Cavanna
  *
- * Creates a json native object from a string and the other way around
+ * Creates a json native object to a string
  * @param <JsonInput> representation of a json object received as input
- * @param <JsonOutput> representation of a json object produced as output
  */
-public interface JsonSerializer<JsonInput, JsonOutput> {
+public interface JsonToString<JsonInput> {
     /**
      * Creates a string given a native json object
      * @param json the given native json object
@@ -33,11 +32,4 @@ public interface JsonSerializer<JsonInput, JsonOutput> {
      * @return the created string
      */
     public String jsonToString(JsonInput json, boolean prettify);
-
-    /**
-     * Creates a native json object given a string
-     * @param json the given native json object
-     * @return the created native json object
-     */
-    public JsonOutput stringToJson(String json);
 }

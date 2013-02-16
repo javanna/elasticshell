@@ -27,7 +27,8 @@ import org.elasticsearch.common.settings.SettingsFilter;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -39,8 +40,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class ClusterStateRequestBuilder<JsonInput,JsonOutput> extends AbstractRequestBuilderJsonOutput<ClusterStateRequest, ClusterStateResponse, JsonInput, JsonOutput> {
 
-    public ClusterStateRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new ClusterStateRequest(), jsonSerializer);
+    public ClusterStateRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new ClusterStateRequest(), jsonToString, stringToJson);
     }
 
     public ClusterStateRequestBuilder<JsonInput,JsonOutput> filterAll() {

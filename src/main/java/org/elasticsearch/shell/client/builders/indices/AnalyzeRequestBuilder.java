@@ -24,7 +24,8 @@ import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -36,8 +37,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class AnalyzeRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderToXContent<AnalyzeRequest, AnalyzeResponse, JsonInput, JsonOutput> {
 
-    public AnalyzeRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new AnalyzeRequest(null), jsonSerializer);
+    public AnalyzeRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new AnalyzeRequest(null), jsonToString, stringToJson);
     }
 
     public AnalyzeRequestBuilder<JsonInput, JsonOutput> text(String text) {

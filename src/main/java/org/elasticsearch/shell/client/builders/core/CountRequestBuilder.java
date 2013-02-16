@@ -25,7 +25,8 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -39,8 +40,8 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
 @SuppressWarnings("unused")
 public class CountRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<CountRequest, CountResponse, JsonInput, JsonOutput> {
 
-    public CountRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new CountRequest(), jsonSerializer);
+    public CountRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new CountRequest(), jsonToString, stringToJson);
     }
 
     public CountRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {

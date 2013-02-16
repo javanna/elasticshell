@@ -26,7 +26,8 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 
@@ -38,8 +39,8 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class MoreLikeThisRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderToXContent<MoreLikeThisRequest, SearchResponse, JsonInput, JsonOutput> {
 
-    public MoreLikeThisRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer, String index) {
-        super(client, new MoreLikeThisRequest(index), jsonSerializer);
+    public MoreLikeThisRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson, String index) {
+        super(client, new MoreLikeThisRequest(index), jsonToString, stringToJson);
     }
 
     //The index is received as input in the constructor and is not modifiable after the creation of the builder

@@ -35,7 +35,8 @@ import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
-import org.elasticsearch.shell.json.JsonSerializer;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
 import java.util.Map;
@@ -50,8 +51,8 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
 
     private SearchSourceBuilder sourceBuilder;
 
-    public SearchRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
-        super(client, new SearchRequest(new String[0]), jsonSerializer);
+    public SearchRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+        super(client, new SearchRequest(new String[0]), jsonToString, stringToJson);
     }
 
     public SearchRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {

@@ -102,6 +102,14 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return indexBuilder().index(index).type(type).id(id).source(source).execute();
     }
 
+    public MultiGetRequestBuilder<JsonInput, JsonOutput> multiGetBuilder() {
+        return new MultiGetRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
+    }
+
+    public JsonOutput multiGet(String index, String type, String... ids) {
+        return multiGetBuilder().add(index, type, ids).execute();
+    }
+
     public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> moreLikeThisBuilder(String index) {
         return new MoreLikeThisRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson, index);
     }

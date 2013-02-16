@@ -106,6 +106,10 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return indexBuilder().id(id).source(source).execute();
     }
 
+    public JsonOutput multiGet(String... ids) {
+        return shellClient.multiGetBuilder().add(indexName, typeName, ids).execute();
+    }
+
     public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> moreLikeThisBuilder() {
         return shellClient.moreLikeThisBuilder(indexName).type(typeName);
     }

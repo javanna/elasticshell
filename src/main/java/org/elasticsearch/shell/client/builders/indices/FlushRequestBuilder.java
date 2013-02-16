@@ -23,7 +23,7 @@ import org.elasticsearch.action.admin.indices.flush.FlushRequest;
 import org.elasticsearch.action.admin.indices.flush.FlushResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
  * Request builder for flush API
  */
 @SuppressWarnings("unused")
-public class FlushRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<FlushRequest, FlushResponse, JsonInput, JsonOutput> {
+public class FlushRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<FlushRequest, FlushResponse, JsonInput, JsonOutput> {
 
     public FlushRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new FlushRequest(), jsonSerializer);

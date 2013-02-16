@@ -23,51 +23,38 @@ import org.elasticsearch.action.ActionRequest;
 import org.elasticsearch.action.ActionRequestValidationException;
 import org.elasticsearch.action.ActionResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentBuilderString;
-import org.elasticsearch.common.xcontent.json.JsonXContent;
-import org.elasticsearch.shell.json.JsonSerializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /**
  * @author Luca Cavanna
  *
- * Base reuqest builder which contains the common methods to handle an execution
- * together with its {@link ActionResponse}, which needs to be converted to native json
- *
+ * Base request builder which contains the common methods to handle an execution
+ * together with its {@link ActionResponse}, which needs to be converted to some kind of generic output format
  *
  * @param <Request> the type of the {@link ActionRequest}
  * @param <Response> the type of the {@link ActionResponse}
  * @param <JsonInput> the native json received as input, depending on the script engine in use
- * @param <JsonOutput> the native json returned as output, depending on the script engine in use
+ * @param <Output> the output format use to show the result of the execution
  */
-public abstract class AbstractRequestBuilder<Request extends ActionRequest<Request>, Response extends ActionResponse, JsonInput, JsonOutput> {
-
-    private static final Logger logger = LoggerFactory.getLogger(AbstractRequestBuilder.class);
+public abstract class AbstractRequestBuilder<Request extends ActionRequest<Request>, Response extends ActionResponse, JsonInput, Output> {
 
     protected final Client client;
-    protected final JsonSerializer<JsonInput, JsonOutput> jsonSerializer;
     protected Request request;
 
-    protected AbstractRequestBuilder(Client client, Request request, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
+    protected AbstractRequestBuilder(Client client, Request request) {
         this.client = client;
         this.request = request;
-        this.jsonSerializer = jsonSerializer;
     }
 
-    public JsonOutput execute() {
+    /**
+     * Executes the underlying request after the request validation
+     * @return the result of the execution
+     */
+    public Output execute() {
         ActionRequestValidationException validationException = request().validate();
         if (validationException != null) {
             throw validationException;
         }
-        return responseToJson(request, doExecute(request()).actionGet());
-    }
-
-    protected Request request() {
-        return request;
+        return responseToOutput(request, doExecute(request()).actionGet());
     }
 
     /**
@@ -78,70 +65,15 @@ public abstract class AbstractRequestBuilder<Request extends ActionRequest<Reque
     protected abstract ActionFuture<Response> doExecute(Request request);
 
     /**
-     * Converts an elasticsearch {@link ActionResponse} to native json
+     * Converts an elasticsearch {@link ActionResponse} to the output format that is used to present it as output
      * @param request the request that generated the given response
      * @param response the response to be converted
-     * @return the native json representation of the response
+     * @return the output representation of the response
      */
-    protected JsonOutput responseToJson(Request request, Response response) {
-        try {
-            return jsonSerializer.stringToJson(toXContent(request, response, initContentBuilder()).string());
-        } catch (IOException e) {
-            logger.error("Error while generating the XContent response", e);
-            return null;
-        }
-    }
+    protected abstract Output responseToOutput(Request request, Response response);
 
-    protected XContentBuilder initContentBuilder() throws IOException {
-        return JsonXContent.contentBuilder();
-    }
-
-    protected String jsonToString(JsonInput source) {
-        return jsonSerializer.jsonToString(source, false);
-    }
-
-    /**
-     * Writes an elasticsearch {@link ActionResponse} to the given {@link XContentBuilder}
-     * @param request the request that generated the given response
-     * @param response the response that needs to be written out
-     * @param builder the builder where to write the response
-     * @return the builder
-     * @throws IOException if there are problems while writing the response
-     */
-    protected abstract XContentBuilder toXContent(Request request, Response response, XContentBuilder builder) throws IOException;
-
-    protected static final class Fields {
-        public static final XContentBuilderString OK = new XContentBuilderString("ok");
-        public static final XContentBuilderString _INDEX = new XContentBuilderString("_index");
-        public static final XContentBuilderString _TYPE = new XContentBuilderString("_type");
-        public static final XContentBuilderString _ID = new XContentBuilderString("_id");
-        public static final XContentBuilderString _VERSION = new XContentBuilderString("_version");
-        public static final XContentBuilderString MATCHES = new XContentBuilderString("matches");
-        public static final XContentBuilderString FOUND = new XContentBuilderString("found");
-        public static final XContentBuilderString COUNT = new XContentBuilderString("count");
-        public static final XContentBuilderString GET = new XContentBuilderString("get");
-        public static final XContentBuilderString MATCHED = new XContentBuilderString("matched");
-        public static final XContentBuilderString EXPLANATION = new XContentBuilderString("explanation");
-        public static final XContentBuilderString VALUE = new XContentBuilderString("value");
-        public static final XContentBuilderString DESCRIPTION = new XContentBuilderString("description");
-        public static final XContentBuilderString DETAILS = new XContentBuilderString("details");
-        public static final XContentBuilderString ACKNOWLEDGED = new XContentBuilderString("acknowledged");
-        public static final XContentBuilderString CLUSTER_NAME = new XContentBuilderString("cluster_name");
-        public static final XContentBuilderString STATUS = new XContentBuilderString("status");
-        public static final XContentBuilderString TIMED_OUT = new XContentBuilderString("timed_out");
-        public static final XContentBuilderString NUMBER_OF_SHARDS = new XContentBuilderString("number_of_shards");
-        public static final XContentBuilderString NUMBER_OF_REPLICAS = new XContentBuilderString("number_of_replicas");
-        public static final XContentBuilderString NUMBER_OF_NODES = new XContentBuilderString("number_of_nodes");
-        public static final XContentBuilderString NUMBER_OF_DATA_NODES = new XContentBuilderString("number_of_data_nodes");
-        public static final XContentBuilderString ACTIVE_PRIMARY_SHARDS = new XContentBuilderString("active_primary_shards");
-        public static final XContentBuilderString ACTIVE_SHARDS = new XContentBuilderString("active_shards");
-        public static final XContentBuilderString RELOCATING_SHARDS = new XContentBuilderString("relocating_shards");
-        public static final XContentBuilderString INITIALIZING_SHARDS = new XContentBuilderString("initializing_shards");
-        public static final XContentBuilderString UNASSIGNED_SHARDS = new XContentBuilderString("unassigned_shards");
-        public static final XContentBuilderString VALIDATION_FAILURES = new XContentBuilderString("validation_failures");
-        public static final XContentBuilderString INDICES = new XContentBuilderString("indices");
-        public static final XContentBuilderString SHARDS = new XContentBuilderString("shards");
-        public static final XContentBuilderString PRIMARY_ACTIVE = new XContentBuilderString("primary_active");
+    protected Request request() {
+        return request;
     }
 
     @Override

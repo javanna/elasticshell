@@ -26,7 +26,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.SettingsFilter;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ import java.io.IOException;
  * Request builder for nodes info API
  */
 @SuppressWarnings("unused")
-public class NodesInfoRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<NodesInfoRequest, NodesInfoResponse, JsonInput, JsonOutput> {
+public class NodesInfoRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<NodesInfoRequest, NodesInfoResponse, JsonInput, JsonOutput> {
 
     public NodesInfoRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new NodesInfoRequest(), jsonSerializer);

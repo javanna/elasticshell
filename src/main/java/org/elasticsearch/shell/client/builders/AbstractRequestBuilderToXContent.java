@@ -37,7 +37,7 @@ import java.io.IOException;
  * @param <JsonOutput> the native json returned as output, depending on the script engine in use
  */
 public abstract class AbstractRequestBuilderToXContent<Request extends ActionRequest<Request>, Response extends ActionResponse & ToXContent, JsonInput, JsonOutput>
-        extends AbstractRequestBuilder<Request, Response, JsonInput, JsonOutput> {
+        extends AbstractRequestBuilderJsonOutput<Request, Response, JsonInput, JsonOutput> {
 
     protected AbstractRequestBuilderToXContent(Client client, Request request, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, request, jsonSerializer);

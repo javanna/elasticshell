@@ -26,7 +26,7 @@ import org.elasticsearch.action.support.IgnoreIndices;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
  * Request builder for validate query API
  */
 @SuppressWarnings("unused")
-public class ValidateQueryRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<ValidateQueryRequest, ValidateQueryResponse, JsonInput, JsonOutput> {
+public class ValidateQueryRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ValidateQueryRequest, ValidateQueryResponse, JsonInput, JsonOutput> {
 
     public ValidateQueryRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new ValidateQueryRequest(), jsonSerializer);

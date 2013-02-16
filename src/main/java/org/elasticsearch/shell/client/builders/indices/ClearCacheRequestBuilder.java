@@ -24,7 +24,7 @@ import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheRespo
 import org.elasticsearch.action.support.IgnoreIndices;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
  * Request builder for clear cache API
  */
 @SuppressWarnings("unused")
-public class ClearCacheRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<ClearIndicesCacheRequest, ClearIndicesCacheResponse, JsonInput, JsonOutput> {
+public class ClearCacheRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ClearIndicesCacheRequest, ClearIndicesCacheResponse, JsonInput, JsonOutput> {
 
     public ClearCacheRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new ClearIndicesCacheRequest(), jsonSerializer);

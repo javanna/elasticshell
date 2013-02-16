@@ -23,7 +23,7 @@ import org.elasticsearch.action.admin.indices.mapping.delete.DeleteMappingReques
 import org.elasticsearch.action.admin.indices.mapping.delete.DeleteMappingResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.io.IOException;
  * Request builder for delete mapping API
  */
 @SuppressWarnings("unused")
-public class DeleteMappingRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<DeleteMappingRequest, DeleteMappingResponse, JsonInput, JsonOutput> {
+public class DeleteMappingRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<DeleteMappingRequest, DeleteMappingResponse, JsonInput, JsonOutput> {
 
     public DeleteMappingRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new DeleteMappingRequest(), jsonSerializer);

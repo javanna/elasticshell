@@ -24,7 +24,7 @@ import org.elasticsearch.action.admin.indices.exists.types.TypesExistsResponse;
 import org.elasticsearch.action.support.IgnoreIndices;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ import java.io.IOException;
  * Request builder for types exists API
  */
 @SuppressWarnings("unused")
-public class TypesExistsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<TypesExistsRequest, TypesExistsResponse, JsonInput, JsonOutput> {
+public class TypesExistsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<TypesExistsRequest, TypesExistsResponse, JsonInput, JsonOutput> {
 
     public TypesExistsRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new TypesExistsRequest(new String[0]), jsonSerializer);

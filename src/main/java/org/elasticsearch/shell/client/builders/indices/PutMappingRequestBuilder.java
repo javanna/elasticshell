@@ -23,7 +23,7 @@ import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.io.IOException;
  * Request builder for put mapping API
  */
 @SuppressWarnings("unused")
-public class PutMappingRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<PutMappingRequest, PutMappingResponse, JsonInput, JsonOutput> {
+public class PutMappingRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<PutMappingRequest, PutMappingResponse, JsonInput, JsonOutput> {
 
     public PutMappingRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new PutMappingRequest(), jsonSerializer);

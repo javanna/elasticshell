@@ -25,7 +25,7 @@ import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.VersionType;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ import java.io.IOException;
  * Request builder for delete API
  */
 @SuppressWarnings("unused")
-public class DeleteRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<DeleteRequest, DeleteResponse, JsonInput, JsonOutput> {
+public class DeleteRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<DeleteRequest, DeleteResponse, JsonInput, JsonOutput> {
 
     public DeleteRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client,new DeleteRequest(), jsonSerializer);

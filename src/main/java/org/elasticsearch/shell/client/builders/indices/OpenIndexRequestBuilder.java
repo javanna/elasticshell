@@ -23,7 +23,7 @@ import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.io.IOException;
  * Request builder for open index API
  */
 @SuppressWarnings("unused")
-public class OpenIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<OpenIndexRequest, OpenIndexResponse, JsonInput, JsonOutput> {
+public class OpenIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<OpenIndexRequest, OpenIndexResponse, JsonInput, JsonOutput> {
 
     public OpenIndexRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new OpenIndexRequest(null), jsonSerializer);

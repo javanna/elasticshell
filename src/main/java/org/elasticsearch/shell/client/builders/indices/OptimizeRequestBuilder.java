@@ -23,7 +23,7 @@ import org.elasticsearch.action.admin.indices.optimize.OptimizeRequest;
 import org.elasticsearch.action.admin.indices.optimize.OptimizeResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
  * Request builder for optimize API
  */
 @SuppressWarnings("unused")
-public class OptimizeRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<OptimizeRequest, OptimizeResponse, JsonInput, JsonOutput> {
+public class OptimizeRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<OptimizeRequest, OptimizeResponse, JsonInput, JsonOutput> {
 
     public OptimizeRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new OptimizeRequest(), jsonSerializer);

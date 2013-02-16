@@ -29,7 +29,7 @@ import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.get.GetResult;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ import java.io.IOException;
  * Request builder for explain API
  */
 @SuppressWarnings("unused")
-public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<ExplainRequest, ExplainResponse, JsonInput, JsonOutput> {
+public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ExplainRequest, ExplainResponse, JsonInput, JsonOutput> {
 
     public ExplainRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new ExplainRequest(null, null, null), jsonSerializer);

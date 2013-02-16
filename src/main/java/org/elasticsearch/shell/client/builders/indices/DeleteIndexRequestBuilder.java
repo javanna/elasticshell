@@ -23,7 +23,7 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.io.IOException;
  * Request builder for delete index API
  */
 @SuppressWarnings("unused")
-public class DeleteIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<DeleteIndexRequest, DeleteIndexResponse, JsonInput, JsonOutput> {
+public class DeleteIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<DeleteIndexRequest, DeleteIndexResponse, JsonInput, JsonOutput> {
 
     public DeleteIndexRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new DeleteIndexRequest(), jsonSerializer);

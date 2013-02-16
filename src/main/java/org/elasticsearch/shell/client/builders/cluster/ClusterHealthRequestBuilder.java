@@ -25,7 +25,7 @@ import org.elasticsearch.action.admin.cluster.health.ClusterIndexHealth;
 import org.elasticsearch.action.admin.cluster.health.ClusterShardHealth;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ import java.io.IOException;
  * Request builder for cluster health API
  */
 @SuppressWarnings("unused")
-public class ClusterHealthRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<ClusterHealthRequest, ClusterHealthResponse, JsonInput, JsonOutput> {
+public class ClusterHealthRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<ClusterHealthRequest, ClusterHealthResponse, JsonInput, JsonOutput> {
 
     private String level;
 

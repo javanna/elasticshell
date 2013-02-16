@@ -24,7 +24,7 @@ import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
  * Request builder for stats API
  */
 @SuppressWarnings("unused")
-public class StatsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<IndicesStatsRequest, IndicesStats, JsonInput, JsonOutput> {
+public class StatsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<IndicesStatsRequest, IndicesStats, JsonInput, JsonOutput> {
 
     public StatsRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new IndicesStatsRequest(), jsonSerializer);

@@ -23,7 +23,7 @@ import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
  * Request builder for refresh API
  */
 @SuppressWarnings("unused")
-public class RefreshRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<RefreshRequest, RefreshResponse, JsonInput, JsonOutput> {
+public class RefreshRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<RefreshRequest, RefreshResponse, JsonInput, JsonOutput> {
 
     public RefreshRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new RefreshRequest(), jsonSerializer);

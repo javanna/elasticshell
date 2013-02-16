@@ -23,7 +23,7 @@ import org.elasticsearch.action.admin.indices.template.put.PutIndexTemplateReque
 import org.elasticsearch.action.admin.indices.template.put.PutIndexTemplateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.io.IOException;
  * Request builder for (put) index template API
  */
 @SuppressWarnings("unused")
-public class PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<PutIndexTemplateRequest, PutIndexTemplateResponse, JsonInput, JsonOutput> {
+public class PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<PutIndexTemplateRequest, PutIndexTemplateResponse, JsonInput, JsonOutput> {
 
     public PutIndexTemplateRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new PutIndexTemplateRequest(null), jsonSerializer);

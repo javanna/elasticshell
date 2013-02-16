@@ -23,7 +23,7 @@ import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsReques
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.io.IOException;
  * Request builder for indices exists API
  */
 @SuppressWarnings("unused")
-public class IndicesExistsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<IndicesExistsRequest, IndicesExistsResponse, JsonInput, JsonOutput> {
+public class IndicesExistsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<IndicesExistsRequest, IndicesExistsResponse, JsonInput, JsonOutput> {
 
     public IndicesExistsRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new IndicesExistsRequest(), jsonSerializer);

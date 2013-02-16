@@ -26,7 +26,7 @@ import org.elasticsearch.action.deletebyquery.IndexDeleteByQueryResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ import java.io.IOException;
  * Request builder for delete by query API
  */
 @SuppressWarnings("unused")
-public class DeleteByQueryRequestBuilder<JsonInput, JsonOutput>  extends AbstractRequestBuilder<DeleteByQueryRequest, DeleteByQueryResponse, JsonInput, JsonOutput> {
+public class DeleteByQueryRequestBuilder<JsonInput, JsonOutput>  extends AbstractRequestBuilderJsonOutput<DeleteByQueryRequest, DeleteByQueryResponse, JsonInput, JsonOutput> {
 
     public DeleteByQueryRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new DeleteByQueryRequest(), jsonSerializer);

@@ -23,7 +23,7 @@ import org.elasticsearch.action.percolate.PercolateRequest;
 import org.elasticsearch.action.percolate.PercolateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.io.IOException;
  * Request builder for percolate API
  */
 @SuppressWarnings("unused")
-public class PercolateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<PercolateRequest, PercolateResponse, JsonInput, JsonOutput> {
+public class PercolateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<PercolateRequest, PercolateResponse, JsonInput, JsonOutput> {
 
     public PercolateRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new PercolateRequest(), jsonSerializer);

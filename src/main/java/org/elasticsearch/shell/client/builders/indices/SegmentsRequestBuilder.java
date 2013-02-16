@@ -24,7 +24,7 @@ import org.elasticsearch.action.admin.indices.segments.IndicesSegmentsRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.shell.client.builders.AbstractRequestBuilder;
+import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonSerializer;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
  * Request builder for segments API
  */
 @SuppressWarnings("unused")
-public class SegmentsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilder<IndicesSegmentsRequest, IndicesSegmentResponse, JsonInput, JsonOutput> {
+public class SegmentsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<IndicesSegmentsRequest, IndicesSegmentResponse, JsonInput, JsonOutput> {
 
     public SegmentsRequestBuilder(Client client, JsonSerializer<JsonInput, JsonOutput> jsonSerializer) {
         super(client, new IndicesSegmentsRequest(), jsonSerializer);

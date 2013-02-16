@@ -420,6 +420,14 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return nodesHotThreadsBuilder().execute();
     }
 
+    public ClusterRerouteRequestBuilder<JsonInput, JsonOutput> clusterRerouteBuilder() {
+        return new ClusterRerouteRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
+    }
+
+    public JsonOutput clusterReroute(JsonInput source) throws Exception {
+        return clusterRerouteBuilder().source(source).execute();
+    }
+
 
 
     Client client() {

@@ -412,6 +412,16 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return nodesStatsBuilder().execute();
     }
 
+    public NodesHotThreadsRequestBuilder<JsonInput> nodesHotThreadsBuilder() {
+        return new NodesHotThreadsRequestBuilder<JsonInput>(client, jsonToString);
+    }
+
+    public String nodesHotThreads() {
+        return nodesHotThreadsBuilder().execute();
+    }
+
+
+
     Client client() {
         return client;
     }

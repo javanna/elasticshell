@@ -18,10 +18,15 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.admin.cluster.state.ClusterStateRequest;
+import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.json.JsonXContent;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
@@ -52,6 +57,37 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         this.stringToJson = stringToJson;
         this.indicesApiClient = new IndicesApiClient<JsonInput, JsonOutput>(this, jsonToString, stringToJson);
         this.clusterApiClient = new ClusterApiClient<JsonInput, JsonOutput>(this, jsonToString, stringToJson);
+    }
+
+    //Just a shortcut to get all the available indexes with their types and aliases
+    public JsonOutput availableIndices(String... indices) throws Exception {
+        ClusterStateResponse response = this.client.admin().cluster().state(new ClusterStateRequest()
+                .filterBlocks(true).filterNodes(true).filteredIndices(indices)
+                .filterRoutingTable(true)).actionGet();
+
+        XContentBuilder builder = JsonXContent.contentBuilder();
+        builder.startObject();
+        for (IndexMetaData indexMetaData : response.state().metaData()) {
+            builder.startObject(indexMetaData.index());
+            if (indexMetaData.aliases() != null && indexMetaData.aliases().size() > 0) {
+                builder.startArray("aliases");
+                for (String alias : indexMetaData.aliases().keySet()) {
+                    builder.value(alias);
+                }
+                builder.endArray();
+            }
+            if (indexMetaData.mappings() != null && indexMetaData.mappings().size() > 0) {
+                builder.startArray("types");
+                for (String alias : indexMetaData.mappings().keySet()) {
+                    builder.value(alias);
+                }
+                builder.endArray();
+            }
+            builder.endObject();
+        }
+        builder.endObject();
+
+        return stringToJson.stringToJson(builder.string());
     }
 
     public BulkProcessor.Builder bulkBuilder() {

@@ -18,6 +18,9 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.action.bulk.BulkProcessor;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.shell.client.builders.cluster.*;
@@ -48,6 +51,26 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         this.client = client;
         this.jsonToString = jsonToString;
         this.stringToJson = stringToJson;
+    }
+
+    public BulkProcessor.Builder bulkBuilder() {
+        return BulkProcessor.builder(client, new BulkProcessor.Listener() {
+            @Override
+            public void beforeBulk(long executionId, BulkRequest request) {
+            }
+
+            @Override
+            public void afterBulk(long executionId, BulkRequest request, BulkResponse response) {
+            }
+
+            @Override
+            public void afterBulk(long executionId, BulkRequest request, Throwable failure) {
+            }
+        });
+    }
+
+    public BulkProcessor bulk() {
+        return bulkBuilder().build();
     }
 
     public CountRequestBuilder<JsonInput, JsonOutput> countBuilder() {

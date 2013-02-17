@@ -162,7 +162,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     Indices APIs that make sense for a specific index
      */
     public GetAliasesIndicesRequestBuilder<JsonInput, JsonOutput> aliasesGetBuilder() {
-        return shellClient.aliasesGetBuilder().indices(indexName);
+        return shellClient.indicesApi().aliasesGetBuilder().indices(indexName);
     }
 
     public JsonOutput aliasesGet() {
@@ -170,11 +170,11 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public AnalyzeRequestBuilder<JsonInput, JsonOutput> analyzeBuilder() {
-        return shellClient.analyzeBuilder().index(indexName);
+        return shellClient.indicesApi().analyzeBuilder().index(indexName);
     }
 
     public ClearCacheRequestBuilder<JsonInput, JsonOutput> clearCacheBuilder() {
-        return shellClient.clearCacheBuilder().indices(indexName);
+        return shellClient.indicesApi().clearCacheBuilder().indices(indexName);
     }
 
     public JsonOutput clearCache() {
@@ -182,7 +182,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public CloseIndexRequestBuilder<JsonInput, JsonOutput> closeIndexBuilder() {
-        return shellClient.closeIndexBuilder().index(indexName);
+        return shellClient.indicesApi().closeIndexBuilder().index(indexName);
     }
 
     public JsonOutput closeIndex() {
@@ -190,7 +190,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public DeleteIndexRequestBuilder<JsonInput, JsonOutput> deleteIndexBuilder() {
-        return shellClient.deleteIndexBuilder().indices(indexName);
+        return shellClient.indicesApi().deleteIndexBuilder().indices(indexName);
     }
 
     public JsonOutput deleteIndex() {
@@ -198,7 +198,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public FlushRequestBuilder<JsonInput, JsonOutput> flushBuilder() {
-        return shellClient.flushBuilder().indices(indexName);
+        return shellClient.indicesApi().flushBuilder().indices(indexName);
     }
 
     public JsonOutput flush() {
@@ -206,7 +206,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public GetMappingRequestBuilder<JsonInput, JsonOutput> mappingGetBuilder() {
-        return shellClient.mappingGetBuilder().indices(indexName);
+        return shellClient.indicesApi().mappingGetBuilder().indices(indexName);
     }
 
     public JsonOutput mappingGet() {
@@ -214,7 +214,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public DeleteMappingRequestBuilder<JsonInput, JsonOutput> mappingDeleteBuilder() {
-        return shellClient.mappingDeleteBuilder().indices(indexName);
+        return shellClient.indicesApi().mappingDeleteBuilder().indices(indexName);
     }
 
     public JsonOutput mappingDelete(String type) {
@@ -222,7 +222,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public PutMappingRequestBuilder<JsonInput, JsonOutput> mappingPutBuilder() {
-        return shellClient.mappingPutBuilder().indices(indexName);
+        return shellClient.indicesApi().mappingPutBuilder().indices(indexName);
     }
 
     public JsonOutput mappingPut(String type, JsonInput source) {
@@ -230,7 +230,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public OpenIndexRequestBuilder<JsonInput, JsonOutput> openIndexBuilder() {
-        return shellClient.openIndexBuilder().index(indexName);
+        return shellClient.indicesApi().openIndexBuilder().index(indexName);
     }
 
     public JsonOutput openIndex() {
@@ -238,7 +238,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public OptimizeRequestBuilder<JsonInput, JsonOutput> optimizeBuilder() {
-        return shellClient.optimizeBuilder().indices(indexName);
+        return shellClient.indicesApi().optimizeBuilder().indices(indexName);
     }
 
     public JsonOutput optimize() {
@@ -246,7 +246,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public RefreshRequestBuilder<JsonInput, JsonOutput> refreshBuilder() {
-        return shellClient.refreshBuilder().indices(indexName);
+        return shellClient.indicesApi().refreshBuilder().indices(indexName);
     }
 
     public JsonOutput refresh() {
@@ -254,7 +254,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public SegmentsRequestBuilder<JsonInput, JsonOutput> segmentsBuilder() {
-        return shellClient.segmentsBuilder().indices(indexName);
+        return shellClient.indicesApi().segmentsBuilder().indices(indexName);
     }
 
     public JsonOutput segments() {
@@ -262,7 +262,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public GetSettingsRequestBuilder<JsonInput, JsonOutput> settingsGetBuilder() {
-        return shellClient.settingsGetBuilder().indices(indexName);
+        return shellClient.indicesApi().settingsGetBuilder().indices(indexName);
     }
 
     public JsonOutput settingsGet() {
@@ -270,7 +270,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public UpdateSettingsRequestBuilder<JsonInput, JsonOutput> settingsUpdateBuilder() {
-        return shellClient.settingsUpdateBuilder().indices(indexName);
+        return shellClient.indicesApi().settingsUpdateBuilder().indices(indexName);
     }
 
     public JsonOutput settingsUpdate(JsonInput source) {
@@ -279,7 +279,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
 
 
     public StatsRequestBuilder<JsonInput, JsonOutput> statsBuilder() {
-        return shellClient.statsBuilder().indices(indexName);
+        return shellClient.indicesApi().statsBuilder().indices(indexName);
     }
 
     public JsonOutput stats() {
@@ -287,7 +287,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public StatusRequestBuilder<JsonInput, JsonOutput> statusBuilder() {
-        return shellClient.statusBuilder().indices(indexName);
+        return shellClient.indicesApi().statusBuilder().indices(indexName);
     }
 
     public JsonOutput status() {
@@ -295,7 +295,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public TypesExistsRequestBuilder<JsonInput, JsonOutput> typesExistsBuilder() {
-        return shellClient.typesExistsBuilder().indices(indexName);
+        return shellClient.indicesApi().typesExistsBuilder().indices(indexName);
     }
 
     public JsonOutput typesExists(String type) {
@@ -303,7 +303,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public GetWarmerRequestBuilder<JsonInput, JsonOutput> warmerGetBuilder() {
-        return shellClient.warmerGetBuilder().indices(indexName);
+        return shellClient.indicesApi().warmerGetBuilder().indices(indexName);
     }
 
     public JsonOutput warmerGet() {
@@ -311,7 +311,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public DeleteWarmerRequestBuilder<JsonInput, JsonOutput> warmerDeleteBuilder() {
-        return shellClient.warmerDeleteBuilder().indices(indexName);
+        return shellClient.indicesApi().warmerDeleteBuilder().indices(indexName);
     }
 
     public JsonOutput warmerDelete(String name) {
@@ -323,14 +323,14 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public JsonOutput warmerPut(String name, JsonInput source) {
-        return shellClient.warmerPutBuilder().name(name).source(indexName, source).execute();
+        return shellClient.indicesApi().warmerPutBuilder().name(name).source(indexName, source).execute();
     }
 
     /*
     Cluster APIs that make sense for a specific index
      */
     public ClusterHealthRequestBuilder<JsonInput, JsonOutput> clusterHealthBuilder() {
-        return shellClient.clusterHealthBuilder().indices(indexName);
+        return shellClient.clusterApi().clusterHealthBuilder().indices(indexName);
     }
 
     public JsonOutput clusterHealth() {
@@ -338,7 +338,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public ClusterStateRequestBuilder<JsonInput, JsonOutput> clusterStateBuilder() {
-        return shellClient.clusterStateBuilder().filterIndices(indexName);
+        return shellClient.clusterApi().clusterStateBuilder().filterIndices(indexName);
     }
 
     public JsonOutput clusterState() {

@@ -166,7 +166,7 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     Indices APIs that make sense for a specific type
      */
     public GetMappingRequestBuilder<JsonInput, JsonOutput> mappingGetBuilder() {
-        return shellClient.mappingGetBuilder().indices(indexName).types(typeName);
+        return shellClient.indicesApi().mappingGetBuilder().indices(indexName).types(typeName);
     }
 
     public JsonOutput mappingGet() {
@@ -174,7 +174,7 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     }
 
     public DeleteMappingRequestBuilder<JsonInput, JsonOutput> mappingDeleteBuilder() {
-        return shellClient.mappingDeleteBuilder().indices(indexName).type(typeName);
+        return shellClient.indicesApi().mappingDeleteBuilder().indices(indexName).type(typeName);
     }
 
     public JsonOutput mappingDelete() {
@@ -182,7 +182,7 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     }
 
     public PutMappingRequestBuilder<JsonInput, JsonOutput> mappingPutBuilder() {
-        return shellClient.mappingPutBuilder().indices(indexName).type(typeName);
+        return shellClient.indicesApi().mappingPutBuilder().indices(indexName).type(typeName);
     }
 
     public JsonOutput mappingPut(JsonInput source) {
@@ -190,7 +190,7 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     }
 
     public JsonOutput warmerPut(String name, JsonInput source) {
-        return shellClient.warmerPutBuilder().name(name).source(indexName, typeName, source).execute();
+        return shellClient.indicesApi().warmerPutBuilder().name(name).source(indexName, typeName, source).execute();
     }
 
     @Override

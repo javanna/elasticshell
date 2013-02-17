@@ -322,6 +322,10 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return warmerDeleteBuilder().execute();
     }
 
+    public JsonOutput warmerPut(String name, JsonInput source) {
+        return shellClient.warmerPutBuilder().name(name).source(indexName, source).execute();
+    }
+
     /*
     Cluster APIs that make sense for a specific index
      */

@@ -22,7 +22,6 @@ import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.warmer.put.PutWarmerRequest;
 import org.elasticsearch.action.admin.indices.warmer.put.PutWarmerResponse;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
@@ -53,8 +52,18 @@ public class PutWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
         return this;
     }
 
-    public PutWarmerRequestBuilder<JsonInput, JsonOutput> searchRequest(SearchRequestBuilder searchRequest) {
-        request.searchRequest(searchRequest);
+    public PutWarmerRequestBuilder<JsonInput, JsonOutput> source(String index, String type, JsonInput source) {
+        request.searchRequest(new SearchRequest(index).types(type).source(jsonToString(source)));
+        return this;
+    }
+
+    public PutWarmerRequestBuilder<JsonInput, JsonOutput> source(String index, JsonInput source) {
+        request.searchRequest(new SearchRequest(index).source(jsonToString(source)));
+        return this;
+    }
+
+    public PutWarmerRequestBuilder<JsonInput, JsonOutput> source(JsonInput source) {
+        request.searchRequest(new SearchRequest(new String[0]).source(jsonToString(source)));
         return this;
     }
 

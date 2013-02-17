@@ -189,6 +189,10 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return mappingPutBuilder().source(source).execute();
     }
 
+    public JsonOutput warmerPut(String name, JsonInput source) {
+        return shellClient.warmerPutBuilder().name(name).source(indexName, typeName, source).execute();
+    }
+
     @Override
     public String toString() {
         return shellClient.toString() + " - index [" + indexName + "] type [" + typeName + "]";

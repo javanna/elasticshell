@@ -365,6 +365,10 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return warmerPutBuilder().name(name).searchRequest(searchRequest).execute();
     }
 
+    public JsonOutput warmerPut(String name, JsonInput source) {
+        return warmerPutBuilder().name(name).source(source).execute();
+    }
+
     public DeleteWarmerRequestBuilder<JsonInput, JsonOutput> warmerDeleteBuilder() {
         return new DeleteWarmerRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
     }

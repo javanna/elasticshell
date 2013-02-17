@@ -106,6 +106,10 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.multiGetBuilder().add(indexName, type, ids).execute();
     }
 
+    public JsonOutput multiSearch(JsonInput... sources) {
+        return shellClient.multiSearchBuilder().add(indexName, sources).execute();
+    }
+
     public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> moreLikeThisBuilder() {
         return shellClient.moreLikeThisBuilder(indexName);
     }

@@ -25,6 +25,7 @@ import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.json.JsonXContent;
 import org.elasticsearch.shell.client.builders.core.*;
@@ -83,6 +84,24 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
                 }
                 builder.endArray();
             }
+            builder.endObject();
+        }
+        builder.endObject();
+
+        return stringToJson.stringToJson(builder.string());
+    }
+
+    //Just a shortcut to get all the available indexes with their types and aliases
+    public JsonOutput availableNodes() throws Exception {
+        ClusterStateResponse response = this.client.admin().cluster().state(new ClusterStateRequest()
+                .filterBlocks(true).filterNodes(false).filterMetaData(true)
+                .filterRoutingTable(true)).actionGet();
+
+        XContentBuilder builder = JsonXContent.contentBuilder();
+        builder.startObject();
+        for (DiscoveryNode discoveryNode : response.state().nodes()) {
+            builder.startObject(discoveryNode.id());
+            builder.field("name", discoveryNode.name());
             builder.endObject();
         }
         builder.endObject();

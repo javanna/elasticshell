@@ -26,6 +26,7 @@ import org.elasticsearch.shell.source.CompilableSource;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
+import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.tools.ToolErrorReporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,9 @@ public class RhinoScriptExecutor implements ScriptExecutor {
                 logger.debug("Executing compiled script");
                 Object result = script.exec(Context.getCurrentContext(), shellScope.get());
                 logger.debug("Returned object [{}]", result);
+                if(result instanceof Undefined) {
+                    return null;
+                }
                 return result;
             }
         } catch(RhinoException rex) {

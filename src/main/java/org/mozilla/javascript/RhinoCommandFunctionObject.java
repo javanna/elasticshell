@@ -16,16 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.command;
+package org.mozilla.javascript;
 
-import org.mozilla.javascript.FunctionObject;
-import org.mozilla.javascript.Scriptable;
+import org.elasticsearch.shell.command.Command;
+import org.elasticsearch.shell.command.ExecutableCommand;
 
 import java.lang.reflect.Member;
 
 /**
  * Custom {@link FunctionObject} used to register commands to the shell through Rhino.
- * Wraps a {@link Command}. Commands will be available in form of javascript functions.
+ * Wraps a {@link org.elasticsearch.shell.command.Command}. Commands will be available in form of javascript functions.
  *
  * @author Luca Cavanna
  */

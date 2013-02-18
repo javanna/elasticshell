@@ -21,6 +21,7 @@ package org.elasticsearch.shell.command;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
+import org.mozilla.javascript.RhinoCommandFunctionObject;
 import org.mozilla.javascript.ScriptableObject;
 
 import java.util.Set;

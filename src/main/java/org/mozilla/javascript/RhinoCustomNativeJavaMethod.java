@@ -18,6 +18,8 @@
  */
 package org.mozilla.javascript;
 
+import org.elasticsearch.shell.MessageHelper;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,16 +45,25 @@ public class RhinoCustomNativeJavaMethod extends BaseFunction {
         return returnTypes;
     }
 
+    Class<?> getDeclaringClass() {
+        if (nativeJavaMethod.methods != null && nativeJavaMethod.methods.length > 0) {
+            //hopefully it's always the same class
+            return nativeJavaMethod.methods[0].getDeclaringClass();
+        }
+        return null;
+    }
+
     @Override
     public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
         return nativeJavaMethod.call(cx, scope, thisObj, args);
     }
 
-    //TODO override toString and/or decompile for better function output
-    //load optional help message from resource bundle
-
     @Override
     String decompile(int indent, int flags) {
+        String helpMessage = MessageHelper.getMessage(getDeclaringClass().getSimpleName() + "." + nativeJavaMethod.getFunctionName());
+        if (helpMessage != null && helpMessage.trim().length() > 0) {
+            return helpMessage;
+        }
         return nativeJavaMethod.decompile(indent, flags);
     }
 

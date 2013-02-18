@@ -91,7 +91,7 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return stringToJson.stringToJson(builder.string());
     }
 
-    //Just a shortcut to get all the available indexes with their types and aliases
+    //Just a shortcut to get all the available nodes within the cluster
     public JsonOutput availableNodes() throws Exception {
         ClusterStateResponse response = this.client.admin().cluster().state(new ClusterStateRequest()
                 .filterBlocks(true).filterNodes(false).filterMetaData(true)

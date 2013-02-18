@@ -38,7 +38,6 @@ public class HelpCommand extends Command {
 
     @SuppressWarnings("unused")
     public String execute() {
-        //TODO write help text
-        return "TODO write help text";
+        return help();
     }
 }

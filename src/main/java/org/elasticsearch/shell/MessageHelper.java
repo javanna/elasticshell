@@ -16,29 +16,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.command;
+package org.elasticsearch.shell;
 
-import org.elasticsearch.shell.MessageHelper;
-import org.elasticsearch.shell.console.Console;
-
-import java.io.PrintStream;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 /**
- * Base class for commands. Might not be really needed but handy to use anyway
- * rather than referring to generic objects as commands. Probably useful in the future
- * to provide common features to all commands though.
- *
  * @author Luca Cavanna
  */
-public abstract class Command {
+public class MessageHelper {
 
-    protected final Console<PrintStream> console;
+    private final ResourceBundle resourceBundle;
+    private static final MessageHelper messageHelper = new MessageHelper();
 
-    protected Command(Console<PrintStream> console) {
-        this.console = console;
+    private MessageHelper() {
+        resourceBundle = ResourceBundle.getBundle("messages", Locale.ENGLISH);
     }
 
-    public String help() {
-        return MessageHelper.getMessage(getClass().getSimpleName() + "." + "help");
+    public static String getMessage(String message) {
+        try {
+            return messageHelper.resourceBundle.getString(message);
+        } catch(MissingResourceException e) {
+            return "";
+        }
+
     }
 }

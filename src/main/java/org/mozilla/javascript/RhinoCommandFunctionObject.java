@@ -48,4 +48,13 @@ public class RhinoCommandFunctionObject extends FunctionObject {
     public Command getCommand() {
         return command;
     }
+
+    @Override
+    String decompile(int indent, int flags) {
+        String helpMessage = command.help();
+        if (helpMessage != null && helpMessage.trim().length() > 0) {
+            return helpMessage;
+        }
+        return super.decompile(indent, flags);
+    }
 }

@@ -17,33 +17,33 @@ Every command is exposed as a javascript function. If you want to get the help f
 
 h3. Auto-suggestions
 
-Have a look at the auto-suggestions through the tab key to have a look at the available commands and variables.
-JSON is native within the elasticshell, thus auto-suggestions are available within JSON objects too.
+Have a look at the auto-suggestions through the tab key to see the available commands and variables. JSON is native within the elasticshell, thus auto-suggestions are available within JSON objects too.
 
 h3. Connecting to a cluster
 
-The elasticshell will automatically try to create a new transport client connected to a node running on localhost:9300.
-The default transport client will be registered with the es variable name, same result as the following command:
+The elasticshell will automatically try to create a new transport client connected to a node running on localhost:9300. That default transport client will be registered with the es variable name, same result as the following command:
+
 <pre>
 var es = transportClient('localhost:9300')
 </pre>
 
 You can manually connect to a running elasticsearch cluster using the following commands:
-* transportClient('hostname:port'): it creates a new "transport client":http://www.elasticsearch.org/guide/reference/java-api/client.html . You can provide a list of addresses too
+* transportClient('hostname:port'): creates a new "transport client":http://www.elasticsearch.org/guide/reference/java-api/client.html . You can provide a list of addresses too.
 * nodeClient('clusterName'): it creates a new "node client":http://www.elasticsearch.org/guide/reference/java-api/client.html .
 
 h3. elasticsearch API
+
 All of the elasticsearch API are exposed through the elasticshell, let's see how they can be used.
 
 h3. Let's index a document
 
-<pre>
+@
 var jsonDoc = {
    "user": "kimchy",
    "postDate": "2009-11-15T13:12:00",
    "message": "Trying out Elastic Search, so far so good?"
 }
-</pre>
+@
 
 @es.index('twitter','tweet','1', jsonDoc);@
 

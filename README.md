@@ -1,25 +1,31 @@
-h1. elasticshell - a shell for elasticsearch
+elasticshell - a shell for elasticsearch
+==============================
 
 The elasticshell is a javascript shell written in Java.
 It allows to interact with a running [elasticsearch](http://www.elasticsearch.org) cluster using the [Java API](http://www.elasticsearch.org/guide/reference/java-api/).
 
-h2. Getting Started
+Getting Started
+==============================
 
-h3. Installation
+Installation
+------------------------------
 
 * [Download](http://www.javanna.net/downloads/elasticshell-0.20.5.zip) and unzip the elasticshell distribution
 * Run `bin/elasticshell` on unix, or `bin/elasticshell.bat` on windows
 
-h3. Help
+Help
+------------------------------
 
 Use the help() command to have a look at the elasticshell help.
 Every command is exposed as a javascript function. If you want to get help for a specific command, just type its name without the curly brackets.
 
-h3. Auto-suggestions
+Auto-suggestions
+------------------------------
 
 Have a look at the auto-suggestions through the tab key to see the available commands and variables. JSON is native within the elasticshell, thus auto-suggestions are available within JSON objects too.
 
-h3. Connecting to a cluster
+Connecting to a cluster
+------------------------------
 
 The elasticshell will automatically try to create a new transport client connected to a node running on localhost:9300. That default transport client will be registered with the es variable name, same result as the following command:
 
@@ -27,14 +33,17 @@ The elasticshell will automatically try to create a new transport client connect
 
 
 You can manually connect to a running elasticsearch cluster using the following commands:
-* `transportClient('hostname:port')` creates a new [transport client](http://www.elasticsearch.org/guide/reference/java-api/client.html). You can provide a list of addresses too.
-* `nodeClient('clusterName')` creates a new [node client](http://www.elasticsearch.org/guide/reference/java-api/client.html).
+`transportClient('hostname:port')` creates a new [transport client](http://www.elasticsearch.org/guide/reference/java-api/client.html). You can provide a list of addresses too.
 
-h3. elasticsearch API
+`nodeClient('clusterName')` creates a new [node client](http://www.elasticsearch.org/guide/reference/java-api/client.html).
+
+elasticsearch API
+------------------------------
 
 All of the elasticsearch API are exposed through the elasticshell, let's see how they can be used.
 
-h3. Let's index a document
+Let's index a document
+------------------------------
 
 ```javascript
 var jsonDoc = {
@@ -50,7 +59,9 @@ You can also use the available index builder, which allows to use all the option
 
 `es.indexBuilder().index('twitter').type('tweet').id('1').source(jsonDoc).execute();`
 
-h3. Interact with a specific index or type
+Interact with a specific index or type
+------------------------------
+
 You can easily execute operations on a specific index or type like this:
 
 `es.<index>.<type>.search();`
@@ -60,13 +71,15 @@ If the elasticshell does not accept the name of the index or type, for instance 
 `es['index name'].search();`
 
 
-h3. Let's retrieve a document
+Let's retrieve a document
+------------------------------
 
 `es.twitter.tweet.get('1');`
 
 The above command retrieves the previously indexed document using the [get API](http://www.elasticsearch.org/guide/reference/api/get.html).
 
-h3. Let's [search](http://www.elasticsearch.org/guide/reference/api/search/)
+Let's [search](http://www.elasticsearch.org/guide/reference/api/search/)
+------------------------------
 
 ```javascript
 var termQuery = {
@@ -85,7 +98,8 @@ We can also make use of the elasticsearch [query builders](http://www.elasticsea
 
 `es.searchBuilder().query(QueryBuilders.termQuery('user','kimchy')).execute();`
 
-h3. Let's add a facet to the previous query
+Let's add a facet to the previous query
+------------------------------
 
 ```javascript
 var userFacet = {
@@ -100,6 +114,7 @@ es.searchBuilder()
     .facet(FacetBuilders.termsFacet('user').field('user')).execute();
 ```
 
-h2. Have fun!
+Have fun!
+
 Remember that the elasticshell is a javascript shell, thus you can have fun executing javascript code.
 On the other hand, the elasticshell has been built on top of the Rhino engine, which means that you can execute Java code too.

@@ -105,8 +105,8 @@ public class JLineRhinoCompleterTest {
         String input = "Requests.index";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("indexAliasesRequest("));
-        Assert.assertTrue(candidates.contains("indexRequest("));
+        Assert.assertTrue(candidates.contains("indexAliasesRequest()"));
+        Assert.assertTrue(candidates.contains("indexRequest()"));
         Assert.assertEquals(output, 9);
     }
 
@@ -116,8 +116,8 @@ public class JLineRhinoCompleterTest {
         String input = "impo";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("importClass("));
-        Assert.assertTrue(candidates.contains("importPackage("));
+        Assert.assertTrue(candidates.contains("importClass()"));
+        Assert.assertTrue(candidates.contains("importPackage()"));
         Assert.assertEquals(output, 0);
     }
 
@@ -181,7 +181,7 @@ public class JLineRhinoCompleterTest {
         String input = "Requests.indexRequest('index_name').ty";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(candidates.get(0), "type()");
         Assert.assertEquals(output, 36);
     }
 
@@ -191,7 +191,7 @@ public class JLineRhinoCompleterTest {
         String input = "Requests.indexRequest('index_name').type('index_name').id";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(candidates.get(0), "id()");
         Assert.assertEquals(output, 55);
     }
 
@@ -201,8 +201,8 @@ public class JLineRhinoCompleterTest {
         String input = "Requests.indexRequest('index_name').type(\"type_name\").id('id').so";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("source("));
-        Assert.assertTrue(candidates.contains("sourceAsMap("));
+        Assert.assertTrue(candidates.contains("source()"));
+        Assert.assertTrue(candidates.contains("sourceAsMap()"));
         Assert.assertEquals(output, 63);
     }
 
@@ -221,9 +221,9 @@ public class JLineRhinoCompleterTest {
         String input = "java.util.Collections.empty";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 6); //3 with java 6!
-        Assert.assertTrue(candidates.contains("emptyList("));
-        Assert.assertTrue(candidates.contains("emptyMap("));
-        Assert.assertTrue(candidates.contains("emptySet("));
+        Assert.assertTrue(candidates.contains("emptyList()"));
+        Assert.assertTrue(candidates.contains("emptyMap()"));
+        Assert.assertTrue(candidates.contains("emptySet()"));
         Assert.assertEquals(output, 22);
     }
 
@@ -233,8 +233,8 @@ public class JLineRhinoCompleterTest {
         String input = "java.util.Collections.emptyList(blablabla).add";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("add("));
-        Assert.assertTrue(candidates.contains("addAll("));
+        Assert.assertTrue(candidates.contains("add()"));
+        Assert.assertTrue(candidates.contains("addAll()"));
         Assert.assertEquals(output, 43);
     }
 
@@ -244,9 +244,9 @@ public class JLineRhinoCompleterTest {
         String input = "java.util.Collections.emptyList(blablabla).get(0).";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 3);
-        Assert.assertTrue(candidates.contains("equals("));
-        Assert.assertTrue(candidates.contains("getClass("));
-        Assert.assertTrue(candidates.contains("toString("));
+        Assert.assertTrue(candidates.contains("equals()"));
+        Assert.assertTrue(candidates.contains("getClass()"));
+        Assert.assertTrue(candidates.contains("toString()"));
         Assert.assertEquals(output, 50);
     }
 
@@ -266,8 +266,8 @@ public class JLineRhinoCompleterTest {
         int output = completer.complete(input, input.length(), candidates);
         //merge between String return type and ShardReplicationOperationRequest
         Assert.assertEquals(candidates.size(), 56);
-        Assert.assertTrue(candidates.contains("substring("));
-        Assert.assertTrue(candidates.contains("replicationType("));
+        Assert.assertTrue(candidates.contains("substring()"));
+        Assert.assertTrue(candidates.contains("replicationType()"));
         Assert.assertEquals(output, 32);
     }
 
@@ -278,22 +278,22 @@ public class JLineRhinoCompleterTest {
         String input = "ir.ty";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(candidates.get(0), "type()");
         Assert.assertEquals(output, 3);
 
         candidates.clear();
         input = "ir.type('type_name').id";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(candidates.get(0), "id()");
         Assert.assertEquals(output, 21);
 
         candidates.clear();
         input = "ir.type('type_name').id(\"id\").so";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("source("));
-        Assert.assertTrue(candidates.contains("sourceAsMap("));
+        Assert.assertTrue(candidates.contains("source()"));
+        Assert.assertTrue(candidates.contains("sourceAsMap()"));
         Assert.assertEquals(output, 30);
     }
 
@@ -312,7 +312,7 @@ public class JLineRhinoCompleterTest {
         String input = "ir.ty";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("type("));
+        Assert.assertTrue(candidates.contains("type()"));
         Assert.assertTrue(candidates.contains("typeNested"));
         Assert.assertEquals(output, 3);
 
@@ -320,37 +320,37 @@ public class JLineRhinoCompleterTest {
         input = "ir.type('type_name').id";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(candidates.get(0), "id()");
         Assert.assertEquals(output, 21);
 
         candidates.clear();
         input = "ir.type('type_name').id(\"id\").so";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("source("));
-        Assert.assertTrue(candidates.contains("sourceAsMap("));
+        Assert.assertTrue(candidates.contains("source()"));
+        Assert.assertTrue(candidates.contains("sourceAsMap()"));
         Assert.assertEquals(output, 30);
 
         candidates.clear();
         input = "ir.typeNested.ty";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(candidates.get(0), "type()");
         Assert.assertEquals(output, 14);
 
         candidates.clear();
         input = "ir.typeNested.type('type_name').id";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(candidates.get(0), "id()");
         Assert.assertEquals(output, 32);
 
         candidates.clear();
         input = "ir.typeNested.type('type_name').id(\"id\").so";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("source("));
-        Assert.assertTrue(candidates.contains("sourceAsMap("));
+        Assert.assertTrue(candidates.contains("source()"));
+        Assert.assertTrue(candidates.contains("sourceAsMap()"));
         Assert.assertEquals(output, 41);
     }
 
@@ -369,7 +369,7 @@ public class JLineRhinoCompleterTest {
         String input = "ir.ty";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("type("));
+        Assert.assertTrue(candidates.contains("type()"));
         Assert.assertTrue(candidates.contains("type-name"));
         Assert.assertEquals(output, 3);
 
@@ -377,30 +377,30 @@ public class JLineRhinoCompleterTest {
         input = "ir.type('type_name').id";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "id(");
+        Assert.assertEquals(candidates.get(0), "id()");
         Assert.assertEquals(output, 21);
 
         candidates.clear();
         input = "ir.type('type_name').id(\"id\").so";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("source("));
-        Assert.assertTrue(candidates.contains("sourceAsMap("));
+        Assert.assertTrue(candidates.contains("source()"));
+        Assert.assertTrue(candidates.contains("sourceAsMap()"));
         Assert.assertEquals(output, 30);
 
         candidates.clear();
         input = "ir['type-name'].ty";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(candidates.get(0), "type()");
         Assert.assertEquals(output, 16);
 
         candidates.clear();
         input = "ir['type-name'].type('type_name').id(\"id\").so";
         output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 2);
-        Assert.assertTrue(candidates.contains("source("));
-        Assert.assertTrue(candidates.contains("sourceAsMap("));
+        Assert.assertTrue(candidates.contains("source()"));
+        Assert.assertTrue(candidates.contains("sourceAsMap()"));
         Assert.assertEquals(output, 43);
     }
 
@@ -437,9 +437,9 @@ public class JLineRhinoCompleterTest {
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 15);
         //contains both static and instance methods
-        Assert.assertTrue(candidates.contains("filter("));
-        Assert.assertTrue(candidates.contains("routing("));
-        Assert.assertTrue(candidates.contains("newAddAliasAction("));
+        Assert.assertTrue(candidates.contains("filter()"));
+        Assert.assertTrue(candidates.contains("routing()"));
+        Assert.assertTrue(candidates.contains("newAddAliasAction()"));
         Assert.assertEquals(output, 18);
     }
 
@@ -449,7 +449,7 @@ public class JLineRhinoCompleterTest {
         String input = "new AliasAction().fil";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "filter(");
+        Assert.assertEquals(candidates.get(0), "filter()");
         Assert.assertEquals(output, 18);
     }
 
@@ -459,7 +459,7 @@ public class JLineRhinoCompleterTest {
         String input = "new AliasAction().filter('args').rou";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "routing(");
+        Assert.assertEquals(candidates.get(0), "routing()");
         Assert.assertEquals(output, 33);
     }
 
@@ -469,9 +469,9 @@ public class JLineRhinoCompleterTest {
         String input = "new java.util.Date().";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 27);
-        Assert.assertTrue(candidates.contains("after("));
-        Assert.assertTrue(candidates.contains("before("));
-        Assert.assertTrue(candidates.contains("getDay("));
+        Assert.assertTrue(candidates.contains("after()"));
+        Assert.assertTrue(candidates.contains("before()"));
+        Assert.assertTrue(candidates.contains("getDay()"));
         Assert.assertEquals(output, 21);
     }
 
@@ -481,7 +481,7 @@ public class JLineRhinoCompleterTest {
         String input = "new java.util.Date().af";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "after(");
+        Assert.assertEquals(candidates.get(0), "after()");
         Assert.assertEquals(output, 21);
     }
 
@@ -491,7 +491,7 @@ public class JLineRhinoCompleterTest {
         String input = "new org.elasticsearch.action.index.IndexRequest().id('blablabla').ty";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(candidates.get(0), "type()");
         Assert.assertEquals(output, 66);
     }
 
@@ -502,9 +502,9 @@ public class JLineRhinoCompleterTest {
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 15);
         //contains both static and instance methods
-        Assert.assertTrue(candidates.contains("filter("));
-        Assert.assertTrue(candidates.contains("routing("));
-        Assert.assertTrue(candidates.contains("newAddAliasAction("));
+        Assert.assertTrue(candidates.contains("filter()"));
+        Assert.assertTrue(candidates.contains("routing()"));
+        Assert.assertTrue(candidates.contains("newAddAliasAction()"));
         Assert.assertEquals(output, 27);
     }
 
@@ -514,7 +514,7 @@ public class JLineRhinoCompleterTest {
         String input = "function(new AliasAction().fil";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "filter(");
+        Assert.assertEquals(candidates.get(0), "filter()");
         Assert.assertEquals(output, 27);
     }
 
@@ -524,7 +524,7 @@ public class JLineRhinoCompleterTest {
         String input = "function(new AliasAction().filter('args').rou";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "routing(");
+        Assert.assertEquals(candidates.get(0), "routing()");
         Assert.assertEquals(output, 42);
     }
 
@@ -534,7 +534,7 @@ public class JLineRhinoCompleterTest {
         String input = "function(new java.util.Date().af";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "after(");
+        Assert.assertEquals(candidates.get(0), "after()");
         Assert.assertEquals(output, 30);
     }
 
@@ -544,7 +544,7 @@ public class JLineRhinoCompleterTest {
         String input = "function(new org.elasticsearch.action.index.IndexRequest().id('blablabla').ty";
         int output = completer.complete(input, input.length(), candidates);
         Assert.assertEquals(candidates.size(), 1);
-        Assert.assertEquals(candidates.get(0), "type(");
+        Assert.assertEquals(candidates.get(0), "type()");
         Assert.assertEquals(output, 75);
     }
 
@@ -555,8 +555,8 @@ public class JLineRhinoCompleterTest {
         String inputLength = "FilterBuilders.queryFilter(QueryBuilders.";
         int output = completer.complete(input, inputLength.length(), candidates);
         Assert.assertEquals(candidates.size(), 47);
-        Assert.assertTrue(candidates.contains("matchAllQuery("));
-        Assert.assertTrue(candidates.contains("termQuery("));
+        Assert.assertTrue(candidates.contains("matchAllQuery()"));
+        Assert.assertTrue(candidates.contains("termQuery()"));
         Assert.assertEquals(output, inputLength.length());
     }
 }

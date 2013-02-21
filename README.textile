@@ -1,7 +1,7 @@
 h1. elasticshell - a shell for elasticsearch
 
 The elasticshell is a javascript shell written in Java.
-It allows to interact with a running elasticsearch:http://www.elasticsearch.org cluster using the "Java API":http://www.elasticsearch.org/guide/reference/java-api/ .
+It allows to interact with a running "elasticsearch":http://www.elasticsearch.org cluster using the "Java API":http://www.elasticsearch.org/guide/reference/java-api/ .
 
 h2. Getting Started
 
@@ -11,17 +11,22 @@ h3. Installation
 * Run @bin/elasticshell@ on unix, or @bin/elasticshell.bat@ on windows
 
 h3. Help
+
 Use the help() command to have a look at the elasticshell help.
-Every command is exposed as a javascript function. If you want to read the help for a specific command, just tpe its name without curly brackets.
+Every command is exposed as a javascript function. If you want to get the help for a specific command, just type its name without the curly brackets.
 
 h3. Auto-suggestions
-Make use of the auto-suggestions through the tab key to have a look at the available commands and variables.
-JSON is native within the elasticshell, thus auto-suggestions are available within a JSON objects too.
+
+Have a look at the auto-suggestions through the tab key to have a look at the available commands and variables.
+JSON is native within the elasticshell, thus auto-suggestions are available within JSON objects too.
 
 h3. Connecting to a cluster
+
 The elasticshell will automatically try to create a new transport client connected to a node running on localhost:9300.
 The default transport client will be registered with the es variable name, same result as the following command:
-@var es = transportClient('localhost:9300')@
+<pre>
+var es = transportClient('localhost:9300')
+</pre>
 
 You can manually connect to a running elasticsearch cluster using the following commands:
 * transportClient('hostname:port'): it creates a new "transport client":http://www.elasticsearch.org/guide/reference/java-api/client.html . You can provide a list of addresses too

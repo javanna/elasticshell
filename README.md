@@ -101,8 +101,10 @@ es.searchBuilder()
     .facet(FacetBuilders.termsFacet('user').field('user')).execute();
 ```
 
+
+
 All the elasticsearch API are exposed through the elasticshell.
-Remember that the elasticshell is a javascript shell, thus you can have fun executing javascript code.
+Remember that the elasticshell is a javascript shell, thus you can have fun with javascript code.
 On the other hand, the elasticshell has been built on top of the Rhino engine, which means that you can execute Java code too.
 
 License

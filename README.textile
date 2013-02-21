@@ -1,10 +1,12 @@
 h1. elasticshell - a shell for elasticsearch
 
-The elasticshell is a javascript shell written in Java that allows to interact with a running [elasticsearch](http://www.elasticsearch.org) cluster using the [Java API](http://www.elasticsearch.org/guide/reference/java-api/).
+The elasticshell is a javascript shell written in Java.
+It allows to interact with a running elasticsearch:http://www.elasticsearch.org cluster using the "Java API":http://www.elasticsearch.org/guide/reference/java-api/ .
 
 h2. Getting Started
 
 h3. Installation
+
 * "Download":http://www.javanna.net/downloads/elasticshell-0.20.5.zip and unzip the elasticshell distribution
 * Run @bin/elasticshell@ on unix, or @bin/elasticshell.bat@ on windows
 

@@ -68,39 +68,35 @@ The above command retrieves the previously indexed document using the "get API":
 
 h3. Let's search
 
-<pre>
+pre.
 var termQuery = {
     "query" : {
         "term" : { "user": "kimchy" }
     }
 }
-
 es.search(termQuery);
-</pre>
+
 
 We can also use the search builder:
-<pre>
+pre.
 es.searchBuilder().query(termQuery);
-</pre>
 
 Through the search builder we can also make use of the elasticsearch "query builders":http://www.elasticsearch.org/guide/reference/java-api/query-dsl-queries.html like this:
-<pre>
+pre.
 es.searchBuilder().query(QueryBuilders.termQuery('user','kimchy')).execute();
-</pre>
 
 h3. Let's add a facet to the previous query
 
-<pre>
+pre.
 var userFacet = {
    "user" : { "terms" : {"field" : "user"} }
 }
-
 es.searchBuilder().query(termQuery).facets(userFacet).execute();
-</pre>
 
-<pre>
-es.searchBuilder().query(QueryBuilders.termQuery('user','kimchy')).facet(FacetBuilders.termsFacet('user').field('user')).execute();
-</pre>
+pre.
+es.searchBuilder()
+    .query(QueryBuilders.termQuery('user','kimchy'))
+    .facet(FacetBuilders.termsFacet('user').field('user')).execute();
 
 h2. Have fun!
 Remember that the elasticshell is a javascript shell, thus you can have fun executing javascript code.

@@ -37,11 +37,6 @@ You can manually connect to a running elasticsearch cluster using the following 
 
 `nodeClient('clusterName')` creates a new [node client](http://www.elasticsearch.org/guide/reference/java-api/client.html).
 
-elasticsearch API
-------------------------------
-
-All of the elasticsearch API are exposed through the elasticshell, let's see how they can be used.
-
 Let's index a document
 ------------------------------
 
@@ -55,7 +50,7 @@ var jsonDoc = {
 
 `es.index('twitter','tweet','1', jsonDoc);`
 
-You can also use the available index builder, which allows to use all the options available when [indexing a document](http://www.elasticsearch.org/guide/reference/api/index_.html):
+We can also use the available index builder, which allows to use all the options available when [indexing a document](http://www.elasticsearch.org/guide/reference/api/index_.html):
 
 `es.indexBuilder().index('twitter').type('tweet').id('1').source(jsonDoc).execute();`
 
@@ -88,8 +83,7 @@ var termQuery = {
     }
 }
 es.search(termQuery);
-````
-
+```
 
 We can also use the search builder:
 `es.searchBuilder().query(termQuery);`
@@ -114,7 +108,6 @@ es.searchBuilder()
     .facet(FacetBuilders.termsFacet('user').field('user')).execute();
 ```
 
-Have fun!
-
+All the elasticsearch API are exposed through the elasticshell.
 Remember that the elasticshell is a javascript shell, thus you can have fun executing javascript code.
 On the other hand, the elasticshell has been built on top of the Rhino engine, which means that you can execute Java code too.

@@ -10,7 +10,7 @@ Getting Started
 Installation
 ------------------------------
 
-* [Download](http://www.javanna.net/downloads/elasticshell-0.20.5.zip) and unzip the elasticshell distribution
+* [Download](http://www.javanna.net/downloads/elasticshell-0.20.5-SNAPSHOT.zip) and unzip the elasticshell distribution
 * Run `bin/elasticshell` on unix, or `bin/elasticshell.bat` on windows
 
 Help
@@ -96,13 +96,6 @@ Let's add a facet to the previous query
 ------------------------------
 
 ```javascript
-var userFacet = {
-   "user" : { "terms" : {"field" : "user"} }
-}
-es.searchBuilder().query(termQuery).facets(userFacet).execute();
-```
-
-```javascript
 es.searchBuilder()
     .query(QueryBuilders.termQuery('user','kimchy'))
     .facet(FacetBuilders.termsFacet('user').field('user')).execute();
@@ -111,3 +104,24 @@ es.searchBuilder()
 All the elasticsearch API are exposed through the elasticshell.
 Remember that the elasticshell is a javascript shell, thus you can have fun executing javascript code.
 On the other hand, the elasticshell has been built on top of the Rhino engine, which means that you can execute Java code too.
+
+License
+=======
+
+```
+This software is licensed under the Apache 2 license, quoted below.
+
+Copyright 2013 Luca Cavanna
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+```

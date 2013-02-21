@@ -19,7 +19,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.elasticsearch.shell" level="DEBUG" />
+    <logger name="org.elasticsearch.shell" level="WARN" />
 
     <root level="info">
         <appender-ref ref="FILE" />

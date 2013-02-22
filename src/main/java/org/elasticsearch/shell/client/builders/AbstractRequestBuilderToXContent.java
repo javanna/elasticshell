@@ -37,7 +37,7 @@ import java.io.IOException;
  * @param <JsonInput> the native json received as input, depending on the script engine in use
  * @param <JsonOutput> the native json returned as output, depending on the script engine in use
  */
-public abstract class AbstractRequestBuilderToXContent<Request extends ActionRequest<Request>, Response extends ActionResponse & ToXContent, JsonInput, JsonOutput>
+public abstract class AbstractRequestBuilderToXContent<Request extends ActionRequest, Response extends ActionResponse & ToXContent, JsonInput, JsonOutput>
         extends AbstractRequestBuilderJsonOutput<Request, Response, JsonInput, JsonOutput> {
 
     protected AbstractRequestBuilderToXContent(Client client, Request request, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {

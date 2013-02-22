@@ -21,7 +21,6 @@ package org.elasticsearch.shell.client.builders.core;
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.support.IgnoreIndices;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.Nullable;
 import org.elasticsearch.common.bytes.BytesArray;
@@ -97,11 +96,6 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
 
     public SearchRequestBuilder<JsonInput, JsonOutput> operationThreading(String operationThreading) {
         request.operationThreading(operationThreading);
-        return this;
-    }
-
-    public SearchRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
-        request().ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
         return this;
     }
 
@@ -298,11 +292,6 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
 
     public SearchRequestBuilder<JsonInput, JsonOutput> highlighterRequireFieldMatch(boolean requireFieldMatch) {
         highlightBuilder().requireFieldMatch(requireFieldMatch);
-        return this;
-    }
-
-    public SearchRequestBuilder<JsonInput, JsonOutput> highlighterType(String type) {
-        highlightBuilder().highlighterType(type);
         return this;
     }
 

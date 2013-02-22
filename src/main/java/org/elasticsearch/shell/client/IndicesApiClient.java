@@ -18,7 +18,6 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.shell.client.builders.indices.*;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
@@ -210,46 +209,6 @@ public class IndicesApiClient<JsonInput, JsonOutput> {
 
     public JsonOutput templatePut(String name, JsonInput source) {
         return templatePutBuilder().template(name).source(source).execute();
-    }
-
-    public TypesExistsRequestBuilder<JsonInput, JsonOutput> typesExistsBuilder() {
-        return new TypesExistsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
-    }
-
-    public JsonOutput typesExists(String index, String type) {
-        return typesExistsBuilder().indices(index).types(type).execute();
-    }
-
-    public GetWarmerRequestBuilder<JsonInput, JsonOutput> warmerGetBuilder() {
-        return new GetWarmerRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
-    }
-
-    public JsonOutput warmerGet(String... indices) {
-        return warmerGetBuilder().indices(indices).execute();
-    }
-
-    public PutWarmerRequestBuilder<JsonInput, JsonOutput> warmerPutBuilder() {
-        return new PutWarmerRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
-    }
-
-    public JsonOutput warmerPut(String name, SearchRequest searchRequest) {
-        return warmerPutBuilder().name(name).searchRequest(searchRequest).execute();
-    }
-
-    public JsonOutput warmerPut(String name, JsonInput source) {
-        return warmerPutBuilder().name(name).source(source).execute();
-    }
-
-    public DeleteWarmerRequestBuilder<JsonInput, JsonOutput> warmerDeleteBuilder() {
-        return new DeleteWarmerRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
-    }
-
-    public JsonOutput warmerDelete(String index, String name) {
-        return warmerDeleteBuilder().indices(index).name(name).execute();
-    }
-
-    public JsonOutput warmerDelete(String index) {
-        return warmerDeleteBuilder().indices(index).execute();
     }
 
     @Override

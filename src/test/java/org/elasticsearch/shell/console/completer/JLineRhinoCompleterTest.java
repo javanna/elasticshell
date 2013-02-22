@@ -162,7 +162,7 @@ public class JLineRhinoCompleterTest {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.indexRequest().";
         int output = completer.complete(input, input.length(), candidates);
-        Assert.assertEquals(candidates.size(), 34);
+        Assert.assertEquals(candidates.size(), 31);
         Assert.assertEquals(output, 24);
     }
 
@@ -171,7 +171,7 @@ public class JLineRhinoCompleterTest {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.indexRequest(QueryBuilders.try(ddd)).";
         int output = completer.complete(input, input.length(), candidates);
-        Assert.assertEquals(candidates.size(), 34);
+        Assert.assertEquals(candidates.size(), 31);
         Assert.assertEquals(output, 46);
     }
 
@@ -265,7 +265,7 @@ public class JLineRhinoCompleterTest {
         String input = "Requests.indexRequest().index().";
         int output = completer.complete(input, input.length(), candidates);
         //merge between String return type and ShardReplicationOperationRequest
-        Assert.assertEquals(candidates.size(), 56);
+        Assert.assertEquals(candidates.size(), 84);
         Assert.assertTrue(candidates.contains("substring()"));
         Assert.assertTrue(candidates.contains("replicationType()"));
         Assert.assertEquals(output, 32);
@@ -554,7 +554,7 @@ public class JLineRhinoCompleterTest {
         String input = "FilterBuilders.queryFilter(QueryBuilders.)";
         String inputLength = "FilterBuilders.queryFilter(QueryBuilders.";
         int output = completer.complete(input, inputLength.length(), candidates);
-        Assert.assertEquals(candidates.size(), 47);
+        Assert.assertEquals(candidates.size(), 46);
         Assert.assertTrue(candidates.contains("matchAllQuery()"));
         Assert.assertTrue(candidates.contains("termQuery()"));
         Assert.assertEquals(output, inputLength.length());

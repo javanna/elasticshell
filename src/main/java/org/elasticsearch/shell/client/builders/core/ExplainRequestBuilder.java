@@ -25,9 +25,7 @@ import org.elasticsearch.action.explain.ExplainResponse;
 import org.elasticsearch.action.explain.ExplainSourceBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.bytes.BytesArray;
-import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.get.GetResult;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonToString;
@@ -92,11 +90,6 @@ public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
         return this;
     }
 
-    public ExplainRequestBuilder<JsonInput, JsonOutput> fields(String... fields) {
-        request.fields(fields);
-        return this;
-    }
-
     @Override
     protected ActionFuture<ExplainResponse> doExecute(ExplainRequest request) {
         return client.explain(request);
@@ -105,21 +98,12 @@ public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
     @Override
     protected XContentBuilder toXContent(ExplainRequest request, ExplainResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field(Fields.OK, response.exists())
-                .field(Fields._INDEX, request.index())
-                .field(Fields._TYPE, request.type())
-                .field(Fields._ID, request.id())
-                .field(Fields.MATCHED, response.match());
-
+        builder.startObject();
+        builder.field(Fields.OK, response.exists());
+        builder.field(Fields.MATCHES, response.match());
         if (response.hasExplanation()) {
             builder.startObject(Fields.EXPLANATION);
             buildExplanation(builder, response.explanation());
-            builder.endObject();
-        }
-        GetResult getResult = response.getResult();
-        if (getResult != null) {
-            builder.startObject(Fields.GET);
-            response.getResult().toXContentEmbedded(builder, ToXContent.EMPTY_PARAMS);
             builder.endObject();
         }
         builder.endObject();

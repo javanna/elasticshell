@@ -41,7 +41,7 @@ import java.io.IOException;
  * @param <JsonInput> the native json received as input, depending on the script engine in use
  * @param <JsonOutput> the native json returned as output, depending on the script engine in use
  */
-public abstract class AbstractRequestBuilderJsonOutput<Request extends ActionRequest<Request>, Response extends ActionResponse, JsonInput, JsonOutput>
+public abstract class AbstractRequestBuilderJsonOutput<Request extends ActionRequest, Response extends ActionResponse, JsonInput, JsonOutput>
                 extends AbstractRequestBuilder<Request, Response, JsonInput, JsonOutput> {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractRequestBuilderJsonOutput.class);

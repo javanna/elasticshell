@@ -21,7 +21,6 @@ package org.elasticsearch.shell.client.builders.indices;
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheRequest;
 import org.elasticsearch.action.admin.indices.cache.clear.ClearIndicesCacheResponse;
-import org.elasticsearch.action.support.IgnoreIndices;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
@@ -46,11 +45,6 @@ public class ClearCacheRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
 
     public ClearCacheRequestBuilder<JsonInput, JsonOutput> indices(String... indices) {
         request.indices(indices);
-        return this;
-    }
-
-    public ClearCacheRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
-        request.ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
         return this;
     }
 

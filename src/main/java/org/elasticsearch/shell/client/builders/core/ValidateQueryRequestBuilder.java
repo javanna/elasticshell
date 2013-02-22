@@ -22,7 +22,6 @@ import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.validate.query.QueryExplanation;
 import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
 import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryResponse;
-import org.elasticsearch.action.support.IgnoreIndices;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -68,11 +67,6 @@ public class ValidateQueryRequestBuilder<JsonInput, JsonOutput> extends Abstract
 
     public ValidateQueryRequestBuilder<JsonInput, JsonOutput> explain(boolean explain) {
         request.explain(explain);
-        return this;
-    }
-
-    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
-        request.ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
         return this;
     }
 

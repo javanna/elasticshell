@@ -109,11 +109,6 @@ public class StatsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         return this;
     }
 
-    public StatsRequestBuilder<JsonInput, JsonOutput> warmer(boolean warmer) {
-        request.warmer(warmer);
-        return this;
-    }
-
     @Override
     protected ActionFuture<IndicesStats> doExecute(IndicesStatsRequest request) {
         return client.admin().indices().stats(request);

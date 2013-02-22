@@ -20,13 +20,10 @@ package org.elasticsearch.shell.client.builders.core;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.WriteConsistencyLevel;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.support.replication.ReplicationType;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.bytes.BytesArray;
-import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonToString;
@@ -97,11 +94,6 @@ public class UpdateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public UpdateRequestBuilder<JsonInput, JsonOutput> fields(String... fields) {
-        request.fields(fields);
-        return this;
-    }
-
     public UpdateRequestBuilder<JsonInput, JsonOutput> retryOnConflict(int retryOnConflict) {
         request.retryOnConflict(retryOnConflict);
         return this;
@@ -127,31 +119,6 @@ public class UpdateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public UpdateRequestBuilder<JsonInput, JsonOutput> doc(IndexRequest indexRequest) {
-        request.doc(indexRequest);
-        return this;
-    }
-
-    public UpdateRequestBuilder<JsonInput, JsonOutput> doc(JsonInput source) {
-        request.doc(jsonToString(source));
-        return this;
-    }
-
-    public UpdateRequestBuilder<JsonInput, JsonOutput> upsert(IndexRequest indexRequest) {
-        request.upsert(indexRequest);
-        return this;
-    }
-
-    public UpdateRequestBuilder<JsonInput, JsonOutput> upsert(JsonInput source) {
-        request.upsert(jsonToString(source));
-        return this;
-    }
-
-    public UpdateRequestBuilder<JsonInput, JsonOutput> source(JsonInput source) throws Exception {
-        request.source(new BytesArray(jsonToString(source)));
-        return this;
-    }
-
     @Override
     protected ActionFuture<UpdateResponse> doExecute(UpdateRequest request) {
         return client.update(request);
@@ -165,13 +132,6 @@ public class UpdateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
                 .field(Fields._TYPE, response.type())
                 .field(Fields._ID, response.id())
                 .field(Fields._VERSION, response.version());
-
-        if (response.getResult() != null) {
-            builder.startObject(Fields.GET);
-            response.getResult().toXContentEmbedded(builder, ToXContent.EMPTY_PARAMS);
-            builder.endObject();
-        }
-
         if (response.matches() != null) {
             builder.startArray(Fields.MATCHES);
             for (String match : response.matches()) {

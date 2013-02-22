@@ -22,7 +22,9 @@ import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.WriteConsistencyLevel;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.support.replication.ReplicationType;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.VersionType;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
@@ -44,7 +46,7 @@ public class DeleteRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
     }
 
     public DeleteRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
-        request.timeout(timeout);
+        request.timeout(TimeValue.parseTimeValue(timeout, null));
         return this;
     }
 
@@ -89,7 +91,7 @@ public class DeleteRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
     }
 
     public DeleteRequestBuilder<JsonInput, JsonOutput> replicationType(String replicationType) {
-        request.replicationType(replicationType);
+        request.replicationType(ReplicationType.fromString(replicationType));
         return this;
     }
 

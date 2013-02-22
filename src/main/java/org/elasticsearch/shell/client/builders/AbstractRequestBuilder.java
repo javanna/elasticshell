@@ -36,7 +36,7 @@ import org.elasticsearch.shell.json.JsonToString;
  * @param <JsonInput> the native json received as input, depending on the script engine in use
  * @param <Output> the output format use to show the result of the execution
  */
-public abstract class AbstractRequestBuilder<Request extends ActionRequest<Request>, Response extends ActionResponse, JsonInput, Output> {
+public abstract class AbstractRequestBuilder<Request extends ActionRequest, Response extends ActionResponse, JsonInput, Output> {
 
     protected final Client client;
     protected Request request;

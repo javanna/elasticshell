@@ -61,11 +61,6 @@ public class MoreLikeThisRequestBuilder<JsonInput, JsonOutput> extends AbstractR
         return this;
     }
 
-    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> routing(String routing) {
-        request.routing(routing);
-        return this;
-    }
-
     public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> percentTermsToMatch(float percentTermsToMatch) {
         request.percentTermsToMatch(percentTermsToMatch);
         return this;

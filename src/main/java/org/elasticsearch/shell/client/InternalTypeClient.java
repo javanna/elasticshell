@@ -146,10 +146,6 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return shellClient.updateBuilder().index(indexName).type(typeName);
     }
 
-    public JsonOutput update(String id, JsonInput doc) {
-        return updateBuilder().id(id).doc(doc).execute();
-    }
-
     public JsonOutput update(String id, String script) {
         return updateBuilder().id(id).script(script).execute();
     }
@@ -187,10 +183,6 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
 
     public JsonOutput mappingPut(JsonInput source) {
         return mappingPutBuilder().source(source).execute();
-    }
-
-    public JsonOutput warmerPut(String name, JsonInput source) {
-        return shellClient.indicesApi().warmerPutBuilder().name(name).source(indexName, typeName, source).execute();
     }
 
     @Override

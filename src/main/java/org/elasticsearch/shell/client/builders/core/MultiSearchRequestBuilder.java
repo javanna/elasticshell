@@ -22,7 +22,6 @@ import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.support.IgnoreIndices;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
@@ -72,11 +71,6 @@ public class MultiSearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
 
     public MultiSearchRequestBuilder<JsonInput, JsonOutput> add(SearchRequest request) {
         this.request.add(request);
-        return this;
-    }
-
-    public MultiSearchRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
-        this.request.ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
         return this;
     }
 

@@ -147,10 +147,6 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.updateBuilder().index(indexName);
     }
 
-    public JsonOutput update(String type, String id, JsonInput doc) {
-        return updateBuilder().type(type).id(id).doc(doc).execute();
-    }
-
     public JsonOutput update(String type, String id, String script) {
         return updateBuilder().type(type).id(id).script(script).execute();
     }
@@ -297,38 +293,6 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
 
     public JsonOutput status() {
         return statusBuilder().execute();
-    }
-
-    public TypesExistsRequestBuilder<JsonInput, JsonOutput> typesExistsBuilder() {
-        return shellClient.indicesApi().typesExistsBuilder().indices(indexName);
-    }
-
-    public JsonOutput typesExists(String type) {
-        return typesExistsBuilder().types(type).execute();
-    }
-
-    public GetWarmerRequestBuilder<JsonInput, JsonOutput> warmerGetBuilder() {
-        return shellClient.indicesApi().warmerGetBuilder().indices(indexName);
-    }
-
-    public JsonOutput warmerGet() {
-        return warmerGetBuilder().execute();
-    }
-
-    public DeleteWarmerRequestBuilder<JsonInput, JsonOutput> warmerDeleteBuilder() {
-        return shellClient.indicesApi().warmerDeleteBuilder().indices(indexName);
-    }
-
-    public JsonOutput warmerDelete(String name) {
-        return warmerDeleteBuilder().name(name).execute();
-    }
-
-    public JsonOutput warmerDelete() {
-        return warmerDeleteBuilder().execute();
-    }
-
-    public JsonOutput warmerPut(String name, JsonInput source) {
-        return shellClient.indicesApi().warmerPutBuilder().name(name).source(indexName, source).execute();
     }
 
     /*

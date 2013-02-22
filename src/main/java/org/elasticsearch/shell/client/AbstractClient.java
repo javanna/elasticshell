@@ -229,10 +229,6 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return new UpdateRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
     }
 
-    public JsonOutput update(String index, String type, String id, JsonInput doc) {
-        return updateBuilder().index(index).type(type).id(id).doc(doc).execute();
-    }
-
     public JsonOutput update(String index, String type, String id, String script) {
         return updateBuilder().index(index).type(type).id(id).script(script).execute();
     }

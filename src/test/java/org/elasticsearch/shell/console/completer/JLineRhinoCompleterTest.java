@@ -218,12 +218,10 @@ public class JLineRhinoCompleterTest {
     @Test
     public void testCompleteNativeJavaClassNotImported() {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
-        String input = "java.util.Collections.empty";
+        String input = "java.util.Collections.so";
         int output = completer.complete(input, input.length(), candidates);
-        Assert.assertEquals(candidates.size(), 6); //3 with java 6!
-        Assert.assertTrue(candidates.contains("emptyList()"));
-        Assert.assertTrue(candidates.contains("emptyMap()"));
-        Assert.assertTrue(candidates.contains("emptySet()"));
+        Assert.assertEquals(candidates.size(), 1);
+        Assert.assertTrue(candidates.contains("sort()"));
         Assert.assertEquals(output, 22);
     }
 

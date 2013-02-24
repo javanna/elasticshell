@@ -18,7 +18,7 @@ Same goes for the elasticshell 0.20.5 version, which should work with all 0.20.x
 	<thead>
 		<tr>
 			<td>elasticshell</td>
-			<td>ElasticSearch</td>
+			<td>elasticsearch</td>
 		</tr>
 	</thead>
 	<tbody>

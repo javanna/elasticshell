@@ -45,7 +45,7 @@ Help
 ------------------------------
 
 Use the help() command to have a look at the elasticshell help.
-Every command is exposed as a javascript function. If you want to get help for a specific command, just type its name without the curly brackets.
+Every command is exposed as a javascript function. If you want to get help for a specific command, just type its name without the curly brackets. The help output is currently available only for a few available commands, some more documentation will be added soon.
 
 Auto-suggestions
 ------------------------------
@@ -128,8 +128,6 @@ es.searchBuilder()
     .query(QueryBuilders.termQuery('user','kimchy'))
     .facet(FacetBuilders.termsFacet('user').field('user')).execute();
 ```
-
-
 
 All the elasticsearch API are exposed through the elasticshell.
 Remember that the elasticshell is a javascript shell, thus you can have fun with javascript code.

@@ -1,4 +1,4 @@
-elasticshell - a shell for elasticsearch
+elasticshell - a shell for elasticsearch [![Build Status](https://buildhive.cloudbees.com/job/javanna/job/elasticshell/badge/icon)](https://buildhive.cloudbees.com/job/javanna/job/elasticshell/) [![Build Status](https://travis-ci.org/javanna/elasticshell.png)](https://travis-ci.org/javanna/elasticshell)
 ==============================
 
 The elasticshell is a javascript shell written in Java.

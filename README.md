@@ -137,12 +137,12 @@ Contribute
 =======
 
 You can easily fork the project in order to contribute to it and send your pull requests.
-Due to limitations on all IDEs console, it's recommended to test your changes from a real command line. The project uses in facet the great [JLine](https://github.com/jline/jline2) which needs to execute a bit of native code to provide nice auto-suggestions and so on.
-You can easily run the shell from the command line through maven with the following command which compiles the project and run its main class:
+Due to limitations on all IDEs console, it's recommended to test your changes from a real command line. The project uses in fact the great [JLine](https://github.com/jline/jline2) which needs to execute a bit of native code to provide nice auto-suggestions and so on.
+You can easily run the elasticshell from the command line through maven using the following command which compiles the project and run its main class:
 
 ```mvn compile exec:java```
 
-The result of the above command is the same as executing the shell from the normal distribution using the provided executable under the bin folder.
+The above command has the same result as executing the elasticshell from the normal distribution using the executable provided within the bin folder.
 
 License
 =======

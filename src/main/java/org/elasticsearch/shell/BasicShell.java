@@ -96,7 +96,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
                 source = compilableSourceReader.read();
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
-                e.printStackTrace(console.out());
+                console.println("Error while checking the input: " + e.toString());
             }
             if (source != null) {
                 Object jsResult = scriptExecutor.execute(source);

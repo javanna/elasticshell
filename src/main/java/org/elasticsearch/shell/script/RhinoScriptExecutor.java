@@ -67,6 +67,10 @@ public class RhinoScriptExecutor implements ScriptExecutor {
             logger.error(ex.getMessage(), ex);
             String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ex.toString());
             Context.reportError(msg);
+        } catch(Throwable t) {
+            logger.error(t.getMessage(), t);
+            String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", t.toString());
+            Context.reportError(msg);
         }
         return null;
     }

@@ -26,7 +26,7 @@
 
     <distributionManagement>
         <repository>
-            <id>bintray-javanna-elasticsearch-tools-elasticshell</id>
+            <id>bintray-javanna</id>
             <name>javanna-elasticsearch-tools-elasticshell</name>
             <url>https://api.bintray.com/maven/javanna/elasticsearch-tools/elasticshell/release</url>
         </repository>

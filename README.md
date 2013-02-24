@@ -7,10 +7,38 @@ It allows to interact with a running [elasticsearch](http://www.elasticsearch.or
 Getting Started
 ==============================
 
+Versions
+------------------------------
+
+The elasticshell version is tightly coupled with the elasticsearch version. The project has been developed based on 0.20.5 version, then backported to [0.19.12](https://github.com/javanna/elasticshell/tree/0.19).
+The elasticshell 0.19.12 version should work with all 0.19.x elasticsearch releases, even though you might find small runtime compatibility issues with versions preceding 0.19.12.
+Same goes for the elasticshell 0.20.5 version, which should work with all 0.20.x elasticsearch releases. Should you find any problem, just open an [issue](https://github.com/javanna/elasticshell/issues) and I'll be happy to have a look at it.
+
+<table>
+	<thead>
+		<tr>
+			<td>elasticshell</td>
+			<td>ElasticSearch</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+            <td>[0.20.5](http://bit.ly/13593TO)</td>
+            <td>0.20.x</td>
+        </tr>
+		<tr>
+            <td>[0.19.12](http://bit.ly/13f6BJZ)</td>
+        	<td>0.19.x</td>
+        </tr>
+	</tbody>
+</table>
+
+For any elasticsearch version released after 0.20.5 there will be a specific elasticshell release with exactly same version name.
+
 Installation
 ------------------------------
 
-* [Download](http://www.javanna.net/downloads/elasticshell-0.20.5-SNAPSHOT.zip) and unzip the elasticshell distribution
+* [Download](http://bit.ly/13593TO) and unzip the elasticshell distribution
 * Run `bin/elasticshell` on unix, or `bin/elasticshell.bat` on windows
 
 Help
@@ -33,9 +61,9 @@ The elasticshell will automatically try to create a new transport client connect
 
 
 You can manually connect to a running elasticsearch cluster using the following commands:
-`transportClient('hostname:port')` creates a new [transport client](http://www.elasticsearch.org/guide/reference/java-api/client.html). You can provide a list of addresses too.
+`var es = transportClient('hostname:port')` creates a new [transport client](http://www.elasticsearch.org/guide/reference/java-api/client.html). You can provide a list of addresses too.
 
-`nodeClient('clusterName')` creates a new [node client](http://www.elasticsearch.org/guide/reference/java-api/client.html).
+`var es = nodeClient('clusterName')` creates a new [node client](http://www.elasticsearch.org/guide/reference/java-api/client.html).
 
 Let's index a document
 ------------------------------
@@ -106,6 +134,17 @@ es.searchBuilder()
 All the elasticsearch API are exposed through the elasticshell.
 Remember that the elasticshell is a javascript shell, thus you can have fun with javascript code.
 On the other hand, the elasticshell has been built on top of the Rhino engine, which means that you can execute Java code too.
+
+Contribute
+=======
+
+You can easily fork the project in order to contribute to it and send your pull requests.
+Due to limitations on all IDEs console, it's recommended to test your changes from a real command line. The project uses in facet the great [JLine](https://github.com/jline/jline2) which needs to execute a bit of native code to provide nice auto-suggestions and so on.
+You can easily run the shell from the command line through maven with the following command which compiles the project and run its main class:
+
+```mvn compile exec:java```
+
+The result of the above command is the same as executing the shell from the normal distribution using the provided executable under the bin folder.
 
 License
 =======

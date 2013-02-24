@@ -23,11 +23,11 @@ Same goes for the elasticshell 0.20.5 version, which should work with all 0.20.x
 	</thead>
 	<tbody>
 		<tr>
-            <td>[0.20.5](http://bit.ly/13593TO)</td>
+            <td><a href="http://bit.ly/13593TO">0.20.5</a></td>
             <td>0.20.x</td>
         </tr>
 		<tr>
-            <td>[0.19.12](http://bit.ly/13f6BJZ)</td>
+            <td><a href="http://bit.ly/13f6BJZ">0.19.12</a></td>
         	<td>0.19.x</td>
         </tr>
 	</tbody>

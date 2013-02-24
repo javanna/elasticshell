@@ -7,7 +7,7 @@
     <name>elasticshell</name>
     <groupId>org.elasticsearch</groupId>
     <artifactId>elasticshell</artifactId>
-    <version>${elasticsearch.version}-SNAPSHOT</version>
+    <version>${elasticsearch.version}-BETA</version>
     <packaging>jar</packaging>
     <description>elasticshell - the shell for elasticsearch</description>
     <inceptionYear>2013</inceptionYear>
@@ -23,6 +23,14 @@
         <developerConnection>scm:git:git@github.com:javanna/elasticshell.git</developerConnection>
         <url>http://github.com/javanna/elasticshell</url>
     </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-javanna-elasticsearch-tools-elasticshell</id>
+            <name>javanna-elasticsearch-tools-elasticshell</name>
+            <url>https://api.bintray.com/maven/javanna/elasticsearch-tools/elasticshell/release</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <elasticsearch.version>0.19.12</elasticsearch.version>

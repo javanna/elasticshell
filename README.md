@@ -114,11 +114,11 @@ es.search(termQuery);
 ```
 
 We can also use the search builder:
-`es.searchBuilder().query(termQuery);`
+`es.searchBuilder().query(termQuery.query).execute();`
 
 We can also make use of the elasticsearch [query builders](http://www.elasticsearch.org/guide/reference/java-api/query-dsl-queries.html) like this:
 
-`es.searchBuilder().query(QueryBuilders.termQuery('user','kimchy')).execute();`
+`es.searchBuilder().queryBuilder(QueryBuilders.termQuery('user','kimchy')).execute();`
 
 Let's add a facet to the previous query
 ------------------------------

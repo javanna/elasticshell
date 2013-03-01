@@ -99,7 +99,7 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public SearchRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder queryBuilder) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> queryBuilder(QueryBuilder queryBuilder) {
         sourceBuilder().query(queryBuilder);
         return this;
     }
@@ -109,7 +109,7 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public SearchRequestBuilder<JsonInput, JsonOutput> filter(FilterBuilder filter) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> filterBuilder(FilterBuilder filter) {
         sourceBuilder().filter(filter);
         return this;
     }
@@ -209,28 +209,13 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public SearchRequestBuilder<JsonInput, JsonOutput> facets(String facets) {
-        sourceBuilder().facets(new BytesArray(facets));
-        return this;
-    }
-
     public SearchRequestBuilder<JsonInput, JsonOutput> facets(JsonInput facets) {
         sourceBuilder().facets(new BytesArray(jsonToString(facets)));
         return this;
     }
 
-    public SearchRequestBuilder<JsonInput, JsonOutput> source(String source) {
-        request.source(source);
-        return this;
-    }
-
     public SearchRequestBuilder<JsonInput, JsonOutput> source(JsonInput source) {
         request.source(jsonToString(source));
-        return this;
-    }
-
-    public SearchRequestBuilder<JsonInput, JsonOutput> extraSource(String source) {
-        request.extraSource(source);
         return this;
     }
 
@@ -313,6 +298,9 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
 
     @Override
     public SearchRequest request() {
+        if (request.source() != null) {
+            return request;
+        }
         if (sourceBuilder != null) {
             request.source(sourceBuilder);
         } else {

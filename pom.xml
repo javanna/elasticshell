@@ -163,6 +163,7 @@
                 <version>1.2.1</version>
                 <configuration>
                     <mainClass>${main.class}</mainClass>
+                    <classpathScope>test</classpathScope>
                 </configuration>
             </plugin>
         </plugins>

@@ -57,16 +57,17 @@ public class HelpCommand extends Command {
             "which will show as a result a list of all the commands and objects that " +
             "are available in the current context.\n" +
             "\n" +
-            "The following are the available commands:\n" +
+            "The following are the available commands (with example arguments):\n" +
             "   exit() or quit()                   Quits the elasticshell\n" +
             "   help()                             Display this help message\n" +
             "   importClass(java.util.Date)        Imports a Java class\n" +
             "   importPackage(java.util)           Imports a Java package\n" +
+            "   load('./scripts/elastic.js')       Loads external Javascript source files\n" +
             "   nodeClient('elasticsearch')        Creates a new node client given\n" +
             "                                      the cluster name to connect to\n" +
             "   print(es)                          Prints out the string representation\n" +
             "                                      of the provided arguments\n" +
             "   transportClient('localhost:9300')  Creates a new transport client given\n" +
-            "                                      the address of the node to connect to" +
+            "                                      the address of the node to connect to\n" +
             "   version()                          Prints out the current elasticsearch version";
 }

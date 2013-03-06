@@ -26,6 +26,8 @@ import org.elasticsearch.common.inject.name.Names;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.client.RhinoClientFactory;
 import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
+import org.elasticsearch.shell.command.RhinoScriptLoader;
+import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.console.JLineConsole;
 import org.elasticsearch.shell.console.completer.JLineCompletionHandler;
@@ -63,7 +65,8 @@ public class ShellModule extends AbstractModule {
         bind(CompletionHandler.class).to(JLineCompletionHandler.class).asEagerSingleton();
 
         //Rhino bindings
-        bind(new TypeLiteral<JsonToString<NativeObject>>(){}).to(RhinoJsonToString.class).asEagerSingleton();
+        bind(ScriptLoader.class).to(RhinoScriptLoader.class).asEagerSingleton();
+        bind(new TypeLiteral<JsonToString<NativeObject>>() {}).to(RhinoJsonToString.class).asEagerSingleton();
         bind(new TypeLiteral<StringToJson<Object>>(){}).to(RhinoStringToJson.class).asEagerSingleton();
         bind(Unwrapper.class).to(RhinoUnwrapper.class).asEagerSingleton();
         bind(new TypeLiteral<ShellScope<RhinoShellTopLevel>>(){}).to(RhinoShellScope.class).asEagerSingleton();

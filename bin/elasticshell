@@ -18,4 +18,4 @@ else
     JAVA=java
 fi
 
-$JAVA $JAVA_OPTS -jar lib/${project.build.finalName}.jar
+$JAVA $JAVA_OPTS -Dlogback.configurationFile=./config/logback.xml -jar lib/${project.build.finalName}.jar

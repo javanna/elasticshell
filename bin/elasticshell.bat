@@ -8,6 +8,6 @@ set SCRIPT_DIR=%~dp0
 for %%I in ("%SCRIPT_DIR%..") do set DIRNAME=%%~dpfI
 cd %DIRNAME%
 
-%JAVA% %JAVA_OPTS% -jar lib/${project.build.finalName}.jar
+%JAVA% %JAVA_OPTS%  -Dlogback.configurationFile=./config/logback.xml -jar lib/${project.build.finalName}.jar
 
 ENDLOCAL

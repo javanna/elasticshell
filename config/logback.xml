@@ -1,10 +1,4 @@
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/elasticshell.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -21,7 +15,7 @@
 
     <logger name="org.elasticsearch.shell" level="WARN" />
 
-    <root level="info">
+    <root level="warn">
         <appender-ref ref="FILE" />
     </root>
 </configuration>

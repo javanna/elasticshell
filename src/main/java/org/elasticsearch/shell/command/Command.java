@@ -18,15 +18,14 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.elasticsearch.shell.MessageHelper;
 import org.elasticsearch.shell.console.Console;
 
 import java.io.PrintStream;
 
 /**
  * Base class for commands. Might not be really needed but handy to use anyway
- * rather than referring to generic objects as commands. Probably useful in the future
- * to provide common features to all commands though.
+ * rather than referring to generic objects as commands.
+ * Useful to provide common features to all commands too.
  *
  * @author Luca Cavanna
  */
@@ -38,7 +37,5 @@ public abstract class Command {
         this.console = console;
     }
 
-    public String help() {
-        return MessageHelper.getMessage(getClass().getSimpleName() + "." + "help");
-    }
+    public abstract String help();
 }

@@ -67,5 +67,6 @@ public class HelpCommand extends Command {
             "   print(es)                          Prints out the string representation\n" +
             "                                      of the provided arguments\n" +
             "   transportClient('localhost:9300')  Creates a new transport client given\n" +
-            "                                      the address of the node to connect to";
+            "                                      the address of the node to connect to" +
+            "   version()                          Prints out the current elasticsearch version";
 }

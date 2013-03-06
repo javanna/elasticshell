@@ -18,6 +18,7 @@
 		<fileSet>
 			<directory>.</directory>
 			<includes>
+                <include>config/*</include>
                 <include>README.md</include>
                 <include>LICENSE.txt</include>
                 <include>NOTICE.txt</include>

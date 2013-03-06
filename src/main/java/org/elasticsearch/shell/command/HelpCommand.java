@@ -40,4 +40,34 @@ public class HelpCommand extends Command {
     public String execute() {
         return help();
     }
+
+    @Override
+    public String help() {
+        return HELP;
+    }
+
+    private static final String HELP = "This is the elasticshell, a  shell for elasticsearch\n" +
+            "For information about elasticsearch, visit: http://elasticsearch.org\n" +
+            "\n" +
+            "You can either write Java or JavaScript code in here.\n" +
+            "Every command is exposed as a JavaScript function. In order to get help\n" +
+            "for a specific function, just type its name (without the brackets)!\n" +
+            "\n" +
+            "The elasticshell has nice auto-suggestions, available pressing the tab key\n" +
+            "which will show as a result a list of all the commands and objects that " +
+            "are available in the current context.\n" +
+            "\n" +
+            "The following are the available commands (with example arguments):\n" +
+            "   exit() or quit()                   Quits the elasticshell\n" +
+            "   help()                             Display this help message\n" +
+            "   importClass(java.util.Date)        Imports a Java class\n" +
+            "   importPackage(java.util)           Imports a Java package\n" +
+            "   load('./scripts/elastic.js')       Loads external Javascript source files\n" +
+            "   nodeClient('elasticsearch')        Creates a new node client given\n" +
+            "                                      the cluster name to connect to\n" +
+            "   print(es)                          Prints out the string representation\n" +
+            "                                      of the provided arguments\n" +
+            "   transportClient('localhost:9300')  Creates a new transport client given\n" +
+            "                                      the address of the node to connect to\n" +
+            "   version()                          Prints out the current elasticsearch version";
 }

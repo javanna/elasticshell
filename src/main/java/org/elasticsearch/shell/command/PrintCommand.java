@@ -19,33 +19,56 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.ExitSignal;
+import org.elasticsearch.shell.Unwrapper;
 import org.elasticsearch.shell.console.Console;
 
 import java.io.PrintStream;
 
 /**
- * Command that allows to quit the shell
+ * Command that allows to print out to the console its arguments
  *
  * @author Luca Cavanna
  */
-@ExecutableCommand(aliases = {"exit", "quit"})
-public class ExitCommand extends Command {
+@ExecutableCommand(aliases = {"print"})
+public class PrintCommand extends Command {
+
+    private final Unwrapper unwrapper;
 
     @Inject
-    protected ExitCommand(Console<PrintStream> console) {
+    protected PrintCommand(Console<PrintStream> console, Unwrapper unwrapper) {
         super(console);
+        this.unwrapper = unwrapper;
     }
 
     @SuppressWarnings("unused")
-    public ExitSignal execute() {
-        return new ExitSignal();
+    public void execute(Object arg) {
+        console.print(unwrap(arg));
+        console.println();
     }
 
-    private static final String HELP = "Quits the elasticshell";
+    @SuppressWarnings("unused")
+    public void execute(Object[] args) {
+        for (int i=0; i < args.length; i++) {
+            if (i > 0) {
+                console.print(" ");
+            }
+            console.print(unwrap(args[i]));
+        }
+        console.println();
+    }
+
+    protected String unwrap(Object arg) {
+        Object unwrappedArg = unwrapper.unwrap(arg);
+        if (unwrappedArg != null) {
+            return unwrappedArg.toString();
+        }
+        return null;
+    }
 
     @Override
     public String help() {
         return HELP;
     }
+
+    private static final String HELP = "Prints out the string representation of the provided arguments";
 }

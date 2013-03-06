@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.client;
 
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.DeleteMappingRequestBuilder;
 import org.elasticsearch.shell.client.builders.indices.GetMappingRequestBuilder;
@@ -136,6 +137,10 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
 
     public JsonOutput search() {
         return searchBuilder().execute();
+    }
+
+    public JsonOutput search(String queryString) {
+        return searchBuilder().queryBuilder(QueryBuilders.queryString(queryString)).execute();
     }
 
     public JsonOutput search(JsonInput source) {

@@ -71,4 +71,19 @@ public class NodeClientCommand<ShellNativeClient> extends CommandWithProgress {
         }
         return shellNativeClient;
     }
+
+    @Override
+    public String help() {
+        return HELP;
+    }
+
+    private static final String HELP = "Creates a new elasticsearch node client using the Java API\n" +
+            "(http://www.elasticsearch.org/guide/reference/java-api/client.html)\n" +
+            "\n" +
+            "The following command with no arguments will create a new\n" +
+            "node client connected to the cluster with name elasticsearch:\n" +
+            "es = nodeClient(); \n\n" +
+            "The following command with a string argument will create a new\n" +
+            "node client connected to the cluster with name es-cluster:\n" +
+            "es = nodeClient('es-cluster');\n";
 }

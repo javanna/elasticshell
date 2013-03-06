@@ -18,34 +18,36 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.Version;
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.ExitSignal;
+import org.elasticsearch.monitor.jvm.JvmInfo;
 import org.elasticsearch.shell.console.Console;
 
 import java.io.PrintStream;
 
 /**
- * Command that allows to quit the shell
+ * Returns the current elasticshell and elasticsearch version
  *
  * @author Luca Cavanna
  */
-@ExecutableCommand(aliases = {"exit", "quit"})
-public class ExitCommand extends Command {
-
+@ExecutableCommand( aliases = "version")
+public class VersionCommand extends Command {
     @Inject
-    protected ExitCommand(Console<PrintStream> console) {
+    VersionCommand(Console<PrintStream> console) {
         super(console);
     }
 
     @SuppressWarnings("unused")
-    public ExitSignal execute() {
-        return new ExitSignal();
+    public void execute() {
+        console.println("elasticsearch version: " + Version.CURRENT + ", JVM: " + JvmInfo.jvmInfo().vmVersion());
     }
 
-    private static final String HELP = "Quits the elasticshell";
 
     @Override
     public String help() {
         return HELP;
     }
+
+    private static final String HELP = "Prints out the current elasticsearch version.\n" +
+            "The elasticshell version is tightly coupled to it.\n";
 }

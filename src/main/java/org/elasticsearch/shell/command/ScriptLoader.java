@@ -18,34 +18,18 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.ExitSignal;
-import org.elasticsearch.shell.console.Console;
-
-import java.io.PrintStream;
+import java.io.IOException;
 
 /**
- * Command that allows to quit the shell
+ * Interface used to load an external script source
  *
  * @author Luca Cavanna
  */
-@ExecutableCommand(aliases = {"exit", "quit"})
-public class ExitCommand extends Command {
-
-    @Inject
-    protected ExitCommand(Console<PrintStream> console) {
-        super(console);
-    }
-
-    @SuppressWarnings("unused")
-    public ExitSignal execute() {
-        return new ExitSignal();
-    }
-
-    private static final String HELP = "Quits the elasticshell";
-
-    @Override
-    public String help() {
-        return HELP;
-    }
+public interface ScriptLoader {
+    /**
+     * Loads an external script
+     * @param scriptPath the path of the script to load
+     * @throws IOException
+     */
+    void loadScript(String scriptPath) throws IOException;
 }

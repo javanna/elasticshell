@@ -19,33 +19,43 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.ExitSignal;
 import org.elasticsearch.shell.console.Console;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 /**
- * Command that allows to quit the shell
+ * Loads external javascript source files through the {@link ScriptLoader} that depends on the engine in use
  *
  * @author Luca Cavanna
  */
-@ExecutableCommand(aliases = {"exit", "quit"})
-public class ExitCommand extends Command {
+@ExecutableCommand(aliases = {"load"})
+public class LoadCommand extends Command {
+
+    private ScriptLoader scriptLoader;
 
     @Inject
-    protected ExitCommand(Console<PrintStream> console) {
+    LoadCommand(Console<PrintStream> console, ScriptLoader scriptLoader) {
         super(console);
+        this.scriptLoader = scriptLoader;
     }
 
     @SuppressWarnings("unused")
-    public ExitSignal execute() {
-        return new ExitSignal();
+    public void execute(String... scriptPaths) throws IOException {
+        for (String script : scriptPaths) {
+            scriptLoader.loadScript(script);
+        }
     }
-
-    private static final String HELP = "Quits the elasticshell";
 
     @Override
     public String help() {
         return HELP;
     }
+
+    private static final String HELP = "Loads JavaScript source files named by string arguments. \n" +
+            "You can either provide an absolute path like this:\n" +
+            "load('/opt/elasticshell/scripts/elastic.js')\n\n" +
+            "or a path relative to the elasticshell location:\n" +
+            "load('./scripts/elastic.js')\n\n" +
+            "If multiple arguments are given, each file is read in and executed in turn.\n";
 }

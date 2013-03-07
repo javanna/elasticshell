@@ -19,6 +19,9 @@
 package org.elasticsearch.shell;
 
 
+import org.elasticsearch.common.xcontent.ToXContent;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.scheduler.Scheduler;
@@ -28,6 +31,7 @@ import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -159,6 +163,27 @@ public class BasicShell<ShellNativeClient> implements Shell {
      * @return the textual representation of the input Java object
      */
     protected String javaToString(Object javaObject) {
+
+        //We wanna show a string output whenever there's a ToXContent, which we can convert to json
+        if (javaObject instanceof ToXContent) {
+            ToXContent toXContent = (ToXContent) javaObject;
+            try {
+                XContentBuilder builder = XContentFactory.jsonBuilder().prettyPrint();
+                try {
+                    toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
+                } catch (IOException e) {
+                    //hack: the first object in the builder might need to be open, depending on the ToXContent implementation
+                    //Let's just try again, hopefully it'll work
+                    builder.startObject();
+                    toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
+                    builder.endObject();
+                }
+                return builder.string();
+            } catch (Exception e) {
+                logger.warn("Error while trying to convert a {} to XContent", javaObject.getClass().getSimpleName(), e);
+            }
+        }
+
         return javaObject.toString();
     }
 

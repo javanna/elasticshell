@@ -117,14 +117,14 @@ public class BasicShell<ShellNativeClient> implements Shell {
     }
 
     /**
-     * Initializes the shell: nothing to do here but can be overriden
+     * Initializes the shell: nothing to do here but can be overridden
      */
     void init() {
 
     }
 
     /**
-     * Close the shell: nothing to do here but can be overriden
+     * Close the shell: nothing to do here but can be overridden
      */
     void close() {
 

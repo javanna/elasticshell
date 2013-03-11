@@ -34,8 +34,8 @@ public class RhinoShellScope extends ShellScope<RhinoShellTopLevel> {
      * @param scope the rhino scope
      */
     @Inject
-    RhinoShellScope(RhinoShellTopLevel scope) {
-        super(scope);
+    RhinoShellScope(RhinoShellTopLevel scope, ResourceRegistry resourceRegistry) {
+        super(scope, resourceRegistry);
     }
 
     @Override

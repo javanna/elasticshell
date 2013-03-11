@@ -18,9 +18,9 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.client.Client;
+
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.node.Node;
+import org.elasticsearch.shell.ResourceRegistry;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
 import org.elasticsearch.shell.json.RhinoJsonToString;
@@ -31,38 +31,22 @@ import org.mozilla.javascript.NativeObject;
 /**
  * @author Luca Cavanna
  *
- * Rhino specific {@link ClientFactory} implementation
+ * Rhino implementation of {@link ClientWrapper}
  */
-public class RhinoClientFactory extends AbstractClientFactory<RhinoClientNativeJavaObject, RhinoShellTopLevel, NativeObject, Object> {
+public class RhinoClientWrapper extends AbstractClientWrapper<RhinoClientNativeJavaObject, NativeObject, Object> {
+
+    private final ShellScope<RhinoShellTopLevel> shellScope;
 
     @Inject
-    public RhinoClientFactory(ShellScope<RhinoShellTopLevel> shellScope, SchedulerHolder schedulerHolder,
-                              RhinoJsonToString jsonToString, RhinoStringToJson stringToJson) {
-        super(shellScope, jsonToString, stringToJson, schedulerHolder.scheduler);
-    }
-
-    static class SchedulerHolder {
-        @Inject(optional = true)
-        Scheduler scheduler;
+    RhinoClientWrapper(ShellScope<RhinoShellTopLevel> shellScope,
+                       RhinoJsonToString jsonToString, RhinoStringToJson stringToJson,
+                       ResourceRegistry resourceRegistry, Scheduler scheduler) {
+        super(jsonToString, stringToJson, resourceRegistry, scheduler);
+        this.shellScope = shellScope;
     }
 
     @Override
-    protected NodeClient newNodeClient(Node node, Client client) {
-        return new NodeClient<NativeObject, Object>(node, client, jsonToString, stringToJson);
-    }
-
-    @Override
-    protected TransportClient newTransportClient(Client client) {
-        return new TransportClient<NativeObject, Object>(client, jsonToString, stringToJson);
-    }
-
-    @Override
-    public RhinoClientNativeJavaObject wrapClient(AbstractClient shellClient) {
+    protected RhinoClientNativeJavaObject wrapShellClient(AbstractClient<NativeObject, Object> shellClient) {
         return new RhinoClientNativeJavaObject(shellScope.get(), shellClient);
-    }
-
-    @Override
-    protected ClientScopeSyncRunnable createScopeSyncRunnable(RhinoClientNativeJavaObject rhinoClientNativeJavaObject) {
-        return new RhinoClientScopeSyncRunnable(rhinoClientNativeJavaObject);
     }
 }

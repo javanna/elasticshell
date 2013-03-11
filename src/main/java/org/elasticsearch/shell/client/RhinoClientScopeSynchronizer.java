@@ -30,15 +30,17 @@ import org.slf4j.LoggerFactory;
  *
  * Keeps up-to-date the Rhino shell scope while the indexes and types available in the elasticsearch cluster change
  */
-public class RhinoClientScopeSyncRunnable extends ClientScopeSyncRunnable {
+public class RhinoClientScopeSynchronizer extends ClientScopeSynchronizer<RhinoClientNativeJavaObject> {
 
-    private static final Logger logger = LoggerFactory.getLogger(RhinoClientScopeSyncRunnable.class);
+    private static final Logger logger = LoggerFactory.getLogger(RhinoClientScopeSynchronizer.class);
 
-    private final RhinoClientNativeJavaObject shellNativeClient;
+    RhinoClientScopeSynchronizer(RhinoClientNativeJavaObject shellNativeClient) {
+        super(shellNativeClient);
+    }
 
-    RhinoClientScopeSyncRunnable(RhinoClientNativeJavaObject shellNativeClient) {
-        super(shellNativeClient.shellClient());
-        this.shellNativeClient = shellNativeClient;
+    @Override
+    protected AbstractClient unwrapShellNativeClient() {
+        return shellNativeClient.shellClient();
     }
 
     @Override

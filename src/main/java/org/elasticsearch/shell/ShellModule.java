@@ -23,9 +23,7 @@ import jline.console.completer.CompletionHandler;
 import org.elasticsearch.common.inject.AbstractModule;
 import org.elasticsearch.common.inject.TypeLiteral;
 import org.elasticsearch.common.inject.name.Names;
-import org.elasticsearch.shell.client.ClientFactory;
-import org.elasticsearch.shell.client.RhinoClientFactory;
-import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
+import org.elasticsearch.shell.client.*;
 import org.elasticsearch.shell.command.RhinoScriptLoader;
 import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
@@ -74,6 +72,18 @@ public class ShellModule extends AbstractModule {
         bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class).asEagerSingleton();
         bind(Shell.class).to(RhinoShell.class).asEagerSingleton();
 
-        bind(new TypeLiteral<ClientFactory<RhinoClientNativeJavaObject>>() {}).to(RhinoClientFactory.class);
+        bind(ResourceRegistry.class).to(DefaultResourceRegistry.class).asEagerSingleton();
+
+        bind(new TypeLiteral<ClientScopeSynchronizerFactory<RhinoClientNativeJavaObject>>(){})
+                .to(RhinoClientScopeSynchronizerFactory.class).asEagerSingleton();
+
+        bind(new TypeLiteral<ClientWrapper<RhinoClientNativeJavaObject>>(){})
+                .to(RhinoClientWrapper.class).asEagerSingleton();
+
+        bind(new TypeLiteral<ClientFactory<RhinoClientNativeJavaObject>>() {})
+                .to(new TypeLiteral<DefaultClientFactory<RhinoClientNativeJavaObject>>() {})
+                .asEagerSingleton();
+
+
     }
 }

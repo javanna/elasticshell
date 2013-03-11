@@ -20,6 +20,7 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -27,9 +28,6 @@ import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
-import org.elasticsearch.shell.ShellScope;
-import org.elasticsearch.shell.json.JsonToString;
-import org.elasticsearch.shell.json.StringToJson;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,15 +36,14 @@ import org.slf4j.LoggerFactory;
  * @author Luca Cavanna
  *
  * Base implementation of {@link ClientFactory}
- * Contains the generic elasticsearch node creation and delegates to subclasses the code fragments that depend
- * on the used script engine
+ * Contains the generic elasticsearch node creation and delegates to a {@link ClientWrapper} object
+ * the creation of the shell specific wrapper, which depends on the script engine in use
  *
  * @param <ShellNativeClient> the shell native class used to represent a client within the shell
- * @param <Scope> the shell scope used to register resources that need to be closed before shutdown
  */
-public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput, JsonOutput> implements ClientFactory<ShellNativeClient> {
+public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<ShellNativeClient> {
 
-    private static final Logger logger = LoggerFactory.getLogger(AbstractClientFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultClientFactory.class);
 
     private static final String DEFAULT_NODE_NAME = "elasticshell";
     private static final String DEFAULT_CLUSTER_NAME = "elasticsearch";
@@ -54,21 +51,22 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput,
     private static final String DEFAULT_TRANSPORT_HOST = "localhost";
     private static final int DEFAULT_TRANSPORT_PORT = 9300;
 
-    protected final ShellScope<Scope> shellScope;
-    protected final Scheduler scheduler;
-    protected final JsonToString<JsonInput> jsonToString;
-    protected final StringToJson<JsonOutput> stringToJson;
+    private final ClientWrapper<ShellNativeClient> clientWrapper;
+
+    private final ClientScopeSynchronizerFactory<ShellNativeClient> clientClientScopeSynchronizerFactory;
+    private final Scheduler scheduler;
 
     /**
-     * Creates the AbstractClientFactory given the shell scope and the scheduler (optional)
+     * Creates the DefaultClientFactory given the shell scope and the scheduler
      *
-     * @param shellScope the shell scope
-     * @param scheduler the scheduler used to schedule runnable actions
+     * @param clientWrapper the wrapper from elasticsearch client to shell native client
      */
-    protected AbstractClientFactory(ShellScope<Scope> shellScope, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson, Scheduler scheduler) {
-        this.shellScope = shellScope;
-        this.jsonToString = jsonToString;
-        this.stringToJson = stringToJson;
+    @Inject
+    DefaultClientFactory(ClientWrapper<ShellNativeClient> clientWrapper,
+                         ClientScopeSynchronizerFactory<ShellNativeClient> clientClientScopeSynchronizerFactory,
+                         Scheduler scheduler) {
+        this.clientWrapper = clientWrapper;
+        this.clientClientScopeSynchronizerFactory = clientClientScopeSynchronizerFactory;
         this.scheduler = scheduler;
     }
 
@@ -96,23 +94,10 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput,
             return null;
         }
 
-        NodeClient nodeClient = newNodeClient(node, client);
-        registerClientResource(nodeClient);
-        ShellNativeClient shellNativeClient = wrapClient(nodeClient);
-        if (scheduler != null) {
-            scheduler.schedule(createScopeSyncRunnable(shellNativeClient), 2);
-        }
+        ShellNativeClient shellNativeClient = clientWrapper.wrapNodeClient(node, client);
+        runSynchronizer(shellNativeClient);
         return shellNativeClient;
     }
-
-    /**
-     * Creates a new {@link NodeClient} instance that depends on the script engine in use
-     * for what concerns handling json
-     * @param node the elasticsearch node
-     * @param client the client node
-     * @return the new <code>NodeClient</code> created
-     */
-    protected abstract NodeClient newNodeClient(Node node, Client client);
 
     /* Should be useful if a client node is started and it's the only node in the cluster.
      * It means that there is no master and the checkCluster fails */
@@ -173,43 +158,13 @@ public abstract class AbstractClientFactory<ShellNativeClient, Scope, JsonInput,
             return null;
         }
 
-        org.elasticsearch.shell.client.TransportClient shellClient = newTransportClient(client);
-        registerClientResource(shellClient);
-        ShellNativeClient shellNativeClient = wrapClient(shellClient);
-        if (scheduler != null) {
-            scheduler.schedule(createScopeSyncRunnable(shellNativeClient), 2);
-        }
+        ShellNativeClient shellNativeClient = clientWrapper.wrapTransportClient(client);
+        runSynchronizer(shellNativeClient);
         return shellNativeClient;
     }
 
-    /**
-     * Creates a new {@link TransportClient} instance that depends on the script engine in use
-     * for what concerns handling json
-     * @param client the elasticsearch client to wrap
-     * @return the new <code>TransportClient</code> created
-     */
-    protected abstract org.elasticsearch.shell.client.TransportClient newTransportClient(Client client);
-
-    /**
-     * Registers the client as {@link java.io.Closeable} resource to the shell so that it can be closed when needed (e.g. on shutdown)
-     * @param shellClient the shell client to register to the shell scope
-     */
-    protected void registerClientResource(AbstractClient shellClient) {
-        shellScope.registerResource(shellClient);
+    protected void runSynchronizer(ShellNativeClient shellNativeClient) {
+        ClientScopeSynchronizer<ShellNativeClient> clientScopeSynchronizer = clientClientScopeSynchronizerFactory.createClientScopeSynchronizer(shellNativeClient);
+        scheduler.schedule(clientScopeSynchronizer, 2);
     }
-
-    /**
-     * Wraps a shell client into a shell native client object that depends on the used script engine
-     * @param shellClient the shell client
-     * @return the shell native client that wraps the given shell client
-     */
-    protected abstract ShellNativeClient wrapClient(AbstractClient shellClient);
-
-    /**
-     * Creates the {@link Runnable} that keeps the scope up-to-date for what concerns the name of the indexes
-     * and their types. It depends on the script engine in use.
-     * @param shellNativeClient the shell native client to keep up-to-date
-     * @return the {@link Runnable} that will keep up-to-date the shell native client
-     */
-    protected abstract ClientScopeSyncRunnable createScopeSyncRunnable(ShellNativeClient shellNativeClient);
 }

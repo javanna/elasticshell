@@ -24,6 +24,8 @@ import java.io.Closeable;
  * @author Luca Cavanna
  *
  * Registry that takes care of registering {@link Closeable} resources and close them all when needed
+ * Doesn't allow to unregister a resource for now, if a resource is closed manually stays in the register
+ * When closing all resources this must not be a problem
  */
 public interface ResourceRegistry {
 
@@ -35,8 +37,7 @@ public interface ResourceRegistry {
 
     /**
      * Close all previously registered resources
+     * Not supposed to throw any exception if a resource is already closed
      */
     public void closeAllResources();
-
-    //TODO unregister resource???
 }

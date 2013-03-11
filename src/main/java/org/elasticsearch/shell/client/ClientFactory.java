@@ -21,11 +21,9 @@ package org.elasticsearch.shell.client;
 /**
  * @author Luca Cavanna
  *
- * Factory used to create new client objects, which can either be {@link org.elasticsearch.client.node.NodeClient}
- * or {@link org.elasticsearch.client.transport.TransportClient}.
- * The elasticsearch {@link org.elasticsearch.client.Client} will be wrapped into the related shell client object
- * {@link NodeClient} or {@link TransportClient}, which will be again wrapped into the shell native object used
- * within the shell.
+ * Factory used to create new client objects ready to be embedded within the shell.
+ * The returned client object is the javascript representation of the java client object used,
+ * which depends on the script engine in use.
  *
  * @param <ShellNativeClient> the shell native class used to represent a client within the shell
  */

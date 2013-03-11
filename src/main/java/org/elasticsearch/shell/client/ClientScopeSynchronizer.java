@@ -32,14 +32,14 @@ import java.util.Set;
  * Runnable that keeps up-to-date the shell scope while the indexes and types available in elasticsearch change.
  * Needed in order to provide the ability to run commands that are client or type specific (e.g. client.index.type.search() )
  */
-public abstract class ClientScopeSyncRunnable implements Runnable {
+public abstract class ClientScopeSynchronizer implements Runnable {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClientScopeSyncRunnable.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClientScopeSynchronizer.class);
 
     protected final AbstractClient shellClient;
     protected Set<Index> indexes = new HashSet<Index>();
 
-    protected ClientScopeSyncRunnable(AbstractClient shellClient) {
+    protected ClientScopeSynchronizer(AbstractClient shellClient) {
         this.shellClient = shellClient;
     }
 
@@ -158,9 +158,8 @@ public abstract class ClientScopeSyncRunnable implements Runnable {
 
             Index index = (Index) o;
 
-            if (name != null ? !name.equals(index.name) : index.name != null) return false;
+            return !(name != null ? !name.equals(index.name) : index.name != null);
 
-            return true;
         }
 
         @Override

@@ -25,31 +25,27 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.facet.FacetBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Shell scope which wraps the real scope object that depends on the underlying engine
+ * Implements {@link ResourceRegistry} too but only delegates to the underlying ResourceRegistry
  *
  * @author Luca Cavanna
  */
-public abstract class ShellScope<Scope> {
-
-    private static final Logger logger = LoggerFactory.getLogger(ShellScope.class);
+public abstract class ShellScope<Scope> implements ResourceRegistry {
 
     private final Scope scope;
-    private final List<Closeable> resources = new ArrayList<Closeable>();
+    private final ResourceRegistry resourceRegistry;
 
     /**
      * Creates a new <code>ShellScope</code> given the actual scope object
      * @param scope the actual scope object that depends on the engine in use
      */
-    ShellScope(Scope scope) {
+    ShellScope(Scope scope, ResourceRegistry resourceRegistry) {
         this.scope = scope;
+        this.resourceRegistry = resourceRegistry;
         registerJavaClass(Requests.class);
         registerJavaClass(SearchSourceBuilder.class);
         registerJavaClass(QueryBuilders.class);
@@ -82,26 +78,13 @@ public abstract class ShellScope<Scope> {
      */
     public abstract void registerJavaClass(Class<?> clazz);
 
-    /**
-     * Registers a {@link Closeable} resource that will be closed when the close method will be invoked
-     * @param resource the closeable resource to register
-     */
+    @Override
     public void registerResource(Closeable resource) {
-        resources.add(resource);
+        resourceRegistry.registerResource(resource);
     }
 
-    /**
-     * Closes all the underlying {@link Closeable} resources previously registered
-     */
-    public void close() {
-        logger.debug("Closing the shell scope");
-        for (Closeable resource : resources) {
-            try {
-                resource.close();
-                logger.debug("Resource {} closed", resource);
-            } catch (Throwable t) {
-                logger.error("Error while closing resource", t);
-            }
-        }
+    @Override
+    public void closeAllResources() {
+        resourceRegistry.closeAllResources();
     }
 }

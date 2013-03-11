@@ -70,9 +70,7 @@ public abstract class AbstractClientWrapper<ShellNativeClient, JsonInput, JsonOu
     //TODO Take our from here, it doesn't have that much to do with wrapping clients
     protected ShellNativeClient wrapAndRegisterShellClient(AbstractClient<JsonInput, JsonOutput> client) {
         resourceRegistry.registerResource(client);
-        ShellNativeClient shellNativeClient = wrapShellClient(client);
-        scheduler.schedule(createScopeSynchronizer(shellNativeClient), 2);
-        return shellNativeClient;
+        return wrapShellClient(client);
     }
 
     /**
@@ -102,13 +100,5 @@ public abstract class AbstractClientWrapper<ShellNativeClient, JsonInput, JsonOu
      * @return the shell native client that wraps the given shell client
      */
     protected abstract ShellNativeClient wrapShellClient(AbstractClient<JsonInput, JsonOutput> shellClient);
-
-    /**
-     * Creates the {@link Runnable} that keeps the scope up-to-date for what concerns the name of the indexes
-     * and their types. It depends on the script engine in use.
-     * @param shellNativeClient the shell native client to keep up-to-date
-     * @return the {@link Runnable} that will keep up-to-date the shell native client
-     */
-    protected abstract ClientScopeSynchronizer createScopeSynchronizer(ShellNativeClient shellNativeClient);
 
 }

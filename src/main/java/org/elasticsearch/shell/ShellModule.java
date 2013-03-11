@@ -74,6 +74,9 @@ public class ShellModule extends AbstractModule {
 
         bind(ResourceRegistry.class).to(DefaultResourceRegistry.class).asEagerSingleton();
 
+        bind(new TypeLiteral<ClientScopeSynchronizerFactory<RhinoClientNativeJavaObject>>(){})
+                .to(RhinoClientScopeSynchronizerFactory.class).asEagerSingleton();
+
         bind(new TypeLiteral<ClientWrapper<RhinoClientNativeJavaObject>>(){})
                 .to(RhinoClientWrapper.class).asEagerSingleton();
 

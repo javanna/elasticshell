@@ -32,15 +32,15 @@ import java.util.Set;
  * Runnable that keeps up-to-date the shell scope while the indexes and types available in elasticsearch change.
  * Needed in order to provide the ability to run commands that are client or type specific (e.g. client.index.type.search() )
  */
-public abstract class ClientScopeSynchronizer implements Runnable {
+public abstract class ClientScopeSynchronizer<ShellNativeClient> implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientScopeSynchronizer.class);
 
-    protected final AbstractClient shellClient;
+    protected final ShellNativeClient shellNativeClient;
     protected Set<Index> indexes = new HashSet<Index>();
 
-    protected ClientScopeSynchronizer(AbstractClient shellClient) {
-        this.shellClient = shellClient;
+    protected ClientScopeSynchronizer(ShellNativeClient shellNativeClient) {
+        this.shellNativeClient = shellNativeClient;
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class ClientScopeSynchronizer implements Runnable {
      * @return a set containing the indexes available in the elasticsearch cluster and their types
      */
     protected Set<Index> getIndexes() {
-        ClusterStateResponse response = shellClient.client().admin().cluster().prepareState().setFilterBlocks(true)
+        ClusterStateResponse response = unwrapShellNativeClient().client().admin().cluster().prepareState().setFilterBlocks(true)
                 .setFilterRoutingTable(true).setFilterNodes(true).execute().actionGet();
 
         Set<Index> newIndexes = new HashSet<Index>();
@@ -75,6 +75,8 @@ public abstract class ClientScopeSynchronizer implements Runnable {
         }
         return newIndexes;
     }
+
+    protected abstract AbstractClient unwrapShellNativeClient();
 
     /**
      * Synchronizes the registered indexes given the new indexes retrieved from the elasticsearch cluster
@@ -101,11 +103,11 @@ public abstract class ClientScopeSynchronizer implements Runnable {
      */
     @SuppressWarnings("unchecked")
     protected void registerIndex(Index index) {
-        InternalIndexClient indexClient = new InternalIndexClient(shellClient, index.name(), index.isAlias());
+        InternalIndexClient indexClient = new InternalIndexClient(unwrapShellNativeClient(), index.name(), index.isAlias());
         InternalTypeClient[] typeClients = new InternalTypeClient[index.types().length];
         if (index.types() != null) {
             for (int i = 0; i < index.types().length; i++) {
-                typeClients[i] = new InternalTypeClient(shellClient, index.name(), index.types()[i]);
+                typeClients[i] = new InternalTypeClient(unwrapShellNativeClient(), index.name(), index.types()[i]);
             }
         }
         registerIndexAndTypes(indexClient, typeClients);

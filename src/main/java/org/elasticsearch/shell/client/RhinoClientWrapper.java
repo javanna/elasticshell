@@ -49,9 +49,4 @@ public class RhinoClientWrapper extends AbstractClientWrapper<RhinoClientNativeJ
     protected RhinoClientNativeJavaObject wrapShellClient(AbstractClient<NativeObject, Object> shellClient) {
         return new RhinoClientNativeJavaObject(shellScope.get(), shellClient);
     }
-
-    @Override
-    protected ClientScopeSynchronizer createScopeSynchronizer(RhinoClientNativeJavaObject rhinoClientNativeJavaObject) {
-        return new RhinoClientScopeSynchronizer(rhinoClientNativeJavaObject);
-    }
 }

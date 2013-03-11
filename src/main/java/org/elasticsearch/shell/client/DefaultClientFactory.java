@@ -28,6 +28,7 @@ import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.elasticsearch.shell.scheduler.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,14 +53,21 @@ public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<Sh
 
     private final ClientWrapper<ShellNativeClient> clientWrapper;
 
+    private final ClientScopeSynchronizerFactory<ShellNativeClient> clientClientScopeSynchronizerFactory;
+    private final Scheduler scheduler;
+
     /**
      * Creates the DefaultClientFactory given the shell scope and the scheduler
      *
      * @param clientWrapper the wrapper from elasticsearch client to shell native client
      */
     @Inject
-    DefaultClientFactory(ClientWrapper<ShellNativeClient> clientWrapper) {
+    DefaultClientFactory(ClientWrapper<ShellNativeClient> clientWrapper,
+                         ClientScopeSynchronizerFactory<ShellNativeClient> clientClientScopeSynchronizerFactory,
+                         Scheduler scheduler) {
         this.clientWrapper = clientWrapper;
+        this.clientClientScopeSynchronizerFactory = clientClientScopeSynchronizerFactory;
+        this.scheduler = scheduler;
     }
 
     /**
@@ -86,7 +94,9 @@ public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<Sh
             return null;
         }
 
-        return clientWrapper.wrapNodeClient(node, client);
+        ShellNativeClient shellNativeClient = clientWrapper.wrapNodeClient(node, client);
+        runSynchronizer(shellNativeClient);
+        return shellNativeClient;
     }
 
     /* Should be useful if a client node is started and it's the only node in the cluster.
@@ -148,7 +158,13 @@ public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<Sh
             return null;
         }
 
-        return clientWrapper.wrapTransportClient(client);
+        ShellNativeClient shellNativeClient = clientWrapper.wrapTransportClient(client);
+        runSynchronizer(shellNativeClient);
+        return shellNativeClient;
     }
 
+    protected void runSynchronizer(ShellNativeClient shellNativeClient) {
+        ClientScopeSynchronizer<ShellNativeClient> clientScopeSynchronizer = clientClientScopeSynchronizerFactory.createClientScopeSynchronizer(shellNativeClient);
+        scheduler.schedule(clientScopeSynchronizer, 2);
+    }
 }

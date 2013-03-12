@@ -20,10 +20,8 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
-import org.elasticsearch.shell.ResourceRegistry;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
-import org.elasticsearch.shell.scheduler.Scheduler;
 
 /**
  * @author Luca Cavanna
@@ -40,65 +38,27 @@ import org.elasticsearch.shell.scheduler.Scheduler;
  * @param <JsonInput> the json input format, native within the script engine in use
  * @param <JsonOutput> the json output format, native within the script engine in use
  */
-public abstract class AbstractClientWrapper<ShellNativeClient, JsonInput, JsonOutput> implements ClientWrapper<ShellNativeClient> {
+public abstract class AbstractClientWrapper<ShellNativeClient, JsonInput, JsonOutput>
+        implements ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> {
 
     protected final JsonToString<JsonInput> jsonToString;
     protected final StringToJson<JsonOutput> stringToJson;
-    protected final ResourceRegistry resourceRegistry;
-    protected final Scheduler scheduler;
 
-    AbstractClientWrapper(JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson,
-                          ResourceRegistry resourceRegistry, Scheduler scheduler) {
+    AbstractClientWrapper(JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
         this.jsonToString = jsonToString;
         this.stringToJson = stringToJson;
-        this.resourceRegistry = resourceRegistry;
-        this.scheduler = scheduler;
     }
 
     @Override
-    public ShellNativeClient wrapTransportClient(Client client) {
-        TransportClient<JsonInput, JsonOutput> transportClient = wrapEsTransportClient(client);
-        return wrapAndRegisterShellClient(transportClient);
-    }
-
-    @Override
-    public ShellNativeClient wrapNodeClient(Node node, Client client) {
-        NodeClient<JsonInput, JsonOutput> transportClient = wrapEsNodeClient(node, client);
-        return wrapAndRegisterShellClient(transportClient);
-    }
-
-    //TODO Take our from here, it doesn't have that much to do with wrapping clients
-    protected ShellNativeClient wrapAndRegisterShellClient(AbstractClient<JsonInput, JsonOutput> client) {
-        resourceRegistry.registerResource(client);
-        return wrapShellClient(client);
-    }
-
-    /**
-     * Creates a new {@link NodeClient} instance that depends on the script engine in use
-     * for what concerns handling json
-     * @param node the elasticsearch node, source of the client to wrap
-     * @param client the elasticsearch client to wrap
-     * @return the new <code>NodeClient</code> created
-     */
-    protected NodeClient<JsonInput, JsonOutput> wrapEsNodeClient(Node node, Client client) {
-        return new NodeClient<JsonInput, JsonOutput>(node, client, jsonToString, stringToJson);
-    }
-
-    /**
-     * Creates a new {@link org.elasticsearch.client.transport.TransportClient} instance that depends on the script engine in use
-     * for what concerns handling json
-     * @param client the elasticsearch client to wrap
-     * @return the new <code>TransportClient</code> created
-     */
-    protected TransportClient<JsonInput, JsonOutput> wrapEsTransportClient(Client client) {
+    public AbstractClient<JsonInput, JsonOutput> wrapEsTransportClient(Client client) {
         return new TransportClient<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
     }
 
-    /**
-     * Wraps a shell client into a shell native client object that depends on the used script engine
-     * @param shellClient the shell client
-     * @return the shell native client that wraps the given shell client
-     */
-    protected abstract ShellNativeClient wrapShellClient(AbstractClient<JsonInput, JsonOutput> shellClient);
+    @Override
+    public AbstractClient<JsonInput, JsonOutput> wrapEsNodeClient(Node node, Client client) {
+        return new NodeClient<JsonInput, JsonOutput>(node, client, jsonToString, stringToJson);
+    }
 
+    @Override
+    public abstract ShellNativeClient wrapShellClient(AbstractClient<JsonInput, JsonOutput> shellClient);
 }

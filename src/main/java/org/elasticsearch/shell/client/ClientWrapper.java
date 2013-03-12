@@ -24,26 +24,36 @@ import org.elasticsearch.node.Node;
 /**
  * @author Luca Cavanna
  *
- * Wrapper that converts an elasticsearch client object to the related shell wrapper that will expose it
+ * Wrapper that converts an elasticsearch client object to the related shell wrappers that will expose it
  * as javascript representation, that depends on the script engine in use
  * @param <ShellNativeClient> the type of the client wrapper, which depends on the script engine
+ * @param <JsonInput> the type used to represent a json as input within the script engine in use
+ * @param <JsonOutput> the type used to represent a json as output within the script engine in use
  */
-public interface ClientWrapper<ShellNativeClient> {
+public interface ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> {
 
     /**
-     * Wraps an elasticsearch transport client into its javascript representation that can be
+     * Wraps an elasticsearch transport client into its shell representation that will be
      * embedded within the shell as a javascript object
      * @param client the elasticsearch transport client to wrap
      * @return the shell client ready to be embedded within the shell
      */
-    public ShellNativeClient wrapTransportClient(Client client);
+    public AbstractClient<JsonInput, JsonOutput> wrapEsTransportClient(Client client);
 
     /**
-     * Wraps an elasticsearch node client into its javascript representation that can be
+     * Wraps an elasticsearch node client into its shell representation that will be
      * embedded within the shell as a javascript object
      * @param node the elasticsearch node that generated the node client to wrap
      * @param client the elasticsearch node client to wrap
      * @return the shell client ready to be embedded within the shell
      */
-    public ShellNativeClient wrapNodeClient(Node node, Client client);
+    public AbstractClient<JsonInput, JsonOutput> wrapEsNodeClient(Node node, Client client);
+
+    /**
+     * Wraps an shell client into its javascript representation that can be
+     * embedded within the shell as a javascript object
+     * @param shellClient the shell client to embed within the shell
+     * @return the shell client ready to be embedded within the shell
+     */
+    public ShellNativeClient wrapShellClient(AbstractClient<JsonInput, JsonOutput> shellClient);
 }

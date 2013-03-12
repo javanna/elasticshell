@@ -77,11 +77,11 @@ public class ShellModule extends AbstractModule {
         bind(new TypeLiteral<ClientScopeSynchronizerFactory<RhinoClientNativeJavaObject>>(){})
                 .to(RhinoClientScopeSynchronizerFactory.class).asEagerSingleton();
 
-        bind(new TypeLiteral<ClientWrapper<RhinoClientNativeJavaObject>>(){})
+        bind(new TypeLiteral<ClientWrapper<RhinoClientNativeJavaObject, NativeObject, Object>>(){})
                 .to(RhinoClientWrapper.class).asEagerSingleton();
 
         bind(new TypeLiteral<ClientFactory<RhinoClientNativeJavaObject>>() {})
-                .to(new TypeLiteral<DefaultClientFactory<RhinoClientNativeJavaObject>>() {})
+                .to(new TypeLiteral<DefaultClientFactory<RhinoClientNativeJavaObject, NativeObject, Object>>() {})
                 .asEagerSingleton();
 
 

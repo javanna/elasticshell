@@ -23,7 +23,6 @@ import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -45,20 +44,21 @@ import java.io.Closeable;
  * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
 @SuppressWarnings("unused")
-public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable {
+public abstract class AbstractClient<EsClient extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput>
+        implements Closeable {
 
-    private final Client client;
+    private final EsClient client;
     private final JsonToString<JsonInput> jsonToString;
     private final StringToJson<JsonOutput> stringToJson;
-    private final IndicesApiClient<JsonInput, JsonOutput> indicesApiClient;
-    private final ClusterApiClient<JsonInput, JsonOutput> clusterApiClient;
+    private final IndicesApiClient<EsClient, JsonInput, JsonOutput> indicesApiClient;
+    private final ClusterApiClient<EsClient, JsonInput, JsonOutput> clusterApiClient;
 
-    protected AbstractClient(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+    protected AbstractClient(EsClient client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
         this.client = client;
         this.jsonToString = jsonToString;
         this.stringToJson = stringToJson;
-        this.indicesApiClient = new IndicesApiClient<JsonInput, JsonOutput>(this, jsonToString, stringToJson);
-        this.clusterApiClient = new ClusterApiClient<JsonInput, JsonOutput>(this, jsonToString, stringToJson);
+        this.indicesApiClient = new IndicesApiClient<EsClient, JsonInput, JsonOutput>(this, jsonToString, stringToJson);
+        this.clusterApiClient = new ClusterApiClient<EsClient, JsonInput, JsonOutput>(this, jsonToString, stringToJson);
     }
 
     //Just a shortcut to get all the available indexes with their types and aliases
@@ -250,15 +250,15 @@ public abstract class AbstractClient<JsonInput, JsonOutput> implements Closeable
         return validateBuilder().query(query).execute();
     }
 
-    public IndicesApiClient<JsonInput, JsonOutput> indicesApi() {
+    public IndicesApiClient<EsClient, JsonInput, JsonOutput> indicesApi() {
         return indicesApiClient;
     }
 
-    public ClusterApiClient<JsonInput, JsonOutput> clusterApi() {
+    public ClusterApiClient<EsClient, JsonInput, JsonOutput> clusterApi() {
         return clusterApiClient;
     }
 
-    Client client() {
+    EsClient client() {
         return client;
     }
 

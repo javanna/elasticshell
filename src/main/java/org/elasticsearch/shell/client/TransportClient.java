@@ -18,7 +18,6 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.collect.ImmutableList;
 import org.elasticsearch.common.transport.TransportAddress;
@@ -36,9 +35,10 @@ import java.util.List;
  * @param <JsonInput> the shell native object that represents a json object received as input from the shell
  * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
-public class TransportClient<JsonInput, JsonOutput> extends AbstractClient<JsonInput, JsonOutput> {
+public class TransportClient<JsonInput, JsonOutput>
+        extends AbstractClient<org.elasticsearch.client.transport.TransportClient, JsonInput, JsonOutput> {
 
-    protected TransportClient(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+    protected TransportClient(org.elasticsearch.client.transport.TransportClient client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
         super(client, jsonToString, stringToJson);
     }
 
@@ -48,7 +48,7 @@ public class TransportClient<JsonInput, JsonOutput> extends AbstractClient<JsonI
     }
 
     public List<String> connectedNodes() {
-        ImmutableList<DiscoveryNode> discoveryNodes = ((org.elasticsearch.client.transport.TransportClient) client()).connectedNodes();
+        ImmutableList<DiscoveryNode> discoveryNodes = client().connectedNodes();
         List<String> nodes = new ArrayList<String>();
         for (DiscoveryNode discoveryNode : discoveryNodes) {
             TransportAddress address = discoveryNode.address();

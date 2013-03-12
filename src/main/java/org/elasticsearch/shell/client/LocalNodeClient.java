@@ -18,7 +18,6 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.node.Node;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
 
@@ -27,29 +26,23 @@ import java.io.IOException;
 /**
  * @author Luca Cavanna
  *
- * Represents an elasticsearch node client within the shell
- * The close method closes the node too
- * @param <JsonInput> the shell native object that represents a json object received as input from the shell
- * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
+ * Node client generated from a local node/cluster, running on the same jvm where the shell process is
+ * The close doesn't close the node, only the client
  */
-public class NodeClient<JsonInput, JsonOutput>
+public class LocalNodeClient<JsonInput, JsonOutput>
         extends AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> {
 
-    private final Node node;
-
-    public NodeClient(Node node, org.elasticsearch.client.node.NodeClient client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+    public LocalNodeClient(org.elasticsearch.client.node.NodeClient client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
         super(client, jsonToString, stringToJson);
-        this.node = node;
     }
 
     @Override
     public void close() throws IOException {
         client().close();
-        node.close();
     }
 
     @Override
     protected String asString() {
-        return "Node client connected to cluster [" + client().settings().get("cluster.name") + "]";
+        return "Local node client connected to local cluster [" + client().settings().get("cluster.name") + "]";
     }
 }

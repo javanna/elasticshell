@@ -28,6 +28,7 @@ import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.elasticsearch.shell.ResourceRegistry;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +41,10 @@ import org.slf4j.LoggerFactory;
  * the creation of the shell specific wrapper, which depends on the script engine in use
  *
  * @param <ShellNativeClient> the shell native class used to represent a client within the shell
+ * @param <JsonInput> the shell native object that represents a json object received as input from the shell
+ * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
-public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<ShellNativeClient> {
+public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> implements ClientFactory<ShellNativeClient> {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultClientFactory.class);
 
@@ -51,7 +54,9 @@ public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<Sh
     private static final String DEFAULT_TRANSPORT_HOST = "localhost";
     private static final int DEFAULT_TRANSPORT_PORT = 9300;
 
-    private final ClientWrapper<ShellNativeClient> clientWrapper;
+    private final ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> clientWrapper;
+
+    private final ResourceRegistry resourceRegistry;
 
     private final ClientScopeSynchronizerFactory<ShellNativeClient> clientClientScopeSynchronizerFactory;
     private final Scheduler scheduler;
@@ -62,12 +67,19 @@ public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<Sh
      * @param clientWrapper the wrapper from elasticsearch client to shell native client
      */
     @Inject
-    DefaultClientFactory(ClientWrapper<ShellNativeClient> clientWrapper,
+    DefaultClientFactory(ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> clientWrapper,
+                         ResourceRegistry resourceRegistry,
                          ClientScopeSynchronizerFactory<ShellNativeClient> clientClientScopeSynchronizerFactory,
                          Scheduler scheduler) {
         this.clientWrapper = clientWrapper;
+        this.resourceRegistry = resourceRegistry;
         this.clientClientScopeSynchronizerFactory = clientClientScopeSynchronizerFactory;
         this.scheduler = scheduler;
+    }
+
+    @Override
+    public ShellNativeClient newNodeClient() {
+        return newNodeClient(DEFAULT_CLUSTER_NAME);
     }
 
     /**
@@ -94,7 +106,9 @@ public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<Sh
             return null;
         }
 
-        ShellNativeClient shellNativeClient = clientWrapper.wrapNodeClient(node, client);
+        AbstractClient<JsonInput, JsonOutput> shellClient = clientWrapper.wrapEsNodeClient(node, client);
+        resourceRegistry.registerResource(shellClient);
+        ShellNativeClient shellNativeClient = clientWrapper.wrapShellClient(shellClient);
         runSynchronizer(shellNativeClient);
         return shellNativeClient;
     }
@@ -108,11 +122,6 @@ public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<Sh
         } catch(Exception e) {
             return true;
         }
-    }
-
-    @Override
-    public ShellNativeClient newNodeClient() {
-        return newNodeClient(DEFAULT_CLUSTER_NAME);
     }
 
     @Override
@@ -158,7 +167,9 @@ public class DefaultClientFactory<ShellNativeClient> implements ClientFactory<Sh
             return null;
         }
 
-        ShellNativeClient shellNativeClient = clientWrapper.wrapTransportClient(client);
+        AbstractClient<JsonInput, JsonOutput> shellClient = clientWrapper.wrapEsTransportClient(client);
+        resourceRegistry.registerResource(shellClient);
+        ShellNativeClient shellNativeClient = clientWrapper.wrapShellClient(shellClient);
         runSynchronizer(shellNativeClient);
         return shellNativeClient;
     }

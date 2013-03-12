@@ -20,12 +20,10 @@ package org.elasticsearch.shell.client;
 
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.ResourceRegistry;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
 import org.elasticsearch.shell.json.RhinoJsonToString;
 import org.elasticsearch.shell.json.RhinoStringToJson;
-import org.elasticsearch.shell.scheduler.Scheduler;
 import org.mozilla.javascript.NativeObject;
 
 /**
@@ -39,14 +37,13 @@ public class RhinoClientWrapper extends AbstractClientWrapper<RhinoClientNativeJ
 
     @Inject
     RhinoClientWrapper(ShellScope<RhinoShellTopLevel> shellScope,
-                       RhinoJsonToString jsonToString, RhinoStringToJson stringToJson,
-                       ResourceRegistry resourceRegistry, Scheduler scheduler) {
-        super(jsonToString, stringToJson, resourceRegistry, scheduler);
+                       RhinoJsonToString jsonToString, RhinoStringToJson stringToJson) {
+        super(jsonToString, stringToJson);
         this.shellScope = shellScope;
     }
 
     @Override
-    protected RhinoClientNativeJavaObject wrapShellClient(AbstractClient<NativeObject, Object> shellClient) {
+    public RhinoClientNativeJavaObject wrapShellClient(AbstractClient<NativeObject, Object> shellClient) {
         return new RhinoClientNativeJavaObject(shellScope.get(), shellClient);
     }
 }

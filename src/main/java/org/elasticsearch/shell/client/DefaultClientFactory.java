@@ -29,7 +29,6 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.shell.ResourceRegistry;
-import org.elasticsearch.shell.scheduler.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,8 +57,7 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
 
     private final ResourceRegistry resourceRegistry;
 
-    private final ClientScopeSynchronizerFactory<ShellNativeClient> clientClientScopeSynchronizerFactory;
-    private final Scheduler scheduler;
+    private final ClientScopeSynchronizerRunner<ShellNativeClient> clientScopeSynchronizerRunner;
 
     /**
      * Creates the DefaultClientFactory given the shell scope and the scheduler
@@ -69,12 +67,10 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
     @Inject
     DefaultClientFactory(ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> clientWrapper,
                          ResourceRegistry resourceRegistry,
-                         ClientScopeSynchronizerFactory<ShellNativeClient> clientClientScopeSynchronizerFactory,
-                         Scheduler scheduler) {
+                         ClientScopeSynchronizerRunner<ShellNativeClient> clientScopeSynchronizerRunner) {
         this.clientWrapper = clientWrapper;
         this.resourceRegistry = resourceRegistry;
-        this.clientClientScopeSynchronizerFactory = clientClientScopeSynchronizerFactory;
-        this.scheduler = scheduler;
+        this.clientScopeSynchronizerRunner = clientScopeSynchronizerRunner;
     }
 
     @Override
@@ -98,18 +94,23 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
                 .build();
         Node node  = NodeBuilder.nodeBuilder().clusterName(clusterName).client(true).settings(settings).build();
         node.start();
+        //unfortunately the es clients are not type safe, need to cast it
         Client client = node.client();
+        if (! (client instanceof org.elasticsearch.client.node.NodeClient) ) {
+            throw new RuntimeException("Unable to create node client: the returned node isn't a NodeClient!");
+        }
+        org.elasticsearch.client.node.NodeClient nodeClient = (org.elasticsearch.client.node.NodeClient)client;
         //if clusterKo we immediately close both the client and the node that we just created
-        if (clusterKo(client)) {
-            client.close();
+        if (clusterKo(nodeClient)) {
+            nodeClient.close();
             node.close();
             return null;
         }
 
-        AbstractClient<JsonInput, JsonOutput> shellClient = clientWrapper.wrapEsNodeClient(node, client);
+        AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> shellClient = clientWrapper.wrapEsNodeClient(node, nodeClient);
         resourceRegistry.registerResource(shellClient);
         ShellNativeClient shellNativeClient = clientWrapper.wrapShellClient(shellClient);
-        runSynchronizer(shellNativeClient);
+        clientScopeSynchronizerRunner.startSynchronizer(shellNativeClient);
         return shellNativeClient;
     }
 
@@ -167,15 +168,10 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
             return null;
         }
 
-        AbstractClient<JsonInput, JsonOutput> shellClient = clientWrapper.wrapEsTransportClient(client);
+        AbstractClient<TransportClient, JsonInput, JsonOutput> shellClient = clientWrapper.wrapEsTransportClient(client);
         resourceRegistry.registerResource(shellClient);
         ShellNativeClient shellNativeClient = clientWrapper.wrapShellClient(shellClient);
-        runSynchronizer(shellNativeClient);
+        clientScopeSynchronizerRunner.startSynchronizer(shellNativeClient);
         return shellNativeClient;
-    }
-
-    protected void runSynchronizer(ShellNativeClient shellNativeClient) {
-        ClientScopeSynchronizer<ShellNativeClient> clientScopeSynchronizer = clientClientScopeSynchronizerFactory.createClientScopeSynchronizer(shellNativeClient);
-        scheduler.schedule(clientScopeSynchronizer, 2);
     }
 }

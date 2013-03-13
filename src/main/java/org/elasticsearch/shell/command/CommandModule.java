@@ -37,8 +37,10 @@ public class CommandModule extends AbstractModule {
         multiBinder.addBinding().to(VersionCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(LoadCommand.class).asEagerSingleton();
 
+        //Rhino specific commands
         multiBinder.addBinding().to(RhinoNodeClientCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(RhinoTransportClientCommand.class).asEagerSingleton();
+        multiBinder.addBinding().to(RhinoLocalNodeCommand.class).asEagerSingleton();
 
         bind(RhinoCommandRegistrar.class).asEagerSingleton();
     }

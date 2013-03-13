@@ -16,40 +16,28 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.elasticsearch.shell.client;
-
-import org.elasticsearch.node.Node;
-import org.elasticsearch.shell.json.JsonToString;
-import org.elasticsearch.shell.json.StringToJson;
-
-import java.io.IOException;
+package org.elasticsearch.shell.node;
 
 /**
  * @author Luca Cavanna
  *
- * Represents an elasticsearch node client within the shell
- * The close method closes the node too
+ * Factory used to create new elasticsearch nodes
+ * @param <ShellNativeClient> the shell native class used to represent a client within the shell
  * @param <JsonInput> the shell native object that represents a json object received as input from the shell
  * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
-public class NodeClient<JsonInput, JsonOutput>
-        extends AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> {
+public interface NodeFactory<ShellNativeClient, JsonInput, JsonOutput> {
 
-    private final Node node;
+    /**
+     * Creates a new local node which will join the cluster with the default name
+     * @return the new local node created
+     */
+    public Node<ShellNativeClient, JsonInput, JsonOutput> newLocalNode();
 
-    public NodeClient(Node node, org.elasticsearch.client.node.NodeClient client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
-        super(client, jsonToString, stringToJson);
-        this.node = node;
-    }
-
-    @Override
-    public void close() throws IOException {
-        client().close();
-        node.close();
-    }
-
-    @Override
-    protected String asString() {
-        return "Node client connected to cluster [" + client().settings().get("cluster.name") + "]";
-    }
+    /**
+     * Creates a new local node whih will join the cluster with the given name
+     * @param clusterName the name of the cluster to join (or create)
+     * @return the new local node created
+     */
+    public Node<ShellNativeClient, JsonInput, JsonOutput> newLocalNode(String clusterName);
 }

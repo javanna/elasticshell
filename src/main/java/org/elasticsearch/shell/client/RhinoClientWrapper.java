@@ -43,7 +43,7 @@ public class RhinoClientWrapper extends AbstractClientWrapper<RhinoClientNativeJ
     }
 
     @Override
-    public RhinoClientNativeJavaObject wrapShellClient(AbstractClient<NativeObject, Object> shellClient) {
+    public RhinoClientNativeJavaObject wrapShellClient(AbstractClient<? extends org.elasticsearch.client.support.AbstractClient, NativeObject, Object> shellClient) {
         return new RhinoClientNativeJavaObject(shellScope.get(), shellClient);
     }
 }

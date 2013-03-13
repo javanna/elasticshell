@@ -18,7 +18,6 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 
 /**
@@ -38,7 +37,7 @@ public interface ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> {
      * @param client the elasticsearch transport client to wrap
      * @return the shell client ready to be embedded within the shell
      */
-    public AbstractClient<JsonInput, JsonOutput> wrapEsTransportClient(Client client);
+    public AbstractClient<org.elasticsearch.client.transport.TransportClient, JsonInput, JsonOutput> wrapEsTransportClient(org.elasticsearch.client.transport.TransportClient client);
 
     /**
      * Wraps an elasticsearch node client into its shell representation that will be
@@ -47,7 +46,15 @@ public interface ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> {
      * @param client the elasticsearch node client to wrap
      * @return the shell client ready to be embedded within the shell
      */
-    public AbstractClient<JsonInput, JsonOutput> wrapEsNodeClient(Node node, Client client);
+    public AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> wrapEsNodeClient(Node node, org.elasticsearch.client.node.NodeClient client);
+
+    /**
+     * Wraps an elasticsearch node client generated from a local node/cluster into its shell representation
+     * that will be embedded within the shell as a javascript object
+     * @param client the elasticsearch node client to wrap
+     * @return the shell client ready to be embedded within the shell
+     */
+    public AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> wrapEsLocalNodeClient(org.elasticsearch.client.node.NodeClient client);
 
     /**
      * Wraps an shell client into its javascript representation that can be
@@ -55,5 +62,5 @@ public interface ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> {
      * @param shellClient the shell client to embed within the shell
      * @return the shell client ready to be embedded within the shell
      */
-    public ShellNativeClient wrapShellClient(AbstractClient<JsonInput, JsonOutput> shellClient);
+    public ShellNativeClient wrapShellClient(AbstractClient<? extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> shellClient);
 }

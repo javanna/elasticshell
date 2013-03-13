@@ -76,13 +76,13 @@ public class TransportClientCommand<ShellNativeClient> extends CommandWithProgre
         return HELP;
     }
 
-    private static final String HELP = "Creates a new elasticsearch transport client using the Java API\n" +
+    private static final String HELP = "Creates a new elasticsearch transport client using the Java API.\n" +
             "(http://www.elasticsearch.org/guide/reference/java-api/client.html)\n" +
             "\n" +
-            "The following command with no arguments will create a\n" +
+            "The following command with no arguments will create a " +
             "new transport client connected to localhost, port 9300:\n" +
             "es = transportClient();\n\n" +
-            "The following command with a string argument will create\n" +
+            "The following command with a string argument will create " +
             "a new transport client connected to es-host, port 9302:\n" +
             "es = transportClient('es-host:9302');\n\n" +
             "You can connect to multiple nodes just providing a list of addresses:\n" +

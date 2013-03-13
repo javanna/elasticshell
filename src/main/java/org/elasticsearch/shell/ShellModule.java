@@ -34,6 +34,8 @@ import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.RhinoJsonToString;
 import org.elasticsearch.shell.json.RhinoStringToJson;
 import org.elasticsearch.shell.json.StringToJson;
+import org.elasticsearch.shell.node.DefaultNodeFactory;
+import org.elasticsearch.shell.node.NodeFactory;
 import org.elasticsearch.shell.script.RhinoScriptExecutor;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.InputAnalyzer;
@@ -57,6 +59,8 @@ public class ShellModule extends AbstractModule {
         bind(PrintStream.class).annotatedWith(Names.named("shellOutput")).toInstance(new PrintStream(System.out, true));
         bind(ShutdownHook.class).asEagerSingleton();
 
+        bind(ResourceRegistry.class).to(DefaultResourceRegistry.class).asEagerSingleton();
+
         //JLine bindings
         bind(new TypeLiteral<Console<PrintStream>>(){}).to(JLineConsole.class).asEagerSingleton();
         bind(Completer.class).to(JLineRhinoCompleter.class).asEagerSingleton();
@@ -72,8 +76,6 @@ public class ShellModule extends AbstractModule {
         bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class).asEagerSingleton();
         bind(Shell.class).to(RhinoShell.class).asEagerSingleton();
 
-        bind(ResourceRegistry.class).to(DefaultResourceRegistry.class).asEagerSingleton();
-
         bind(new TypeLiteral<ClientScopeSynchronizerFactory<RhinoClientNativeJavaObject>>(){})
                 .to(RhinoClientScopeSynchronizerFactory.class).asEagerSingleton();
 
@@ -84,6 +86,8 @@ public class ShellModule extends AbstractModule {
                 .to(new TypeLiteral<DefaultClientFactory<RhinoClientNativeJavaObject, NativeObject, Object>>() {})
                 .asEagerSingleton();
 
-
+        bind(new TypeLiteral<NodeFactory<RhinoClientNativeJavaObject, NativeObject, Object>>(){})
+                .to(new TypeLiteral<DefaultNodeFactory<RhinoClientNativeJavaObject, NativeObject, Object>>() {})
+                .asEagerSingleton();
     }
 }

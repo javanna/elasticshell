@@ -18,7 +18,6 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
@@ -50,15 +49,20 @@ public abstract class AbstractClientWrapper<ShellNativeClient, JsonInput, JsonOu
     }
 
     @Override
-    public AbstractClient<JsonInput, JsonOutput> wrapEsTransportClient(Client client) {
+    public AbstractClient<org.elasticsearch.client.transport.TransportClient, JsonInput, JsonOutput> wrapEsTransportClient(org.elasticsearch.client.transport.TransportClient client) {
         return new TransportClient<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
     }
 
     @Override
-    public AbstractClient<JsonInput, JsonOutput> wrapEsNodeClient(Node node, Client client) {
+    public AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> wrapEsNodeClient(Node node, org.elasticsearch.client.node.NodeClient client) {
         return new NodeClient<JsonInput, JsonOutput>(node, client, jsonToString, stringToJson);
     }
 
     @Override
-    public abstract ShellNativeClient wrapShellClient(AbstractClient<JsonInput, JsonOutput> shellClient);
+    public AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> wrapEsLocalNodeClient(org.elasticsearch.client.node.NodeClient client) {
+        return new LocalNodeClient<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
+    }
+
+    @Override
+    public abstract ShellNativeClient wrapShellClient(AbstractClient<? extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> shellClient);
 }

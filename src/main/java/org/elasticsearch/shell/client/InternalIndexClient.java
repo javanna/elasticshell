@@ -34,11 +34,11 @@ import org.elasticsearch.shell.client.builders.indices.*;
 @SuppressWarnings("unused")
 public class InternalIndexClient<JsonInput, JsonOutput> {
 
-    private final AbstractClient<JsonInput, JsonOutput> shellClient;
+    private final AbstractClient<? extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> shellClient;
     private final String indexName;
     private final boolean alias;
 
-    public InternalIndexClient(AbstractClient<JsonInput, JsonOutput> shellClient, String indexName, boolean alias) {
+    public InternalIndexClient(AbstractClient<? extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> shellClient, String indexName, boolean alias) {
         this.shellClient = shellClient;
         this.indexName = indexName;
         this.alias = alias;

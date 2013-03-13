@@ -34,11 +34,11 @@ import org.elasticsearch.shell.client.builders.indices.PutMappingRequestBuilder;
 @SuppressWarnings("unused")
 public class InternalTypeClient<JsonInput, JsonOutput> {
 
-    private final AbstractClient<JsonInput, JsonOutput> shellClient;
+    private final AbstractClient<? extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> shellClient;
     private final String indexName;
     private final String typeName;
 
-    public InternalTypeClient(AbstractClient<JsonInput, JsonOutput> shellClient, String indexName, String typeName) {
+    public InternalTypeClient(AbstractClient<? extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> shellClient, String indexName, String typeName) {
         this.shellClient = shellClient;
         this.indexName = indexName;
         this.typeName = typeName;

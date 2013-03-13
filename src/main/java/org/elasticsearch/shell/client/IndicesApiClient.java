@@ -27,13 +27,13 @@ import org.elasticsearch.shell.json.StringToJson;
  *
  * Client that exposes all the indices Apis
  */
-public class IndicesApiClient<JsonInput, JsonOutput> {
+public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> {
 
-    private final AbstractClient<JsonInput, JsonOutput> client;
+    private final AbstractClient<EsClient, JsonInput, JsonOutput> client;
     private final JsonToString<JsonInput> jsonToString;
     private final StringToJson<JsonOutput> stringToJson;
 
-    IndicesApiClient(AbstractClient<JsonInput, JsonOutput> client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+    IndicesApiClient(AbstractClient<EsClient, JsonInput, JsonOutput> client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
         this.client = client;
         this.jsonToString = jsonToString;
         this.stringToJson = stringToJson;

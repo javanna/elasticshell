@@ -57,5 +57,5 @@ public class LoadCommand extends Command {
             "load('/opt/elasticshell/scripts/elastic.js')\n\n" +
             "or a path relative to the elasticshell location:\n" +
             "load('./scripts/elastic.js')\n\n" +
-            "If multiple arguments are given, each file is read in and executed in turn.\n";
+            "If multiple arguments are given, each file is read and executed in turn.\n";
 }

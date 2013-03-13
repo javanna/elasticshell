@@ -94,7 +94,7 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
                 .build();
         Node node  = NodeBuilder.nodeBuilder().clusterName(clusterName).client(true).settings(settings).build();
         node.start();
-        //unfortunately the es clients are not type safe, need to cast itr
+        //unfortunately the es clients are not type safe, need to cast it
         Client client = node.client();
         if (! (client instanceof org.elasticsearch.client.node.NodeClient) ) {
             throw new RuntimeException("Unable to create node client: the returned node isn't a NodeClient!");

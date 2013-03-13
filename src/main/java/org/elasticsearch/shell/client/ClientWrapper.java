@@ -49,6 +49,14 @@ public interface ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> {
     public AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> wrapEsNodeClient(Node node, org.elasticsearch.client.node.NodeClient client);
 
     /**
+     * Wraps an elasticsearch node client generated from a local node/cluster into its shell representation
+     * that will be embedded within the shell as a javascript object
+     * @param client the elasticsearch node client to wrap
+     * @return the shell client ready to be embedded within the shell
+     */
+    public AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> wrapEsLocalNodeClient(org.elasticsearch.client.node.NodeClient client);
+
+    /**
      * Wraps an shell client into its javascript representation that can be
      * embedded within the shell as a javascript object
      * @param shellClient the shell client to embed within the shell

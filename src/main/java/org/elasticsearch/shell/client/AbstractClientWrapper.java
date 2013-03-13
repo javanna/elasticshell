@@ -59,5 +59,10 @@ public abstract class AbstractClientWrapper<ShellNativeClient, JsonInput, JsonOu
     }
 
     @Override
+    public AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> wrapEsLocalNodeClient(org.elasticsearch.client.node.NodeClient client) {
+        return new LocalNodeClient<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
+    }
+
+    @Override
     public abstract ShellNativeClient wrapShellClient(AbstractClient<? extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> shellClient);
 }

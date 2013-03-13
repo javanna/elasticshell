@@ -96,7 +96,7 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
         node.start();
         //unfortunately the es clients are not type safe, need to cast itr
         Client client = node.client();
-        if (client instanceof org.elasticsearch.client.node.NodeClient) {
+        if (! (client instanceof org.elasticsearch.client.node.NodeClient) ) {
             throw new RuntimeException("Unable to create node client: the returned node isn't a NodeClient!");
         }
         org.elasticsearch.client.node.NodeClient nodeClient = (org.elasticsearch.client.node.NodeClient)client;

@@ -29,6 +29,9 @@ import java.io.Closeable;
 
 /**
  * @author Luca Cavanna
+ *
+ * Shell wrapper for an elasticsearch node.
+ * It wraps a node and exposes client() method to get clients from it
  */
 public class Node<ShellNativeClient, JsonInput, JsonOutput> implements Closeable {
 
@@ -41,6 +44,7 @@ public class Node<ShellNativeClient, JsonInput, JsonOutput> implements Closeable
          ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> clientWrapper,
          ResourceRegistry resourceRegistry,
          ClientScopeSynchronizerRunner<ShellNativeClient> clientScopeSynchronizerRunner) {
+
         this.node = node;
         this.clientWrapper = clientWrapper;
         this.resourceRegistry = resourceRegistry;
@@ -51,7 +55,7 @@ public class Node<ShellNativeClient, JsonInput, JsonOutput> implements Closeable
 
     public ShellNativeClient client() {
         Client client = node.client();
-        if (client instanceof NodeClient) {
+        if (! (client instanceof NodeClient) ) {
             throw new RuntimeException("Unable to create node client: the returned node isn't a NodeClient!");
         }
 
@@ -61,6 +65,8 @@ public class Node<ShellNativeClient, JsonInput, JsonOutput> implements Closeable
         resourceRegistry.registerResource(shellClient);
 
         ShellNativeClient shellNativeClient = clientWrapper.wrapShellClient(shellClient);
+        //It's a local node, thus we could avoid polling the cluster state to get available indexes and types
+        //but that's just a lot easier for now and this is just an exceptional case
         clientScopeSynchronizerRunner.startSynchronizer(shellNativeClient);
 
         return shellNativeClient;
@@ -70,4 +76,19 @@ public class Node<ShellNativeClient, JsonInput, JsonOutput> implements Closeable
     public void close() {
         node.close();
     }
+
+    @Override
+    public String toString() {
+        String nodeName = node.settings().get("name");
+        String clusterName = node.settings().get("cluster.name");
+        boolean local = Boolean.valueOf(node.settings().get("node.local"));
+        String prefix;
+        if (local) {
+            prefix = "Local node";
+        } else {
+            prefix = "Node";
+        }
+        return String.format("%s [%s] - cluster [%s]", prefix, nodeName, clusterName);
+    }
 }
+

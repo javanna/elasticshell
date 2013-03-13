@@ -22,11 +22,22 @@ package org.elasticsearch.shell.node;
  * @author Luca Cavanna
  *
  * Factory used to create new elasticsearch nodes
+ * @param <ShellNativeClient> the shell native class used to represent a client within the shell
+ * @param <JsonInput> the shell native object that represents a json object received as input from the shell
+ * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
-public interface NodeFactory {
+public interface NodeFactory<ShellNativeClient, JsonInput, JsonOutput> {
 
-    public Node newLocalNode();
+    /**
+     * Creates a new local node which will join the cluster with the default name
+     * @return the new local node created
+     */
+    public Node<ShellNativeClient, JsonInput, JsonOutput> newLocalNode();
 
-    public Node newLocalNode(String clusterName);
-
+    /**
+     * Creates a new local node whih will join the cluster with the given name
+     * @param clusterName the name of the cluster to join (or create)
+     * @return the new local node created
+     */
+    public Node<ShellNativeClient, JsonInput, JsonOutput> newLocalNode(String clusterName);
 }

@@ -84,10 +84,10 @@ public class LocalNodeCommand<ShellNativeClient, JsonInput, JsonOutput> extends 
     private static final String HELP = "Creates (and starts) a new elasticsearch local node using the Java API.\n" +
             "The node is local on the JVM level, meaning that two local servers started within the shell will discover " +
             "themselves and form a cluster. The created local node holds data.\n\n" +
-            "The following command with no arguments will create a" +
+            "The following command with no arguments will create a " +
             "new local node that joins (or creates) a cluster called [elasticsearch]:\n" +
             "node = localNode();\n\n" +
-            "The following command with a string argument will create a" +
+            "The following command with a string argument will create a " +
             "local node that joins (or creates) a cluster with the given name [elasticshell]\n" +
             "node = localNode('elasticshell');\n\n" +
             "You can obtain a client from the node just using the client() method:\n" +

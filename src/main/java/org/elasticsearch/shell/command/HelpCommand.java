@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.Version;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.console.Console;
 
@@ -46,16 +47,16 @@ public class HelpCommand extends Command {
         return HELP;
     }
 
-    private static final String HELP = "This is the elasticshell, a  shell for elasticsearch\n" +
+    private static final String HELP = "This is the elasticshell " + Version.CURRENT.toString() + ", a  shell for elasticsearch\n" +
             "For information about elasticsearch, visit: http://elasticsearch.org\n" +
             "\n" +
             "You can either write Java or JavaScript code in here.\n" +
-            "Every command is exposed as a JavaScript function. In order to get help\n" +
+            "Every command is exposed as a JavaScript function. In order to get help" +
             "for a specific function, just type its name (without the brackets)!\n" +
             "\n" +
-            "The elasticshell has nice auto-suggestions, available pressing the tab key\n" +
-            "which will show as a result a list of all the commands and objects that " +
-            "are available in the current context.\n" +
+            "The elasticshell comes with nice auto-suggestions, available pressing the tab key," +
+            "which will show as a result a list of all the commands and objects " +
+            "available in the current context.\n" +
             "\n" +
             "The following are the available commands (with example arguments):\n" +
             "   exit() or quit()                   Quits the elasticshell\n" +
@@ -65,9 +66,11 @@ public class HelpCommand extends Command {
             "   load('./scripts/elastic.js')       Loads external Javascript source files\n" +
             "   nodeClient('elasticsearch')        Creates a new node client given\n" +
             "                                      the cluster name to connect to\n" +
+            "   localNode('elasticsearch')         Creates a new local node given\n" +
+            "                                      the name of the cluster to join\n" +
             "   print(es)                          Prints out the string representation\n" +
             "                                      of the provided arguments\n" +
             "   transportClient('localhost:9300')  Creates a new transport client given\n" +
             "                                      the address of the node to connect to\n" +
-            "   version()                          Prints out the current elasticsearch version";
+            "   version()                          Prints out the current version\n";
 }

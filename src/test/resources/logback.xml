@@ -21,7 +21,7 @@
 
     <logger name="org.elasticsearch.shell" level="INFO" />
 
-    <root level="WARN">
+    <root level="INFO">
         <appender-ref ref="FILE" />
     </root>
 </configuration>

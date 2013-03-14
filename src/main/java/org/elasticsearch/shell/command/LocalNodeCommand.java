@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.ExecutorWithProgress;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.node.Node;
@@ -33,12 +34,14 @@ import java.io.PrintStream;
  * @param <JsonInput> the shell native object that represents a json object received as input from the shell
  * @param <JsonOutput> the shell native object that represents a json object that we give as output to the shell
  */
+@ExecutableCommand(aliases = {"localNode"})
 public class LocalNodeCommand<ShellNativeClient, JsonInput, JsonOutput> extends CommandWithProgress {
 
     private static final String INITIAL_MESSAGE = "Creating new local node";
 
     private final NodeFactory<ShellNativeClient, JsonInput, JsonOutput> nodeFactory;
 
+    @Inject
     LocalNodeCommand(Console<PrintStream> console, NodeFactory<ShellNativeClient, JsonInput, JsonOutput> nodeFactory) {
         super(console);
         this.nodeFactory = nodeFactory;

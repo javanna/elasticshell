@@ -22,8 +22,9 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.inject.Guice;
 import org.elasticsearch.common.inject.Injector;
+import org.elasticsearch.shell.JLineModule;
+import org.elasticsearch.shell.RhinoShellModule;
 import org.elasticsearch.shell.ShellModule;
-import org.elasticsearch.shell.scheduler.SchedulerModule;
 import org.mozilla.javascript.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -42,7 +43,7 @@ public class JLineRhinoCompleterTest {
 
     @BeforeClass
     public void init() {
-        Injector injector = Guice.createInjector(new ShellModule(), new SchedulerModule());
+        Injector injector = Guice.createInjector(new ShellModule(), new JLineModule(), new RhinoShellModule());
         Context context = Context.enter();
         context.setWrapFactory(new RhinoCustomWrapFactory());
         completer = injector.getInstance(JLineRhinoCompleter.class);

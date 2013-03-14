@@ -20,6 +20,8 @@ package org.elasticsearch.shell;
 
 import org.elasticsearch.common.inject.AbstractModule;
 import org.elasticsearch.common.inject.name.Names;
+import org.elasticsearch.shell.scheduler.DefaultScheduler;
+import org.elasticsearch.shell.scheduler.Scheduler;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -37,7 +39,7 @@ public class ShellModule extends AbstractModule {
         bind(InputStream.class).annotatedWith(Names.named("shellInput")).toInstance(System.in);
         bind(PrintStream.class).annotatedWith(Names.named("shellOutput")).toInstance(new PrintStream(System.out, true));
         bind(ShutdownHook.class).asEagerSingleton();
-
         bind(ResourceRegistry.class).to(DefaultResourceRegistry.class).asEagerSingleton();
+        bind(Scheduler.class).to(DefaultScheduler.class).asEagerSingleton();
     }
 }

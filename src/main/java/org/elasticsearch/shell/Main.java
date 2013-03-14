@@ -22,7 +22,6 @@ package org.elasticsearch.shell;
 import org.elasticsearch.common.inject.Guice;
 import org.elasticsearch.common.inject.Injector;
 import org.elasticsearch.shell.command.CommandModule;
-import org.elasticsearch.shell.scheduler.SchedulerModule;
 
 /**
  * Main class for the elasticshell
@@ -33,7 +32,7 @@ public class Main {
 
     public static void main(String... args) {
         Injector injector = Guice.createInjector(new ShellModule(), new JLineModule(),
-                new RhinoShellModule(), new CommandModule(), new SchedulerModule());
+                new RhinoShellModule(), new CommandModule());
         Shell shell = injector.getInstance(Shell.class);
         shell.run();
     }

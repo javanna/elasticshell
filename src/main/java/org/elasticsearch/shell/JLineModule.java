@@ -18,26 +18,28 @@
  */
 package org.elasticsearch.shell;
 
+import jline.console.completer.Completer;
+import jline.console.completer.CompletionHandler;
 import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.common.inject.name.Names;
+import org.elasticsearch.common.inject.TypeLiteral;
+import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.console.JLineConsole;
+import org.elasticsearch.shell.console.completer.JLineCompletionHandler;
+import org.elasticsearch.shell.console.completer.JLineRhinoCompleter;
 
-import java.io.InputStream;
 import java.io.PrintStream;
 
 /**
- * Module that binds all generic objects needed to run the shell
+ * Module that binds all the objects that depend on JLine
  *
  * @author Luca Cavanna
  */
-public class ShellModule extends AbstractModule {
+public class JLineModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(String.class).annotatedWith(Names.named("appName")).toInstance("elasticshell");
-        bind(InputStream.class).annotatedWith(Names.named("shellInput")).toInstance(System.in);
-        bind(PrintStream.class).annotatedWith(Names.named("shellOutput")).toInstance(new PrintStream(System.out, true));
-        bind(ShutdownHook.class).asEagerSingleton();
-
-        bind(ResourceRegistry.class).to(DefaultResourceRegistry.class).asEagerSingleton();
+        bind(new TypeLiteral<Console<PrintStream>>(){}).to(JLineConsole.class).asEagerSingleton();
+        bind(Completer.class).to(JLineRhinoCompleter.class).asEagerSingleton();
+        bind(CompletionHandler.class).to(JLineCompletionHandler.class).asEagerSingleton();
     }
 }

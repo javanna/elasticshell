@@ -24,8 +24,6 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.json.StringToJson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -37,8 +35,6 @@ import java.io.PrintStream;
  */
 @ExecutableCommand(aliases = "parseJson")
 public class ParseJsonCommand<JsonOutput> extends Command {
-
-    private static final Logger logger = LoggerFactory.getLogger(ParseJsonCommand.class);
 
     private final StringToJson<JsonOutput> stringToJson;
 

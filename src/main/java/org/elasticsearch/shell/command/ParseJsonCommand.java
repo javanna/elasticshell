@@ -74,5 +74,15 @@ public class ParseJsonCommand<JsonOutput> extends Command {
     }
 
     private static final String HELP = "Converts to json the argument provided. \n" +
-            "The argument can be either a string object or a ToXContent elasticsearch object\n";
+            "The argument can be either a String or a ToXContent elasticsearch object.\n\n" +
+            "Executing the command with a String as input like this:\n" +
+            "parseJson('here goes your string');\n\n" +
+            "will have the same result as executing the following standard line:\n" +
+            "JSON.parse('here goes your string');\n\n" +
+            "When providing a ToXContent object as input, the command will have the same result" +
+            " as converting it to a String and parsing it as json.\n" +
+            "The command is particularly useful when the ToXContent object doesn't override the " +
+            "toString method, which usually outputs the json as string.\n\n" +
+            "var termsFacetBuilder = FacetBuilders.termsFacet('facet name').field('field');\n" +
+            "var termsFacet = parseJson(termsFacetBuilder);\n";
 }

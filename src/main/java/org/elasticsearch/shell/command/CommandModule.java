@@ -41,6 +41,7 @@ public class CommandModule extends AbstractModule {
         multiBinder.addBinding().to(LoadCommand.class).asEagerSingleton();
 
         //Rhino specific commands
+        multiBinder.addBinding().to(new TypeLiteral<ParseJsonCommand<Object>>() {}).asEagerSingleton();
         multiBinder.addBinding().to(new TypeLiteral<TransportClientCommand<RhinoClientNativeJavaObject>>(){}).asEagerSingleton();
         multiBinder.addBinding().to(new TypeLiteral<NodeClientCommand<RhinoClientNativeJavaObject>>(){}).asEagerSingleton();
         multiBinder.addBinding().to(new TypeLiteral<LocalNodeCommand<RhinoClientNativeJavaObject, NativeObject, Object>>(){}).asEagerSingleton();

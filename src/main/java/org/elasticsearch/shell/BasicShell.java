@@ -172,7 +172,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
                 try {
                     toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
                 } catch (IOException e) {
-                    //hack: the first object in the builder might need to be open, depending on the ToXContent implementation
+                    //hack: the first object in the builder might need to be opened, depending on the ToXContent implementation
                     //Let's just try again, hopefully it'll work
                     builder.startObject();
                     toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);

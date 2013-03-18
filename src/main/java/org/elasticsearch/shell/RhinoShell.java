@@ -53,6 +53,7 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
 
     @Override
     protected void init() {
+        super.init();
         Context context = Context.enter();
         context.setErrorReporter(new RhinoErrorReporter(false, console.out()));
         context.setWrapFactory(new RhinoCustomWrapFactory());
@@ -60,6 +61,7 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
 
     @Override
     protected void close() {
+        super.close();
         Context.exit();
     }
 }

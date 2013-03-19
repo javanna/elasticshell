@@ -35,6 +35,8 @@ public class ShellSettings {
 
     public static final String DEFAULT_NODE_NAME = "elasticshell";
     public static final String DEFAULT_CLUSTER_NAME = ClusterName.DEFAULT.value();
+    public static final String DEFAULT_TRANSPORT_HOST = "localhost";
+    public static final Integer DEFAULT_TRANSPORT_PORT = 9300;
 
     public static final String CLUSTER_NAME = "cluster.name";
 
@@ -96,14 +98,13 @@ public class ShellSettings {
         }
 
         if (settingsBuilder.get(TRANSPORT_HOST) == null) {
-            settingsBuilder.put(TRANSPORT_HOST, "localhost");
+            settingsBuilder.put(TRANSPORT_HOST, DEFAULT_TRANSPORT_HOST);
         }
 
         if (settingsBuilder.get(TRANSPORT_PORT) == null) {
-            settingsBuilder.put(TRANSPORT_PORT, 9300);
+            settingsBuilder.put(TRANSPORT_PORT, DEFAULT_TRANSPORT_PORT);
         }
 
         return settingsBuilder.build();
     }
-
 }

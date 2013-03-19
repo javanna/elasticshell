@@ -22,6 +22,7 @@ package org.elasticsearch.shell;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
+import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
@@ -42,8 +43,10 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
     @Inject
     RhinoShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<RhinoShellTopLevel> shellScope,
-               ClientFactory<RhinoClientNativeJavaObject> clientFactory, Scheduler scheduler) {
-        super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope, clientFactory, scheduler);
+               ClientFactory<RhinoClientNativeJavaObject> clientFactory,
+               ScriptLoader scriptLoader, Scheduler scheduler, ShellSettings shellSettings) {
+        super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope,
+                clientFactory, scriptLoader, scheduler, shellSettings);
     }
 
     @Override

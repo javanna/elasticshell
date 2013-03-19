@@ -7,3 +7,7 @@
 #Default host and port used when no host and port are specified (e.g. creating a TransportClient)
 #transport.host: localhost
 #transport.port: 9300
+
+#Startup script that will be run while starting up the shell
+#The startup script can contain whatever command that's valid within the shell itself
+#startup.script: config/elasticshell.js

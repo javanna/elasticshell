@@ -25,6 +25,8 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.env.FailedToResolveConfigException;
 
+import java.io.File;
+
 /**
  * @author Luca Cavanna
  *
@@ -44,6 +46,9 @@ public class ShellSettings {
 
     public static final String TRANSPORT_HOST = "transport.host";
     public static final String TRANSPORT_PORT = "transport.port";
+
+    public static final String DEFAULT_STARTUP_SCRIPT = "./config/elasticshell.js";
+    public static final String STARTUP_SCRIPT = "startup.script";
 
     private final Settings settings;
 
@@ -103,6 +108,13 @@ public class ShellSettings {
 
         if (settingsBuilder.get(TRANSPORT_PORT) == null) {
             settingsBuilder.put(TRANSPORT_PORT, DEFAULT_TRANSPORT_PORT);
+        }
+
+        if (settingsBuilder.get(STARTUP_SCRIPT) == null) {
+            File file = new File(DEFAULT_STARTUP_SCRIPT);
+            if (file.exists()) {
+                settingsBuilder.put(STARTUP_SCRIPT, DEFAULT_STARTUP_SCRIPT);
+            }
         }
 
         return settingsBuilder.build();

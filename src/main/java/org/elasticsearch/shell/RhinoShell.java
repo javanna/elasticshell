@@ -42,13 +42,8 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
     @Inject
     RhinoShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<RhinoShellTopLevel> shellScope,
-               ClientFactory<RhinoClientNativeJavaObject> clientFactory, SchedulerHolder schedulerHolder) {
-        super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope, clientFactory, schedulerHolder.scheduler);
-    }
-
-    static class SchedulerHolder {
-        @Inject(optional = true)
-        Scheduler scheduler;
+               ClientFactory<RhinoClientNativeJavaObject> clientFactory, Scheduler scheduler) {
+        super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope, clientFactory, scheduler);
     }
 
     @Override

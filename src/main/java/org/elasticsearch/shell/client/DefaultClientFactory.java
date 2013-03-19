@@ -20,6 +20,7 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.cluster.ClusterName;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
@@ -29,6 +30,7 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.shell.ResourceRegistry;
+import org.elasticsearch.shell.ShellSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,17 +49,10 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultClientFactory.class);
 
-    private static final String DEFAULT_NODE_NAME = "elasticshell";
-    private static final String DEFAULT_CLUSTER_NAME = "elasticsearch";
-
-    private static final String DEFAULT_TRANSPORT_HOST = "localhost";
-    private static final int DEFAULT_TRANSPORT_PORT = 9300;
-
     private final ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> clientWrapper;
-
     private final ResourceRegistry resourceRegistry;
-
     private final ClientScopeSynchronizerRunner<ShellNativeClient> clientScopeSynchronizerRunner;
+    private final ShellSettings shellSettings;
 
     /**
      * Creates the DefaultClientFactory given the shell scope and the scheduler
@@ -67,15 +62,17 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
     @Inject
     DefaultClientFactory(ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> clientWrapper,
                          ResourceRegistry resourceRegistry,
-                         ClientScopeSynchronizerRunner<ShellNativeClient> clientScopeSynchronizerRunner) {
+                         ClientScopeSynchronizerRunner<ShellNativeClient> clientScopeSynchronizerRunner,
+                         ShellSettings shellSettings) {
         this.clientWrapper = clientWrapper;
         this.resourceRegistry = resourceRegistry;
         this.clientScopeSynchronizerRunner = clientScopeSynchronizerRunner;
+        this.shellSettings = shellSettings;
     }
 
     @Override
     public ShellNativeClient newNodeClient() {
-        return newNodeClient(DEFAULT_CLUSTER_NAME);
+        return newNodeClient(shellSettings.settings().get(ClusterName.SETTING));
     }
 
     /**
@@ -89,7 +86,7 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
     @Override
     public ShellNativeClient newNodeClient(String clusterName) {
         Settings settings = ImmutableSettings.settingsBuilder()
-                .put("node.name", DEFAULT_NODE_NAME)
+                .put("name", shellSettings.settings().get("name"))
                 .put("http.enabled", false)
                 .build();
         Node node  = NodeBuilder.nodeBuilder().clusterName(clusterName).client(true).settings(settings).build();
@@ -127,7 +124,9 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
 
     @Override
     public ShellNativeClient newTransportClient() {
-        return newTransportClient(new InetSocketTransportAddress(DEFAULT_TRANSPORT_HOST, DEFAULT_TRANSPORT_PORT));
+        return newTransportClient(new InetSocketTransportAddress(
+                shellSettings.settings().get(ShellSettings.TRANSPORT_HOST),
+                shellSettings.settings().getAsInt(ShellSettings.TRANSPORT_PORT, null)));
     }
 
     @Override
@@ -137,13 +136,13 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
             String address = addresses[i];
 
             String[] splitAddress = address.split(":");
-            String host = DEFAULT_TRANSPORT_HOST;
+            String host = shellSettings.settings().get(ShellSettings.TRANSPORT_HOST);
 
             if (splitAddress.length>=1) {
                 host = splitAddress[0];
             }
 
-            int port = DEFAULT_TRANSPORT_PORT;
+            int port = shellSettings.settings().getAsInt(ShellSettings.TRANSPORT_PORT, null);
             if (splitAddress.length>=2) {
                 try {
                     port = Integer.valueOf(splitAddress[1]);

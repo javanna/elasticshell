@@ -1,0 +1,9 @@
+#Default cluster name used when no cluster name is specified (e.g. joining a cluster)
+#cluster.name: elasticsearch
+
+#Default node name used for the shell when creating a node (either NodeClient or LocalNode)
+#node.name: elasticshell
+
+#Default host and port used when no host and port are specified (e.g. creating a TransportClient)
+#transport.host: localhost
+#transport.port: 9300

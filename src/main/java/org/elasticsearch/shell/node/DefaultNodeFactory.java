@@ -20,6 +20,7 @@ package org.elasticsearch.shell.node;
 
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.ResourceRegistry;
+import org.elasticsearch.shell.ShellSettings;
 import org.elasticsearch.shell.client.ClientScopeSynchronizerRunner;
 import org.elasticsearch.shell.client.ClientWrapper;
 
@@ -33,26 +34,27 @@ import org.elasticsearch.shell.client.ClientWrapper;
  */
 public class DefaultNodeFactory<ShellNativeClient, JsonInput, JsonOutput> implements NodeFactory<ShellNativeClient, JsonInput, JsonOutput> {
 
-    private static final String DEFAULT_CLUSTER_NAME = "elasticsearch";
-
     private final ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> clientWrapper;
     private final ResourceRegistry resourceRegistry;
     private final ClientScopeSynchronizerRunner<ShellNativeClient> clientScopeSynchronizerRunner;
+    private final ShellSettings shellSettings;
 
     @Inject
     DefaultNodeFactory(ClientWrapper<ShellNativeClient, JsonInput, JsonOutput> clientWrapper,
                               ResourceRegistry resourceRegistry,
-                              ClientScopeSynchronizerRunner<ShellNativeClient> clientScopeSynchronizerRunner) {
+                              ClientScopeSynchronizerRunner<ShellNativeClient> clientScopeSynchronizerRunner,
+                              ShellSettings shellSettings) {
 
         this.clientWrapper = clientWrapper;
         this.resourceRegistry = resourceRegistry;
         this.clientScopeSynchronizerRunner = clientScopeSynchronizerRunner;
+        this.shellSettings = shellSettings;
     }
 
     @Override
     public Node<ShellNativeClient, JsonInput, JsonOutput> newLocalNode() {
         return new Node<ShellNativeClient, JsonInput, JsonOutput>(
-                createLocalNode(DEFAULT_CLUSTER_NAME),
+                createLocalNode(shellSettings.settings().get(ShellSettings.CLUSTER_NAME)),
                 clientWrapper, resourceRegistry, clientScopeSynchronizerRunner);
     }
 
@@ -65,6 +67,6 @@ public class DefaultNodeFactory<ShellNativeClient, JsonInput, JsonOutput> implem
 
     protected org.elasticsearch.node.Node createLocalNode(String clusterName) {
         return org.elasticsearch.node.NodeBuilder.nodeBuilder()
-                .clusterName(DEFAULT_CLUSTER_NAME).local(true).build().start();
+                .clusterName(clusterName).local(true).build().start();
     }
 }

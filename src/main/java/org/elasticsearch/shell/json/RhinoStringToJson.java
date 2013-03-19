@@ -40,7 +40,7 @@ public class RhinoStringToJson implements StringToJson<Object> {
             return new JsonParser(context, ScriptRuntime.getGlobal(context)).parseValue(json);
         } catch (JsonParser.ParseException e) {
             logger.error("Unable to create a json object from string {}", json, e);
-            return null;
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
 }

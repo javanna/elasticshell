@@ -1,0 +1,84 @@
+/*
+ * Licensed to Luca Cavanna (the "Author") under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. Elastic Search licenses this
+ * file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+package org.elasticsearch.shell.command;
+
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.common.xcontent.ToXContent;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.json.StringToJson;
+
+import java.io.IOException;
+import java.io.PrintStream;
+
+/**
+ * Command that's able to generate native json objects given different type of content
+ *
+ * @author Luca Cavanna
+ */
+@ExecutableCommand(aliases = "parseJson")
+public class ParseJsonCommand<JsonOutput> extends Command {
+
+    private final StringToJson<JsonOutput> stringToJson;
+
+    @Inject
+    protected ParseJsonCommand(Console<PrintStream> console, StringToJson<JsonOutput> stringToJson) {
+        super(console);
+        this.stringToJson = stringToJson;
+    }
+
+    @SuppressWarnings("unused")
+    public JsonOutput execute(String jsonAsString) {
+        return stringToJson.stringToJson(jsonAsString);
+    }
+
+    @SuppressWarnings("unused")
+    public JsonOutput execute(ToXContent toXContent) throws IOException {
+        XContentBuilder builder = XContentFactory.jsonBuilder().prettyPrint();
+        try {
+            toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
+        } catch (IOException e) {
+            //hack: the first object in the builder might need to be opened, depending on the ToXContent implementation
+            //Let's just try again, hopefully it'll work
+            builder.startObject();
+            toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
+            builder.endObject();
+        }
+        return stringToJson.stringToJson(builder.string());
+    }
+
+    @Override
+    public String help() {
+        return HELP;
+    }
+
+    private static final String HELP = "Converts to json the argument provided. \n" +
+            "The argument can be either a String or a ToXContent elasticsearch object.\n\n" +
+            "Executing the command with a String as input like this:\n" +
+            "parseJson('here goes your string');\n\n" +
+            "will have the same result as executing the following standard line:\n" +
+            "JSON.parse('here goes your string');\n\n" +
+            "When providing a ToXContent object as input, the command will have the same result" +
+            " as converting it to a String and parsing it as json.\n" +
+            "The command is particularly useful when the ToXContent object doesn't override the " +
+            "toString method, which usually outputs the json as string.\n\n" +
+            "var termsFacetBuilder = FacetBuilders.termsFacet('facet name').field('field');\n" +
+            "var termsFacet = parseJson(termsFacetBuilder);\n";
+}

@@ -18,6 +18,7 @@
  */
 package org.elasticsearch.shell.command;
 
+import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.ExecutorWithProgress;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.console.Console;
@@ -29,12 +30,14 @@ import java.io.PrintStream;
  *
  * {@link Command} that creates a new {@link org.elasticsearch.shell.client.NodeClient}
  */
+@ExecutableCommand(aliases = {"nodeClient"})
 public class NodeClientCommand<ShellNativeClient> extends CommandWithProgress {
 
     private static final String INITIAL_MESSAGE = "Creating new node client";
 
     private final ClientFactory<ShellNativeClient> clientFactory;
 
+    @Inject
     NodeClientCommand(ClientFactory<ShellNativeClient> clientFactory, Console<PrintStream> console) {
         super(console);
         this.clientFactory = clientFactory;

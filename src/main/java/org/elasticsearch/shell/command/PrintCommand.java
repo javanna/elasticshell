@@ -70,5 +70,5 @@ public class PrintCommand extends Command {
         return HELP;
     }
 
-    private static final String HELP = "Prints out the string representation of the provided arguments";
+    private static final String HELP = "Prints out the string representation of the provided arguments\n";
 }

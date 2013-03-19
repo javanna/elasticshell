@@ -42,7 +42,7 @@ public class ExitCommand extends Command {
         return new ExitSignal();
     }
 
-    private static final String HELP = "Quits the elasticshell";
+    private static final String HELP = "Quits the elasticshell\n";
 
     @Override
     public String help() {

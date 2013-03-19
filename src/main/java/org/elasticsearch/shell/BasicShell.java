@@ -24,6 +24,7 @@ import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.shell.client.ClientFactory;
+import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
@@ -51,7 +52,9 @@ public class BasicShell<ShellNativeClient> implements Shell {
     protected final Unwrapper unwrapper;
     protected final ShellScope<?> shellScope;
     protected final ClientFactory<ShellNativeClient> clientFactory;
+    protected final ScriptLoader scriptLoader;
     protected final Scheduler scheduler;
+    protected final ShellSettings shellSettings;
 
     protected final AtomicBoolean closed = new AtomicBoolean(false);
 
@@ -68,21 +71,24 @@ public class BasicShell<ShellNativeClient> implements Shell {
      */
     public BasicShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                       ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<?> shellScope,
-                      ClientFactory<ShellNativeClient> clientFactory, Scheduler scheduler) {
+                      ClientFactory<ShellNativeClient> clientFactory,
+                      ScriptLoader scriptLoader, Scheduler scheduler,
+                      ShellSettings shellSettings) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
         this.unwrapper = unwrapper;
         this.shellScope = shellScope;
         this.clientFactory = clientFactory;
+        this.scriptLoader = scriptLoader;
         this.scheduler = scheduler;
+        this.shellSettings = shellSettings;
     }
 
     @Override
     public void run() {
-
         init();
-
+        loadStartupScript();
         try {
             doRun();
         } finally {
@@ -122,6 +128,20 @@ public class BasicShell<ShellNativeClient> implements Shell {
      */
     void init() {
 
+    }
+
+    /**
+     * Loads the optional startup script
+     */
+    void loadStartupScript() {
+        String startupScript = shellSettings.settings().get(ShellSettings.STARTUP_SCRIPT);
+        if (startupScript != null) {
+            try {
+                scriptLoader.loadScript(startupScript);
+            } catch(Throwable t) {
+                logger.error("Error loading the startup script [{}]", startupScript, t);
+            }
+        }
     }
 
     /**
@@ -172,7 +192,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
                 try {
                     toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
                 } catch (IOException e) {
-                    //hack: the first object in the builder might need to be open, depending on the ToXContent implementation
+                    //hack: the first object in the builder might need to be opened, depending on the ToXContent implementation
                     //Let's just try again, hopefully it'll work
                     builder.startObject();
                     toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);

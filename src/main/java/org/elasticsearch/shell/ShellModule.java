@@ -18,35 +18,16 @@
  */
 package org.elasticsearch.shell;
 
-import jline.console.completer.Completer;
-import jline.console.completer.CompletionHandler;
 import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.common.inject.TypeLiteral;
 import org.elasticsearch.common.inject.name.Names;
-import org.elasticsearch.shell.client.*;
-import org.elasticsearch.shell.command.RhinoScriptLoader;
-import org.elasticsearch.shell.command.ScriptLoader;
-import org.elasticsearch.shell.console.Console;
-import org.elasticsearch.shell.console.JLineConsole;
-import org.elasticsearch.shell.console.completer.JLineCompletionHandler;
-import org.elasticsearch.shell.console.completer.JLineRhinoCompleter;
-import org.elasticsearch.shell.json.JsonToString;
-import org.elasticsearch.shell.json.RhinoJsonToString;
-import org.elasticsearch.shell.json.RhinoStringToJson;
-import org.elasticsearch.shell.json.StringToJson;
-import org.elasticsearch.shell.node.DefaultNodeFactory;
-import org.elasticsearch.shell.node.NodeFactory;
-import org.elasticsearch.shell.script.RhinoScriptExecutor;
-import org.elasticsearch.shell.script.ScriptExecutor;
-import org.elasticsearch.shell.source.InputAnalyzer;
-import org.elasticsearch.shell.source.RhinoInputAnalyzer;
-import org.mozilla.javascript.NativeObject;
+import org.elasticsearch.shell.scheduler.DefaultScheduler;
+import org.elasticsearch.shell.scheduler.Scheduler;
 
 import java.io.InputStream;
 import java.io.PrintStream;
 
 /**
- * Module that binds all the objects needed to run the shell
+ * Module that binds all generic objects needed to run the shell
  *
  * @author Luca Cavanna
  */
@@ -58,36 +39,7 @@ public class ShellModule extends AbstractModule {
         bind(InputStream.class).annotatedWith(Names.named("shellInput")).toInstance(System.in);
         bind(PrintStream.class).annotatedWith(Names.named("shellOutput")).toInstance(new PrintStream(System.out, true));
         bind(ShutdownHook.class).asEagerSingleton();
-
         bind(ResourceRegistry.class).to(DefaultResourceRegistry.class).asEagerSingleton();
-
-        //JLine bindings
-        bind(new TypeLiteral<Console<PrintStream>>(){}).to(JLineConsole.class).asEagerSingleton();
-        bind(Completer.class).to(JLineRhinoCompleter.class).asEagerSingleton();
-        bind(CompletionHandler.class).to(JLineCompletionHandler.class).asEagerSingleton();
-
-        //Rhino bindings
-        bind(ScriptLoader.class).to(RhinoScriptLoader.class).asEagerSingleton();
-        bind(new TypeLiteral<JsonToString<NativeObject>>() {}).to(RhinoJsonToString.class).asEagerSingleton();
-        bind(new TypeLiteral<StringToJson<Object>>(){}).to(RhinoStringToJson.class).asEagerSingleton();
-        bind(Unwrapper.class).to(RhinoUnwrapper.class).asEagerSingleton();
-        bind(new TypeLiteral<ShellScope<RhinoShellTopLevel>>(){}).to(RhinoShellScope.class).asEagerSingleton();
-        bind(ScriptExecutor.class).to(RhinoScriptExecutor.class).asEagerSingleton();
-        bind(InputAnalyzer.class).to(RhinoInputAnalyzer.class).asEagerSingleton();
-        bind(Shell.class).to(RhinoShell.class).asEagerSingleton();
-
-        bind(new TypeLiteral<ClientScopeSynchronizerFactory<RhinoClientNativeJavaObject>>(){})
-                .to(RhinoClientScopeSynchronizerFactory.class).asEagerSingleton();
-
-        bind(new TypeLiteral<ClientWrapper<RhinoClientNativeJavaObject, NativeObject, Object>>(){})
-                .to(RhinoClientWrapper.class).asEagerSingleton();
-
-        bind(new TypeLiteral<ClientFactory<RhinoClientNativeJavaObject>>() {})
-                .to(new TypeLiteral<DefaultClientFactory<RhinoClientNativeJavaObject, NativeObject, Object>>() {})
-                .asEagerSingleton();
-
-        bind(new TypeLiteral<NodeFactory<RhinoClientNativeJavaObject, NativeObject, Object>>(){})
-                .to(new TypeLiteral<DefaultNodeFactory<RhinoClientNativeJavaObject, NativeObject, Object>>() {})
-                .asEagerSingleton();
+        bind(Scheduler.class).to(DefaultScheduler.class).asEagerSingleton();
     }
 }

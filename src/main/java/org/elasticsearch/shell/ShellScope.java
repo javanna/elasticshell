@@ -25,6 +25,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.facet.FacetBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.shell.command.HttpParameters;
 
 import java.io.Closeable;
 
@@ -53,6 +54,7 @@ public abstract class ShellScope<Scope> implements ResourceRegistry {
         registerJavaClass(SortBuilders.class);
         registerJavaClass(FacetBuilders.class);
         registerJavaClass(AliasAction.class);
+        registerJavaClass(HttpParameters.class);
     }
 
     /**

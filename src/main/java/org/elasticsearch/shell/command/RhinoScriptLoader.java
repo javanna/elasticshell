@@ -53,7 +53,7 @@ public class RhinoScriptLoader implements ScriptLoader {
             Another benefit of the interpreted mode is that the interpreter performs tail-call elimination
             of recursive functions. Also, you must use this optimization level if your code uses Continuation objects.
              */
-        //needed to be able to import external libraries like env.js
+        //needed to be able to import external libraries like env.js, hopefully won't hurt that much even when not needed
         Context.getCurrentContext().setOptimizationLevel(-1);
 
         FileReader fileReader = null;

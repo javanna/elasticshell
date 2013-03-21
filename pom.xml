@@ -64,11 +64,20 @@
             <artifactId>logback-classic</artifactId>
             <version>1.0.9</version>
         </dependency>
-        <!-- needed by elasticsearch at some point (even if optional in its pom) -->
         <dependency>
             <groupId>com.spatial4j</groupId>
             <artifactId>spatial4j</artifactId>
             <version>0.3</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.3</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>fluent-hc</artifactId>
+            <version>4.2.3</version>
         </dependency>
 
         <dependency>

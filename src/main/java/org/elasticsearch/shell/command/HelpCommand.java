@@ -61,6 +61,11 @@ public class HelpCommand extends Command {
             "The following are the available commands (with example arguments):\n" +
             "   exit() or quit()                   Quits the elasticshell\n" +
             "   help()                             Display this help message\n" +
+            "   httpDelete(url)                    Sends a DELETE http request\n" +
+            "   httpGet(url)                       Sends a GET http request\n" +
+            "   httpHead(url)                      Sends a HEAD http request\n" +
+            "   httpPost(url, body)                Sends a POST http request\n" +
+            "   httpPut(url, body)                 Sends a PUT http request\n" +
             "   importClass(java.util.Date)        Imports a Java class\n" +
             "   importPackage(java.util)           Imports a Java package\n" +
             "   load('./scripts/elastic.js')       Loads external Javascript source files\n" +

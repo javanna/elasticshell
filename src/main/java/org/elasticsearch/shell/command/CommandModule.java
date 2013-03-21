@@ -39,6 +39,11 @@ public class CommandModule extends AbstractModule {
         multiBinder.addBinding().to(PrintCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(VersionCommand.class).asEagerSingleton();
         multiBinder.addBinding().to(LoadCommand.class).asEagerSingleton();
+        multiBinder.addBinding().to(HttpGetCommand.class).asEagerSingleton();
+        multiBinder.addBinding().to(HttpHeadCommand.class).asEagerSingleton();
+        multiBinder.addBinding().to(HttpPostCommand.class).asEagerSingleton();
+        multiBinder.addBinding().to(HttpPutCommand.class).asEagerSingleton();
+        multiBinder.addBinding().to(HttpDeleteCommand.class).asEagerSingleton();
 
         //Rhino specific commands
         multiBinder.addBinding().to(new TypeLiteral<ParseJsonCommand<Object>>() {}).asEagerSingleton();

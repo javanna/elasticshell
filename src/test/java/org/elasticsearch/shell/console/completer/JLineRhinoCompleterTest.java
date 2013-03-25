@@ -554,7 +554,7 @@ public class JLineRhinoCompleterTest {
         String input = "FilterBuilders.queryFilter(QueryBuilders.)";
         String inputLength = "FilterBuilders.queryFilter(QueryBuilders.";
         int output = completer.complete(input, inputLength.length(), candidates);
-        Assert.assertEquals(candidates.size(), 47);
+        Assert.assertEquals(candidates.size(), 49);
         Assert.assertTrue(candidates.contains("matchAllQuery()"));
         Assert.assertTrue(candidates.contains("termQuery()"));
         Assert.assertEquals(output, inputLength.length());

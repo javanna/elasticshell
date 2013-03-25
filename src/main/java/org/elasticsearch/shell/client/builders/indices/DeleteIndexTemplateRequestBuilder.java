@@ -55,7 +55,7 @@ public class DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends Ab
     protected XContentBuilder toXContent(DeleteIndexTemplateRequest request, DeleteIndexTemplateResponse response, XContentBuilder builder) throws IOException {
         builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged())
+                .field(Fields.ACKNOWLEDGED, response.isAcknowledged())
                 .endObject();
         return builder;
     }

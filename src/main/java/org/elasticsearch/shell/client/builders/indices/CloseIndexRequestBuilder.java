@@ -60,7 +60,7 @@ public class CloseIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
     protected XContentBuilder toXContent(CloseIndexRequest request, CloseIndexResponse response, XContentBuilder builder) throws IOException {
         return builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged())
+                .field(Fields.ACKNOWLEDGED, response.isAcknowledged())
                 .endObject();
     }
 }

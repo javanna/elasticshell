@@ -107,11 +107,11 @@ public class DeleteRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
     protected XContentBuilder toXContent(DeleteRequest request, DeleteResponse response, XContentBuilder builder) throws IOException {
         return builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.FOUND, !response.notFound())
-                .field(Fields._INDEX, response.index())
-                .field(Fields._TYPE, response.type())
-                .field(Fields._ID, response.id())
-                .field(Fields._VERSION, response.version())
+                .field(Fields.FOUND, !response.isNotFound())
+                .field(Fields._INDEX, response.getIndex())
+                .field(Fields._TYPE, response.getType())
+                .field(Fields._ID, response.getId())
+                .field(Fields._VERSION, response.getVersion())
                 .endObject();
     }
 }

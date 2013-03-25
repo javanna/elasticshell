@@ -69,7 +69,7 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
 
         XContentBuilder builder = JsonXContent.contentBuilder();
         builder.startObject();
-        for (IndexMetaData indexMetaData : response.state().metaData()) {
+        for (IndexMetaData indexMetaData : response.getState().metaData()) {
             builder.startObject(indexMetaData.index());
             if (indexMetaData.aliases() != null && indexMetaData.aliases().size() > 0) {
                 builder.startArray("aliases");
@@ -100,7 +100,7 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
 
         XContentBuilder builder = JsonXContent.contentBuilder();
         builder.startObject();
-        for (DiscoveryNode discoveryNode : response.state().nodes()) {
+        for (DiscoveryNode discoveryNode : response.getState().nodes()) {
             builder.startObject(discoveryNode.id());
             builder.field("name", discoveryNode.name());
             builder.endObject();

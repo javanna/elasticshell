@@ -64,7 +64,7 @@ public abstract class ClientScopeSynchronizer<ShellNativeClient> implements Runn
                 .setFilterRoutingTable(true).setFilterNodes(true).execute().actionGet();
 
         Set<Index> newIndexes = new HashSet<Index>();
-        for (IndexMetaData indexMetaData : response.state().metaData().indices().values()) {
+        for (IndexMetaData indexMetaData : response.getState().metaData().indices().values()) {
             logger.trace("Processing index {}", indexMetaData.index());
 
             Set<String> indexNames = indexMetaData.mappings().keySet();

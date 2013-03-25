@@ -97,7 +97,7 @@ public class JLineRhinoCompleterTest {
         List<CharSequence> candidates = new ArrayList<CharSequence>();
         String input = "Requests.";
         int output = completer.complete(input, input.length(), candidates);
-        Assert.assertEquals(candidates.size(), 35);
+        Assert.assertEquals(candidates.size(), 36);
         Assert.assertEquals(output, 9);
     }
 

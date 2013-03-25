@@ -58,7 +58,7 @@ public class GetAliasesIndicesRequestBuilder<JsonInput, JsonOutput> extends Abst
 
     @Override
     protected XContentBuilder toXContent(ClusterStateRequest request, ClusterStateResponse response, XContentBuilder builder) throws IOException {
-        MetaData metaData = response.state().metaData();
+        MetaData metaData = response.getState().metaData();
         builder.startObject();
         for (IndexMetaData indexMetaData : metaData) {
             builder.startObject(indexMetaData.index(), XContentBuilder.FieldCaseConversion.NONE);

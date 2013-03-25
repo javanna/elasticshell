@@ -59,13 +59,13 @@ public class CountRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         return this;
     }
 
-    public CountRequestBuilder<JsonInput, JsonOutput> queryHint(String queryHint) {
-        request.queryHint(queryHint);
+    public CountRequestBuilder<JsonInput, JsonOutput> routing(String... routing) {
+        request.routing(routing);
         return this;
     }
 
-    public CountRequestBuilder<JsonInput, JsonOutput> routing(String... routing) {
-        request.routing(routing);
+    public CountRequestBuilder<JsonInput, JsonOutput> preference(String preference) {
+        request.preference(preference);
         return this;
     }
 
@@ -87,7 +87,7 @@ public class CountRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
     @Override
     protected XContentBuilder toXContent(CountRequest request, CountResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field(Fields.COUNT, response.count());
+        builder.field(Fields.COUNT, response.getCount());
         buildBroadcastShardsHeader(builder, response);
         builder.endObject();
         return builder;

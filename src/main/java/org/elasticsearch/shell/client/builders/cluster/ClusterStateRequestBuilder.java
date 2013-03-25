@@ -74,7 +74,7 @@ public class ClusterStateRequestBuilder<JsonInput,JsonOutput> extends AbstractRe
         return this;
     }
 
-    public ClusterStateRequestBuilder<JsonInput,JsonOutput> filterIndexTemplates(String... templates) {
+    public ClusterStateRequestBuilder<JsonInput,JsonOutput> filteredIndexTemplates(String... templates) {
         request.filteredIndexTemplates(templates);
         return this;
     }

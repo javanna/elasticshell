@@ -30,7 +30,7 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.facet.AbstractFacetBuilder;
+import org.elasticsearch.search.facet.FacetBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -77,11 +77,6 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
 
     public SearchRequestBuilder<JsonInput, JsonOutput> timeout(String timeout) {
         sourceBuilder().timeout(timeout);
-        return this;
-    }
-
-    public SearchRequestBuilder<JsonInput, JsonOutput> queryHint(String queryHint) {
-        request.queryHint(queryHint);
         return this;
     }
 
@@ -210,7 +205,7 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public SearchRequestBuilder<JsonInput, JsonOutput> facet(AbstractFacetBuilder facet) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> facet(FacetBuilder facet) {
         sourceBuilder().facet(facet);
         return this;
     }

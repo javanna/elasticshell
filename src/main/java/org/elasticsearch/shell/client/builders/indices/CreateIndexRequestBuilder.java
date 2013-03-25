@@ -80,7 +80,7 @@ public class CreateIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
     protected XContentBuilder toXContent(CreateIndexRequest request, CreateIndexResponse response, XContentBuilder builder) throws IOException {
         return builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged())
+                .field(Fields.ACKNOWLEDGED, response.isAcknowledged())
                 .endObject();
     }
 }

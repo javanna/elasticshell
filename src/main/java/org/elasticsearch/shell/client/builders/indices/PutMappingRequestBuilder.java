@@ -75,7 +75,7 @@ public class PutMappingRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
     protected XContentBuilder toXContent(PutMappingRequest request, PutMappingResponse response, XContentBuilder builder) throws IOException {
         builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged());
+                .field(Fields.ACKNOWLEDGED, response.isAcknowledged());
         builder.endObject();
         return builder;
     }

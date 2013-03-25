@@ -90,7 +90,7 @@ public class PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends Abstr
     protected XContentBuilder toXContent(PutIndexTemplateRequest request, PutIndexTemplateResponse response, XContentBuilder builder) throws IOException {
         builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged())
+                .field(Fields.ACKNOWLEDGED, response.isAcknowledged())
                 .endObject();
         return builder;
     }

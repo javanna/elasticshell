@@ -76,7 +76,7 @@ public class PutWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
     protected XContentBuilder toXContent(PutWarmerRequest request, PutWarmerResponse response, XContentBuilder builder) throws IOException {
         builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged());
+                .field(Fields.ACKNOWLEDGED, response.isAcknowledged());
         builder.endObject();
         return builder;
     }

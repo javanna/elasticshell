@@ -31,6 +31,7 @@ import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastShardsHeader;
 
@@ -84,21 +85,24 @@ public class ValidateQueryRequestBuilder<JsonInput, JsonOutput> extends Abstract
     @Override
     protected XContentBuilder toXContent(ValidateQueryRequest request, ValidateQueryResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field("valid", response.valid());
+        builder.field("valid", response.isValid());
         buildBroadcastShardsHeader(builder, response);
-        if (response.queryExplanations() != null && !response.queryExplanations().isEmpty()) {
+
+        List<? extends QueryExplanation> queryExplanation = response.getQueryExplanation();
+
+        if (queryExplanation != null && !queryExplanation.isEmpty()) {
             builder.startArray("explanations");
-            for (QueryExplanation explanation : response.queryExplanations()) {
+            for (QueryExplanation explanation : queryExplanation) {
                 builder.startObject();
-                if (explanation.index() != null) {
-                    builder.field("index", explanation.index(), XContentBuilder.FieldCaseConversion.NONE);
+                if (explanation.getIndex() != null) {
+                    builder.field("index", explanation.getIndex(), XContentBuilder.FieldCaseConversion.NONE);
                 }
-                builder.field("valid", explanation.valid());
-                if (explanation.error() != null) {
-                    builder.field("error", explanation.error());
+                builder.field("valid", explanation.isValid());
+                if (explanation.getError() != null) {
+                    builder.field("error", explanation.getError());
                 }
-                if (explanation.explanation() != null) {
-                    builder.field("explanation", explanation.explanation());
+                if (explanation.getExplanation() != null) {
+                    builder.field("explanation", explanation.getExplanation());
                 }
                 builder.endObject();
             }

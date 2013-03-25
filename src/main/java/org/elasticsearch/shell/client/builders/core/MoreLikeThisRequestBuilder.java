@@ -22,6 +22,7 @@ import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.mlt.MoreLikeThisRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -153,6 +154,11 @@ public class MoreLikeThisRequestBuilder<JsonInput, JsonOutput> extends AbstractR
 
     public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchQueryHint(String searchQueryHint) {
         request.searchQueryHint(searchQueryHint);
+        return this;
+    }
+
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchScroll(String keepAlive) {
+        request.searchScroll(new Scroll(TimeValue.parseTimeValue(keepAlive, null)));
         return this;
     }
 

@@ -74,7 +74,7 @@ public class ClusterStateRequestBuilder<JsonInput,JsonOutput> extends AbstractRe
         return this;
     }
 
-    public ClusterStateRequestBuilder<JsonInput,JsonOutput> filterIndexTemplates(String... templates) {
+    public ClusterStateRequestBuilder<JsonInput,JsonOutput> filteredIndexTemplates(String... templates) {
         request.filteredIndexTemplates(templates);
         return this;
     }
@@ -92,8 +92,8 @@ public class ClusterStateRequestBuilder<JsonInput,JsonOutput> extends AbstractRe
     @Override
     protected XContentBuilder toXContent(ClusterStateRequest request, ClusterStateResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field(Fields.CLUSTER_NAME, response.clusterName().value());
-        response.state().settingsFilter(new SettingsFilter(ImmutableSettings.settingsBuilder().build())).toXContent(builder, ToXContent.EMPTY_PARAMS);
+        builder.field(Fields.CLUSTER_NAME, response.getClusterName().value());
+        response.getState().settingsFilter(new SettingsFilter(ImmutableSettings.settingsBuilder().build())).toXContent(builder, ToXContent.EMPTY_PARAMS);
         builder.endObject();
         return builder;
     }

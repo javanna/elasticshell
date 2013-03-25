@@ -71,7 +71,7 @@ public class ClusterRerouteRequestBuilder<JsonInput, JsonOutput> extends Abstrac
         builder.startObject();
         builder.field(Fields.OK, true);
         builder.startObject("state");
-        response.state().settingsFilter(new SettingsFilter(ImmutableSettings.settingsBuilder().build())).toXContent(builder, ToXContent.EMPTY_PARAMS);
+        response.getState().settingsFilter(new SettingsFilter(ImmutableSettings.settingsBuilder().build())).toXContent(builder, ToXContent.EMPTY_PARAMS);
         builder.endObject();
 
         builder.endObject();

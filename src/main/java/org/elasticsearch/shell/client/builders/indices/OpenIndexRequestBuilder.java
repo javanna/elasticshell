@@ -60,7 +60,7 @@ public class OpenIndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
     protected XContentBuilder toXContent(OpenIndexRequest request, OpenIndexResponse response, XContentBuilder builder) throws IOException {
         return builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged())
+                .field(Fields.ACKNOWLEDGED, response.isAcknowledged())
                 .endObject();
     }
 }

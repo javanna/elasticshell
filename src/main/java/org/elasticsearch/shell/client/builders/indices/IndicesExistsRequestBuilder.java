@@ -54,7 +54,7 @@ public class IndicesExistsRequestBuilder<JsonInput, JsonOutput> extends Abstract
     @Override
     protected XContentBuilder toXContent(IndicesExistsRequest request, IndicesExistsResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field(Fields.OK, response.exists());
+        builder.field(Fields.OK, response.isExists());
         builder.endObject();
         return builder;
     }

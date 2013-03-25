@@ -98,12 +98,12 @@ public class DeleteByQueryRequestBuilder<JsonInput, JsonOutput>  extends Abstrac
     protected XContentBuilder toXContent(DeleteByQueryRequest request, DeleteByQueryResponse response, XContentBuilder builder) throws IOException {
         builder.startObject().field(Fields.OK, true);
         builder.startObject("_indices");
-        for (IndexDeleteByQueryResponse indexDeleteByQueryResponse : response.indices().values()) {
-            builder.startObject(indexDeleteByQueryResponse.index(), XContentBuilder.FieldCaseConversion.NONE);
+        for (IndexDeleteByQueryResponse indexDeleteByQueryResponse : response.getIndices().values()) {
+            builder.startObject(indexDeleteByQueryResponse.getIndex(), XContentBuilder.FieldCaseConversion.NONE);
             builder.startObject("_shards");
-            builder.field("total", indexDeleteByQueryResponse.totalShards());
-            builder.field("successful", indexDeleteByQueryResponse.successfulShards());
-            builder.field("failed", indexDeleteByQueryResponse.failedShards());
+            builder.field("total", indexDeleteByQueryResponse.getTotalShards());
+            builder.field("successful", indexDeleteByQueryResponse.getSuccessfulShards());
+            builder.field("failed", indexDeleteByQueryResponse.getFailedShards());
             builder.endObject();
             builder.endObject();
         }

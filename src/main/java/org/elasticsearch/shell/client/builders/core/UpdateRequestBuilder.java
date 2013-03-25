@@ -161,20 +161,20 @@ public class UpdateRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
     protected XContentBuilder toXContent(UpdateRequest request, UpdateResponse response, XContentBuilder builder) throws IOException {
         builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields._INDEX, response.index())
-                .field(Fields._TYPE, response.type())
-                .field(Fields._ID, response.id())
-                .field(Fields._VERSION, response.version());
+                .field(Fields._INDEX, response.getIndex())
+                .field(Fields._TYPE, response.getType())
+                .field(Fields._ID, response.getId())
+                .field(Fields._VERSION, response.getVersion());
 
-        if (response.getResult() != null) {
+        if (response.getGetResult() != null) {
             builder.startObject(Fields.GET);
-            response.getResult().toXContentEmbedded(builder, ToXContent.EMPTY_PARAMS);
+            response.getGetResult().toXContentEmbedded(builder, ToXContent.EMPTY_PARAMS);
             builder.endObject();
         }
 
-        if (response.matches() != null) {
+        if (response.getMatches() != null) {
             builder.startArray(Fields.MATCHES);
-            for (String match : response.matches()) {
+            for (String match : response.getMatches()) {
                 builder.value(match);
             }
             builder.endArray();

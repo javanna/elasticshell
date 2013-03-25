@@ -58,6 +58,11 @@ public class FlushRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         return this;
     }
 
+    public FlushRequestBuilder<JsonInput, JsonOutput> force(boolean force) {
+        request.force(force);
+        return this;
+    }
+
     @Override
     protected ActionFuture<FlushResponse> doExecute(FlushRequest request) {
         return client.admin().indices().flush(request);

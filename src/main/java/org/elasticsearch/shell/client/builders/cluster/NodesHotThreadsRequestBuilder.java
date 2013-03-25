@@ -69,8 +69,8 @@ public class NodesHotThreadsRequestBuilder<JsonInput> extends AbstractRequestBui
         StringBuilder sb = new StringBuilder();
         try {
             for (NodeHotThreads node : response) {
-                sb.append("::: ").append(node.node().toString()).append("\n");
-                Strings.spaceify(3, node.hotThreads(), sb);
+                sb.append("::: ").append(node.getNode().toString()).append("\n");
+                Strings.spaceify(3, node.getHotThreads(), sb);
                 sb.append('\n');
             }
         } catch(Exception e) {

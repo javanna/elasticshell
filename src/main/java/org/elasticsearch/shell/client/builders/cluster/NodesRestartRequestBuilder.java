@@ -54,11 +54,11 @@ public class NodesRestartRequestBuilder<JsonInput, JsonOutput> extends AbstractR
     @Override
     protected XContentBuilder toXContent(NodesRestartRequest request, NodesRestartResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field("cluster_name", response.clusterName().value());
+        builder.field("cluster_name", response.getClusterName().value());
         builder.startObject("nodes");
         for (NodesRestartResponse.NodeRestartResponse nodeInfo : response) {
-            builder.startObject(nodeInfo.node().id());
-            builder.field("name", nodeInfo.node().name());
+            builder.startObject(nodeInfo.getNode().id());
+            builder.field("name", nodeInfo.getNode().name());
             builder.endObject();
         }
         builder.endObject();

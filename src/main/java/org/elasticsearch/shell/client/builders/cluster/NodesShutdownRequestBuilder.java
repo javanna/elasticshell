@@ -65,9 +65,9 @@ public class NodesShutdownRequestBuilder<JsonInput, JsonOutput> extends Abstract
     @Override
     protected XContentBuilder toXContent(NodesShutdownRequest request, NodesShutdownResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field("cluster_name", response.clusterName().value());
+        builder.field("cluster_name", response.getClusterName().value());
         builder.startObject("nodes");
-        for (DiscoveryNode node : response.nodes()) {
+        for (DiscoveryNode node : response.getNodes()) {
             builder.startObject(node.id(), XContentBuilder.FieldCaseConversion.NONE);
             builder.field("name", node.name(), XContentBuilder.FieldCaseConversion.NONE);
             builder.endObject();

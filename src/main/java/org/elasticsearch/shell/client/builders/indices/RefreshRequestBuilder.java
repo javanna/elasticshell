@@ -48,6 +48,11 @@ public class RefreshRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
         return this;
     }
 
+    public RefreshRequestBuilder<JsonInput, JsonOutput> waitForOperations(boolean waitForOperations) {
+        this.request.waitForOperations(waitForOperations);
+        return this;
+    }
+
     @Override
     protected ActionFuture<RefreshResponse> doExecute(RefreshRequest request) {
         return client.admin().indices().refresh(request);

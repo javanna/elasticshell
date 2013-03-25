@@ -65,7 +65,7 @@ public class TypesExistsRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
     @Override
     protected XContentBuilder toXContent(TypesExistsRequest request, TypesExistsResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field(Fields.OK, response.exists());
+        builder.field(Fields.OK, response.isExists());
         builder.endObject();
         return builder;
     }

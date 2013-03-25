@@ -19,8 +19,8 @@
 package org.elasticsearch.shell.client.builders.indices;
 
 import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.admin.indices.stats.IndicesStats;
 import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
+import org.elasticsearch.action.admin.indices.stats.IndicesStatsResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -38,7 +38,7 @@ import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastSh
  * Request builder for stats API
  */
 @SuppressWarnings("unused")
-public class StatsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<IndicesStatsRequest, IndicesStats, JsonInput, JsonOutput> {
+public class StatsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestBuilderJsonOutput<IndicesStatsRequest, IndicesStatsResponse, JsonInput, JsonOutput> {
 
     public StatsRequestBuilder(Client client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
         super(client, new IndicesStatsRequest(), jsonToString, stringToJson);
@@ -115,12 +115,12 @@ public class StatsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
     }
 
     @Override
-    protected ActionFuture<IndicesStats> doExecute(IndicesStatsRequest request) {
+    protected ActionFuture<IndicesStatsResponse> doExecute(IndicesStatsRequest request) {
         return client.admin().indices().stats(request);
     }
 
     @Override
-    protected XContentBuilder toXContent(IndicesStatsRequest request, IndicesStats response, XContentBuilder builder) throws IOException {
+    protected XContentBuilder toXContent(IndicesStatsRequest request, IndicesStatsResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
         builder.field(Fields.OK, true);
         buildBroadcastShardsHeader(builder, response);

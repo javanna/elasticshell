@@ -151,6 +151,11 @@ public class MoreLikeThisRequestBuilder<JsonInput, JsonOutput> extends AbstractR
         return this;
     }
 
+    public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> searchQueryHint(String searchQueryHint) {
+        request.searchQueryHint(searchQueryHint);
+        return this;
+    }
+
     @Override
     protected ActionFuture<SearchResponse> doExecute(MoreLikeThisRequest request) {
         return client.moreLikeThis(request);

@@ -57,7 +57,7 @@ public class GetSettingsRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
 
     @Override
     protected XContentBuilder toXContent(ClusterStateRequest request, ClusterStateResponse response, XContentBuilder builder) throws IOException {
-        MetaData metaData = response.state().metaData();
+        MetaData metaData = response.getState().metaData();
 
         if (metaData.indices().isEmpty()) {
             return builder.startObject().endObject();

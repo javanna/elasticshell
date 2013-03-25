@@ -67,7 +67,7 @@ public class GetMappingRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
     @Override
     protected XContentBuilder toXContent(ClusterStateRequest request, ClusterStateResponse response, XContentBuilder builder) throws IOException {
 
-        MetaData metaData = response.state().metaData();
+        MetaData metaData = response.getState().metaData();
 
         builder.startObject();
 

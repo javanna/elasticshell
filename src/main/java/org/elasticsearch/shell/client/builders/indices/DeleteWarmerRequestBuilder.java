@@ -60,7 +60,7 @@ public class DeleteWarmerRequestBuilder<JsonInput, JsonOutput> extends AbstractR
     protected XContentBuilder toXContent(DeleteWarmerRequest request, DeleteWarmerResponse response, XContentBuilder builder) throws IOException {
         builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged());
+                .field(Fields.ACKNOWLEDGED, response.isAcknowledged());
         builder.endObject();
         return builder;
     }

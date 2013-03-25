@@ -137,13 +137,13 @@ public class IndexRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
     protected XContentBuilder toXContent(IndexRequest request, IndexResponse response, XContentBuilder builder) throws IOException {
         builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields._INDEX, response.index())
-                .field(Fields._TYPE, response.type())
-                .field(Fields._ID, response.id())
-                .field(Fields._VERSION, response.version());
-        if (response.matches() != null) {
+                .field(Fields._INDEX, response.getIndex())
+                .field(Fields._TYPE, response.getType())
+                .field(Fields._ID, response.getId())
+                .field(Fields._VERSION, response.getVersion());
+        if (response.getMatches() != null) {
             builder.startArray(Fields.MATCHES);
-            for (String match : response.matches()) {
+            for (String match : response.getMatches()) {
                 builder.value(match);
             }
             builder.endArray();

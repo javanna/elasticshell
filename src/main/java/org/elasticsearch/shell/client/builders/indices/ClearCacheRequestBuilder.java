@@ -74,8 +74,8 @@ public class ClearCacheRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
         return this;
     }
 
-    public ClearCacheRequestBuilder<JsonInput, JsonOutput> bloomCache(boolean bloomCache) {
-        request.bloomCache(bloomCache);
+    public ClearCacheRequestBuilder<JsonInput, JsonOutput> filterKeys(String... filterKeys) {
+        request.filterKeys(filterKeys);
         return this;
     }
 

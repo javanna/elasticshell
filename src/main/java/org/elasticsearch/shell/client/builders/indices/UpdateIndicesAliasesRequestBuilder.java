@@ -82,7 +82,7 @@ public class UpdateIndicesAliasesRequestBuilder<JsonInput, JsonOutput> extends A
     protected XContentBuilder toXContent(IndicesAliasesRequest request, IndicesAliasesResponse response, XContentBuilder builder) throws IOException {
         builder.startObject()
                 .field(Fields.OK, true)
-                .field(Fields.ACKNOWLEDGED, response.acknowledged())
+                .field(Fields.ACKNOWLEDGED, response.isAcknowledged())
                 .endObject();
         return builder;
     }

@@ -78,12 +78,12 @@ public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
     }
 
     public ExplainRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder query) {
-        request.source(new ExplainSourceBuilder().query(query));
+        request.source(new ExplainSourceBuilder().setQuery(query));
         return this;
     }
 
     public ExplainRequestBuilder<JsonInput, JsonOutput> query(JsonInput query) {
-        request.source(new ExplainSourceBuilder().query(new BytesArray(jsonToString(query))));
+        request.source(new ExplainSourceBuilder().setQuery(new BytesArray(jsonToString(query))));
         return this;
     }
 
@@ -97,6 +97,13 @@ public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
         return this;
     }
 
+    public ExplainRequestBuilder<JsonInput, JsonOutput> filteringAlias(String... filteringAlias) {
+        if (filteringAlias != null && filteringAlias.length>0) {
+            request.filteringAlias(filteringAlias);
+        }
+        return this;
+    }
+
     @Override
     protected ActionFuture<ExplainResponse> doExecute(ExplainRequest request) {
         return client.explain(request);
@@ -105,21 +112,21 @@ public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
     @Override
     protected XContentBuilder toXContent(ExplainRequest request, ExplainResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-        builder.field(Fields.OK, response.exists())
+        builder.field(Fields.OK, response.isExists())
                 .field(Fields._INDEX, request.index())
                 .field(Fields._TYPE, request.type())
                 .field(Fields._ID, request.id())
-                .field(Fields.MATCHED, response.match());
+                .field(Fields.MATCHED, response.isMatch());
 
         if (response.hasExplanation()) {
             builder.startObject(Fields.EXPLANATION);
-            buildExplanation(builder, response.explanation());
+            buildExplanation(builder, response.getExplanation());
             builder.endObject();
         }
-        GetResult getResult = response.getResult();
+        GetResult getResult = response.getGetResult();
         if (getResult != null) {
             builder.startObject(Fields.GET);
-            response.getResult().toXContentEmbedded(builder, ToXContent.EMPTY_PARAMS);
+            getResult.toXContentEmbedded(builder, ToXContent.EMPTY_PARAMS);
             builder.endObject();
         }
         builder.endObject();

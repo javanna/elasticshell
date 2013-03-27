@@ -7,7 +7,7 @@
     <name>elasticshell</name>
     <groupId>org.elasticsearch</groupId>
     <artifactId>elasticshell</artifactId>
-    <version>${elasticsearch.version}-BETA</version>
+    <version>0.20.6-BETA</version>
     <packaging>jar</packaging>
     <description>elasticshell - the shell for elasticsearch</description>
     <inceptionYear>2013</inceptionYear>
@@ -33,7 +33,7 @@
     </distributionManagement>
 
     <properties>
-        <elasticsearch.version>0.20.5</elasticsearch.version>
+        <elasticsearch.version>0.20.6</elasticsearch.version>
         <main.class>org.elasticsearch.shell.Main</main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

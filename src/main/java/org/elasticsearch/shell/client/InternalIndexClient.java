@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.shell.client.builders.cluster.ClusterHealthRequestBuilder;
 import org.elasticsearch.shell.client.builders.cluster.ClusterStateRequestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
@@ -146,6 +147,18 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
 
     public JsonOutput search(JsonInput source) {
         return searchBuilder().source(source).execute();
+    }
+
+    public SuggestRequestBuilder<JsonInput, JsonOutput> suggestBuilder() {
+        return shellClient.suggestBuilder().indices(indexName);
+    }
+
+    public JsonOutput suggest(String suggestText, String... fields) {
+        SuggestRequestBuilder<JsonInput, JsonOutput> suggestRequestBuilder = suggestBuilder().suggestText(suggestText);
+        for (String field : fields) {
+            suggestRequestBuilder.addSuggestion(SuggestBuilder.termSuggestion(field).field(field));
+        }
+        return suggestRequestBuilder.execute();
     }
 
     public UpdateRequestBuilder<JsonInput, JsonOutput> updateBuilder() {

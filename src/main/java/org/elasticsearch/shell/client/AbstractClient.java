@@ -28,6 +28,7 @@ import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.json.JsonXContent;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
@@ -228,6 +229,18 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
 
     public JsonOutput search(JsonInput source) {
         return searchBuilder().source(source).execute();
+    }
+
+    public SuggestRequestBuilder<JsonInput, JsonOutput> suggestBuilder() {
+        return new SuggestRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
+    }
+
+    public JsonOutput suggest(String suggestText, String... fields) {
+        SuggestRequestBuilder<JsonInput, JsonOutput> suggestRequestBuilder = suggestBuilder().suggestText(suggestText);
+        for (String field : fields) {
+            suggestRequestBuilder.addSuggestion(SuggestBuilder.termSuggestion(field).field(field));
+        }
+        return suggestRequestBuilder.execute();
     }
 
     public UpdateRequestBuilder<JsonInput, JsonOutput> updateBuilder() {

@@ -32,6 +32,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.facet.FacetBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
+import org.elasticsearch.search.rescore.RescoreBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.search.suggest.SuggestBuilder;
@@ -302,6 +303,16 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
+    public SearchRequestBuilder rescorer(RescoreBuilder.Rescorer rescorer) {
+        rescoreBuilder().rescorer(rescorer);
+        return this;
+    }
+
+    public SearchRequestBuilder rescoreWindow(int window) {
+        rescoreBuilder().windowSize(window);
+        return this;
+    }
+
     private HighlightBuilder highlightBuilder() {
         return sourceBuilder().highlighter();
     }
@@ -315,6 +326,10 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
 
     private SuggestBuilder suggestBuilder() {
         return sourceBuilder().suggest();
+    }
+
+    private RescoreBuilder rescoreBuilder() {
+        return sourceBuilder().rescore();
     }
 
     @Override

@@ -46,16 +46,4 @@ public class LoadCommand extends Command {
             scriptLoader.loadScript(script);
         }
     }
-
-    @Override
-    public String help() {
-        return HELP;
-    }
-
-    private static final String HELP = "Loads JavaScript source files named by string arguments. \n" +
-            "You can either provide an absolute path like this:\n" +
-            "load('/opt/elasticshell/scripts/elastic.js')\n\n" +
-            "or a path relative to the elasticshell location:\n" +
-            "load('./scripts/elastic.js')\n\n" +
-            "If multiple arguments are given, each file is read and executed in turn.\n";
 }

@@ -41,13 +41,4 @@ public class VersionCommand extends Command {
     public void execute() {
         console.println("elasticsearch version: " + Version.CURRENT + ", JVM: " + JvmInfo.jvmInfo().vmVersion());
     }
-
-
-    @Override
-    public String help() {
-        return HELP;
-    }
-
-    private static final String HELP = "Prints out the current elasticsearch version.\n" +
-            "The elasticshell version is tightly coupled to it.\n";
 }

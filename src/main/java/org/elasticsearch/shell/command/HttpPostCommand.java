@@ -75,18 +75,4 @@ public class HttpPostCommand extends Command {
         return new HttpCommandResponse(Request.Post(url).bodyForm(parameters, Charset.forName(charsetName))
                 .execute().returnResponse());
     }
-
-    @Override
-    public String help() {
-        return HELP;
-    }
-
-    private static final String HELP = "Sends an http POST request to the specified url" +
-            " and returns the response.\n\n" +
-            "The following command will update an existing document within elasticsearch using the UPDATE api:\n" +
-            "httpPost('http://localhost:9200/twitter/tweet/1/_update', '{\"doc\":{\"retweets\":10}}');\n\n" +
-            "You can either provide the request body as a string like in the example above" +
-            " or specify more parameters as key value pairs using the HttpParameters helper class like this:\n" +
-            "var params = HttpParameters.builder().add('foo', 'bla').add('bar', 'bla');\n" +
-            "httpPost('http://host:8080', params);\n";
 }

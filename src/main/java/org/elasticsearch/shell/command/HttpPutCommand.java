@@ -75,18 +75,4 @@ public class HttpPutCommand extends Command {
         return new HttpCommandResponse(Request.Put(url).bodyForm(parameters, Charset.forName(charsetName))
                 .execute().returnResponse());
     }
-    
-    @Override
-    public String help() {
-        return HELP;
-    }
-
-    private static final String HELP = "Sends an http PUT request to the specified url" +
-            " and returns the response.\n\n" +
-            "The following command will index a document within elasticsearch using the INDEX api:\n" +
-            "httpPut('http://localhost:9200/twitter/tweet/1', '{\"content\":\"#elasticsearch rocks\"}');\n\n" +
-            "You can either provide the request body as a string like in the example above" +
-            " or specify more parameters as key value pairs using the HttpParameters helper class like this:\n" +
-            "var params = HttpParameters.builder().add('foo', 'bla').add('bar', 'bla');\n" +
-            "httpPut('http://host:8080', params);\n";
 }

@@ -42,14 +42,4 @@ public class HttpDeleteCommand extends Command {
     public HttpCommandResponse execute(String url) throws IOException {
         return new HttpCommandResponse(Request.Delete(url).execute().returnResponse());
     }
-
-    @Override
-    public String help() {
-        return HELP;
-    }
-
-    private static final String HELP = "Sends an http DELETE request to the specified url" +
-            "and returns the response.\n\n" +
-            "The following command will delete a document from elasticsearch using the DELETE api:\n" +
-            "httpDelete('http://localhost:9200/twitter/tweet/1');\n";
 }

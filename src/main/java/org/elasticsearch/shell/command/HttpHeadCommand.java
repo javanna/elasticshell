@@ -42,14 +42,4 @@ public class HttpHeadCommand extends Command {
     public HttpCommandResponse execute(String url) throws IOException {
         return new HttpCommandResponse(Request.Head(url).execute().returnResponse());
     }
-
-    @Override
-    public String help() {
-        return HELP;
-    }
-
-    private static final String HELP = "Sends an http HEAD request to the specified url" +
-            "and returns the response.\n\n" +
-            "The following command will check if a document exists within elasticsearch using the GET api:\n" +
-            "httpHead('http://localhost:9200/twitter/tweet/1');\n";
 }

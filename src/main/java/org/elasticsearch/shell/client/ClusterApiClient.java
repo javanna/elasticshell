@@ -27,6 +27,7 @@ import org.elasticsearch.shell.json.StringToJson;
  * 
  * Client that exposes all the cluster Apis
  */
+@SuppressWarnings("unused")
 public class ClusterApiClient<EsClient extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> {
 
     private final AbstractClient<EsClient, JsonInput, JsonOutput> client;

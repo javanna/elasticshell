@@ -28,6 +28,7 @@ import org.elasticsearch.shell.json.StringToJson;
  *
  * Client that exposes all the indices Apis
  */
+@SuppressWarnings("unused")
 public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.AbstractClient, JsonInput, JsonOutput> {
 
     private final AbstractClient<EsClient, JsonInput, JsonOutput> client;

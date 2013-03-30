@@ -64,11 +64,4 @@ public class PrintCommand extends Command {
         }
         return null;
     }
-
-    @Override
-    public String help() {
-        return HELP;
-    }
-
-    private static final String HELP = "Prints out the string representation of the provided arguments\n";
 }

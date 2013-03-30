@@ -18,7 +18,7 @@
  */
 package org.mozilla.javascript;
 
-import org.elasticsearch.shell.MessageHelper;
+import org.elasticsearch.shell.HelpMessagesProvider;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -60,7 +60,7 @@ public class RhinoCustomNativeJavaMethod extends BaseFunction {
 
     @Override
     String decompile(int indent, int flags) {
-        String helpMessage = MessageHelper.getMessage(getDeclaringClass().getSimpleName() + "." + nativeJavaMethod.getFunctionName());
+        String helpMessage = HelpMessagesProvider.getHelp(getDeclaringClass(), nativeJavaMethod.getFunctionName());
         if (helpMessage != null && helpMessage.trim().length() > 0) {
             return helpMessage;
         }

@@ -36,6 +36,4 @@ public abstract class Command {
     protected Command(Console<PrintStream> console) {
         this.console = console;
     }
-
-    public abstract String help();
 }

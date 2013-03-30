@@ -34,6 +34,7 @@ import org.elasticsearch.search.facet.FacetBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
@@ -291,6 +292,16 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
+    public SearchRequestBuilder<JsonInput, JsonOutput> suggestText(String globalText) {
+        suggestBuilder().setText(globalText);
+        return this;
+    }
+
+    public SearchRequestBuilder<JsonInput, JsonOutput> addSuggestion(SuggestBuilder.SuggestionBuilder<?> suggestion) {
+        suggestBuilder().addSuggestion(suggestion);
+        return this;
+    }
+
     private HighlightBuilder highlightBuilder() {
         return sourceBuilder().highlighter();
     }
@@ -300,6 +311,10 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
             sourceBuilder = new SearchSourceBuilder();
         }
         return sourceBuilder;
+    }
+
+    private SuggestBuilder suggestBuilder() {
+        return sourceBuilder().suggest();
     }
 
     @Override

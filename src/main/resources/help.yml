@@ -1,3 +1,4 @@
+#Help for commands
 exit.help:
 |
   Quits the elasticshell
@@ -108,7 +109,7 @@ localNode.help:
 nodeClient.help:
 |
   Creates a new elasticsearch node client using the Java API.
-  http://www.elasticsearch.org/guide/reference/java-api/client.html
+  (http://www.elasticsearch.org/guide/reference/java-api/client.html)
 
   The following command with no arguments will create a new node client connected to the cluster with name elasticsearch
   es = nodeClient();
@@ -140,7 +141,7 @@ print.help:
 transportClient.help:
 |
   Creates a new elasticsearch transport client using the Java API.
-  http://www.elasticsearch.org/guide/reference/java-api/client.html)
+  (http://www.elasticsearch.org/guide/reference/java-api/client.html)
 
   The following command with no arguments will create a new transport client connected to localhost, port 9300
   es = transportClient();
@@ -156,3 +157,52 @@ version.help:
 |
   Prints out the current elasticshell version.
   The elasticshell version is tightly coupled to the elasticsearch version, that's why they have the same version number.
+
+#Help for functions
+client.availableIndices:
+|
+  Returns a JSON object containing all the indices available within the current elasticsearch cluster, together with their aliases and types.
+
+client.availableNodes:
+|
+  Returns a JSON object containing all the nodes available within the current elasticsearch cluster.
+
+client.bulkBuilder:
+|
+  Returns an elasticsearch BulkProcessor.Builder which allows to easily build a new bulk request and configure the number or actions required for its execution, the size of the bulk, the optional time interval and the number of concurrent requests
+  (https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/action/bulk/BulkProcessor.java)
+
+  The command below will create a new bulk which will be automatically executed as soon as 100 actions have been added to it
+  var bulk = es.bulkBuilder().setBulkActions(100).build();
+
+  Here is an example of how you can add an index request to the bulk
+  bulk.add(Requests.indexRequest('twitter').type('tweet').id('1').source({content:"elasticsearch rocks"}));
+
+client.bulk:
+|
+  Returns an elasticsearch BulkProcessor with the default settings (1000 actions, size 5MB, no time interval, 1 concurrent request)
+  (https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/action/bulk/BulkProcessor.java)
+
+  The command below will create a new bulk with the default settings
+  var bulk = es.bulk();
+
+  Here is an example of how you can add an index request to the bulk
+  bulk.add(Requests.indexRequest('twitter').type('tweet').id('1').source({content:"elasticsearch rocks"}));
+
+client.countBuilder:
+|
+  Allows to build a count request
+  (http://www.elasticsearch.org/guide/reference/api/count.html)
+
+  Here is an example
+  es.countBuilder().query({"term":{"content":"elasticsearch"}}).execute();
+
+client.count:
+|
+  Returns the number of matches for a query using the count API
+  (http://www.elasticsearch.org/guide/reference/api/count.html)
+
+  You can provide a json query as argument
+  es.count({"term":{"content":"elasticsearch"}});
+
+  or no argument to get the total number of documents available.

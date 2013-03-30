@@ -42,15 +42,4 @@ public class HttpGetCommand extends Command {
     public HttpCommandResponse execute(String url) throws IOException {
         return new HttpCommandResponse(Request.Get(url).execute().returnResponse());
     }
-
-    @Override
-    public String help() {
-        return HELP;
-    }
-
-    private static final String HELP = "Sends an http GET request to the specified url" +
-            "and returns the response.\n\n" +
-            "The following command will retrieve a document from elasticsearch using the GET api:\n" +
-            "var res = httpGet('http://localhost:9200/twitter/tweet/1');\n" +
-            "var doc = res.content();\n";
 }

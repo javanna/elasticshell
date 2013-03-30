@@ -18,6 +18,7 @@
  */
 package org.mozilla.javascript;
 
+import org.elasticsearch.shell.HelpMessagesProvider;
 import org.elasticsearch.shell.command.Command;
 import org.elasticsearch.shell.command.ExecutableCommand;
 
@@ -51,8 +52,8 @@ public class RhinoCommandFunctionObject extends FunctionObject {
 
     @Override
     String decompile(int indent, int flags) {
-        String helpMessage = command.help();
-        if (helpMessage != null && helpMessage.trim().length() > 0) {
+        String helpMessage = HelpMessagesProvider.getHelp(command);
+        if (helpMessage != null) {
             return helpMessage;
         }
         return super.decompile(indent, flags);

@@ -41,11 +41,4 @@ public class ExitCommand extends Command {
     public ExitSignal execute() {
         return new ExitSignal();
     }
-
-    private static final String HELP = "Quits the elasticshell\n";
-
-    @Override
-    public String help() {
-        return HELP;
-    }
 }

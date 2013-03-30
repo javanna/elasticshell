@@ -21,6 +21,7 @@ package org.elasticsearch.shell;
 import org.elasticsearch.common.io.Streams;
 import org.elasticsearch.common.settings.loader.SettingsLoader;
 import org.elasticsearch.common.settings.loader.SettingsLoaderFactory;
+import org.elasticsearch.shell.client.AbstractClient;
 import org.elasticsearch.shell.command.Command;
 import org.elasticsearch.shell.command.ExecutableCommand;
 import org.slf4j.Logger;
@@ -90,6 +91,11 @@ public class HelpMessagesProvider {
     }
 
     public static String getHelp(Class<?> clazz, String functionName) {
+        if (clazz.getPackage().getName().equals(AbstractClient.class.getPackage().getName())
+                && clazz.getSimpleName().endsWith("Client")) {
+            return getHelp("client." + functionName);
+        }
+
         return getHelp(clazz.getSimpleName() + "." + functionName);
     }
 }

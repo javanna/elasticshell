@@ -22,6 +22,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.shell.client.builders.cluster.ClusterHealthRequestBuilder;
 import org.elasticsearch.shell.client.builders.cluster.ClusterStateRequestBuilder;
+import org.elasticsearch.shell.client.builders.cluster.SearchShardsRequestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.*;
 
@@ -368,6 +369,13 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return clusterStateBuilder().execute();
     }
 
+    public SearchShardsRequestBuilder<JsonInput, JsonOutput> searchShardsBuilder() {
+        return shellClient.clusterApi().searchShardsBuilder().indices(indexName);
+    }
+
+    public JsonOutput searchShards() throws Exception {
+        return searchShardsBuilder().execute();
+    }
 
     @Override
     public String toString() {

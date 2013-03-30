@@ -118,4 +118,12 @@ public class ClusterApiClient<EsClient extends org.elasticsearch.client.support.
     public JsonOutput nodesShutdown(String... nodes) throws Exception {
         return nodesShutdownBuilder().nodesIds(nodes).execute();
     }
+
+    public SearchShardsRequestBuilder<JsonInput, JsonOutput> searchShardsBuilder() {
+        return new SearchShardsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
+    }
+
+    public JsonOutput searchShards() throws Exception {
+        return searchShardsBuilder().execute();
+    }
 }

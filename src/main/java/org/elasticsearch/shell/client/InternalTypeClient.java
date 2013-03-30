@@ -19,6 +19,7 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.shell.client.builders.cluster.SearchShardsRequestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.DeleteMappingRequestBuilder;
 import org.elasticsearch.shell.client.builders.indices.GetMappingRequestBuilder;
@@ -196,6 +197,17 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
 
     public JsonOutput warmerPut(String name, JsonInput source) {
         return shellClient.indicesApi().warmerPutBuilder().name(name).source(indexName, typeName, source).execute();
+    }
+
+    /*
+    Cluster APIs that make sense for a specific type
+     */
+    public SearchShardsRequestBuilder<JsonInput, JsonOutput> searchShardsBuilder() {
+        return shellClient.clusterApi().searchShardsBuilder().indices(indexName).types(typeName);
+    }
+
+    public JsonOutput searchShards() throws Exception {
+        return searchShardsBuilder().execute();
     }
 
     @Override

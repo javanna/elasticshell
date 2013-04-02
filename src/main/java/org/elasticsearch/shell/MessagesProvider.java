@@ -36,42 +36,42 @@ import java.util.Map;
 /**
  * @author Luca Cavanna
  *
- * Provides the help messages based on a file within the classpath
+ * Provides messages based on a file within the classpath
  */
-public class HelpMessagesProvider {
+public class MessagesProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(HelpMessagesProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(MessagesProvider.class);
 
-    static final String HELP_FILE = "/help.yml";
+    static final String MESSAGES_FILE = "/messages.yml";
 
-    private static final HelpMessagesProvider helpMessagesProvider = new HelpMessagesProvider();
+    private static final MessagesProvider MESSAGES_PROVIDER = new MessagesProvider();
 
     static {
         try {
-            helpMessagesProvider.load(HELP_FILE);
+            MESSAGES_PROVIDER.load(MESSAGES_FILE);
         } catch (Exception e) {
-            logger.error("Unable to load help file {} from classpath", HELP_FILE, e);
+            logger.error("Unable to load help file {} from classpath", MESSAGES_FILE, e);
         }
     }
 
-    private Map<String, String> helpMessages;
+    private Map<String, String> messages;
 
     void load(String resourceName) throws Exception {
-        this.helpMessages = loadFromClasspath(resourceName);
+        this.messages = loadFromClasspath(resourceName);
     }
 
     Map<String, String> loadFromClasspath(String resourceName) throws IOException {
         InputStream is = this.getClass().getResourceAsStream(resourceName);
         if (is == null) {
-            throw new FileNotFoundException("Unable to find file " + HELP_FILE);
+            throw new FileNotFoundException("Unable to find file " + MESSAGES_FILE);
         }
         SettingsLoader settingsLoader = SettingsLoaderFactory.loaderFromResource(resourceName);
         return settingsLoader.load(Streams.copyToString(new InputStreamReader(is, "UTF-8")));
     }
 
-    static String getHelp(String key) {
-        if (helpMessagesProvider.helpMessages != null) {
-            String message = helpMessagesProvider.helpMessages.get(key);
+    public static String getMessage(String key) {
+        if (MESSAGES_PROVIDER.messages != null) {
+            String message = MESSAGES_PROVIDER.messages.get(key);
             if (message != null) {
                 return message;
             }
@@ -79,10 +79,14 @@ public class HelpMessagesProvider {
         return "";
     }
 
+    static String getHelp(String component) {
+        return getMessage(component + ".help");
+    }
+
     public static String getHelp(Command command) {
         String[] commandAliases = command.getClass().getAnnotation(ExecutableCommand.class).aliases();
         for (String commandAlias : commandAliases) {
-            String helpMessage = getHelp(commandAlias + ".help");
+            String helpMessage = getHelp(commandAlias);
             if (helpMessage != null && helpMessage.trim().length()> 0) {
                 return helpMessage;
             }

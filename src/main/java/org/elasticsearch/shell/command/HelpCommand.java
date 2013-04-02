@@ -19,7 +19,7 @@
 package org.elasticsearch.shell.command;
 
 import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.HelpMessagesProvider;
+import org.elasticsearch.shell.MessagesProvider;
 import org.elasticsearch.shell.console.Console;
 
 import java.io.PrintStream;
@@ -39,6 +39,6 @@ public class HelpCommand extends Command {
 
     @SuppressWarnings("unused")
     public String execute() {
-        return HelpMessagesProvider.getHelp(this);
+        return MessagesProvider.getHelp(this);
     }
 }

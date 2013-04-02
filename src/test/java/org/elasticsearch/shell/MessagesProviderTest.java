@@ -30,17 +30,17 @@ import java.util.Set;
 /**
  * @author Luca Cavanna
  */
-public class HelpMessagesProviderTest {
+public class MessagesProviderTest {
 
     @Test
     public void testLoadHelpFile() throws Exception {
-        HelpMessagesProvider provider = new HelpMessagesProvider();
-        provider.load(HelpMessagesProvider.HELP_FILE);
+        MessagesProvider provider = new MessagesProvider();
+        provider.load(MessagesProvider.MESSAGES_FILE);
     }
 
     @Test(expectedExceptions = IOException.class)
     public void testLoadFileNotFound() throws Exception {
-        HelpMessagesProvider provider = new HelpMessagesProvider();
+        MessagesProvider provider = new MessagesProvider();
         provider.load("not found");
     }
 
@@ -55,7 +55,7 @@ public class HelpMessagesProviderTest {
         CommandRegistry registry = injector.getInstance(CommandRegistry.class);
 
         for (Command command : registry.commands) {
-            String help = HelpMessagesProvider.getHelp(command);
+            String help = MessagesProvider.getHelp(command);
             Assert.assertNotNull(help);
             Assert.assertTrue(help.trim().length() > 0);
         }

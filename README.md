@@ -33,8 +33,6 @@ Same goes for the elasticshell 0.20.5 version, which should work with all 0.20.x
 	</tbody>
 </table>
 
-For any elasticsearch version released after 0.20.5 there will be a specific elasticshell release with exactly same version name.
-
 Installation
 ------------------------------
 

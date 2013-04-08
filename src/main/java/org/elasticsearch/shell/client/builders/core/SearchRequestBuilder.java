@@ -207,7 +207,7 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public SearchRequestBuilder<JsonInput, JsonOutput> facet(FacetBuilder facet) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> facetBuilder(FacetBuilder facet) {
         sourceBuilder().facet(facet);
         return this;
     }

@@ -1,3 +1,11 @@
+welcome:
+|
+  Welcome to the elasticshell
+bye:
+|
+  bye
+prompt: '> '
+
 #Help for commands
 exit.help:
 |

@@ -19,6 +19,8 @@
 package org.elasticsearch.shell.source;
 
 import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.shell.MessagesProvider;
+import org.elasticsearch.shell.ShellSettings;
 import org.elasticsearch.shell.console.Console;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +63,7 @@ public class CompilableSourceReader {
         String source = "";
 
         while(true) {
-            String line = console.readLine(lineNumber == 0 ? "> " : "... ");
+            String line = console.readLine(lineNumber == 0 ? MessagesProvider.getMessage(ShellSettings.PROMPT_MESSAGE) : "... ");
             source = source + line + "\n";
             lineNumber++;
 

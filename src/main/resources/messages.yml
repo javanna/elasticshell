@@ -2,7 +2,8 @@ welcome:
 |
   Welcome to the elasticshell
 bye:
-|
+  |
+
   bye
 prompt: '> '
 

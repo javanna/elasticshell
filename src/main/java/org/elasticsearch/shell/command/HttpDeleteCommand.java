@@ -30,7 +30,7 @@ import java.io.PrintStream;
  *
  * Command that sends http DELETE requests to the url provided as input
  */
-@ExecutableCommand(aliases = {"httpDelete", "delete"})
+@ExecutableCommand(aliases = {"httpDelete"})
 public class HttpDeleteCommand extends Command {
 
     @Inject

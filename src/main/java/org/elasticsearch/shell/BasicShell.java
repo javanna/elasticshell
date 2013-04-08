@@ -19,7 +19,6 @@
 package org.elasticsearch.shell;
 
 
-import org.elasticsearch.Version;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
@@ -152,8 +151,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
     }
 
     protected void printWelcomeMessage() {
-        console.println("Welcome to the elasticshell " + Version.CURRENT);
-        console.println("----------------------------------");
+        console.print(MessagesProvider.getMessage(ShellSettings.WELCOME_MESSAGE));
     }
 
     protected void tryRegisterDefaultClient() {
@@ -216,7 +214,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
             }
             shellScope.closeAllResources();
             console.println();
-            console.println("bye");
+            console.println(MessagesProvider.getMessage(ShellSettings.BYE_MESSAGE));
         }
     }
 }

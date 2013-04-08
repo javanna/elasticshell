@@ -50,6 +50,10 @@ public class ShellSettings {
     public static final String DEFAULT_STARTUP_SCRIPT = "./config/elasticshell.js";
     public static final String STARTUP_SCRIPT = "startup.script";
 
+    public static final String WELCOME_MESSAGE = "welcome";
+    public static final String PROMPT_MESSAGE = "prompt";
+    public static final String BYE_MESSAGE = "bye";
+
     private final Settings settings;
 
     @Inject

@@ -41,6 +41,11 @@ public class PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> extends Abstr
         super(client, new PutIndexTemplateRequest(null), jsonToString, stringToJson);
     }
 
+    public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> name(String name) {
+        request.name(name);
+        return this;
+    }
+
     public PutIndexTemplateRequestBuilder<JsonInput, JsonOutput> template(String template) {
         request.template(template);
         return this;

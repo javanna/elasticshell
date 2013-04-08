@@ -6,211 +6,213 @@ bye:
   bye
 prompt: '> '
 
-#Help for commands
-exit.help:
-|
-  Quits the elasticshell
+help:
 
-help.help:
-|
-  This is the elasticshell, a  shell for elasticsearch
-  For information about elasticsearch, visit http://elasticsearch.org
+  exit:
+  |
+    Quits the elasticshell
 
-  You can either write Java or JavaScript code in here.
-  Every command is exposed as a JavaScript function, therefore in order to run a command you need to type its name with the brackets (and eventual arguments)
-  e.g. exit()
+  help:
+  |
+    This is the elasticshell, a  shell for elasticsearch
+    For information about elasticsearch, visit http://elasticsearch.org
 
-  In order to get help for a specific command, just type its name (without the brackets)
-  e.g. exit
+    You can either write Java or JavaScript code in here.
+    Every command is exposed as a JavaScript function, therefore in order to run a command you need to type its name with the brackets (and eventual arguments)
+    e.g. exit()
 
-  The elasticshell comes with nice auto-suggestions, available pressing the tab key, which will show as a result a list of all the commands and objects available in the current context.
+    In order to get help for a specific command, just type its name (without the brackets)
+    e.g. exit
 
-  The following are the available commands (with example arguments)
-     exit() or quit()                   Quits the elasticshell
-     help()                             Display this help message
-     httpDelete(url)                    Sends a DELETE http request
-     httpGet(url)                       Sends a GET http request
-     httpHead(url)                      Sends a HEAD http request
-     httpPost(url, body)                Sends a POST http request
-     httpPut(url, body)                 Sends a PUT http request
-     importClass(java.util.Date)        Imports a Java class
-     importPackage(java.util)           Imports a Java package
-     load('./scripts/elastic.js')       Loads external Javascript source files
-     nodeClient('elasticsearch')        Creates a new node client given
-                                        the cluster name to connect to
-     localNode('elasticsearch')         Creates a new local node given
-                                        the name of the cluster to join
-     print(es)                          Prints out the string representation
-                                        of the provided arguments
-     transportClient('localhost:9300')  Creates a new transport client given
-                                        the address of the node to connect to
-     version()                          Prints out the current version
+    The elasticshell comes with nice auto-suggestions, available pressing the tab key, which will show as a result a list of all the commands and objects available in the current context.
 
-httpDelete.help:
-|
-  Sends an http DELETE request to the specified urland returns the response.
+    The following are the available commands (with example arguments)
+       exit() or quit()                   Quits the elasticshell
+       help()                             Display this help message
+       httpDelete(url)                    Sends a DELETE http request
+       httpGet(url)                       Sends a GET http request
+       httpHead(url)                      Sends a HEAD http request
+       httpPost(url, body)                Sends a POST http request
+       httpPut(url, body)                 Sends a PUT http request
+       importClass(java.util.Date)        Imports a Java class
+       importPackage(java.util)           Imports a Java package
+       load('./scripts/elastic.js')       Loads external Javascript source files
+       nodeClient('elasticsearch')        Creates a new node client given
+                                          the cluster name to connect to
+       localNode('elasticsearch')         Creates a new local node given
+                                          the name of the cluster to join
+       print(es)                          Prints out the string representation
+                                          of the provided arguments
+       transportClient('localhost:9300')  Creates a new transport client given
+                                          the address of the node to connect to
+       version()                          Prints out the current version
 
-  The following command will delete a document from elasticsearch using the DELETE api
-  httpDelete('http://localhost:9200/twitter/tweet/1');
+  httpDelete:
+  |
+    Sends an http DELETE request to the specified urland returns the response.
 
-httpGet.help:
-|
-  Sends an http GET request to the specified urland returns the response.
+    The following command will delete a document from elasticsearch using the DELETE api
+    httpDelete('http://localhost:9200/twitter/tweet/1');
 
-  The following command will retrieve a document from elasticsearch using the get api
-  var res = httpGet('http://localhost:9200/twitter/tweet/1');
-  var doc = res.content();
+  httpGet:
+  |
+    Sends an http GET request to the specified urland returns the response.
 
-httpHead.help:
-|
-  Sends an http HEAD request to the specified urland returns the response.
+    The following command will retrieve a document from elasticsearch using the get api
+    var res = httpGet('http://localhost:9200/twitter/tweet/1');
+    var doc = res.content();
 
-  The following command will check if a document exists within elasticsearch using the get api
-  httpHead('http://localhost:9200/twitter/tweet/1');
+  httpHead:
+  |
+    Sends an http HEAD request to the specified urland returns the response.
 
-httpPost.help:
-|
-  Sends an http POST request to the specified url and returns the response.
+    The following command will check if a document exists within elasticsearch using the get api
+    httpHead('http://localhost:9200/twitter/tweet/1');
 
-  The following command will update an existing document within elasticsearch using the update api
-  httpPost('http://localhost:9200/twitter/tweet/1/_update', '{"doc":{"retweets":10}}');
+  httpPost:
+  |
+    Sends an http POST request to the specified url and returns the response.
 
-  You can either provide the request body as a string like in the example above or specify more parameters as key value pairs using the HttpParameters helper class like this
-  var params = HttpParameters.builder().add('foo', 'bla').add('bar', 'bla');
-  httpPost('http://host:8080', params);
+    The following command will update an existing document within elasticsearch using the update api
+    httpPost('http://localhost:9200/twitter/tweet/1/_update', '{"doc":{"retweets":10}}');
 
-httpPut.help:
-  Sends an http PUT request to the specified url and returns the response.
+    You can either provide the request body as a string like in the example above or specify more parameters as key value pairs using the HttpParameters helper class like this
+    var params = HttpParameters.builder().add('foo', 'bla').add('bar', 'bla');
+    httpPost('http://host:8080', params);
 
-  The following command will index a document within elasticsearch using the index api
-  httpPut('http://localhost:9200/twitter/tweet/1', '{"content":"#elasticsearch rocks"}');
+  httpPut:
+  |
+    Sends an http PUT request to the specified url and returns the response.
 
-  You can either provide the request body as a string like in the example above or specify more parameters as key value pairs using the HttpParameters helper class like this
-  var params = HttpParameters.builder().add('foo', 'bla').add('bar', 'bla');
-  httpPut('http://host:8080', params);
+    The following command will index a document within elasticsearch using the index api
+    httpPut('http://localhost:9200/twitter/tweet/1', '{"content":"#elasticsearch rocks"}');
 
-load.help:
-|
-  Loads the JavaScript source files named by string arguments.
-  You can either provide an absolute path like this
-  load('/opt/elasticshell/scripts/elastic.js')
+    You can either provide the request body as a string like in the example above or specify more parameters as key value pairs using the HttpParameters helper class like this
+    var params = HttpParameters.builder().add('foo', 'bla').add('bar', 'bla');
+    httpPut('http://host:8080', params);
 
-  or a path relative to the elasticshell location
-  load('./scripts/elastic.js')
+  load:
+  |
+    Loads the JavaScript source files named by string arguments.
+    You can either provide an absolute path like this
+    load('/opt/elasticshell/scripts/elastic.js')
 
-  If multiple arguments are given, each file is read and executed in turn.
+    or a path relative to the elasticshell location
+    load('./scripts/elastic.js')
 
-localNode.help:
-|
-  Creates (and starts) a new elasticsearch local node using the Java API.
-  The node is local on the JVM level, meaning that two local servers started within the shell will discover themselves and form a cluster. The created local node holds data.
+    If multiple arguments are given, each file is read and executed in turn.
 
-  The following command with no arguments will create a new local node that joins (or creates) a cluster called [elasticsearch]
-  node = localNode();
+  localNode:
+  |
+    Creates (and starts) a new elasticsearch local node using the Java API.
+    The node is local on the JVM level, meaning that two local servers started within the shell will discover themselves and form a cluster. The created local node holds data.
 
-  The following command with a string argument will create a local node that joins (or creates) a cluster with the given name [elasticshell]
-  node = localNode('elasticshell');
+    The following command with no arguments will create a new local node that joins (or creates) a cluster called [elasticsearch]
+    node = localNode();
 
-  You can obtain a client from the node just using the client() method
-  es = node.client();
+    The following command with a string argument will create a local node that joins (or creates) a cluster with the given name [elasticshell]
+    node = localNode('elasticshell');
 
-nodeClient.help:
-|
-  Creates a new elasticsearch node client using the Java API.
-  (http://www.elasticsearch.org/guide/reference/java-api/client.html)
+    You can obtain a client from the node just using the client() method
+    es = node.client();
 
-  The following command with no arguments will create a new node client connected to the cluster with name elasticsearch
-  es = nodeClient();
+  nodeClient:
+  |
+    Creates a new elasticsearch node client using the Java API.
+    (http://www.elasticsearch.org/guide/reference/java-api/client.html)
 
-  The following command with a string argument will create a new node client connected to the cluster with name es-cluster
-  es = nodeClient('es-cluster');
+    The following command with no arguments will create a new node client connected to the cluster with name elasticsearch
+    es = nodeClient();
 
-parseJson.help:
-|
-  Converts to json the argument provided.
-  The argument can be either a String or a ToXContent elasticsearch object.
+    The following command with a string argument will create a new node client connected to the cluster with name es-cluster
+    es = nodeClient('es-cluster');
 
-  Executing the command with a String as input like this
-  parseJson('here goes your string');
+  parseJson:
+  |
+    Converts to json the argument provided.
+    The argument can be either a String or a ToXContent elasticsearch object.
 
-  will have the same result as executing the following standard line
-  JSON.parse('here goes your string');
+    Executing the command with a String as input like this
+    parseJson('here goes your string');
 
-  When providing a ToXContent object as input, the command will have the same result as converting it to a String and parsing it as json.
-  The command is particularly useful when the ToXContent object doesn't override the toString method, which usually outputs the json as string.
+    will have the same result as executing the following standard line
+    JSON.parse('here goes your string');
 
-  var termsFacetBuilder = FacetBuilders.termsFacet('facet name').field('field');
-  var termsFacet = parseJson(termsFacetBuilder);
+    When providing a ToXContent object as input, the command will have the same result as converting it to a String and parsing it as json.
+    The command is particularly useful when the ToXContent object doesn't override the toString method, which usually outputs the json as string.
 
-print.help:
-|
-  Prints out the string representation of the provided arguments
+    var termsFacetBuilder = FacetBuilders.termsFacet('facet name').field('field');
+    var termsFacet = parseJson(termsFacetBuilder);
 
-transportClient.help:
-|
-  Creates a new elasticsearch transport client using the Java API.
-  (http://www.elasticsearch.org/guide/reference/java-api/client.html)
+  print:
+  |
+    Prints out the string representation of the provided arguments
 
-  The following command with no arguments will create a new transport client connected to localhost, port 9300
-  es = transportClient();
+  transportClient:
+  |
+    Creates a new elasticsearch transport client using the Java API.
+    (http://www.elasticsearch.org/guide/reference/java-api/client.html)
 
-  The following command with a string argument will create a new transport client connected to es-host, port 9302
+    The following command with no arguments will create a new transport client connected to localhost, port 9300
+    es = transportClient();
 
-  es = transportClient('es-host:9302');
+    The following command with a string argument will create a new transport client connected to es-host, port 9302
 
-  You can connect to multiple nodes just providing a list of addresses
-  es = transportClient('es-host1:9300','es-host2:9300','es-host3:9300');
+    es = transportClient('es-host:9302');
 
-version.help:
-|
-  Prints out the current elasticshell version.
-  The elasticshell version is tightly coupled to the elasticsearch version, that's why they have the same version number.
+    You can connect to multiple nodes just providing a list of addresses
+    es = transportClient('es-host1:9300','es-host2:9300','es-host3:9300');
 
-#Help for functions
-client.availableIndices.help:
-|
-  Returns a JSON object containing all the indices available within the current elasticsearch cluster, together with their aliases and types.
+  version:
+  |
+    Prints out the current elasticshell version.
+    The elasticshell version is tightly coupled to the elasticsearch version, that's why they have the same version number.
 
-client.availableNodes.help:
-|
-  Returns a JSON object containing all the nodes available within the current elasticsearch cluster.
 
-client.bulkBuilder.help:
-|
-  Returns an elasticsearch BulkProcessor.Builder which allows to easily build a new bulk request and configure the number or actions required for its execution, the size of the bulk, the optional time interval and the number of concurrent requests
-  (https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/action/bulk/BulkProcessor.java)
+  client.availableIndices:
+  |
+    Returns a JSON object containing all the indices available within the current elasticsearch cluster, together with their aliases and types.
 
-  The command below will create a new bulk which will be automatically executed as soon as 100 actions have been added to it
-  var bulk = es.bulkBuilder().setBulkActions(100).build();
+  client.availableNodes:
+  |
+    Returns a JSON object containing all the nodes available within the current elasticsearch cluster.
 
-  Here is an example of how you can add an index request to the bulk
-  bulk.add(Requests.indexRequest('twitter').type('tweet').id('1').source({content:"elasticsearch rocks"}));
+  client.bulkBuilder:
+  |
+    Returns an elasticsearch BulkProcessor.Builder which allows to easily build a new bulk request and configure the number or actions required for its execution, the size of the bulk, the optional time interval and the number of concurrent requests
+    (https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/action/bulk/BulkProcessor.java)
 
-client.bulk.help:
-|
-  Returns an elasticsearch BulkProcessor with the default settings (1000 actions, size 5MB, no time interval, 1 concurrent request)
-  (https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/action/bulk/BulkProcessor.java)
+    The command below will create a new bulk which will be automatically executed as soon as 100 actions have been added to it
+    var bulk = es.bulkBuilder().setBulkActions(100).build();
 
-  The command below will create a new bulk with the default settings
-  var bulk = es.bulk();
+    Here is an example of how you can add an index request to the bulk
+    bulk.add(Requests.indexRequest('twitter').type('tweet').id('1').source({content:"elasticsearch rocks"}));
 
-  Here is an example of how you can add an index request to the bulk
-  bulk.add(Requests.indexRequest('twitter').type('tweet').id('1').source({content:"elasticsearch rocks"}));
+  client.bulk:
+  |
+    Returns an elasticsearch BulkProcessor with the default settings (1000 actions, size 5MB, no time interval, 1 concurrent request)
+    (https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/action/bulk/BulkProcessor.java)
 
-client.countBuilder.help:
-|
-  Allows to build a count request
-  (http://www.elasticsearch.org/guide/reference/api/count.html)
+    The command below will create a new bulk with the default settings
+    var bulk = es.bulk();
 
-  Here is an example
-  es.countBuilder().query({"term":{"content":"elasticsearch"}}).execute();
+    Here is an example of how you can add an index request to the bulk
+    bulk.add(Requests.indexRequest('twitter').type('tweet').id('1').source({content:"elasticsearch rocks"}));
 
-client.count.help:
-|
-  Returns the number of matches for a query using the count API
-  (http://www.elasticsearch.org/guide/reference/api/count.html)
+  client.countBuilder:
+  |
+    Allows to build a count request
+    (http://www.elasticsearch.org/guide/reference/api/count.html)
 
-  You can provide a json query as argument
-  es.count({"term":{"content":"elasticsearch"}});
+    Here is an example
+    es.countBuilder().query({"term":{"content":"elasticsearch"}}).execute();
 
-  or no argument to get the total number of documents available.
+  client.count:
+  |
+    Returns the number of matches for a query using the count API
+    (http://www.elasticsearch.org/guide/reference/api/count.html)
+
+    You can provide a json query as argument
+    es.count({"term":{"content":"elasticsearch"}});
+
+    or no argument to get the total number of documents available.

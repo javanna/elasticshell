@@ -298,7 +298,7 @@ public class SearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRequest
         return this;
     }
 
-    public SearchRequestBuilder<JsonInput, JsonOutput> addSuggestion(SuggestBuilder.SuggestionBuilder<?> suggestion) {
+    public SearchRequestBuilder<JsonInput, JsonOutput> addSuggestionBuilder(SuggestBuilder.SuggestionBuilder<?> suggestion) {
         suggestBuilder().addSuggestion(suggestion);
         return this;
     }

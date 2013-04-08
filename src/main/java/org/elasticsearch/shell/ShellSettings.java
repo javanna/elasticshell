@@ -47,7 +47,7 @@ public class ShellSettings {
     public static final String TRANSPORT_HOST = "transport.host";
     public static final String TRANSPORT_PORT = "transport.port";
 
-    public static final String DEFAULT_STARTUP_SCRIPT = "./config/elasticshell.js";
+    public static final String DEFAULT_STARTUP_SCRIPT = ".elasticshellrc.js";
     public static final String STARTUP_SCRIPT = "startup.script";
 
     public static final String WELCOME_MESSAGE = "welcome";
@@ -115,12 +115,16 @@ public class ShellSettings {
         }
 
         if (settingsBuilder.get(STARTUP_SCRIPT) == null) {
-            File file = new File(DEFAULT_STARTUP_SCRIPT);
-            if (file.exists()) {
-                settingsBuilder.put(STARTUP_SCRIPT, DEFAULT_STARTUP_SCRIPT);
+            //we look in the user home only if the startup script is not set in the configuration
+            //otherwise we expect a path, which can of course be relative
+            String userHome = System.getProperty( "user.home" );
+            File startupScriptFile = new File(userHome, DEFAULT_STARTUP_SCRIPT);
+            if (startupScriptFile.exists()) {
+                settingsBuilder.put(STARTUP_SCRIPT, startupScriptFile.getAbsolutePath());
             }
         }
 
         return settingsBuilder.build();
     }
+
 }

@@ -9,5 +9,6 @@
 #transport.port: 9300
 
 #Startup script that will be run while starting up the shell
+#Will be looked up within the user home directory if not set
 #It can contain whatever command that's valid within the shell itself
-#startup.script: config/elasticshell.js
+#startup.script: .elasticshellrc.js

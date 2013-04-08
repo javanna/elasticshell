@@ -20,6 +20,9 @@ package org.elasticsearch.shell.client;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.common.base.Predicate;
+import org.elasticsearch.common.collect.Sets;
+import org.elasticsearch.index.mapper.MapperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,10 +70,18 @@ public abstract class ClientScopeSynchronizer<ShellNativeClient> implements Runn
         for (IndexMetaData indexMetaData : response.getState().metaData().indices().values()) {
             logger.trace("Processing index {}", indexMetaData.index());
 
-            Set<String> indexNames = indexMetaData.mappings().keySet();
-            newIndexes.add(new Index(indexMetaData.index(), false, indexNames.toArray(new String[indexNames.size()])));
+            Set<String> typeNames = Sets.filter(indexMetaData.mappings().keySet(), new Predicate<String>() {
+                @Override
+                public boolean apply(String s) {
+                    return !MapperService.DEFAULT_MAPPING.equals(s);
+                }
+            });
+            String[] types = typeNames.toArray(new String[typeNames.size()]);
+
+            newIndexes.add(new Index(indexMetaData.index(), false, types));
+
             for (String alias : indexMetaData.aliases().keySet()) {
-                newIndexes.add(new Index(alias, true, indexMetaData.mappings().keySet().toArray(new String[indexNames.size()])));
+                newIndexes.add(new Index(alias, true, types));
             }
         }
         return newIndexes;

@@ -127,13 +127,13 @@ help:
     The following command with a string argument will create a new node client connected to the cluster with name es-cluster
     es = nodeClient('es-cluster');
 
-  parseJson:
+  toJson:
   |
     Converts to json the argument provided.
     The argument can be either a String or a ToXContent elasticsearch object.
 
     Executing the command with a String as input like this
-    parseJson('here goes your string');
+    toJson('here goes your string');
 
     will have the same result as executing the following standard line
     JSON.parse('here goes your string');
@@ -142,7 +142,7 @@ help:
     The command is particularly useful when the ToXContent object doesn't override the toString method, which usually outputs the json as string.
 
     var termsFacetBuilder = FacetBuilders.termsFacet('facet name').field('field');
-    var termsFacet = parseJson(termsFacetBuilder);
+    var termsFacet = toJson(termsFacetBuilder);
 
   print:
   |

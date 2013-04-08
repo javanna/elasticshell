@@ -33,13 +33,13 @@ import java.io.PrintStream;
  *
  * @author Luca Cavanna
  */
-@ExecutableCommand(aliases = "parseJson")
-public class ParseJsonCommand<JsonOutput> extends Command {
+@ExecutableCommand(aliases = "toJson")
+public class ToJsonCommand<JsonOutput> extends Command {
 
     private final StringToJson<JsonOutput> stringToJson;
 
     @Inject
-    protected ParseJsonCommand(Console<PrintStream> console, StringToJson<JsonOutput> stringToJson) {
+    protected ToJsonCommand(Console<PrintStream> console, StringToJson<JsonOutput> stringToJson) {
         super(console);
         this.stringToJson = stringToJson;
     }

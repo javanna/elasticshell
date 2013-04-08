@@ -80,7 +80,7 @@ public class MessagesProvider {
     }
 
     static String getHelp(String component) {
-        return getMessage(component + ".help");
+        return getMessage("help." + component);
     }
 
     public static String getHelp(Command command) {

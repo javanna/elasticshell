@@ -103,7 +103,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
         while (true) {
             CompilableSource source = null;
             try {
-                source = compilableSourceReader.read();
+                source = compilableSourceReader.read(getPrompt());
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
                 console.println("Error while checking the input: " + e.toString());
@@ -120,6 +120,10 @@ public class BasicShell<ShellNativeClient> implements Shell {
                 }
             }
         }
+    }
+
+    protected String getPrompt() {
+        return MessagesProvider.getMessage(ShellSettings.PROMPT_MESSAGE);
     }
 
     /**

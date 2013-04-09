@@ -26,9 +26,12 @@ import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
+import org.elasticsearch.shell.source.CompilableSource;
 import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
 import org.mozilla.javascript.RhinoCustomWrapFactory;
+import org.mozilla.javascript.UniqueTag;
 
 import java.io.PrintStream;
 
@@ -40,6 +43,9 @@ import java.io.PrintStream;
  * @author Luca Cavanna
  */
 public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
+
+    private final ShellScope<RhinoShellTopLevel> rhinoShellScope;
+
     @Inject
     RhinoShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<RhinoShellTopLevel> shellScope,
@@ -47,6 +53,8 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
                ScriptLoader scriptLoader, Scheduler scheduler, ShellSettings shellSettings) {
         super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope,
                 clientFactory, scriptLoader, scheduler, shellSettings);
+
+        this.rhinoShellScope = shellScope;
     }
 
     @Override
@@ -55,6 +63,28 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
         Context context = Context.enter();
         context.setErrorReporter(new RhinoErrorReporter(false, console.out()));
         context.setWrapFactory(new RhinoCustomWrapFactory());
+    }
+
+    @Override
+    protected String getPrompt() {
+        Object promptObject = rhinoShellScope.get().get(ShellSettings.PROMPT_MESSAGE, rhinoShellScope.get());
+
+        if (promptObject != null
+                && !promptObject.equals(UniqueTag.NOT_FOUND)
+                && !promptObject.equals(UniqueTag.NULL_VALUE)) {
+
+            Object result;
+
+            if (promptObject instanceof Function) {
+                result = scriptExecutor.execute(new CompilableSource(ShellSettings.PROMPT_MESSAGE + "()", 1));
+            } else {
+                result = promptObject;
+            }
+
+            return javaToString(unwrap(result));
+        }
+
+        return super.getPrompt();
     }
 
     @Override

@@ -94,6 +94,11 @@ public class NodesInfoRequestBuilder<JsonInput, JsonOutput> extends AbstractRequ
         return this;
     }
 
+    public NodesInfoRequestBuilder<JsonInput, JsonOutput> plugin(boolean plugin) {
+        request.plugin(plugin);
+        return this;
+    }
+
     @Override
     protected ActionFuture<NodesInfoResponse> doExecute(NodesInfoRequest request) {
         return client.admin().cluster().nodesInfo(request);

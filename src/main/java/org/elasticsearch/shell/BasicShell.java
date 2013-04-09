@@ -87,7 +87,9 @@ public class BasicShell<ShellNativeClient> implements Shell {
     @Override
     public void run() {
         init();
+        printLogoAndWelcomeMessage();
         loadStartupScript();
+        tryRegisterDefaultClient();
         try {
             doRun();
         } finally {
@@ -96,10 +98,6 @@ public class BasicShell<ShellNativeClient> implements Shell {
     }
 
     protected void doRun() {
-        printLogoAndWelcomeMessage();
-
-        tryRegisterDefaultClient();
-
         while (true) {
             CompilableSource source = null;
             try {
@@ -137,13 +135,21 @@ public class BasicShell<ShellNativeClient> implements Shell {
      * Loads the optional startup script
      */
     void loadStartupScript() {
-        String startupScript = shellSettings.settings().get(ShellSettings.STARTUP_SCRIPT);
+        final String startupScript = shellSettings.settings().get(ShellSettings.STARTUP_SCRIPT);
         if (startupScript != null) {
-            try {
-                scriptLoader.loadScript(startupScript);
-            } catch(Throwable t) {
-                logger.error("Error loading the startup script [{}]", startupScript, t);
-            }
+            console.print("Loading startup script " + startupScript);
+
+            new ExecutorWithProgress<Void>(console, new ExecutorWithProgress.ActionCallback<Void>() {
+                @Override
+                public Void execute() {
+                    try {
+                        scriptLoader.loadScript(startupScript);
+                    } catch(Throwable t) {
+                        logger.error("Error loading the startup script [{}]", startupScript, t);
+                    }
+                    return null;
+                }
+            }).execute();
         }
     }
 

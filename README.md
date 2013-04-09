@@ -10,9 +10,8 @@ Getting Started
 Versions
 ------------------------------
 
-The elasticshell version is tightly coupled with the elasticsearch version. The project has been developed based on 0.20.5 version, then backported to [0.19.12](https://github.com/javanna/elasticshell/tree/0.19).
-The elasticshell 0.19.12 version should work with all 0.19.x elasticsearch releases, even though you might find small runtime compatibility issues with versions preceding 0.19.12.
-Same goes for the elasticshell 0.20.5 version, which should work with all 0.20.x elasticsearch releases. Should you find any problem, just open an [issue](https://github.com/javanna/elasticshell/issues) and I'll be happy to have a look at it.
+The elasticshell version is tightly coupled with the elasticsearch version since it uses its Java API to connect to it.
+There currently are two active development branches: one for 0.19.x and one for 0.20.x.
 
 <table>
 	<thead>

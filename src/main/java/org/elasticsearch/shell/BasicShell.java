@@ -96,7 +96,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
     }
 
     protected void doRun() {
-        printWelcomeMessage();
+        printLogoAndWelcomeMessage();
 
         tryRegisterDefaultClient();
 
@@ -150,8 +150,18 @@ public class BasicShell<ShellNativeClient> implements Shell {
 
     }
 
-    protected void printWelcomeMessage() {
-        console.print(MessagesProvider.getMessage(ShellSettings.WELCOME_MESSAGE));
+    protected void printLogoAndWelcomeMessage() {
+        StringBuilder logoBuilder = new StringBuilder();
+        logoBuilder.append("               ___       \n");
+        logoBuilder.append("             //   \\\\   \n");
+        logoBuilder.append("         {{ ((     ))    ").append(MessagesProvider.getMessage(ShellSettings.WELCOME_MESSAGE));
+        logoBuilder.append("         {{  \\\\___//   \n");
+        logoBuilder.append("        {{     //        \n");
+        logoBuilder.append("         {{   //  }}     \n");
+        logoBuilder.append("         {{  //    }}    \n");
+        logoBuilder.append("         {{_______}}     \n");
+
+        console.println(logoBuilder.toString());
     }
 
     protected void tryRegisterDefaultClient() {

@@ -16,3 +16,6 @@
 
 #Maximum number of suggestions that will be shown in the shell
 #suggestions.max: 100
+
+#Enables playground mode: automatically creates a local node at startup and a client connected to it
+#playground.mode: false

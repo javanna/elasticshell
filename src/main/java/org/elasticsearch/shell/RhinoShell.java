@@ -24,14 +24,12 @@ import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
 import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.node.NodeFactory;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSource;
 import org.elasticsearch.shell.source.CompilableSourceReader;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.RhinoCustomWrapFactory;
-import org.mozilla.javascript.UniqueTag;
+import org.mozilla.javascript.*;
 
 import java.io.PrintStream;
 
@@ -42,7 +40,7 @@ import java.io.PrintStream;
  *
  * @author Luca Cavanna
  */
-public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
+public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject, NativeObject, Object> {
 
     private final ShellScope<RhinoShellTopLevel> rhinoShellScope;
 
@@ -50,9 +48,11 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject> {
     RhinoShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<RhinoShellTopLevel> shellScope,
                ClientFactory<RhinoClientNativeJavaObject> clientFactory,
+               NodeFactory<RhinoClientNativeJavaObject, NativeObject, Object> nodeFactory,
                ScriptLoader scriptLoader, Scheduler scheduler, ShellSettings shellSettings) {
+
         super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope,
-                clientFactory, scriptLoader, scheduler, shellSettings);
+                clientFactory, nodeFactory, scriptLoader, scheduler, shellSettings);
 
         this.rhinoShellScope = shellScope;
     }

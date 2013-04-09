@@ -24,6 +24,7 @@ import jline.console.completer.Completer;
 import jline.console.completer.CompletionHandler;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.name.Named;
+import org.elasticsearch.shell.ShellSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,10 +53,12 @@ public class JLineConsole extends AbstractConsole {
     @Inject
     JLineConsole(@Named("appName") String appName,
                  @Named("shellInput") InputStream in, @Named("shellOutput") PrintStream out,
-                 CompleterHolder completerHolder) {
+                 ShellSettings shellSettings, CompleterHolder completerHolder) {
         super(out);
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
+            Integer maxSuggestions = shellSettings.settings().getAsInt("suggestions.max", 100);
+            this.reader.setAutoprintThreshold(maxSuggestions);
             reader.setBellEnabled(false);
             if (completerHolder.completer != null) {
                 reader.addCompleter(completerHolder.completer);

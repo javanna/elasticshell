@@ -50,6 +50,8 @@ public class ShellSettings {
     public static final String DEFAULT_STARTUP_SCRIPT = ".elasticshellrc.js";
     public static final String STARTUP_SCRIPT = "startup.script";
 
+    public static final String PLAYGROUND_MODE = "playground.mode";
+
     public static final String WELCOME_MESSAGE = "welcome";
     public static final String PROMPT_MESSAGE = "prompt";
     public static final String BYE_MESSAGE = "bye";
@@ -112,6 +114,10 @@ public class ShellSettings {
 
         if (settingsBuilder.get(TRANSPORT_PORT) == null) {
             settingsBuilder.put(TRANSPORT_PORT, DEFAULT_TRANSPORT_PORT);
+        }
+
+        if (settingsBuilder.get(PLAYGROUND_MODE) == null) {
+            settingsBuilder.put(PLAYGROUND_MODE, false);
         }
 
         if (settingsBuilder.get(STARTUP_SCRIPT) == null) {

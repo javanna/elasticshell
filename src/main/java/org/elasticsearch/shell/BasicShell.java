@@ -25,6 +25,8 @@ import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.node.Node;
+import org.elasticsearch.shell.node.NodeFactory;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSource;
@@ -41,7 +43,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author Luca Cavanna
  */
-public class BasicShell<ShellNativeClient> implements Shell {
+public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements Shell {
 
     private static final Logger logger = LoggerFactory.getLogger(BasicShell.class);
 
@@ -51,6 +53,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
     protected final Unwrapper unwrapper;
     protected final ShellScope<?> shellScope;
     protected final ClientFactory<ShellNativeClient> clientFactory;
+    protected final NodeFactory<ShellNativeClient, JsonInput, JsonOutput> nodeFactory;
     protected final ScriptLoader scriptLoader;
     protected final Scheduler scheduler;
     protected final ShellSettings shellSettings;
@@ -71,6 +74,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
     public BasicShell(Console<PrintStream> console, CompilableSourceReader compilableSourceReader,
                       ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<?> shellScope,
                       ClientFactory<ShellNativeClient> clientFactory,
+                      NodeFactory<ShellNativeClient, JsonInput, JsonOutput> nodeFactory,
                       ScriptLoader scriptLoader, Scheduler scheduler,
                       ShellSettings shellSettings) {
         this.console = console;
@@ -79,6 +83,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
         this.unwrapper = unwrapper;
         this.shellScope = shellScope;
         this.clientFactory = clientFactory;
+        this.nodeFactory = nodeFactory;
         this.scriptLoader = scriptLoader;
         this.scheduler = scheduler;
         this.shellSettings = shellSettings;
@@ -88,6 +93,13 @@ public class BasicShell<ShellNativeClient> implements Shell {
     public void run() {
         init();
         loadStartupScript();
+
+        if (shellSettings.settings().getAsBoolean(ShellSettings.PLAYGROUND_MODE, false)) {
+            enablePlaygroundMode();
+        } else {
+            tryRegisterDefaultClient();
+        }
+
         try {
             doRun();
         } finally {
@@ -168,6 +180,27 @@ public class BasicShell<ShellNativeClient> implements Shell {
         console.println(logoBuilder.toString());
     }
 
+    protected void enablePlaygroundMode() {
+        console.print("Enabling playground mode");
+
+        final StringBuilder messageBuilder = new StringBuilder();
+
+        new ExecutorWithProgress<Void>(console, new ExecutorWithProgress.ActionCallback<Void>() {
+            @Override
+            public Void execute() {
+                Node<ShellNativeClient,JsonInput,JsonOutput> node = nodeFactory.newLocalNode();
+                shellScope.registerJavaObject("node", node);
+                messageBuilder.append(node.toString() + " available as node").append("\n");
+                ShellNativeClient shellNativeClient = node.client();
+                shellScope.registerJavaObject("es", shellNativeClient);
+                messageBuilder.append(shellNativeClient.toString() + " available as es");
+                return null;
+            }
+        }).execute();
+
+        console.println(messageBuilder.toString());
+    }
+
     protected void tryRegisterDefaultClient() {
         ShellNativeClient shellNativeClient = clientFactory.newTransportClient();
         if (shellNativeClient != null) {
@@ -177,7 +210,7 @@ public class BasicShell<ShellNativeClient> implements Shell {
 
     protected void registerClient(ShellNativeClient shellNativeClient) {
         shellScope.registerJavaObject("es", shellNativeClient);
-        console.println(shellNativeClient.toString() + " registered with name es");
+        console.println(shellNativeClient.toString() + " available as es");
     }
 
     /**

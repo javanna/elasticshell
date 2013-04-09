@@ -21,6 +21,7 @@ package org.elasticsearch.shell.client.builders.cluster;
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.cluster.node.stats.NodesStatsRequest;
 import org.elasticsearch.action.admin.cluster.node.stats.NodesStatsResponse;
+import org.elasticsearch.action.admin.indices.stats.CommonStatsFlags;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
@@ -48,6 +49,11 @@ public class NodesStatsRequestBuilder<JsonInput, JsonOutput> extends AbstractReq
 
     public NodesStatsRequestBuilder<JsonInput, JsonOutput> all() {
         request.all();
+        return this;
+    }
+
+    public NodesStatsRequestBuilder indices(CommonStatsFlags commonStatsFlags) {
+        request.indices(commonStatsFlags);
         return this;
     }
 

@@ -114,6 +114,21 @@ public class StatsRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         return this;
     }
 
+    public StatsRequestBuilder<JsonInput, JsonOutput> filterCache(boolean filterCache) {
+        request.filterCache(filterCache);
+        return this;
+    }
+
+    public StatsRequestBuilder<JsonInput, JsonOutput> idCache(boolean idCache) {
+        request.idCache(idCache);
+        return this;
+    }
+
+    public StatsRequestBuilder<JsonInput, JsonOutput> fieldData(boolean fieldData) {
+        request.fieldData(fieldData);
+        return this;
+    }
+
     @Override
     protected ActionFuture<IndicesStatsResponse> doExecute(IndicesStatsRequest request) {
         return client.admin().indices().stats(request);

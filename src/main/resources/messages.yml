@@ -149,6 +149,12 @@ help:
   |
     Prints out the string representation of the provided arguments
 
+  save:
+  |
+    Saves to file the string representation of the provided argument. Useful with big json objects for instance.
+    The default location where the file is saved is ./output/output.txt but it's possible to provide the file path as the second argument.
+    Consecutive save command executions to the same file will append content it.
+
   transportClient:
   |
     Creates a new elasticsearch transport client using the Java API.

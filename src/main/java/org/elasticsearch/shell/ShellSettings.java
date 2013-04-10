@@ -50,7 +50,11 @@ public class ShellSettings {
     public static final String DEFAULT_STARTUP_SCRIPT = ".elasticshellrc.js";
     public static final String STARTUP_SCRIPT = "startup.script";
 
+    public static final String HISTORY_FILE = ".elasticshell_history";
+
     public static final String PLAYGROUND_MODE = "playground.mode";
+
+    public static final String SUGGESTIONS_MAX = "suggestions.max";
 
     public static final String WELCOME_MESSAGE = "welcome";
     public static final String PROMPT_MESSAGE = "prompt";

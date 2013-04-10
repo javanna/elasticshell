@@ -22,12 +22,14 @@ package org.elasticsearch.shell.console;
 import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
 import jline.console.completer.CompletionHandler;
+import jline.console.history.FileHistory;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.name.Named;
 import org.elasticsearch.shell.ShellSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -42,6 +44,7 @@ public class JLineConsole extends AbstractConsole {
     private static final Logger logger = LoggerFactory.getLogger(JLineConsole.class);
 
     private final ConsoleReader reader;
+    private final FileHistory fileHistory;
 
     /**
      * Constructor for the JLineConsole
@@ -57,8 +60,18 @@ public class JLineConsole extends AbstractConsole {
         super(out);
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
-            Integer maxSuggestions = shellSettings.settings().getAsInt("suggestions.max", 100);
+
+            String userHome = System.getProperty("user.home");
+            if (userHome != null && userHome.length()>0) {
+                this.fileHistory = new FileHistory(new File(userHome, ShellSettings.HISTORY_FILE));
+                this.reader.setHistory(fileHistory);
+            } else {
+                this.fileHistory = null;
+            }
+
+            Integer maxSuggestions = shellSettings.settings().getAsInt(ShellSettings.SUGGESTIONS_MAX, 100);
             this.reader.setAutoprintThreshold(maxSuggestions);
+
             reader.setBellEnabled(false);
             if (completerHolder.completer != null) {
                 reader.addCompleter(completerHolder.completer);
@@ -86,5 +99,18 @@ public class JLineConsole extends AbstractConsole {
         String line = reader.readLine(prompt);
         logger.debug("Read line {}", line);
         return line;
+    }
+
+    /**
+     * Flushes the history if necessary
+     */
+    public void flushHistory() {
+        if (fileHistory != null) {
+            try {
+                fileHistory.flush();
+            } catch (IOException e) {
+                logger.error("Error while flushing the history to file {}", fileHistory.getFile().getAbsolutePath(), e);
+            }
+        }
     }
 }

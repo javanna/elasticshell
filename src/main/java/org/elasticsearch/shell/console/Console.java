@@ -63,7 +63,7 @@ public interface Console<Output> {
     String readLine(String prompt) throws IOException;
 
     /**
-     * Flushes the history if necessary
+     * Executes the operations needed when shutting down the console
      */
-    void flushHistory();
+    void shutdown();
 }

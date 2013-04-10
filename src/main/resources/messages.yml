@@ -176,15 +176,15 @@ help:
     The elasticshell version is tightly coupled to the elasticsearch version, that's why they have the same version number.
 
 
-  client.availableIndices:
+  AbstractClient.availableIndices:
   |
     Returns a JSON object containing all the indices available within the current elasticsearch cluster, together with their aliases and types.
 
-  client.availableNodes:
+  AbstractClient.availableNodes:
   |
     Returns a JSON object containing all the nodes available within the current elasticsearch cluster.
 
-  client.bulkBuilder:
+  AbstractClient.bulkBuilder:
   |
     Returns an elasticsearch BulkProcessor.Builder which allows to easily build a new bulk request and configure the number or actions required for its execution, the size of the bulk, the optional time interval and the number of concurrent requests
     (https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/action/bulk/BulkProcessor.java)
@@ -195,7 +195,7 @@ help:
     Here is an example of how you can add an index request to the bulk
     bulk.add(Requests.indexRequest('twitter').type('tweet').id('1').source({content:"elasticsearch rocks"}));
 
-  client.bulk:
+  AbstractClient.bulk:
   |
     Returns an elasticsearch BulkProcessor with the default settings (1000 actions, size 5MB, no time interval, 1 concurrent request)
     (https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/action/bulk/BulkProcessor.java)
@@ -206,20 +206,106 @@ help:
     Here is an example of how you can add an index request to the bulk
     bulk.add(Requests.indexRequest('twitter').type('tweet').id('1').source({content:"elasticsearch rocks"}));
 
-  client.countBuilder:
+  AbstractClient.countBuilder:
   |
     Allows to build a count request
-    (http://www.elasticsearch.org/guide/reference/api/count.html)
+    (http://www.elasticsearch.org/guide/reference/api/count/)
 
     Here is an example
     es.countBuilder().query({"term":{"content":"elasticsearch"}}).execute();
 
-  client.count:
+  AbstractClient.count:
   |
     Returns the number of matches for a query using the count API
-    (http://www.elasticsearch.org/guide/reference/api/count.html)
+    (http://www.elasticsearch.org/guide/reference/api/count/)
 
     You can provide a json query as argument
     es.count({"term":{"content":"elasticsearch"}});
 
     or no argument to get the total number of documents available.
+
+  InternalIndexClient.countBuilder:
+  |
+    Allows to build a count request for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/count/)
+
+    Here is an example
+    es.<index>.countBuilder().query({"term":{"content":"elasticsearch"}}).execute();
+
+  InternalIndexClient.count:
+  |
+    Returns the number of matches for a query within a specific index
+    (http://www.elasticsearch.org/guide/reference/api/count/)
+
+    You can provide a json query as argument
+    es.<index>.count({"term":{"content":"elasticsearch"}});
+
+    or no argument to get the total number of documents available within the index.
+
+  InternalTypeClient.countBuilder:
+  |
+    Allows to build a count request for a specific type
+    (http://www.elasticsearch.org/guide/reference/api/count/)
+
+    Here is an example
+    es.<index>.<type>.countBuilder().query({"term":{"content":"elasticsearch"}}).execute();
+
+  InternalTypeClient.count:
+  |
+    Returns the number of matches for a query within a specific type
+    (http://www.elasticsearch.org/guide/reference/api/count/)
+
+    You can provide a json query as argument
+    es.<index>.<type>.count({"term":{"content":"elasticsearch"}});
+
+    or no argument to get the total number of documents available within the type.
+
+  AbstractClient.deleteBuilder:
+  |
+    Allows to build a delete request
+    (http://www.elasticsearch.org/guide/reference/api/delete/)
+
+    Here is an example
+    es.deleteBuilder().index('twitter').type('tweet').id('1').execute();
+
+  AbstractClient.delete:
+  |
+    Deletes a document using the delete API
+    (http://www.elasticsearch.org/guide/reference/api/delete/)
+
+    The required arguments are index, type and id
+    es.delete('twitter','tweet','1');
+
+  InternalIndexClient.deleteBuilder:
+  |
+    Allows to build a delete request
+    (http://www.elasticsearch.org/guide/reference/api/delete/)
+
+    Here is an example
+    es.<index>.deleteBuilder().type('tweet').id('1').execute();
+
+  InternalIndexClient.delete:
+  |
+    Deletes a document using the delete API
+    (http://www.elasticsearch.org/guide/reference/api/delete/)
+
+    The required arguments are index, type and id
+    es.<index>.delete('tweet','1');
+
+  InternalTypeClient.deleteBuilder:
+  |
+    Allows to build a delete request
+    (http://www.elasticsearch.org/guide/reference/api/delete/)
+
+    Here is an example
+    es.<index>.<type>.deleteBuilder().id('1').execute();
+
+  InternalTypeClient.delete:
+  |
+    Deletes a document using the delete API
+    (http://www.elasticsearch.org/guide/reference/api/delete/)
+
+    The required arguments are index, type and id
+    es.<index>.<type>.delete('1');
+
+

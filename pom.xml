@@ -7,7 +7,7 @@
     <name>elasticshell</name>
     <groupId>org.elasticsearch</groupId>
     <artifactId>elasticshell</artifactId>
-    <version>0.20.6-RC</version>
+    <version>0.20.6-RC-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>elasticshell - the shell for elasticsearch</description>
     <inceptionYear>2013</inceptionYear>

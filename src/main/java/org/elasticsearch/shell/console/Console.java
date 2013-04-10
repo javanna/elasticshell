@@ -61,4 +61,9 @@ public interface Console<Output> {
      * @throws IOException in case of problems while reading the input
      */
     String readLine(String prompt) throws IOException;
+
+    /**
+     * Flushes the history if necessary
+     */
+    void flushHistory();
 }

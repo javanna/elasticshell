@@ -59,7 +59,7 @@ public class DeleteByQueryRequestBuilder<JsonInput, JsonOutput>  extends Abstrac
         return this;
     }
 
-    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder queryBuilder) {
+    public DeleteByQueryRequestBuilder<JsonInput, JsonOutput> queryBuilder(QueryBuilder queryBuilder) {
         request.query(queryBuilder);
         return this;
     }

@@ -43,7 +43,7 @@ There currently are three active development branches: one for 0.19.x, one for 0
 Installation
 ------------------------------
 
-* [Download](http://bit.ly/13593TO) and unzip the elasticshell distribution
+* Download and unzip the elasticshell distribution
 * Run `bin/elasticshell` on unix, or `bin/elasticshell.bat` on windows
 
 Help

@@ -265,6 +265,9 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
                 scheduler.shutdown();
             }
             shellScope.closeAllResources();
+
+            console.flushHistory();
+
             console.println();
             console.println(MessagesProvider.getMessage(ShellSettings.BYE_MESSAGE));
         }

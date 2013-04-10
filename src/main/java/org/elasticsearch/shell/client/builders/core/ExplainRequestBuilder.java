@@ -77,7 +77,7 @@ public class ExplainRequestBuilder<JsonInput, JsonOutput> extends AbstractReques
         return this;
     }
 
-    public ExplainRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder query) {
+    public ExplainRequestBuilder<JsonInput, JsonOutput> queryBuilder(QueryBuilder query) {
         request.source(new ExplainSourceBuilder().setQuery(query));
         return this;
     }

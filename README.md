@@ -25,12 +25,16 @@ There currently are three active development branches: one for 0.19.x, one for 0
             <td>master</td>
             <td>0.90.0.RC2</td>
         </tr>
+        <tr>
+            <td><a href="http://dl.bintray.com/content/javanna/elasticsearch-tools/release/org/elasticsearch/elasticshell/0.90.0.RC2/elasticshell-0.90.0.RC2.zip?direct">0.90.0.RC2</a></td>
+            <td>0.90.0.RC2</td>
+        </tr>
 		<tr>
-            <td><a href="http://bit.ly/13593TO">0.20.5-BETA</a></td>
+            <td><a href="http://dl.bintray.com/content/javanna/elasticsearch-tools/release/org/elasticsearch/elasticshell/0.20.6-RC/elasticshell-0.20.6-RC.zip?direct">0.20.6-RC</a></td>
             <td>0.20.x</td>
         </tr>
 		<tr>
-            <td><a href="http://bit.ly/13f6BJZ">0.19.12-BETA</a></td>
+            <td><a href="http://dl.bintray.com/content/javanna/elasticsearch-tools/release/org/elasticsearch/elasticshell/0.19.12-RC/elasticshell-0.19.12-RC.zip?direct">0.19.12-RC</a></td>
         	<td>0.19.x</td>
         </tr>
 	</tbody>

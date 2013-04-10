@@ -269,8 +269,7 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
             console.println();
             console.println(MessagesProvider.getMessage(ShellSettings.BYE_MESSAGE));
 
-            //Calling shutdown breaks the shutdown hook, which waits for it forever
-            //console.shutdown();
+            console.shutdown();
         }
     }
 }

@@ -568,3 +568,38 @@ help:
 
     The document doesn't need to be typed in a single line. It can be a variable, even copy pasted from outside the shell.
 
+  AbstractClient.multiGetBuilder:
+  |
+    Allows to build a multi get request
+    (http://www.elasticsearch.org/guide/reference/api/multi-get/)
+
+    Here is an example that retrieves two documents with a single request
+    es.multiGetBuilder().add('twitter','tweet','1','2').execute();
+
+    Using the builder you can retrieve multiple documents from different indexes or types too
+    es.multiGetBuilder().add('twitter','tweet','1').add('blog','trifork','1','2').execute();
+
+  AbstractClient.multiGet:
+  |
+    Retrieves multiple documents by id using the multi get api
+    (http://www.elasticsearch.org/guide/reference/api/multi-get/)
+
+    The required arguments are index, type and the ids of the document to retrieve
+    es.multiGet('twitter','tweet','1','2','3');
+
+  InternalIndexClient.multiGet:
+  |
+    Retrieves multiple documents by id using the multi get api
+    (http://www.elasticsearch.org/guide/reference/api/multi-get/)
+
+    The required arguments are type and the ids of the document to retrieve
+    es.<index>.multiGet('tweet','1','2','3');
+
+  InternalTypeClient.multiGet:
+  |
+    Retrieves multiple documents by id using the multi get api
+    (http://www.elasticsearch.org/guide/reference/api/multi-get/)
+
+    The required arguments are the ids of the document to retrieve
+    es.<index>.<type>.multiGet('1','2','3');
+

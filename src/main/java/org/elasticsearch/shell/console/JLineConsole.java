@@ -95,16 +95,16 @@ public class JLineConsole extends AbstractConsole {
      * @return the line read
      * @throws IOException in case of problems while reading the line
      */
+    @Override
     public String readLine(String prompt) throws IOException {
         String line = reader.readLine(prompt);
         logger.debug("Read line {}", line);
         return line;
     }
 
-    /**
-     * Flushes the history if necessary
-     */
-    public void flushHistory() {
+    @Override
+    public void shutdown() {
+
         if (fileHistory != null) {
             try {
                 fileHistory.flush();
@@ -112,5 +112,7 @@ public class JLineConsole extends AbstractConsole {
                 logger.error("Error while flushing the history to file {}", fileHistory.getFile().getAbsolutePath(), e);
             }
         }
+
+        reader.shutdown();
     }
 }

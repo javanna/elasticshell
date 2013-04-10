@@ -424,3 +424,51 @@ help:
 
     The required arguments are document id and the query (provided as a json object)
     es.<index>.<type>.explain('1',{"term":{"user":"kimchy"}});
+
+  AbstractClient.getBuilder:
+  |
+    Allows to build a get request
+    (http://www.elasticsearch.org/guide/reference/api/get/)
+
+    Here is an example
+    es.getBuilder().index('twitter').type('tweet').id('1').execute();
+
+  InternalIndexClient.getBuilder:
+  |
+    Allows to build a get request
+    (http://www.elasticsearch.org/guide/reference/api/get/)
+
+    Here is an example
+    es.<index>.getBuilder().type('tweet').id('1').execute();
+
+  InternalTypeClient.getBuilder:
+  |
+    Allows to build a get request
+    (http://www.elasticsearch.org/guide/reference/api/get/)
+
+    Here is an example
+    es.<index>.<type>.getBuilder().id('1').execute();
+
+  AbstractClient.get:
+  |
+    Retrieves a document by id using the get api
+    (http://www.elasticsearch.org/guide/reference/api/get/)
+
+    The required arguments are index, type and document id
+    es.get('twitter','tweet','1');
+
+  InternalIndexClient.get:
+  |
+    Retrieves a document by id using the get api
+    (http://www.elasticsearch.org/guide/reference/api/get/)
+
+    The required arguments are type and document id
+    es.<index>.get('tweet','1');
+
+  InternalTypeClient.get:
+  |
+    Retrieves a document by id using the get api
+    (http://www.elasticsearch.org/guide/reference/api/get/)
+
+    The required argument is the document id
+    es.<index>.<type>.get('1');

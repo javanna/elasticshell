@@ -273,7 +273,7 @@ help:
     Deletes a document using the delete API
     (http://www.elasticsearch.org/guide/reference/api/delete/)
 
-    The required arguments are index, type and id
+    The required arguments are index, type and document id
     es.delete('twitter','tweet','1');
 
   InternalIndexClient.deleteBuilder:
@@ -289,7 +289,7 @@ help:
     Deletes a document using the delete API
     (http://www.elasticsearch.org/guide/reference/api/delete/)
 
-    The required arguments are index, type and id
+    The required arguments are type and document id
     es.<index>.delete('tweet','1');
 
   InternalTypeClient.deleteBuilder:
@@ -305,7 +305,66 @@ help:
     Deletes a document using the delete API
     (http://www.elasticsearch.org/guide/reference/api/delete/)
 
-    The required arguments are index, type and id
+    The required argument is the id of the document that needs to be deleted
     es.<index>.<type>.delete('1');
 
+  AbstractClient.deleteByQueryBuilder:
+  |
+    Allows to build a delete by query request
+    (http://www.elasticsearch.org/guide/reference/api/delete-by-query/)
+
+    Here is an example that executes the query on all indices and deletes the matching documents
+    es.deleteByQueryBuilder().query({"term" : { "user" : "kimchy" }}).execute();
+
+    Here is an example that executes the query on the provided indices and deletes the matching documents
+    es.deleteByQueryBuilder().indices('index1','index2').query(query).execute();
+
+    Here is an example that executes the query on all indices and deletes the matching documents, where the query is provided using the QueryBuilder helper class
+    es.deleteByQueryBuilder().queryBuilder(QueryBuilders.termQuery('user','kimchy')).execute();
+
+  AbstractClient.deleteByQuery:
+  |
+    Deletes all the documents matching a query executed on all indices
+    (http://www.elasticsearch.org/guide/reference/api/delete-by-query/)
+
+    The required argument is the query, provided as a json object
+    es.delete({"term" : { "user" : "kimchy" }});
+
+  InternalIndexClient.deleteByQueryBuilder:
+  |
+    Allows to build a delete by query request on a specific index
+    (http://www.elasticsearch.org/guide/reference/api/delete-by-query/)
+
+    Here is an example that executes the query on the selected index and deletes the matching documents
+    es.<index>.deleteByQueryBuilder().query({"term" : { "user" : "kimchy" }}).execute();
+
+    Here is an example that executes the query on all indices and deletes the matching documents, where the query is provided using the QueryBuilder helper class
+    es.<index>.deleteByQueryBuilder().queryBuilder(QueryBuilders.termQuery('user','kimchy')).execute();
+
+  InternalIndexClient.deleteByQuery:
+  |
+    Deletes all the documents matching a query executed on a specific index
+    (http://www.elasticsearch.org/guide/reference/api/delete-by-query/)
+
+    The required argument is the query, provided as a json object
+    es.<index>.delete({"term" : { "user" : "kimchy" }});
+
+  InternalTypeClient.deleteByQueryBuilder:
+  |
+    Allows to build a delete by query request on a specific type
+    (http://www.elasticsearch.org/guide/reference/api/delete-by-query/)
+
+    Here is an example that executes the query on the selected index and type and deletes the matching documents
+    es.<index>.<type>.deleteByQueryBuilder().query({"term" : { "user" : "kimchy" }}).execute();
+
+    Here is an example that executes the query on the selected index and type and deletes the matching documents, where the query is provided using the QueryBuilder helper class
+    es.<index>.<type>.deleteByQueryBuilder().queryBuilder(QueryBuilders.termQuery('user','kimchy')).execute();
+
+  InternalTypeClient.deleteByQuery:
+  |
+    Deletes all the documents matching a query executed on a specific type
+    (http://www.elasticsearch.org/guide/reference/api/delete-by-query/)
+
+    The required argument is the query, provided as a json object
+    es.<index>.<type>delete({"term" : { "user" : "kimchy" }});
 

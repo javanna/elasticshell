@@ -22,11 +22,11 @@ There currently are two active development branches: one for 0.19.x and one for 
 	</thead>
 	<tbody>
 		<tr>
-            <td><a href="http://bit.ly/13593TO">0.20.5-BETA</a></td>
+            <td><a href="http://dl.bintray.com/content/javanna/elasticsearch-tools/release/org/elasticsearch/elasticshell/0.20.6-RC/elasticshell-0.20.6-RC.zip?direct">0.20.6-RC</a></td>
             <td>0.20.x</td>
         </tr>
 		<tr>
-            <td><a href="http://bit.ly/13f6BJZ">0.19.12-BETA</a></td>
+            <td><a href="http://dl.bintray.com/content/javanna/elasticsearch-tools/release/org/elasticsearch/elasticshell/0.19.12-RC/elasticshell-0.19.12-RC.zip?direct">0.19.12-RC</a></td>
         	<td>0.19.x</td>
         </tr>
 	</tbody>
@@ -35,7 +35,7 @@ There currently are two active development branches: one for 0.19.x and one for 
 Installation
 ------------------------------
 
-* [Download](http://bit.ly/13593TO) and unzip the elasticshell distribution
+* Download and unzip the elasticshell distribution
 * Run `bin/elasticshell` on unix, or `bin/elasticshell.bat` on windows
 
 Help

@@ -113,6 +113,7 @@ public class JLineConsole extends AbstractConsole {
             }
         }
 
-        reader.shutdown();
+        //Calling shutdown breaks the shutdown hook, which waits for it forever
+        //reader.shutdown();
     }
 }

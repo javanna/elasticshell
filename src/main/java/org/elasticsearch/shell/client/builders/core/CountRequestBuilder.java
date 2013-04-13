@@ -18,6 +18,8 @@
  */
 package org.elasticsearch.shell.client.builders.core;
 
+import java.io.IOException;
+
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.count.CountRequest;
 import org.elasticsearch.action.count.CountResponse;
@@ -27,8 +29,6 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
-
-import java.io.IOException;
 
 import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastShardsHeader;
 
@@ -69,7 +69,7 @@ public class CountRequestBuilder<JsonInput, JsonOutput> extends AbstractRequestB
         return this;
     }
 
-    public CountRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder queryBuilder) {
+    public CountRequestBuilder<JsonInput, JsonOutput> queryBuilder(QueryBuilder queryBuilder) {
         request.query(queryBuilder);
         return this;
     }

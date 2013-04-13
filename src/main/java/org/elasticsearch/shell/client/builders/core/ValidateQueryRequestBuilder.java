@@ -19,7 +19,6 @@
 package org.elasticsearch.shell.client.builders.core;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.validate.query.QueryExplanation;

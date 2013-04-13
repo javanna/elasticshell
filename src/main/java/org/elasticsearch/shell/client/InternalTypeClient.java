@@ -95,6 +95,11 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return shellClient.explainBuilder().index(indexName).type(typeName);
     }
 
+    public JsonOutput explain(String id, String queryString) {
+        return explainBuilder().id(id).
+                queryBuilder(QueryBuilders.queryString(queryString)).execute();
+    }
+
     public JsonOutput explain(String id, JsonInput source) {
         return explainBuilder().id(id).source(source).execute();
     }

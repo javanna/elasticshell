@@ -170,6 +170,11 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
         return new ExplainRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
     }
 
+    public JsonOutput explain(String index, String type, String id, String queryString) {
+        return explainBuilder().index(index).type(type).id(id).
+                queryBuilder(QueryBuilders.queryString(queryString)).execute();
+    }
+
     public JsonOutput explain(String index, String type, String id, JsonInput source) {
         return explainBuilder().index(index).type(type).id(id).source(source).execute();
     }

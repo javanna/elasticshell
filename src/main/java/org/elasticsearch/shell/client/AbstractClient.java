@@ -158,6 +158,10 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
         return new DeleteByQueryRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
     }
 
+    public JsonOutput deleteByQuery(String queryString) {
+        return deleteByQueryBuilder().queryBuilder(QueryBuilders.queryString(queryString)).execute();
+    }
+
     public JsonOutput deleteByQuery(JsonInput query) {
         return deleteByQueryBuilder().query(query).execute();
     }

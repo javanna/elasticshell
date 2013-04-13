@@ -44,6 +44,10 @@ help:
                                           the name of the cluster to join
        print(es)                          Prints out the string representation
                                           of the provided arguments
+       save(json, 'output.json')          Saves the string representation
+                                          of any object to file
+       toJson(facetBuilder)               Converts to json object the given
+                                          argument if possible
        transportClient('localhost:9300')  Creates a new transport client given
                                           the address of the node to connect to
        version()                          Prints out the current version

@@ -18,6 +18,8 @@
  */
 package org.elasticsearch.shell.client;
 
+import java.io.Closeable;
+
 import org.elasticsearch.action.admin.cluster.state.ClusterStateRequest;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.bulk.BulkProcessor;
@@ -32,8 +34,6 @@ import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
-
-import java.io.Closeable;
 
 /**
  * @author Luca Cavanna
@@ -137,6 +137,10 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
 
     public JsonOutput count() {
         return countBuilder().execute();
+    }
+
+    public JsonOutput count(String queryString) {
+        return countBuilder().queryBuilder(QueryBuilders.queryString(queryString)).execute();
     }
 
     public JsonOutput count(JsonInput query) {

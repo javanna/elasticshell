@@ -64,6 +64,10 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return countBuilder().execute();
     }
 
+    public JsonOutput count(String queryString) {
+        return countBuilder().queryBuilder(QueryBuilders.queryString(queryString)).execute();
+    }
+
     public JsonOutput count(JsonInput query) {
         return countBuilder().query(query).execute();
     }

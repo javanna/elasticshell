@@ -18,6 +18,9 @@
  */
 package org.elasticsearch.shell.client.builders.core;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.validate.query.QueryExplanation;
 import org.elasticsearch.action.admin.indices.validate.query.ValidateQueryRequest;
@@ -56,7 +59,7 @@ public class ValidateQueryRequestBuilder<JsonInput, JsonOutput> extends Abstract
         return this;
     }
 
-    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> query(QueryBuilder queryBuilder) {
+    public ValidateQueryRequestBuilder<JsonInput, JsonOutput> queryBuilder(QueryBuilder queryBuilder) {
         request.query(queryBuilder);
         return this;
     }

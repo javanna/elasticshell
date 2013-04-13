@@ -18,14 +18,17 @@
  */
 package org.elasticsearch.shell;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.elasticsearch.common.inject.*;
 import org.elasticsearch.shell.command.Command;
 import org.elasticsearch.shell.command.CommandModule;
+import org.elasticsearch.shell.command.ExecutableCommand;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.util.Set;
 
 /**
  * @author Luca Cavanna
@@ -59,6 +62,41 @@ public class MessagesProviderTest {
             Assert.assertNotNull(help);
             Assert.assertTrue(help.trim().length() > 0);
         }
+    }
+
+    @Test
+    public void testHelpMessageContainsAllCommands() {
+        Injector injector = Guice.createInjector(new ShellModule(), new JLineModule(), new RhinoShellModule(), new CommandModule(), new Module() {
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(CommandRegistry.class).asEagerSingleton();
+            }
+        });
+
+        String help = MessagesProvider.getHelp("help");
+
+        CommandRegistry registry = injector.getInstance(CommandRegistry.class);
+
+        List<String> missingCommands = new ArrayList<String>();
+        for (Command command : registry.commands) {
+            ExecutableCommand annotation = command.getClass().getAnnotation(ExecutableCommand.class);
+            boolean found = false;
+            for (String alias : annotation.aliases()) {
+                //pretty basic but works for now, a regex might be better here
+                if (help.contains(alias)) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                missingCommands.add(command.getClass().getSimpleName());
+            }
+        }
+
+        Assert.assertTrue(missingCommands.isEmpty(),
+                "The help message doesn't mention commands " + missingCommands);
+
     }
 
     private static class CommandRegistry {

@@ -86,6 +86,10 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.deleteByQueryBuilder().indices(indexName);
     }
 
+    public JsonOutput deleteByQuery(String queryString) {
+        return deleteByQueryBuilder().queryBuilder(QueryBuilders.queryString(queryString)).execute();
+    }
+
     public JsonOutput deleteByQuery(JsonInput query) {
         return deleteByQueryBuilder().query(query).execute();
     }

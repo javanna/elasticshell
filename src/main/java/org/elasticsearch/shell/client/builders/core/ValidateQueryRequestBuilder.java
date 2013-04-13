@@ -19,7 +19,6 @@
 package org.elasticsearch.shell.client.builders.core;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.validate.query.QueryExplanation;
@@ -32,8 +31,6 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
-
-import java.io.IOException;
 
 import static org.elasticsearch.rest.action.support.RestActions.buildBroadcastShardsHeader;
 

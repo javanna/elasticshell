@@ -98,6 +98,11 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.explainBuilder().index(indexName);
     }
 
+    public JsonOutput explain(String type, String id, String queryString) {
+        return explainBuilder().type(type).id(id).
+                queryBuilder(QueryBuilders.queryString(queryString)).execute();
+    }
+
     public JsonOutput explain(String type, String id, JsonInput source) {
         return explainBuilder().type(type).id(id).source(source).execute();
     }

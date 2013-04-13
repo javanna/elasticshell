@@ -272,6 +272,10 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
         return new ValidateQueryRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
     }
 
+    public JsonOutput validate(String queryString) {
+        return validateBuilder().queryBuilder(QueryBuilders.queryString(queryString)).execute();
+    }
+
     public JsonOutput validate(JsonInput query) {
         return validateBuilder().query(query).execute();
     }

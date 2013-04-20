@@ -19,20 +19,24 @@
 package org.elasticsearch.shell.console;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Iterator;
+
 import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
 import jline.console.completer.CompletionHandler;
 import jline.console.history.FileHistory;
+import jline.console.history.History;
+import org.elasticsearch.common.base.Function;
+import org.elasticsearch.common.collect.Iterators;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.name.Named;
 import org.elasticsearch.shell.ShellSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
 
 /**
  * <code>Console</code> implementation that depends on JLine for the input.
@@ -100,6 +104,16 @@ public class JLineConsole extends AbstractConsole {
         String line = reader.readLine(prompt);
         logger.debug("Read line {}", line);
         return line;
+    }
+
+    @Override
+    public Iterator<CharSequence> getHistoryEntries() {
+        return Iterators.transform(fileHistory.iterator(), new Function<History.Entry, CharSequence>() {
+            @Override
+            public CharSequence apply(jline.console.history.History.Entry entry) {
+                return entry.value();
+            }
+        });
     }
 
     @Override

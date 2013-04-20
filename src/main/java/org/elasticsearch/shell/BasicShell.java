@@ -19,6 +19,10 @@
 package org.elasticsearch.shell;
 
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
@@ -33,10 +37,6 @@ import org.elasticsearch.shell.source.CompilableSource;
 import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Basic shell implementation: it reads a compilable source and executes it
@@ -92,6 +92,7 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
     @Override
     public void run() {
         init();
+
         printLogoAndWelcomeMessage();
         loadStartupScript();
 
@@ -172,14 +173,15 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
     }
 
     protected void printLogoAndWelcomeMessage() {
+
         StringBuilder logoBuilder = new StringBuilder();
-        logoBuilder.append("               ___       \n");
-        logoBuilder.append("             //   \\\\   \n");
-        logoBuilder.append("         {{ ((     ))    ").append(MessagesProvider.getMessage(ShellSettings.WELCOME_MESSAGE));
-        logoBuilder.append("         {{  \\\\___//   \n");
-        logoBuilder.append("        {{     //        \n");
-        logoBuilder.append("         {{   //  }}     \n");
-        logoBuilder.append("         {{  //    }}    \n");
+        logoBuilder.append("               @|green ___|@       \n");
+        logoBuilder.append("             @|green //   \\\\|@   \n");
+        logoBuilder.append("         {{ @|green ((     ))|@    ").append(MessagesProvider.getMessage(ShellSettings.WELCOME_MESSAGE));
+        logoBuilder.append("         {{  @|green \\\\___//|@   \n");
+        logoBuilder.append("        {{     @|green //|@        \n");
+        logoBuilder.append("         {{   @|green //|@  }}     \n");
+        logoBuilder.append("         {{  @|green //|@    }}    \n");
         logoBuilder.append("         {{_______}}     \n");
 
         console.println(logoBuilder.toString());

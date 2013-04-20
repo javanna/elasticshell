@@ -84,6 +84,7 @@ public class JLineConsole extends AbstractConsole {
             if (completerHolder.completionHandler != null) {
                 reader.setCompletionHandler(completerHolder.completionHandler);
             }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -122,6 +123,8 @@ public class JLineConsole extends AbstractConsole {
 
     @Override
     public void shutdown() {
+
+        super.shutdown();
 
         if (fileHistory != null) {
             try {

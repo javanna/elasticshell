@@ -50,6 +50,11 @@
             <version>2.9</version>
         </dependency>
         <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>${elasticsearch.version}</version>

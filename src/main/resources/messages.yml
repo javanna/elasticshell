@@ -19,7 +19,7 @@ help:
     For information about elasticsearch, visit http://elasticsearch.org
 
     You can either write Java or JavaScript code in here.
-    Every command is exposed as a JavaScript function, therefore in order to run a command you need to type its name with the brackets (and eventual arguments)
+    Every command is exposed as a JavaScript function, therefore in order to run a command you need to type its name followed by the round brackets (and eventual arguments between them)
     e.g. exit()
 
     In order to get help for a specific command, just type its name (without the brackets)

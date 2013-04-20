@@ -30,6 +30,7 @@ help:
     The following are the available commands (with example arguments)
        exit() or quit()                   Quits the elasticshell
        help()                             Display this help message
+       history()                          Displays the history
        httpDelete(url)                    Sends a DELETE http request
        httpGet(url)                       Sends a GET http request
        httpHead(url)                      Sends a HEAD http request
@@ -51,6 +52,10 @@ help:
        transportClient('localhost:9300')  Creates a new transport client given
                                           the address of the node to connect to
        version()                          Prints out the current version
+
+  history:
+  |
+    Displays all the entries available in the history
 
   httpDelete:
   |

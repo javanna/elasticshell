@@ -20,6 +20,7 @@ package org.elasticsearch.shell.console;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Iterator;
 
 /**
  * Console abstraction used to read and write from the shell
@@ -61,6 +62,12 @@ public interface Console<Output> {
      * @throws IOException in case of problems while reading the input
      */
     String readLine(String prompt) throws IOException;
+
+    /**
+     * Allows to read the entries available in the history (if supported)
+     * @return the history entries
+     */
+    Iterator<CharSequence> getHistoryEntries();
 
     /**
      * Executes the operations needed when shutting down the console

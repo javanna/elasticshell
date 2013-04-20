@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import jline.console.ConsoleReader;
@@ -108,6 +109,9 @@ public class JLineConsole extends AbstractConsole {
 
     @Override
     public Iterator<CharSequence> getHistoryEntries() {
+        if (fileHistory == null) {
+            return new ArrayList<CharSequence>().iterator();
+        }
         return Iterators.transform(fileHistory.iterator(), new Function<History.Entry, CharSequence>() {
             @Override
             public CharSequence apply(jline.console.history.History.Entry entry) {

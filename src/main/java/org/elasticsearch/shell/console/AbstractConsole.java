@@ -18,10 +18,12 @@
  */
 package org.elasticsearch.shell.console;
 
+import java.io.PrintStream;
+
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.PrintStream;
 
 /**
  * Abstract representation of the {@link Console} that wraps a {@link PrintStream} for the output messages
@@ -36,12 +38,13 @@ public abstract class AbstractConsole implements Console<PrintStream> {
 
     protected AbstractConsole(PrintStream out) {
         this.out = out;
+        AnsiConsole.systemInstall();
     }
 
     @Override
     public void print(String message) {
         logger.debug("print: {}", message);
-        out.print(message);
+        out.print(Ansi.ansi().render(message));
     }
 
     @Override
@@ -53,11 +56,16 @@ public abstract class AbstractConsole implements Console<PrintStream> {
     @Override
     public void println(String message) {
         logger.debug("println: {}", message);
-        out.println(message);
+        out.println(Ansi.ansi().render(message));
     }
 
     @Override
     public PrintStream out() {
         return out;
+    }
+
+    @Override
+    public void shutdown() {
+        AnsiConsole.systemUninstall();
     }
 }

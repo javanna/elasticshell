@@ -175,14 +175,14 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
     protected void printLogoAndWelcomeMessage() {
 
         StringBuilder logoBuilder = new StringBuilder();
-        logoBuilder.append("               @|green ___|@       \n");
-        logoBuilder.append("             @|green //   \\\\|@   \n");
-        logoBuilder.append("         {{ @|green ((     ))|@    ").append(MessagesProvider.getMessage(ShellSettings.WELCOME_MESSAGE));
-        logoBuilder.append("         {{  @|green \\\\___//|@   \n");
-        logoBuilder.append("        {{     @|green //|@        \n");
-        logoBuilder.append("         {{   @|green //|@  }}     \n");
-        logoBuilder.append("         {{  @|green //|@    }}    \n");
-        logoBuilder.append("         {{_______}}     \n");
+        logoBuilder.append("               ___       \n");
+        logoBuilder.append("             //   \\\\   \n");
+        logoBuilder.append("         (( ((     ))    ").append(MessagesProvider.getMessage(ShellSettings.WELCOME_MESSAGE));
+        logoBuilder.append("         ((  \\\\___//   \n");
+        logoBuilder.append("        {{     //        \n");
+        logoBuilder.append("         ((   //  ))     \n");
+        logoBuilder.append("         ((  //    }}    \n");
+        logoBuilder.append("         ((_______))     \n");
 
         console.println(logoBuilder.toString());
     }

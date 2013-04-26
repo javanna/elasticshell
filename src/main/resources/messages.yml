@@ -1,6 +1,6 @@
 welcome:
 |
-  @|bold,green Welcome to the elasticshell|@
+  @|bold Welcome to the elasticshell|@
 bye:
   |
 

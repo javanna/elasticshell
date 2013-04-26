@@ -86,7 +86,7 @@ public class DefaultClientFactory<ShellNativeClient, JsonInput, JsonOutput> impl
     @Override
     public ShellNativeClient newNodeClient(String clusterName) {
         Settings settings = ImmutableSettings.settingsBuilder()
-                .put("name", shellSettings.settings().get("node.name"))
+                .put("name", shellSettings.settings().get(ShellSettings.NODE_NAME))
                 .put("http.enabled", false)
                 .build();
         Node node  = NodeBuilder.nodeBuilder().clusterName(clusterName).client(true).settings(settings).build();

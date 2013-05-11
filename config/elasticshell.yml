@@ -14,7 +14,7 @@
 #It can contain whatever command that's valid within the shell itself
 #startup.script: .elasticshellrc.js
 
-#Maximum number of suggestions that will be shown in the shell
+#Maximum number of suggestions that will be shown altogether
 #suggestions.max: 100
 
 #Enables playground mode: automatically creates a local node at startup and a client connected to it

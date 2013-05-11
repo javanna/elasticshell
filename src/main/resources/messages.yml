@@ -655,3 +655,50 @@ help:
     Here is an example that sends two queries in a single request
     es.<index>.<type>.multiSearch({"query":{"term":{"user":"kimchy"}}}, {"query":{"term":{"user":"s1monw"}}});
 
+  AbstractClient.moreLikeThis:
+  |
+    Executes a more like this request
+    (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
+
+    Here is an example
+    es.moreLikeThis('twitter','tweet','1');
+
+  AbstractClient.moreLikeThisBuilder:
+  |
+    Allows to build a more like this request
+    (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
+
+    Here is an example
+    es.moreLikeThisBuilder('twitter').type('tweet').id('1').minTermFreq(1).minDocFreq(1).execute();
+
+  InternalIndexClient.moreLikeThis:
+  |
+    Executes a more like this request on a specific index
+    (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
+
+    Here is an example
+    es.<index>.moreLikeThis('tweet','1');
+
+  InternalIndexClient.moreLikeThisBuilder:
+  |
+    Allows to build a more like this request on a specific index
+    (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
+
+    Here is an example
+    es.<index>.moreLikeThisBuilder().type('tweet').id('1').minTermFreq(1).minDocFreq(1).execute();
+
+  InternalTypeClient.moreLikeThis:
+  |
+    Executes a more like this request on a specific index and type
+    (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
+
+    Here is an example
+    es.<index>.<type>.moreLikeThis('1');
+
+  InternalTypeClient.moreLikeThisBuilder:
+  |
+    Allows to build a more like this request on a specific index
+    (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
+
+    Here is an example
+    es.<index>.<type>.moreLikeThisBuilder().id('1').minTermFreq(1).minDocFreq(1).execute();

@@ -697,7 +697,7 @@ help:
 
   InternalTypeClient.moreLikeThisBuilder:
   |
-    Allows to build a more like this request on a specific index
+    Allows to build a more like this request on a specific index and type
     (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
 
     Here is an example

@@ -1271,3 +1271,12 @@ help:
 
     The following example forces the refresh of the index that's being flushed
     es.<index>.flushBuilder().refresh(true).execute();
+
+  IndicesApiClient.indicesExists:
+  |
+    Checks whether an index exists or not
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-indices-exists/)
+
+    Here is an example
+    es.indicesApi().indicesExists('twitter');
+

@@ -1139,7 +1139,7 @@ help:
     Closes an index using the close index api
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
 
-    Here is an example
+    The required argument is the index to close
     es.indicesApi().closeIndex('twitter');
 
   IndicesApiClient.closeIndexBuilder:
@@ -1171,7 +1171,7 @@ help:
     Opens an index using the open index api
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
 
-    Here is an example
+    The required argument is the index to open
     es.indicesApi().openIndex('twitter');
 
   IndicesApiClient.openIndexBuilder:
@@ -1203,7 +1203,7 @@ help:
     Creates an index using the create index api
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-create-index/)
 
-    Here is an example
+    The required argument is the name of the index to create
     es.indicesApi.createIndex('twitter');
 
     In order to provide the mapping or the settings you need to use the createIndexBuilder method
@@ -1317,5 +1317,37 @@ help:
 
     The following example retrieves the mapping for the selected index and type
     es.<index>.<type>.mappingGet();
+
+  IndicesApiClient.mappingDelete:
+  |
+    Deletes a mapping along with its data. Use with caution
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-mapping/)
+
+    The required arguments are the index and the type name
+    es.indicesApi().mappingDelete('twitter','tweet');
+
+  IndicesApiClient.mappingDeleteBuilder:
+  |
+    Allows to build a delete mapping request. Use with caution since it deletes data too.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-mapping/)
+
+    Here is an example
+    es.indicesApi().mappingDeleteBuilder().indices('twitter','path').type('type1').execute();
+
+  InternalIndexClient.mappingDelete:
+  |
+    Deletes a mapping along with its data. Use with caution
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-mapping/)
+
+    The required argument is the type name
+    es.<index>.mappingDelete('tweet');
+
+  InternalTypeClient.mappingDelete:
+  |
+    Deletes a mapping along with its data. Use with caution
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-mapping/)
+
+    Here is an example
+    es.<index>.<type>.mappingDelete();
 
 

@@ -1042,7 +1042,7 @@ help:
     Here is an example
     es.indicesApi().aliasesGet();
 
-  IndicesApiClient.aliasesGet:
+  IndicesApiClient.aliasesGetBuilder:
   |
     Retrieves the available index aliases through a builder
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases/)
@@ -1056,14 +1056,14 @@ help:
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases/)
 
     Here is an example
-    es.<index>.indicesApi().aliasesGet();
+    es.<index>.aliasesGet();
 
   IndicesApiClient.aliasesUpdateBuilder:
   |
     Allows to build a request that updates index aliases
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases/)
 
-    The alias actions are provided through the AliasAction object that comes with the Java API
+    The alias actions need to be provided through the AliasAction object that comes with the Java API
 
     The following example creates an alias pointing to the twitter index and provides a filter too
     es.indicesApi().aliasesUpdateBuilder().addAliasAction(AliasAction.newAddAliasAction('twitter','alias').filter(FilterBuilders.typeFilter('tweet'))).execute();
@@ -1072,4 +1072,34 @@ help:
     es.indicesApi().aliasesUpdateBuilder().addAliasAction(AliasAction.newRemoveAliasAction('test','alias')).execute();
 
     It's also possible to execute multiple alias actions at the same time
+
+  AbstractClient.analyze:
+  |
+    Returns the result of the analysis process using the analyze api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze/)
+
+    The first argument is the text to be analyzed
+
+    The other arguments can either be the analyzer to be used for the text analysis
+    es.indicesApi().analyze('this is a test', 'keyword');
+
+    or the index and the field name whose analyzer will be used for the text analysis
+    es.indicesApi().analyze('this is a test', 'twitter','title');
+
+  AbstractClient.analyzeBuilder:
+  |
+    Allows to build an analyze request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze/)
+
+    Here is an example that specifies both a tokenizer and a token filter
+    es.indicesApi().analyzeBuilder().tokenizer('keyword').tokenFilters('trim').text('this is a test').execute();
+
+  InternalIndexClient.analyze:
+  |
+    Returns the result of the analysis process using the analyze api against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze/)
+
+    The arguments are the text to be analyzed and the field name whose analyzer will be used for the text analysis
+    es.<index>.analyze('this is a test', 'title');
+
 

@@ -19,19 +19,20 @@
 package org.elasticsearch.shell;
 
 
+import java.io.PrintStream;
+
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
 import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.json.ToXContentAsString;
 import org.elasticsearch.shell.node.NodeFactory;
 import org.elasticsearch.shell.scheduler.Scheduler;
 import org.elasticsearch.shell.script.ScriptExecutor;
 import org.elasticsearch.shell.source.CompilableSource;
 import org.elasticsearch.shell.source.CompilableSourceReader;
 import org.mozilla.javascript.*;
-
-import java.io.PrintStream;
 
 /**
  * Rhino implementation of the {@link Shell}
@@ -49,10 +50,11 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject, NativeOb
                ScriptExecutor scriptExecutor, Unwrapper unwrapper, ShellScope<RhinoShellTopLevel> shellScope,
                ClientFactory<RhinoClientNativeJavaObject> clientFactory,
                NodeFactory<RhinoClientNativeJavaObject, NativeObject, Object> nodeFactory,
-               ScriptLoader scriptLoader, Scheduler scheduler, ShellSettings shellSettings) {
+               ScriptLoader scriptLoader, Scheduler scheduler, ShellSettings shellSettings,
+               ToXContentAsString toXContentAsString) {
 
         super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope,
-                clientFactory, nodeFactory, scriptLoader, scheduler, shellSettings);
+                clientFactory, nodeFactory, scriptLoader, scheduler, shellSettings, toXContentAsString);
 
         this.rhinoShellScope = shellScope;
     }

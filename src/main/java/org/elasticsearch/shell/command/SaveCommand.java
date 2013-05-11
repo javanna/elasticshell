@@ -18,14 +18,16 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.Unwrapper;
-import org.elasticsearch.shell.console.Console;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.common.xcontent.ToXContent;
+import org.elasticsearch.shell.Unwrapper;
+import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.json.ToXContentAsString;
 
 /**
  * Command that allows to print out to the console its arguments
@@ -36,11 +38,14 @@ import java.io.PrintStream;
 public class SaveCommand extends Command {
 
     private final Unwrapper unwrapper;
+    private final ToXContentAsString toXContentAsString;
 
     @Inject
-    protected SaveCommand(Console<PrintStream> console, Unwrapper unwrapper) {
+    protected SaveCommand(Console<PrintStream> console, Unwrapper unwrapper,
+                          ToXContentAsString toXContentAsString) {
         super(console);
         this.unwrapper = unwrapper;
+        this.toXContentAsString = toXContentAsString;
     }
 
     @SuppressWarnings("unused")
@@ -59,15 +64,21 @@ public class SaveCommand extends Command {
     }
 
     public void execute(Object arg, File file) throws IOException {
-        String fileContent = unwrap(arg);
         //keeps appending to the same file if existing
         FileWriter writer = new FileWriter(file, true);
-        writer.write(unwrap(arg) + "/n");
+        writer.write(unwrap(arg));
+        writer.write('\n');
         writer.close();
     }
 
-    protected String unwrap(Object arg) {
+    protected String unwrap(Object arg) throws IOException {
         Object unwrappedArg = unwrapper.unwrap(arg);
+
+        if (unwrappedArg instanceof  ToXContent) {
+            ToXContent toXContent = (ToXContent) unwrappedArg;
+            return toXContentAsString.asString(toXContent);
+        }
+
         if (unwrappedArg != null) {
             return unwrappedArg.toString();
         }

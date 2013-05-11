@@ -19,16 +19,14 @@
 package org.elasticsearch.shell;
 
 
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.elasticsearch.common.xcontent.ToXContent;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.json.ToXContentAsString;
 import org.elasticsearch.shell.node.Node;
 import org.elasticsearch.shell.node.NodeFactory;
 import org.elasticsearch.shell.scheduler.Scheduler;
@@ -57,6 +55,7 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
     protected final ScriptLoader scriptLoader;
     protected final Scheduler scheduler;
     protected final ShellSettings shellSettings;
+    protected final ToXContentAsString toXContentAsString;
 
     protected final AtomicBoolean closed = new AtomicBoolean(false);
 
@@ -76,7 +75,8 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
                       ClientFactory<ShellNativeClient> clientFactory,
                       NodeFactory<ShellNativeClient, JsonInput, JsonOutput> nodeFactory,
                       ScriptLoader scriptLoader, Scheduler scheduler,
-                      ShellSettings shellSettings) {
+                      ShellSettings shellSettings,
+                      ToXContentAsString toXContentAsString) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
@@ -87,6 +87,7 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
         this.scriptLoader = scriptLoader;
         this.scheduler = scheduler;
         this.shellSettings = shellSettings;
+        this.toXContentAsString = toXContentAsString;
     }
 
     @Override
@@ -240,17 +241,7 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
         if (javaObject instanceof ToXContent) {
             ToXContent toXContent = (ToXContent) javaObject;
             try {
-                XContentBuilder builder = XContentFactory.jsonBuilder().prettyPrint();
-                try {
-                    toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
-                } catch (IOException e) {
-                    //hack: the first object in the builder might need to be opened, depending on the ToXContent implementation
-                    //Let's just try again, hopefully it'll work
-                    builder.startObject();
-                    toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
-                    builder.endObject();
-                }
-                return builder.string();
+                return toXContentAsString.asString(toXContent);
             } catch (Exception e) {
                 logger.warn("Error while trying to convert a {} to XContent", javaObject.getClass().getSimpleName(), e);
             }

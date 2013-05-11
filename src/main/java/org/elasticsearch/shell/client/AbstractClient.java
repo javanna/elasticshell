@@ -208,7 +208,13 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
     }
 
     public JsonOutput multiSearch(JsonInput... sources) {
-        return multiSearchBuilder().add(sources).execute();
+        MultiSearchRequestBuilder<JsonInput, JsonOutput> multiSearchRequestBuilder = multiSearchBuilder();
+        if (sources != null) {
+            for (JsonInput source : sources) {
+                multiSearchRequestBuilder.add(source);
+            }
+        }
+        return multiSearchRequestBuilder.execute();
     }
 
     public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> moreLikeThisBuilder(String index) {

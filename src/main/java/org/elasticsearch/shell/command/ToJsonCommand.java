@@ -18,15 +18,14 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.xcontent.ToXContent;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.shell.console.Console;
-import org.elasticsearch.shell.json.StringToJson;
-
 import java.io.IOException;
 import java.io.PrintStream;
+
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.common.xcontent.ToXContent;
+import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.json.StringToJson;
+import org.elasticsearch.shell.json.ToXContentAsString;
 
 /**
  * Command that's able to generate native json objects given different type of content
@@ -37,11 +36,14 @@ import java.io.PrintStream;
 public class ToJsonCommand<JsonOutput> extends Command {
 
     private final StringToJson<JsonOutput> stringToJson;
+    private final ToXContentAsString toXContentAsString;
 
     @Inject
-    protected ToJsonCommand(Console<PrintStream> console, StringToJson<JsonOutput> stringToJson) {
+    protected ToJsonCommand(Console<PrintStream> console, StringToJson<JsonOutput> stringToJson,
+                            ToXContentAsString toXContentAsString) {
         super(console);
         this.stringToJson = stringToJson;
+        this.toXContentAsString = toXContentAsString;
     }
 
     @SuppressWarnings("unused")
@@ -51,16 +53,6 @@ public class ToJsonCommand<JsonOutput> extends Command {
 
     @SuppressWarnings("unused")
     public JsonOutput execute(ToXContent toXContent) throws IOException {
-        XContentBuilder builder = XContentFactory.jsonBuilder().prettyPrint();
-        try {
-            toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
-        } catch (IOException e) {
-            //hack: the first object in the builder might need to be opened, depending on the ToXContent implementation
-            //Let's just try again, hopefully it'll work
-            builder.startObject();
-            toXContent.toXContent(builder, ToXContent.EMPTY_PARAMS);
-            builder.endObject();
-        }
-        return stringToJson.stringToJson(builder.string());
+        return stringToJson.stringToJson(toXContentAsString.asString(toXContent));
     }
 }

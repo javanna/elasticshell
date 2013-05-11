@@ -1073,7 +1073,7 @@ help:
 
     It's also possible to execute multiple alias actions at the same time
 
-  AbstractClient.analyze:
+  IndicesApiClient.analyze:
   |
     Returns the result of the analysis process using the analyze api
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze/)
@@ -1086,7 +1086,7 @@ help:
     or the index and the field name whose analyzer will be used for the text analysis
     es.indicesApi().analyze('this is a test', 'twitter','title');
 
-  AbstractClient.analyzeBuilder:
+  IndicesApiClient.analyzeBuilder:
   |
     Allows to build an analyze request
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze/)

@@ -1235,8 +1235,39 @@ help:
   InternalIndexClient.deleteIndex:
   |
     Deletes an index, use with caution
-    http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index/)
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index/)
 
     Here is an example
     es.<index>.deleteIndex();
 
+  IndicesApiClient.flush:
+  |
+    Flushes all indices
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-flush/)
+
+    Here is an example
+    es.indicesApi().flush();
+
+  IndicesApiClient.flushBuilder:
+  |
+    Allows to build a flush request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-flush/)
+
+    The following example flushes two specific indices and forces their refresh too
+    es.indicesApi().flushBuilder().indices('twitter','path').refresh(true).execute();
+
+  InternalIndexClient.flush:
+  |
+    Flushes an index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-flush/)
+
+    Here is an example
+    es.<index>.flush();
+
+  InternalIndexClient.flushBuilder:
+  |
+    Allows to build a flush request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-flush/)
+
+    The following example forces the refresh of the index that's being flushed
+    es.<index>.flushBuilder().refresh(true).execute();

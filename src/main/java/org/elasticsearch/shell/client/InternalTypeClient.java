@@ -142,14 +142,6 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return moreLikeThisBuilder().id(id).execute();
     }
 
-    public PercolateRequestBuilder<JsonInput, JsonOutput> percolateBuilder() {
-        return shellClient.percolateBuilder().index(indexName).type(typeName);
-    }
-
-    public JsonOutput percolate(JsonInput source) {
-        return percolateBuilder().source(source).execute();
-    }
-
     public SearchRequestBuilder<JsonInput, JsonOutput> searchBuilder() {
         return shellClient.searchBuilder().indices(indexName).types(typeName);
     }

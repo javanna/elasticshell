@@ -702,3 +702,36 @@ help:
 
     Here is an example
     es.<index>.<type>.moreLikeThisBuilder().id('1').minTermFreq(1).minDocFreq(1).execute();
+
+  AbstractClient.percolate:
+  |
+    Sends a percolate request
+    (http://www.elasticsearch.org/guide/reference/api/percolate/)
+
+    Here is an example
+    es.percolate('test','type1', {"doc":{"field1":"value1"}});
+
+  AbstractClient.percolateBuilder
+  |
+    Allows to build a percolate request
+    (http://www.elasticsearch.org/guide/reference/api/percolate/)
+
+    Here is an example
+    es.percolateBuilder().index('test').type('type1').source(doc).preferLocal(true).execute();
+
+  InternalIndexClient.percolate:
+  |
+    Sends a percolate request to a specific index
+    (http://www.elasticsearch.org/guide/reference/api/percolate/)
+
+    Here is an example
+    es.<index>.percolate('type1', {"doc":{"field1":"value1"}});
+
+  InternalIndexClient.percolateBuilder
+  |
+    Allows to build a percolate request for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/percolate/)
+
+    Here is an example
+    es.<index>.percolateBuilder().type('type1').source(doc).preferLocal(true).execute();
+

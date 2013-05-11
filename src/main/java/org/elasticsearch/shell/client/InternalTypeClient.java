@@ -126,7 +126,13 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     }
 
     public JsonOutput multiSearch(JsonInput... sources) {
-        return shellClient.multiSearchBuilder().add(indexName, typeName, sources).execute();
+        MultiSearchRequestBuilder<JsonInput, JsonOutput> multiSearchRequestBuilder = shellClient.multiSearchBuilder();
+        if (sources != null) {
+            for (JsonInput source : sources) {
+                multiSearchRequestBuilder.add(indexName, typeName, source);
+            }
+        }
+        return multiSearchRequestBuilder.execute();
     }
 
     public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> moreLikeThisBuilder() {

@@ -128,7 +128,13 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     public JsonOutput multiSearch(JsonInput... sources) {
-        return shellClient.multiSearchBuilder().add(indexName, sources).execute();
+        MultiSearchRequestBuilder<JsonInput, JsonOutput> multiSearchRequestBuilder = shellClient.multiSearchBuilder();
+        if (sources != null) {
+            for (JsonInput source : sources) {
+                multiSearchRequestBuilder.add(indexName, source);
+            }
+        }
+        return multiSearchRequestBuilder.execute();
     }
 
     public MoreLikeThisRequestBuilder<JsonInput, JsonOutput> moreLikeThisBuilder() {

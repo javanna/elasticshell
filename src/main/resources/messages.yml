@@ -711,7 +711,7 @@ help:
     Here is an example
     es.percolate('test','type1', {"doc":{"field1":"value1"}});
 
-  AbstractClient.percolateBuilder
+  AbstractClient.percolateBuilder:
   |
     Allows to build a percolate request
     (http://www.elasticsearch.org/guide/reference/api/percolate/)
@@ -727,7 +727,7 @@ help:
     Here is an example
     es.<index>.percolate('type1', {"doc":{"field1":"value1"}});
 
-  InternalIndexClient.percolateBuilder
+  InternalIndexClient.percolateBuilder:
   |
     Allows to build a percolate request for a specific index
     (http://www.elasticsearch.org/guide/reference/api/percolate/)

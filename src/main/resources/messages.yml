@@ -969,3 +969,60 @@ help:
     The following example provides a script to be executed and a parameter, so that the script will be cached and faster
     es.<index>.<type>.updateBuilder().id('1').addScriptParam('retweets',10).script("ctx._source.retweets += retweets").execute();
 
+  AbstractClient.validate:
+  |
+    Executes a validate query request
+    (http://www.elasticsearch.org/guide/reference/api/validate/)
+
+    The argument can either be a complete query in json format
+    es.validate({"term":{"user":"kimchy"}});
+
+    or a string that will be included in a query string
+    es.validate('user:kimchy');
+
+  AbstractClient.validateBuilder:
+  |
+    Allows to build a validate query request
+    (http://www.elasticsearch.org/guide/reference/api/validate/)
+
+    Here is an example using the QueryBuilders that comes with the Java API
+    es.validateBuilder().queryBuilder(QueryBuilders.queryString('user:kimchy')).execute();
+
+  InternalIndexClient.validate:
+  |
+    Executes a validate query request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/validate/)
+
+    The argument can either be a complete query in json format
+    es.<index>.validate({"term":{"user":"kimchy"}});
+
+    or a string that will be included in a query string
+    es.<index>.validate('user:kimchy');
+
+  InternalIndexClient.validateBuilder:
+  |
+    Allows to build a validate query request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/validate/)
+
+    Here is an example using the QueryBuilders that comes with the Java API
+    es.<index>.validateBuilder().queryBuilder(QueryBuilders.queryString('user:kimchy')).execute();
+
+  InternalTypeClient.validate:
+  |
+    Executes a validate query request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/validate/)
+
+    The argument can either be a complete query in json format
+    es.<index>.<type>.validate({"term":{"user":"kimchy"}});
+
+    or a string that will be included in a query string
+    es.<index>.<type>.validate('user:kimchy');
+
+  InternalTypeClient.validateBuilder:
+  |
+    Allows to build a validate query request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/validate/)
+
+    Here is an example using the QueryBuilders that comes with the Java API
+    es.<index>.<type>.validateBuilder().queryBuilder(QueryBuilders.queryString('user:kimchy')).execute();
+

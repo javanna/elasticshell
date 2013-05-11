@@ -18,17 +18,19 @@
  */
 package org.elasticsearch.shell.client.builders.core;
 
+import java.io.IOException;
+
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.Requests;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderToXContent;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
-
-import java.io.IOException;
 
 /**
  * @author Luca Cavanna
@@ -42,35 +44,33 @@ public class MultiSearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
         super(client, new MultiSearchRequest(), jsonToString, stringToJson);
     }
 
-    public MultiSearchRequestBuilder<JsonInput, JsonOutput> add(String index, String type, JsonInput... sources) {
-        if (sources != null && sources.length > 0){
-            for (JsonInput source : sources) {
-                this.request.add(new SearchRequest().indices(index).types(type).source(jsonToString(source)));
-            }
-        }
+    public MultiSearchRequestBuilder<JsonInput, JsonOutput> add(String index, String type, JsonInput source) {
+        this.request.add(new SearchRequest().indices(index).types(type).source(jsonToString(source)));
         return this;
     }
 
-    public MultiSearchRequestBuilder<JsonInput, JsonOutput> add(String index, JsonInput... sources) {
-        if (sources != null && sources.length > 0){
-            for (JsonInput source : sources) {
-                this.request.add(new SearchRequest().indices(index).source(jsonToString(source)));
-            }
-        }
+    public MultiSearchRequestBuilder<JsonInput, JsonOutput> add(String index, JsonInput source) {
+        this.request.add(new SearchRequest().indices(index).source(jsonToString(source)));
         return this;
     }
 
-    public MultiSearchRequestBuilder<JsonInput, JsonOutput> add(JsonInput... sources) {
-        if (sources != null && sources.length > 0){
-            for (JsonInput source : sources) {
-                this.request.add(new SearchRequest().indices(new String[0]).source(jsonToString(source)));
-            }
-        }
+    public MultiSearchRequestBuilder<JsonInput, JsonOutput> add(JsonInput source) {
+        this.request.add(new SearchRequest().indices(new String[0]).source(jsonToString(source)));
         return this;
     }
 
     public MultiSearchRequestBuilder<JsonInput, JsonOutput> add(SearchRequest request) {
         this.request.add(request);
+        return this;
+    }
+
+    public MultiSearchRequestBuilder<JsonInput, JsonOutput> add(SearchSourceBuilder searchSourceBuilder) {
+        this.request.add(Requests.searchRequest().source(searchSourceBuilder));
+        return this;
+    }
+
+    public MultiSearchRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
+        this.request.ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
         return this;
     }
 

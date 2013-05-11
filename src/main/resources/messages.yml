@@ -612,3 +612,46 @@ help:
     The required arguments are the ids of the document to retrieve
     es.<index>.<type>.multiGet('1','2','3');
 
+  AbstractClient.multiSearchBuilder:
+  |
+    Allows to build a multi search request
+    (http://www.elasticsearch.org/guide/reference/api/multi-search/)
+
+    Here is an example that sends two queries in a single request
+    es.multiSearchBuilder().add({"query":{"term":{"user":"kimchy"}}}).add({"query":{"term":{"user":"s1monw"}}}).execute();
+
+    You can either use a json query or the Java API SearchRequest (or SearchSourceBuilder) object
+    es.multiSearchBuilder().add(SearchSourceBuilder.searchSource().query(QueryBuilders.termQuery('user','kimchy'))).add({"query":{"term":{"user":"s1monw"}}}).execute()
+
+  AbstractClient.multiSearch:
+  |
+    Executes multiple searches in a single request
+    (http://www.elasticsearch.org/guide/reference/api/multi-search/)
+
+    Here is an example that sends two queries in a single request
+    es.multiSearch({"query":{"term":{"user":"kimchy"}}}, {"query":{"term":{"user":"s1monw"}}});
+
+  InternalIndexClient.multiSearch:
+  |
+    Executes multiple searches in a single request
+    (http://www.elasticsearch.org/guide/reference/api/multi-search/)
+
+    Here is an example that sends two queries in a single request
+    es.multiSearch({"query":{"term":{"user":"kimchy"}}}, {"query":{"term":{"user":"s1monw"}}});
+
+  InternalIndexClient.multiSearch:
+  |
+    Executes multiple searches in a single request, within a specific index
+    (http://www.elasticsearch.org/guide/reference/api/multi-search/)
+
+    Here is an example that sends two queries in a single request
+    es.<index>.multiSearch({"query":{"term":{"user":"kimchy"}}}, {"query":{"term":{"user":"s1monw"}}});
+
+  InternalTypeClient.multiSearch:
+  |
+    Executes multiple searches in a single request, within a specific index and type
+    (http://www.elasticsearch.org/guide/reference/api/multi-search/)
+
+    Here is an example that sends two queries in a single request
+    es.<index>.<type>.multiSearch({"query":{"term":{"user":"kimchy"}}}, {"query":{"term":{"user":"s1monw"}}});
+

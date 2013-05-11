@@ -248,7 +248,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return closeIndexBuilder().execute();
     }
 
-    public DeleteIndexRequestBuilder<JsonInput, JsonOutput> deleteIndexBuilder() {
+    protected DeleteIndexRequestBuilder<JsonInput, JsonOutput> deleteIndexBuilder() {
         return shellClient.indicesApi().deleteIndexBuilder().indices(indexName);
     }
 

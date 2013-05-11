@@ -193,7 +193,7 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
         return mappingGetBuilder().execute();
     }
 
-    public DeleteMappingRequestBuilder<JsonInput, JsonOutput> mappingDeleteBuilder() {
+    protected DeleteMappingRequestBuilder<JsonInput, JsonOutput> mappingDeleteBuilder() {
         return shellClient.indicesApi().mappingDeleteBuilder().indices(indexName).type(typeName);
     }
 

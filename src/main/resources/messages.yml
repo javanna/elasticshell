@@ -735,3 +735,78 @@ help:
     Here is an example
     es.<index>.percolateBuilder().type('type1').source(doc).preferLocal(true).execute();
 
+  AbstractClient.search:
+  |
+    Executes a search request
+    (http://www.elasticsearch.org/guide/reference/api/search/)
+
+    The following example will send a match_all query
+    es.search();
+
+    while the following one will send the provided term query
+    es.search({"query":{"term":{"user":"kimchy"}}});
+
+    It's also possible to provide a string which will be included in a query_string
+    es.search('user:kimchy');
+
+  AbstractClient.searchBuilder:
+  |
+    Allows to build a search request
+    (http://www.elasticsearch.org/guide/reference/api/search/)
+
+    The following example builds and sends a term query specifying a routing value
+    es.searchBuilder().routing('kimchy').query({"term":{"user":"kimchy"}}).execute();
+
+    It's also possible to build the query using the QueryBuilder objects that come with the Java API
+    es.searchBuilder().queryBuilder(QueryBuilders.multiMatchQuery('kimchy','title^2','user')).execute()
+
+  InternalIndexClient.search:
+    |
+      Executes a search request against a specific index
+      (http://www.elasticsearch.org/guide/reference/api/search/)
+
+      The following example will send a match_all query
+      es.<index>.search();
+
+      while the following one will send the provided term query
+      es.<index>.search({"query":{"term":{"user":"kimchy"}}});
+
+      It's also possible to provide a string which will be included in a query_string
+      es.<index>.search('user:kimchy');
+
+  InternalIndexClient.searchBuilder:
+  |
+    Allows to build a search request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/search/)
+
+    The following example builds and sends a term query specifying a routing value
+    es.<index>.searchBuilder().routing('kimchy').query({"term":{"user":"kimchy"}}).execute();
+
+    It's also possible to build the query using the QueryBuilder objects that come with the Java API
+    es.<index>.searchBuilder().queryBuilder(QueryBuilders.multiMatchQuery('kimchy','title^2','user')).execute()
+
+  InternalTypeClient.search:
+  |
+    Executes a search request against a specific index and type
+    (http://www.elasticsearch.org/guide/reference/api/search/)
+
+    The following example will send a match_all query
+    es.<index>.<type>.search();
+
+    while the following one will send the provided term query
+    es.<index>.<type>.search({"query":{"term":{"user":"kimchy"}}});
+
+    It's also possible to provide a string which will be included in a query_string
+    es.<index>.<type>.search('user:kimchy');
+
+  InternalTypeClient.searchBuilder:
+  |
+    Allows to build a search request against a specific index and type
+    (http://www.elasticsearch.org/guide/reference/api/search/)
+
+    The following example builds and sends a term query specifying a routing value
+    es.<index>.<type>.searchBuilder().routing('kimchy').query({"term":{"user":"kimchy"}}).execute();
+
+    It's also possible to build the query using the QueryBuilder objects that come with the Java API
+    es.<index>.<type>.searchBuilder().queryBuilder(QueryBuilders.multiMatchQuery('kimchy','title^2','user')).execute()
+

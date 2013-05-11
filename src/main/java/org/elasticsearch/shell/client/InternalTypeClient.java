@@ -186,7 +186,7 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
     /*
     Indices APIs that make sense for a specific type
      */
-    public GetMappingRequestBuilder<JsonInput, JsonOutput> mappingGetBuilder() {
+    protected GetMappingRequestBuilder<JsonInput, JsonOutput> mappingGetBuilder() {
         return shellClient.indicesApi().mappingGetBuilder().indices(indexName).types(typeName);
     }
 

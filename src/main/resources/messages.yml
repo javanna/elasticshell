@@ -1350,4 +1350,62 @@ help:
     Here is an example
     es.<index>.<type>.mappingDelete();
 
+  IndicesApiClient.mappingPut:
+  |
+    Submits a mapping using the put mapping api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping/)
 
+    The required arguments are the index, the type name and its mapping
+    es.indicesApi().mappingPut('twitter','tweet',{"tweet":{"_all":{"enabled":false}}})
+
+    The mapping doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
+
+  IndicesApiClient.mappingPutBuilder:
+  |
+    Allows to build a put mapping request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping/)
+
+    Here is an example
+    es.indicesApi().mappingPutBuilder().indices('twitter').type('tweet').source({"tweet":{"_source":{"enabled":false}}}).ignoreConflicts(true).execute();
+
+    The mapping doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
+
+  InternalIndexClient.mappingPut:
+  |
+    Submits a mapping using the put mapping api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping/)
+
+    The required arguments are the type name and its mapping
+    es.<index>.mappingPut('tweet',{"tweet":{"_all":{"enabled":false}}})
+
+    The mapping doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
+
+  InternalIndexClient.mappingPutBuilder:
+  |
+    Allows to build a put mapping request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping/)
+
+    Here is an example
+    es.<index>.mappingPutBuilder().type('tweet').source({"tweet":{"_source":{"enabled":false}}}).ignoreConflicts(true).execute();
+
+    The mapping doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
+
+  InternalTypeClient.mappingPut:
+  |
+    Submits a mapping using the put mapping api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping/)
+
+    The required argument is the mapping in json format
+    es.<index>.<type>.mappingPut({"tweet":{"_all":{"enabled":false}}})
+
+    The mapping doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
+
+  InternalTypeClient.mappingPutBuilder:
+  |
+    Allows to build a put mapping request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping/)
+
+    Here is an example
+    es.<index>.<type>.mappingPutBuilder().source({"tweet":{"_source":{"enabled":false}}}).ignoreConflicts(true).execute();
+
+    The mapping doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.

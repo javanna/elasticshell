@@ -1280,3 +1280,42 @@ help:
     Here is an example
     es.indicesApi().indicesExists('twitter');
 
+  IndicesApiClient.mappingGet:
+  |
+    Retrieves the mapping using the get mapping api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-get-mapping/)
+
+    The following example retrieves the mapping for all the indexes
+    es.indicesApi().mappingGet();
+
+    The following example retrieves the mapping for the provided indexes
+    es.indicesApi().mappingGet('twitter','path');
+
+  IndicesApiClient.mappingGetBuilder:
+  |
+    Allows to build a get mapping request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-get-mapping/)
+
+    The following example retrieves the mapping for all the indexes and types provided
+    es.indicesApi().mappingGetBuilder().indices('twitter','path').types('type1','type2').execute();
+
+  InternalIndexClient.mappingGet:
+  |
+    Retrieves the mapping for a specific index using the get mapping api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-get-mapping/)
+
+    The following example retrieves the mapping for the selected index
+    es.<index>.mappingGet();
+
+    The following example retrieves the mapping for the selected index and the provided types
+    es.<index>.mappingGet('type1','type2');
+
+  InternalTypeClient.mappingGet:
+  |
+    Retrieves the mapping for a specific index and type using the get mapping api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-get-mapping/)
+
+    The following example retrieves the mapping for the selected index and type
+    es.<index>.<type>.mappingGet();
+
+

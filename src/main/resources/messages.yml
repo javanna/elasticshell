@@ -1198,3 +1198,21 @@ help:
     Here is an example
     es.<index>.openIndexBuilder().execute();
 
+  IndicesApiClient.createIndex:
+  |
+    Creates an index using the create index api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-create-index/)
+
+    Here is an example
+    es.indicesApi.createIndex('twitter');
+
+    In order to provide the mapping or the settings you need to use the createIndexBuilder method
+
+  IndicesApiClient.createIndexBuilder:
+  |
+    Creates an index using the create index api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-create-index/)
+
+    The following example creates an index providing its settings as well
+    es.indicesApi().createIndexBuilder().index('twitter').settings({'number_of_shards':1}).execute();
+

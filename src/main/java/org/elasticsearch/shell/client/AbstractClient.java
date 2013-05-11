@@ -254,10 +254,18 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
         return new SuggestRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
     }
 
-    public JsonOutput suggest(String suggestText, String... fields) {
+    public JsonOutput suggestTerm(String suggestText, String... fields) {
         SuggestRequestBuilder<JsonInput, JsonOutput> suggestRequestBuilder = suggestBuilder().suggestText(suggestText);
         for (String field : fields) {
             suggestRequestBuilder.addSuggestion(SuggestBuilder.termSuggestion(field).field(field));
+        }
+        return suggestRequestBuilder.execute();
+    }
+
+    public JsonOutput suggestPhrase(String suggestText, String... fields) {
+        SuggestRequestBuilder<JsonInput, JsonOutput> suggestRequestBuilder = suggestBuilder().suggestText(suggestText);
+        for (String field : fields) {
+            suggestRequestBuilder.addSuggestion(SuggestBuilder.phraseSuggestion(field).field(field));
         }
         return suggestRequestBuilder.execute();
     }

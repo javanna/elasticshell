@@ -173,10 +173,18 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return shellClient.suggestBuilder().indices(indexName);
     }
 
-    public JsonOutput suggest(String suggestText, String... fields) {
+    public JsonOutput suggestTerm(String suggestText, String... fields) {
         SuggestRequestBuilder<JsonInput, JsonOutput> suggestRequestBuilder = suggestBuilder().suggestText(suggestText);
         for (String field : fields) {
             suggestRequestBuilder.addSuggestion(SuggestBuilder.termSuggestion(field).field(field));
+        }
+        return suggestRequestBuilder.execute();
+    }
+
+    public JsonOutput suggestPhrase(String suggestText, String... fields) {
+        SuggestRequestBuilder<JsonInput, JsonOutput> suggestRequestBuilder = suggestBuilder().suggestText(suggestText);
+        for (String field : fields) {
+            suggestRequestBuilder.addSuggestion(SuggestBuilder.phraseSuggestion(field).field(field));
         }
         return suggestRequestBuilder.execute();
     }

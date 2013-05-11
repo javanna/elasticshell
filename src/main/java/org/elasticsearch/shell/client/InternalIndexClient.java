@@ -224,8 +224,12 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return aliasesGetBuilder().execute();
     }
 
-    public AnalyzeRequestBuilder<JsonInput, JsonOutput> analyzeBuilder() {
+    protected AnalyzeRequestBuilder<JsonInput, JsonOutput> analyzeBuilder() {
         return shellClient.indicesApi().analyzeBuilder().index(indexName);
+    }
+
+    public JsonOutput analyze(String text, String field) {
+        return analyzeBuilder().field(field).text(text).execute();
     }
 
     public ClearCacheRequestBuilder<JsonInput, JsonOutput> clearCacheBuilder() {

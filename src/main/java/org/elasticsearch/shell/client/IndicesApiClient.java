@@ -57,6 +57,14 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
         return new AnalyzeRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
+    public JsonOutput analyze(String text, String index, String field) {
+        return analyzeBuilder().index(index).field(field).text(text).execute();
+    }
+
+    public JsonOutput analyze(String text, String analyzer) {
+        return analyzeBuilder().analyzer(analyzer).text(text).execute();
+    }
+
     public ClearCacheRequestBuilder<JsonInput, JsonOutput> clearCacheBuilder() {
         return new ClearCacheRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }

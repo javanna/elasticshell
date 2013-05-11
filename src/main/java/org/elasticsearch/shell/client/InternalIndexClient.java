@@ -216,7 +216,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     /*
     Indices APIs that make sense for a specific index
      */
-    public GetAliasesIndicesRequestBuilder<JsonInput, JsonOutput> aliasesGetBuilder() {
+    protected GetAliasesIndicesRequestBuilder<JsonInput, JsonOutput> aliasesGetBuilder() {
         return shellClient.indicesApi().aliasesGetBuilder().indices(indexName);
     }
 

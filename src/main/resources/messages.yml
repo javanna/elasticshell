@@ -1026,3 +1026,11 @@ help:
     Here is an example using the QueryBuilders that comes with the Java API
     es.<index>.<type>.validateBuilder().queryBuilder(QueryBuilders.queryString('user:kimchy')).execute();
 
+  AbstractClient.indicesApi:
+  |
+    Gives access to the indices API
+
+  AbstractClient.clusterApi:
+  |
+    Gives access to the cluster API
+

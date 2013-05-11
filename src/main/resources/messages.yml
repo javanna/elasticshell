@@ -1133,3 +1133,68 @@ help:
 
     The following example clears only the field data cache for the selected index
     es.<index>.clearCacheBuilder().fieldDataCache(true).execute();
+
+  IndicesApiClient.closeIndex:
+  |
+    Closes an index using the close index api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
+
+    Here is an example
+    es.indicesApi().closeIndex('twitter');
+
+  IndicesApiClient.closeIndexBuilder:
+    |
+      Allows to build a close index request
+      (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
+
+      Here is an example
+      es.indicesApi().closeIndexBuilder().index('twitter').execute();
+
+  InternalIndexClient.closeIndex:
+  |
+    Closes an index using the close index api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
+
+    Here is an example
+    es.<index>.closeIndex();
+
+  InternalIndexClient.closeIndexBuilder:
+  |
+    Allows to build a close index request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
+
+    Here is an example
+    es.<index>.closeIndexBuilder().execute();
+
+  IndicesApiClient.openIndex:
+  |
+    Opens an index using the open index api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
+
+    Here is an example
+    es.indicesApi().openIndex('twitter');
+
+  IndicesApiClient.openIndexBuilder:
+  |
+    Allows to build a open index request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
+
+    Here is an example
+    es.indicesApi().openIndexBuilder().index('twitter').execute();
+
+  InternalIndexClient.openIndex:
+  |
+    Closes an index using the open index api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
+
+    Here is an example
+    es.<index>.openIndex();
+
+  InternalIndexClient.openIndexBuilder:
+  |
+    Allows to build a open index request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-open-close/)
+
+    Here is an example
+    es.<index>.openIndexBuilder().execute();
+

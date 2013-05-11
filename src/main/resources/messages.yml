@@ -1102,4 +1102,34 @@ help:
     The arguments are the text to be analyzed and the field name whose analyzer will be used for the text analysis
     es.<index>.analyze('this is a test', 'title');
 
+  IndicesApiClient.clearCache:
+  |
+    Clears all indices caches using the clear cache api
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-clearcache/)
 
+    Here is an example
+    es.indicesApi().clearCache();
+
+  IndicesApiClient.clearCacheBuilder:
+  |
+    Allows to build a clear cache request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-clearcache/)
+
+    The following example clears only the field data cache for all the available indices
+    es.indicesApi().clearCacheBuilder().fieldDataCache(true).execute()
+
+  InternalIndexClient.clearCache:
+  |
+    Clears all indices caches using the clear cache api against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-clearcache/)
+
+    Here is an example
+    es.<index>.clearCache();
+
+  InternalIndexClient.clearCacheBuilder:
+  |
+    Allows to build a clear cache request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-clearcache/)
+
+    The following example clears only the field data cache for the selected index
+    es.<index>.clearCacheBuilder().fieldDataCache(true).execute();

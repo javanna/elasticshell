@@ -101,6 +101,10 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
         return new FlushRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
+    public JsonOutput flush() {
+        return flushBuilder().execute();
+    }
+
     public IndicesExistsRequestBuilder<JsonInput, JsonOutput> indicesExistsBuilder() {
         return new IndicesExistsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }

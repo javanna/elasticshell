@@ -1034,3 +1034,42 @@ help:
   |
     Gives access to the cluster API
 
+  IndicesApiClient.aliasesGet:
+  |
+    Retrieves the available index aliases
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases/)
+
+    Here is an example
+    es.indicesApi().aliasesGet();
+
+  IndicesApiClient.aliasesGet:
+  |
+    Retrieves the available index aliases through a builder
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases/)
+
+    Here is an example
+    es.indicesApi().aliasesGetBuilder().indices('twitter').execute();
+
+  InternalIndexClient.aliasesGet:
+  |
+    Retrieves the available index aliases for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases/)
+
+    Here is an example
+    es.<index>.indicesApi().aliasesGet();
+
+  IndicesApiClient.aliasesUpdateBuilder:
+  |
+    Allows to build a request that updates index aliases
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases/)
+
+    The alias actions are provided through the AliasAction object that comes with the Java API
+
+    The following example creates an alias pointing to the twitter index and provides a filter too
+    es.indicesApi().aliasesUpdateBuilder().addAliasAction(AliasAction.newAddAliasAction('twitter','alias').filter(FilterBuilders.typeFilter('tweet'))).execute();
+
+    The following example deletes the previously created alias
+    es.indicesApi().aliasesUpdateBuilder().addAliasAction(AliasAction.newRemoveAliasAction('test','alias')).execute();
+
+    It's also possible to execute multiple alias actions at the same time
+

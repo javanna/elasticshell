@@ -242,12 +242,16 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return flushBuilder().execute();
     }
 
-    public GetMappingRequestBuilder<JsonInput, JsonOutput> mappingGetBuilder() {
+    protected GetMappingRequestBuilder<JsonInput, JsonOutput> mappingGetBuilder() {
         return shellClient.indicesApi().mappingGetBuilder().indices(indexName);
     }
 
     public JsonOutput mappingGet() {
         return mappingGetBuilder().execute();
+    }
+
+    public JsonOutput mappingGet(String... types) {
+        return mappingGetBuilder().types(types).execute();
     }
 
     public DeleteMappingRequestBuilder<JsonInput, JsonOutput> mappingDeleteBuilder() {

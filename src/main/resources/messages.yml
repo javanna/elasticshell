@@ -222,27 +222,27 @@ help:
     Here is an example
     es.countBuilder().query({"term":{"content":"elasticsearch"}}).execute();
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalIndexClient.countBuilder:
   |
-    Allows to build a count request for a specific index
+    Allows to build a count request against a specific index
     (http://www.elasticsearch.org/guide/reference/api/count/)
 
     Here is an example
     es.<index>.countBuilder().query({"term":{"content":"elasticsearch"}}).execute();
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalTypeClient.countBuilder:
   |
-    Allows to build a count request for a specific type
+    Allows to build a count request against a specific index and type
     (http://www.elasticsearch.org/guide/reference/api/count/)
 
     Here is an example
     es.<index>.<type>.countBuilder().query({"term":{"content":"elasticsearch"}}).execute();
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   AbstractClient.count:
   |
@@ -254,7 +254,7 @@ help:
 
     or no argument to get the total number of documents available.
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalIndexClient.count:
   |
@@ -266,7 +266,7 @@ help:
 
     or no argument to get the total number of documents available within the index.
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalTypeClient.count:
   |
@@ -278,7 +278,7 @@ help:
 
     or no argument to get the total number of documents available within the type.
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   AbstractClient.deleteBuilder:
   |
@@ -308,8 +308,8 @@ help:
   |
     Deletes a document using the delete API
     (http://www.elasticsearch.org/guide/reference/api/delete/)
-
-    The required arguments are index, type and document id
+    
+    The arguments are the index, the type and the id of the document to delete
     es.delete('twitter','tweet','1');
 
   InternalIndexClient.delete:
@@ -317,7 +317,7 @@ help:
     Deletes a document using the delete API
     (http://www.elasticsearch.org/guide/reference/api/delete/)
 
-    The required arguments are type and document id
+    The arguments are the type and the id of the document to delete
     es.<index>.delete('tweet','1');
 
   InternalTypeClient.delete:
@@ -325,7 +325,7 @@ help:
     Deletes a document using the delete API
     (http://www.elasticsearch.org/guide/reference/api/delete/)
 
-    The required argument is the id of the document that needs to be deleted
+    The argument is the id of the document to delete
     es.<index>.<type>.delete('1');
 
   AbstractClient.deleteByQueryBuilder:
@@ -336,9 +336,9 @@ help:
     Here is an example that executes the query on all indices and deletes the matching documents
     es.deleteByQueryBuilder().query({"term":{"user":"kimchy"}}).execute();
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
-    Here is an example that executes the query on the provided indices and deletes the matching documents
+    Here is an example that executes the query against the provided indices and deletes the matching documents
     es.deleteByQueryBuilder().indices('index1','index2').query(query).execute();
 
     Here is an example that executes the query on all indices and deletes the matching documents, where the query is provided using the QueryBuilder helper class
@@ -352,9 +352,9 @@ help:
     Here is an example that executes the query on the selected index and deletes the matching documents
     es.<index>.deleteByQueryBuilder().query({"term":{"user":"kimchy"}}).execute();
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
-    Here is an example that executes the query on all indices and deletes the matching documents, where the query is provided using the QueryBuilder helper class
+    Here is an example that executes the query against all indices and deletes the matching documents, where the query is provided using the QueryBuilder helper class
     es.<index>.deleteByQueryBuilder().queryBuilder(QueryBuilders.termQuery('user','kimchy')).execute();
 
   InternalTypeClient.deleteByQueryBuilder:
@@ -365,9 +365,9 @@ help:
     Here is an example that executes the query on the selected index and type and deletes the matching documents
     es.<index>.<type>.deleteByQueryBuilder().query({"term":{"user":"kimchy"}}).execute();
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
-    Here is an example that executes the query on the selected index and type and deletes the matching documents, where the query is provided using the QueryBuilder helper class
+    Here is an example that executes the query aginst the selected index and type and deletes the matching documents, where the query is provided using the QueryBuilder helper class
     es.<index>.<type>.deleteByQueryBuilder().queryBuilder(QueryBuilders.termQuery('user','kimchy')).execute();
 
   AbstractClient.deleteByQuery:
@@ -378,7 +378,7 @@ help:
     The required argument is the query, provided as a json object
     es.deleteByQuery({"term":{"user":"kimchy"}});
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalIndexClient.deleteByQuery:
   |
@@ -388,7 +388,7 @@ help:
     The required argument is the query, provided as a json object
     es.<index>.deleteByQuery({"term":{"user":"kimchy"}});
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalTypeClient.deleteByQuery:
   |
@@ -398,7 +398,7 @@ help:
     The required argument is the query, provided as a json object
     es.<index>.<type>.deleteByQuery({"term":{"user":"kimchy"}});
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   AbstractClient.explainBuilder:
   |
@@ -408,7 +408,7 @@ help:
     Here is an example providing the query as a json object
     es.explainBuilder().index('twitter').type('tweet').id('1').query({"term":{"user":"kimchy"}}).execute();
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
     Here is an example providing the query using the QueryBuilders helper class
     es.explainBuilder().index('twitter').type('tweet').id('1').queryBuilder(QueryBuilder.termQuery('user','kimchy')).execute();
@@ -421,7 +421,7 @@ help:
     Here is an example providing the query as a json object
     es.<index>.explainBuilder().type('tweet').id('1').query({"term":{"user":"kimchy"}}).execute();
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
     Here is an example providing the query using the QueryBuilders helper class
     es.<index>.explainBuilder().type('tweet').id('1').queryBuilder(QueryBuilder.termQuery('user','kimchy')).execute();
@@ -434,7 +434,7 @@ help:
     Here is an example providing the query as a json object
     es.<index>.<type>.explainBuilder().id('1').query({"term":{"user":"kimchy"}}).execute();
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
     Here is an example providing the query using the QueryBuilders helper class
     es.<index>.<type>.explainBuilder().id('1').queryBuilder(QueryBuilder.termQuery('user','kimchy')).execute();
@@ -447,7 +447,7 @@ help:
     The required arguments are index, type, document id and the query (provided as a json object)
     es.explain('twitter','tweet','1',{"term":{"user":"kimchy"}});
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalIndexClient.explain:
   |
@@ -457,7 +457,7 @@ help:
     The required arguments are type, document id and the query (provided as a json object)
     es.<index>.explain('tweet','1',{"term":{"user":"kimchy"}});
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalTypeClient.explain:
   |
@@ -467,7 +467,7 @@ help:
     The required arguments are document id and the query (provided as a json object)
     es.<index>.<type>.explain('1',{"term":{"user":"kimchy"}});
 
-    The query doesn't need to be typed in a single line though. It can be a variable, even copy pasted from outside the shell.
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   AbstractClient.getBuilder:
   |
@@ -498,7 +498,7 @@ help:
     Retrieves a document by id using the get api
     (http://www.elasticsearch.org/guide/reference/api/get/)
 
-    The required arguments are index, type and document id
+    The required arguments are index, type and id of the document
     es.get('twitter','tweet','1');
 
   InternalIndexClient.get:
@@ -506,7 +506,7 @@ help:
     Retrieves a document by id using the get api
     (http://www.elasticsearch.org/guide/reference/api/get/)
 
-    The required arguments are type and document id
+    The required arguments are type and id of the document
     es.<index>.get('tweet','1');
 
   InternalTypeClient.get:
@@ -514,7 +514,7 @@ help:
     Retrieves a document by id using the get api
     (http://www.elasticsearch.org/guide/reference/api/get/)
 
-    The required argument is the document id
+    The required argument is the id of the document
     es.<index>.<type>.get('1');
 
   AbstractClient.indexBuilder:
@@ -525,7 +525,7 @@ help:
     Here is an example
     es.indexBuilder().index('twitter').type('tweet').id('1').source({"user":"kimchy", "content":"elasticsearch rocks"}).execute();
 
-    The document doesn't need to be typed in a single line. It can be a variable, even copy pasted from outside the shell.
+    The document doesn't need to be provided in a single line. It can be a variable, even copy pasted from outside the shell.
 
   InternalIndexClient.indexBuilder:
   |
@@ -535,7 +535,7 @@ help:
     Here is an example
     es.<index>.indexBuilder().type('tweet').id('1').source({"user":"kimchy", "content":"elasticsearch rocks"}).execute();
 
-    The document doesn't need to be typed in a single line. It can be a variable, even copy pasted from outside the shell.
+    The document doesn't need to be provided in a single line. It can be a variable, even copy pasted from outside the shell.
 
   InternalTypeClient.indexBuilder:
   |
@@ -545,7 +545,7 @@ help:
     Here is an example
     es.<index>.<type>.indexBuilder().id('1').source({"user":"kimchy", "content":"elasticsearch rocks"}).execute();
 
-    The document doesn't need to be typed in a single line. It can be a variable, even copy pasted from outside the shell.
+    The document doesn't need to be provided in a single line. It can be a variable, even copy pasted from outside the shell.
 
   AbstractClient.index:
   |
@@ -555,7 +555,7 @@ help:
     The required arguments are index, type, document id and the document (provided as a json object)
     es.index('twitter','tweet','1',{"user":"kimchy", "content":"elasticsearch rocks"});
 
-    The document doesn't need to be typed in a single line. It can be a variable, even copy pasted from outside the shell.
+    The document doesn't need to be provided in a single line. It can be a variable, even copy pasted from outside the shell.
 
   InternalIndexClient.index:
   |
@@ -565,7 +565,7 @@ help:
     The required arguments are type, document id and the document (provided as a json object)
     es.<index>.index('tweet','1',{"user":"kimchy", "content":"elasticsearch rocks"});
 
-    The document doesn't need to be typed in a single line. It can be a variable, even copy pasted from outside the shell.
+    The document doesn't need to be provided in a single line. It can be a variable, even copy pasted from outside the shell.
 
   InternalTypeClient.index:
   |
@@ -575,7 +575,7 @@ help:
     The required arguments are document id and the document (provided as a json object)
     es.<index>.<type>.index('1',{"user":"kimchy", "content":"elasticsearch rocks"});
 
-    The document doesn't need to be typed in a single line. It can be a variable, even copy pasted from outside the shell.
+    The document doesn't need to be provided in a single line. It can be a variable, even copy pasted from outside the shell.
 
   AbstractClient.multiGetBuilder:
   |
@@ -628,37 +628,55 @@ help:
     Executes multiple searches in a single request
     (http://www.elasticsearch.org/guide/reference/api/multi-search/)
 
+    The arguments that need to provided are the search requests to execute
+
     Here is an example that sends two queries in a single request
     es.multiSearch({"query":{"term":{"user":"kimchy"}}}, {"query":{"term":{"user":"s1monw"}}});
+
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalIndexClient.multiSearch:
   |
     Executes multiple searches in a single request
     (http://www.elasticsearch.org/guide/reference/api/multi-search/)
 
+    The arguments that need to provided are the search requests to execute
+
     Here is an example that sends two queries in a single request
     es.multiSearch({"query":{"term":{"user":"kimchy"}}}, {"query":{"term":{"user":"s1monw"}}});
+
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalIndexClient.multiSearch:
   |
     Executes multiple searches in a single request, within a specific index
     (http://www.elasticsearch.org/guide/reference/api/multi-search/)
 
+    The arguments that need to provided are the search requests to execute
+
     Here is an example that sends two queries in a single request
     es.<index>.multiSearch({"query":{"term":{"user":"kimchy"}}}, {"query":{"term":{"user":"s1monw"}}});
+
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   InternalTypeClient.multiSearch:
   |
     Executes multiple searches in a single request, within a specific index and type
     (http://www.elasticsearch.org/guide/reference/api/multi-search/)
 
+    The arguments that need to provided are the search requests to execute
+
     Here is an example that sends two queries in a single request
     es.<index>.<type>.multiSearch({"query":{"term":{"user":"kimchy"}}}, {"query":{"term":{"user":"s1monw"}}});
+
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
   AbstractClient.moreLikeThis:
   |
     Executes a more like this request
     (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
+
+    The required arguments are the index, the type and the id of the document to be used in order to find similar ones
 
     Here is an example
     es.moreLikeThis('twitter','tweet','1');
@@ -676,6 +694,8 @@ help:
     Executes a more like this request on a specific index
     (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
 
+    The required arguments are the type and the id of the document to be used in order to find similar ones
+
     Here is an example
     es.<index>.moreLikeThis('tweet','1');
 
@@ -691,6 +711,8 @@ help:
   |
     Executes a more like this request on a specific index and type
     (http://www.elasticsearch.org/guide/reference/api/more-like-this/)
+
+    The required argument is the id of the document to be used in order to find similar ones
 
     Here is an example
     es.<index>.<type>.moreLikeThis('1');
@@ -708,6 +730,8 @@ help:
     Sends a percolate request
     (http://www.elasticsearch.org/guide/reference/api/percolate/)
 
+    The required arguments are the index, the type and the document to percolate
+
     Here is an example
     es.percolate('test','type1', {"doc":{"field1":"value1"}});
 
@@ -723,6 +747,8 @@ help:
   |
     Sends a percolate request to a specific index
     (http://www.elasticsearch.org/guide/reference/api/percolate/)
+
+    The required arguments are the type and the document to percolate
 
     Here is an example
     es.<index>.percolate('type1', {"doc":{"field1":"value1"}});
@@ -743,8 +769,10 @@ help:
     The following example will send a match_all query
     es.search();
 
-    while the following one will send the provided term query
+    The following example sends the provided term query
     es.search({"query":{"term":{"user":"kimchy"}}});
+
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
     It's also possible to provide a string which will be included in a query_string
     es.search('user:kimchy');
@@ -761,18 +789,20 @@ help:
     es.searchBuilder().queryBuilder(QueryBuilders.multiMatchQuery('kimchy','title^2','user')).execute()
 
   InternalIndexClient.search:
-    |
-      Executes a search request against a specific index
-      (http://www.elasticsearch.org/guide/reference/api/search/)
+  |
+    Executes a search request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/search/)
 
-      The following example will send a match_all query
-      es.<index>.search();
+    The following example will send a match_all query
+    es.<index>.search();
 
-      while the following one will send the provided term query
-      es.<index>.search({"query":{"term":{"user":"kimchy"}}});
+    The following example sends the provided term query
+    es.<index>.search({"query":{"term":{"user":"kimchy"}}});
 
-      It's also possible to provide a string which will be included in a query_string
-      es.<index>.search('user:kimchy');
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
+
+    It's also possible to provide a string which will be included in a query_string
+    es.<index>.search('user:kimchy');
 
   InternalIndexClient.searchBuilder:
   |
@@ -793,8 +823,10 @@ help:
     The following example will send a match_all query
     es.<index>.<type>.search();
 
-    while the following one will send the provided term query
+    The following example sends the provided term query
     es.<index>.<type>.search({"query":{"term":{"user":"kimchy"}}});
+
+    The query doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
 
     It's also possible to provide a string which will be included in a query_string
     es.<index>.<type>.search('user:kimchy');
@@ -864,8 +896,76 @@ help:
     Allows to build a suggest request against a specific index
     (http://www.elasticsearch.org/guide/reference/api/search/suggest/)
 
-    Use the addSuggestion method to add the suggest request built through the SuggestBuilder object that comes with the Java API
+    The suggest requests need to be built through the SuggestBuilder object that comes with the Java API and added using the addSuggestion method
 
     es.<index>.suggestBuilder().addSuggestion(SuggestBuilder.phraseSuggestion('title').field('title').text('the amstrdam metup')).execute();
 
+  AbstractClient.update:
+  |
+    Executes an update request
+    (http://www.elasticsearch.org/guide/reference/api/update/)
+    The first three arguments are the index, the type and the id of the document to update
+
+    You can either provide a partial document as fourth argument, which will be merged with the existing one
+    es.update('twitter','tweet','1',{"content":"new content"});
+
+    or a script that will be executed on the existing document
+    es.update('twitter','tweet','1',"ctx._source.retweets += 1");
+
+  AbstractClient.updateBuilder:
+  |
+    Allows to build an update request
+    (http://www.elasticsearch.org/guide/reference/api/update/)
+
+    The following example provides a partial document and an additional upsert document to be indexed when the document to be updated doesn't exist
+    es.updateBuilder().index('twitter').type('tweet').id('1').doc({"content":"updated content"}).upsert({"content":"new content"}).execute();
+
+    The following example provides a script to be executed and a parameter, so that the script will be cached and faster
+    es.updateBuilder().index('twitter').type('tweet').id('1').addScriptParam('retweets',10).script("ctx._source.retweets += retweets").execute();
+
+  InternalIndexClient.update:
+  |
+    Executes an update request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/update/)
+    The first two arguments are the type and the id of the document to update
+
+    You can either provide a partial document as third argument, which will be merged with the existing one
+    es.<index>.update('tweet','1',{"content":"new content"});
+
+    or a script that will be executed on the existing document
+    es.<index>.update('tweet','1',"ctx._source.retweets += 1");
+
+  InternalIndexClient.updateBuilder:
+  |
+    Allows to build an update request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/update/)
+
+    The following example provides a partial document and an additional upsert document to be indexed when the document to be updated doesn't exist
+    es.<index>.updateBuilder().type('tweet').id('1').doc({"content":"updated content"}).upsert({"content":"new content"}).execute();
+
+    The following example provides a script to be executed and a parameter, so that the script will be cached and faster
+    es.<index>.updateBuilder().type('tweet').id('1').addScriptParam('retweets',10).script("ctx._source.retweets += retweets").execute();
+
+  InternalTypeClient.update:
+  |
+    Executes an update request against a specific index
+    (http://www.elasticsearch.org/guide/reference/api/update/)
+    The first argument is the id of the document to update
+
+    You can either provide a partial document as second argument, which will be merged with the existing one
+    es.<index>.<type>.update('1',{"content":"new content"});
+
+    or a script that will be executed on the existing document
+    es.<index>.<type>.update('1',"ctx._source.retweets += 1");
+
+  InternalTypeClient.updateBuilder:
+  |
+    Allows to build an update request against a specific index and type
+    (http://www.elasticsearch.org/guide/reference/api/update/)
+
+    The following example provides a partial document and an additional upsert document to be indexed when the document to be updated doesn't exist
+    es.<index>.<type>.updateBuilder().id('1').doc({"content":"updated content"}).upsert({"content":"new content"}).execute();
+
+    The following example provides a script to be executed and a parameter, so that the script will be cached and faster
+    es.<index>.<type>.updateBuilder().id('1').addScriptParam('retweets',10).script("ctx._source.retweets += retweets").execute();
 

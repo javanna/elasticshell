@@ -276,7 +276,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return mappingGetBuilder().types(types).execute();
     }
 
-    public DeleteMappingRequestBuilder<JsonInput, JsonOutput> mappingDeleteBuilder() {
+    protected DeleteMappingRequestBuilder<JsonInput, JsonOutput> mappingDeleteBuilder() {
         return shellClient.indicesApi().mappingDeleteBuilder().indices(indexName);
     }
 

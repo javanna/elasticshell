@@ -18,14 +18,17 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.apache.http.client.fluent.Request;
-import org.apache.http.entity.ContentType;
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.console.Console;
-
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.http.ShellHttpClient;
 
 /**
  * @author Luca Cavanna
@@ -35,44 +38,51 @@ import java.nio.charset.Charset;
 @ExecutableCommand(aliases = {"httpPut", "put"})
 public class HttpPutCommand extends Command {
 
+    private final ShellHttpClient shellHttpClient;
+
     @Inject
-    HttpPutCommand(Console<PrintStream> console) {
+    HttpPutCommand(Console<PrintStream> console, ShellHttpClient shellHttpClient) {
         super(console);
+        this.shellHttpClient = shellHttpClient;
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url) throws IOException {
-        return new HttpCommandResponse(Request.Put(url)
-                .execute().returnResponse());
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(new HttpPut(url)));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, String body) throws IOException {
-        return new HttpCommandResponse(Request.Put(url).bodyString(body, ContentType.DEFAULT_TEXT)
-                .execute().returnResponse());
+        HttpPut httpPut = new HttpPut(url);
+        httpPut.setEntity(new StringEntity(body, ContentType.DEFAULT_TEXT));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, String body, String mimeType) throws IOException {
-        return new HttpCommandResponse(Request.Put(url).bodyString(body, ContentType.create(mimeType))
-                .execute().returnResponse());
+        HttpPut httpPut = new HttpPut(url);
+        httpPut.setEntity(new StringEntity(body, ContentType.create(mimeType)));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, String body, String mimeType, String charsetName) throws IOException {
-        return new HttpCommandResponse(Request.Put(url).bodyString(body, ContentType.create(mimeType, Charset.forName(charsetName)))
-                .execute().returnResponse());
+        HttpPut httpPut = new HttpPut(url);
+        httpPut.setEntity(new StringEntity(body, ContentType.create(mimeType, Charset.forName(charsetName))));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, HttpParameters parameters) throws IOException {
-        return new HttpCommandResponse(Request.Put(url).bodyForm(parameters)
-                .execute().returnResponse());
+        HttpPut httpPut = new HttpPut(url);
+        httpPut.setEntity(new UrlEncodedFormEntity(parameters));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, HttpParameters parameters, String charsetName) throws IOException {
-        return new HttpCommandResponse(Request.Put(url).bodyForm(parameters, Charset.forName(charsetName))
-                .execute().returnResponse());
+        HttpPut httpPut = new HttpPut(url);
+        httpPut.setEntity(new UrlEncodedFormEntity(parameters, Charset.forName(charsetName)));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 }

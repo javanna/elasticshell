@@ -26,6 +26,7 @@ import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.http.ShellHttpClient;
 import org.elasticsearch.shell.json.ToXContentAsString;
 import org.elasticsearch.shell.node.Node;
 import org.elasticsearch.shell.node.NodeFactory;
@@ -56,6 +57,7 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
     protected final Scheduler scheduler;
     protected final ShellSettings shellSettings;
     protected final ToXContentAsString toXContentAsString;
+    protected final ShellHttpClient shellHttpClient;
 
     protected final AtomicBoolean closed = new AtomicBoolean(false);
 
@@ -76,7 +78,8 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
                       NodeFactory<ShellNativeClient, JsonInput, JsonOutput> nodeFactory,
                       ScriptLoader scriptLoader, Scheduler scheduler,
                       ShellSettings shellSettings,
-                      ToXContentAsString toXContentAsString) {
+                      ToXContentAsString toXContentAsString,
+                      ShellHttpClient shellHttpClient) {
         this.console = console;
         this.compilableSourceReader = compilableSourceReader;
         this.scriptExecutor = scriptExecutor;
@@ -88,6 +91,7 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
         this.scheduler = scheduler;
         this.shellSettings = shellSettings;
         this.toXContentAsString = toXContentAsString;
+        this.shellHttpClient = shellHttpClient;
     }
 
     @Override
@@ -258,6 +262,8 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
                 scheduler.shutdown();
             }
             shellScope.closeAllResources();
+
+            shellHttpClient.shutdown();
 
             console.println();
             console.println(MessagesProvider.getMessage(ShellSettings.BYE_MESSAGE));

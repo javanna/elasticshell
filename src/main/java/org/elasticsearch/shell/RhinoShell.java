@@ -26,6 +26,7 @@ import org.elasticsearch.shell.client.ClientFactory;
 import org.elasticsearch.shell.client.RhinoClientNativeJavaObject;
 import org.elasticsearch.shell.command.ScriptLoader;
 import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.http.ShellHttpClient;
 import org.elasticsearch.shell.json.ToXContentAsString;
 import org.elasticsearch.shell.node.NodeFactory;
 import org.elasticsearch.shell.scheduler.Scheduler;
@@ -51,10 +52,11 @@ public class RhinoShell extends BasicShell<RhinoClientNativeJavaObject, NativeOb
                ClientFactory<RhinoClientNativeJavaObject> clientFactory,
                NodeFactory<RhinoClientNativeJavaObject, NativeObject, Object> nodeFactory,
                ScriptLoader scriptLoader, Scheduler scheduler, ShellSettings shellSettings,
-               ToXContentAsString toXContentAsString) {
+               ToXContentAsString toXContentAsString, ShellHttpClient shellHttpClient) {
 
         super(console, compilableSourceReader, scriptExecutor, unwrapper, shellScope,
-                clientFactory, nodeFactory, scriptLoader, scheduler, shellSettings, toXContentAsString);
+                clientFactory, nodeFactory, scriptLoader, scheduler, shellSettings,
+                toXContentAsString, shellHttpClient);
 
         this.rhinoShellScope = shellScope;
     }

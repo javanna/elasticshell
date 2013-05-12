@@ -18,14 +18,17 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.apache.http.client.fluent.Request;
-import org.apache.http.entity.ContentType;
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.console.Console;
-
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.http.ShellHttpClient;
 
 /**
  * @author Luca Cavanna
@@ -35,44 +38,51 @@ import java.nio.charset.Charset;
 @ExecutableCommand(aliases = {"httpPost", "post"})
 public class HttpPostCommand extends Command {
 
+    private final ShellHttpClient shellHttpClient;
+
     @Inject
-    HttpPostCommand(Console<PrintStream> console) {
+    HttpPostCommand(Console<PrintStream> console, ShellHttpClient shellHttpClient) {
         super(console);
+        this.shellHttpClient = shellHttpClient;
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url) throws IOException {
-        return new HttpCommandResponse(Request.Post(url)
-                .execute().returnResponse());
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(new HttpPost(url)));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, String body) throws IOException {
-        return new HttpCommandResponse(Request.Post(url).bodyString(body, ContentType.DEFAULT_TEXT)
-                .execute().returnResponse());
+        HttpPost httpPut = new HttpPost(url);
+        httpPut.setEntity(new StringEntity(body, ContentType.DEFAULT_TEXT));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, String body, String mimeType) throws IOException {
-        return new HttpCommandResponse(Request.Post(url).bodyString(body, ContentType.create(mimeType))
-                .execute().returnResponse());
+        HttpPost httpPut = new HttpPost(url);
+        httpPut.setEntity(new StringEntity(body, ContentType.create(mimeType)));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, String body, String mimeType, String charsetName) throws IOException {
-        return new HttpCommandResponse(Request.Post(url).bodyString(body, ContentType.create(mimeType, Charset.forName(charsetName)))
-                .execute().returnResponse());
+        HttpPost httpPut = new HttpPost(url);
+        httpPut.setEntity(new StringEntity(body, ContentType.create(mimeType, Charset.forName(charsetName))));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, HttpParameters parameters) throws IOException {
-        return new HttpCommandResponse(Request.Post(url).bodyForm(parameters)
-                .execute().returnResponse());
+        HttpPost httpPut = new HttpPost(url);
+        httpPut.setEntity(new UrlEncodedFormEntity(parameters));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url, HttpParameters parameters, String charsetName) throws IOException {
-        return new HttpCommandResponse(Request.Post(url).bodyForm(parameters, Charset.forName(charsetName))
-                .execute().returnResponse());
+        HttpPost httpPut = new HttpPost(url);
+        httpPut.setEntity(new UrlEncodedFormEntity(parameters, Charset.forName(charsetName)));
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(httpPut));
     }
 }

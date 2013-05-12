@@ -31,5 +31,5 @@ public interface Unwrapper {
      * @param scriptObject the script object to be converted
      * @return the Java representation of the input script object
      */
-    public Object unwrap(Object scriptObject);
+    public Object unwrap(Object scriptObject, boolean prettify);
 }

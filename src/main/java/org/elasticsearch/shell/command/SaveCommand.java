@@ -50,29 +50,43 @@ public class SaveCommand extends Command {
 
     @SuppressWarnings("unused")
     public void execute(Object arg) throws IOException {
+        execute(arg, true);
+    }
+
+    @SuppressWarnings("unused")
+    public void execute(Object arg, boolean prettify) throws IOException {
         //Writes by default in output directory
         File dir = new File("output");
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        execute(arg, new File(dir, "output.txt"));
+        execute(arg, new File(dir, "output.txt"), prettify);
     }
 
     @SuppressWarnings("unused")
     public void execute(Object arg, String path) throws IOException {
-        execute(arg, new File(path));
+        execute(arg, path, true);
+    }
+
+    @SuppressWarnings("unused")
+    public void execute(Object arg, String path, boolean prettify) throws IOException {
+        execute(arg, new File(path), prettify);
     }
 
     public void execute(Object arg, File file) throws IOException {
+        execute(arg, file, true);
+    }
+
+    public void execute(Object arg, File file, boolean prettify) throws IOException {
         //keeps appending to the same file if existing
         FileWriter writer = new FileWriter(file, true);
-        writer.write(unwrap(arg));
+        writer.write(unwrap(arg, prettify));
         writer.write('\n');
         writer.close();
     }
 
-    protected String unwrap(Object arg) throws IOException {
-        Object unwrappedArg = unwrapper.unwrap(arg);
+    protected String unwrap(Object arg, boolean prettify) throws IOException {
+        Object unwrappedArg = unwrapper.unwrap(arg, prettify);
 
         if (unwrappedArg instanceof  ToXContent) {
             ToXContent toXContent = (ToXContent) unwrappedArg;

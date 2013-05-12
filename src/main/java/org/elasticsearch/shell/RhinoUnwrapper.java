@@ -19,9 +19,9 @@
 package org.elasticsearch.shell;
 
 
-import org.mozilla.javascript.*;
-
 import java.util.*;
+
+import org.mozilla.javascript.*;
 
 /**
  * Rhino implementation of the {@link Unwrapper}
@@ -40,13 +40,13 @@ public class RhinoUnwrapper implements Unwrapper {
      * @return unwrapped and converted value
      */
     @Override
-    public Object unwrap(Object scriptObject) {
+    public Object unwrap(Object scriptObject, boolean prettify) {
         if (scriptObject == null) {
             return null;
         } else if (scriptObject instanceof Wrapper) {
             // unwrap a Java object from a JavaScript wrapper
             // recursively call this method to convert the unwrapped value
-            return unwrap(((Wrapper) scriptObject).unwrap());
+            return unwrap(((Wrapper) scriptObject).unwrap(), prettify);
         } else if (scriptObject instanceof Function) {
             return Context.toString(scriptObject);
         } else if (scriptObject instanceof IdScriptableObject) {
@@ -76,14 +76,15 @@ public class RhinoUnwrapper implements Unwrapper {
                             // getContext the value out for the specified key
                             Object val = values.get(propId, values);
                             // recursively call this method to convert the value
-                            propValues.add(unwrap(val));
+                            propValues.add(unwrap(val, prettify));
                         }
                     }
                     return propValues;
                 } else {
                     // any other JavaScript object that supports properties (json)
                     Context context = Context.getCurrentContext();
-                    return NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), values, null, "  ");
+                    String space = prettify ? "  " : "";
+                    return NativeJSON.stringify(context, ScriptRuntime.getGlobal(context), values, null, space);
                 }
             }
         } else if (scriptObject instanceof Object[]) {
@@ -91,7 +92,7 @@ public class RhinoUnwrapper implements Unwrapper {
             Object[] array = (Object[]) scriptObject;
             ArrayList<Object> list = new ArrayList<Object>(array.length);
             for (Object object : array) {
-                list.add(unwrap(object));
+                list.add(unwrap(object, prettify));
             }
             return list;
         } else if (scriptObject instanceof Map) {
@@ -100,7 +101,7 @@ public class RhinoUnwrapper implements Unwrapper {
             Map<Object, Object> map = (Map<Object, Object>) scriptObject;
             Map<Object, Object> copyMap = new HashMap<Object, Object>(map.size());
             for (Object key : map.keySet()) {
-                copyMap.put(key, unwrap(map.get(key)));
+                copyMap.put(key, unwrap(map.get(key), prettify));
             }
             return copyMap;
         }

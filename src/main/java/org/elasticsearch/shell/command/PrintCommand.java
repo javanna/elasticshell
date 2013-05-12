@@ -18,11 +18,11 @@
  */
 package org.elasticsearch.shell.command;
 
+import java.io.PrintStream;
+
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.Unwrapper;
 import org.elasticsearch.shell.console.Console;
-
-import java.io.PrintStream;
 
 /**
  * Command that allows to print out to the console its arguments
@@ -58,7 +58,7 @@ public class PrintCommand extends Command {
     }
 
     protected String unwrap(Object arg) {
-        Object unwrappedArg = unwrapper.unwrap(arg);
+        Object unwrappedArg = unwrapper.unwrap(arg, true);
         if (unwrappedArg != null) {
             return unwrappedArg.toString();
         }

@@ -231,7 +231,7 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
      * @return the Java representation of the input javascript object
      */
     protected Object unwrap(Object scriptObject) {
-        return unwrapper.unwrap(scriptObject);
+        return unwrapper.unwrap(scriptObject, true);
     }
 
     /**

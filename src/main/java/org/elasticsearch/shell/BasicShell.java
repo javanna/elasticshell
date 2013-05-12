@@ -202,10 +202,10 @@ public class BasicShell<ShellNativeClient, JsonInput, JsonOutput> implements She
             public Void execute() {
                 Node<ShellNativeClient,JsonInput,JsonOutput> node = nodeFactory.newLocalNode();
                 shellScope.registerJavaObject("node", node);
-                messageBuilder.append(node.toString() + " available as node").append("\n");
+                messageBuilder.append(node.toString()).append(" available as node").append("\n");
                 ShellNativeClient shellNativeClient = node.client();
                 shellScope.registerJavaObject("es", shellNativeClient);
-                messageBuilder.append(shellNativeClient.toString() + " available as es");
+                messageBuilder.append(shellNativeClient.toString()).append(" available as es");
                 return null;
             }
         }).execute();

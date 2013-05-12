@@ -69,11 +69,6 @@ public class MultiSearchRequestBuilder<JsonInput, JsonOutput> extends AbstractRe
         return this;
     }
 
-    public MultiSearchRequestBuilder<JsonInput, JsonOutput> ignoreIndices(String ignoreIndices) {
-        this.request.ignoreIndices(IgnoreIndices.fromString(ignoreIndices));
-        return this;
-    }
-
     @Override
     protected ActionFuture<MultiSearchResponse> doExecute(MultiSearchRequest request) {
         return client.multiSearch(request);

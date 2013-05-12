@@ -25,6 +25,8 @@ import org.elasticsearch.shell.client.builders.cluster.ClusterStateRequestBuilde
 import org.elasticsearch.shell.client.builders.cluster.SearchShardsRequestBuilder;
 import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.*;
+import org.elasticsearch.shell.dump.DumpRestorer;
+import org.elasticsearch.shell.dump.DumpSaver;
 
 /**
  * @author Luca Cavanna
@@ -211,6 +213,14 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
 
     public JsonOutput validate(JsonInput query) {
         return validateBuilder().query(query).execute();
+    }
+
+    public DumpSaver<JsonInput>.Builder dumpSaveBuilder() {
+        return shellClient.dumpSaveBuilder().indices(indexName);
+    }
+
+    public DumpRestorer.Builder dumpRestoreBuilder() {
+        return shellClient.dumpRestoreBuilder().index(indexName);
     }
 
     /*

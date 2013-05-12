@@ -18,10 +18,12 @@
  */
 package org.elasticsearch.shell.client;
 
+import java.io.IOException;
+
+import org.elasticsearch.shell.dump.DumpRestorer;
+import org.elasticsearch.shell.dump.DumpSaver;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
-
-import java.io.IOException;
 
 /**
  * @author Luca Cavanna
@@ -32,8 +34,9 @@ import java.io.IOException;
 public class LocalNodeClient<JsonInput, JsonOutput>
         extends AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> {
 
-    public LocalNodeClient(org.elasticsearch.client.node.NodeClient client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
-        super(client, jsonToString, stringToJson);
+    public LocalNodeClient(org.elasticsearch.client.node.NodeClient client, JsonToString<JsonInput> jsonToString,
+                           StringToJson<JsonOutput> stringToJson, DumpSaver<JsonInput> dumpSaver, DumpRestorer dumpRestorer) {
+        super(client, jsonToString, stringToJson,  dumpSaver, dumpRestorer);
     }
 
     @Override

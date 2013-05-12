@@ -1027,6 +1027,57 @@ help:
     Here is an example using the QueryBuilders that comes with the Java API
     es.<index>.<type>.validateBuilder().queryBuilder(QueryBuilders.queryString('user:kimchy')).execute();
 
+  AbstractClient.dumpSaveBuilder:
+  |
+    Saves a dump of an index. Uses the scroll api to fetch all the documents that match the query provided (match_all by default) and saves them to disk.
+
+    The optional query can be either provided in json format
+    es.dumpSaveBuilder().indices('twitter').path('/home/luca/Desktop/twitter.json').query({"term":{"user":"kimchy"}}).execute();
+
+    or built through the QueryBuilders object that comes with the Java API
+    es.dumpSaveBuilder().indices('twitter').path('/home/luca/Desktop/twitter.json').query(QueryBuilders.termQuery('user','kimchy')).execute();
+
+  AbstractClient.dumpRestoreBuilder:
+  |
+    Restores a dump of an index previously saved to file.
+
+    Here is an example
+    es.dumpRestoreBuilder().index('twitter').type('tweet').path('//home/luca/Desktop/twitter.json').execute();
+
+  InternalIndexClient.dumpSaveBuilder:
+  |
+    Saves a dump of an index. Uses the scroll api to fetch all the documents that match the query provided (match_all by default) and saves them to disk.
+
+    The optional query can be either provided in json format
+    es.<index>.dumpSaveBuilder().path('/home/luca/Desktop/twitter.json').query({"term":{"user":"kimchy"}}).execute();
+
+    or built through the QueryBuilders object that comes with the Java API
+    es.<index>.dumpSaveBuilder().path('/home/luca/Desktop/twitter.json').query(QueryBuilders.termQuery('user','kimchy')).execute();
+
+  InternalIndexClient.dumpRestoreBuilder:
+  |
+    Restores a dump of an index previously saved to file.
+
+    Here is an example
+    es.<index>.dumpRestoreBuilder().type('tweet').path('//home/luca/Desktop/twitter.json').execute();
+
+  InternalTypeClient.dumpSaveBuilder:
+  |
+    Saves a dump of an index. Uses the scroll api to fetch all the documents that match the query provided (match_all by default) and saves them to disk.
+
+    The optional query can be either provided in json format
+    es.<index>.<type>.dumpSaveBuilder().path('/home/luca/Desktop/twitter.json').query({"term":{"user":"kimchy"}}).execute();
+
+    or built through the QueryBuilders object that comes with the Java API
+    es.<index>.dumpSaveBuilder().path('/home/luca/Desktop/twitter.json').query(QueryBuilders.termQuery('user','kimchy')).execute();
+
+  InternalTypeClient.dumpRestoreBuilder:
+  |
+    Restores a dump of an index previously saved to file.
+
+    Here is an example
+    es.<index>.<type>.dumpRestoreBuilder().path('//home/luca/Desktop/twitter.json').execute();
+
   AbstractClient.indicesApi:
   |
     Gives access to the indices API

@@ -18,11 +18,13 @@
  */
 package org.elasticsearch.shell.client;
 
+import java.io.IOException;
+
 import org.elasticsearch.node.Node;
+import org.elasticsearch.shell.dump.DumpRestorer;
+import org.elasticsearch.shell.dump.DumpSaver;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
-
-import java.io.IOException;
 
 /**
  * @author Luca Cavanna
@@ -37,8 +39,9 @@ public class NodeClient<JsonInput, JsonOutput>
 
     private final Node node;
 
-    public NodeClient(Node node, org.elasticsearch.client.node.NodeClient client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
-        super(client, jsonToString, stringToJson);
+    public NodeClient(Node node, org.elasticsearch.client.node.NodeClient client, JsonToString<JsonInput> jsonToString,
+                      StringToJson<JsonOutput> stringToJson, DumpSaver<JsonInput> dumpSaver, DumpRestorer dumpRestorer) {
+        super(client, jsonToString, stringToJson, dumpSaver, dumpRestorer);
         this.node = node;
     }
 

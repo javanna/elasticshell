@@ -87,7 +87,7 @@ public class DumpRestorer {
 
             @Override
             public void afterBulk(long executionId, BulkRequest request, BulkResponse response) {
-                console.println("Executed bulk of " + response.getItems().length + " items");
+                console.println("Executed bulk of " + response.items().length + " items");
                 if (response.hasFailures()) {
                     console.println(response.buildFailureMessage());
                 }

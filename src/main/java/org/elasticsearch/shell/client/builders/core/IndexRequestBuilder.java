@@ -18,6 +18,8 @@
  */
 package org.elasticsearch.shell.client.builders.core;
 
+import java.io.IOException;
+
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.WriteConsistencyLevel;
 import org.elasticsearch.action.index.IndexRequest;
@@ -28,8 +30,6 @@ import org.elasticsearch.index.VersionType;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
-
-import java.io.IOException;
 
 /**
  * @author Luca Cavanna

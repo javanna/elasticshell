@@ -22,6 +22,8 @@ package org.elasticsearch.shell.client;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.shell.RhinoShellTopLevel;
 import org.elasticsearch.shell.ShellScope;
+import org.elasticsearch.shell.dump.DumpRestorer;
+import org.elasticsearch.shell.dump.DumpSaver;
 import org.elasticsearch.shell.json.RhinoJsonToString;
 import org.elasticsearch.shell.json.RhinoStringToJson;
 import org.mozilla.javascript.NativeObject;
@@ -37,8 +39,9 @@ public class RhinoClientWrapper extends AbstractClientWrapper<RhinoClientNativeJ
 
     @Inject
     RhinoClientWrapper(ShellScope<RhinoShellTopLevel> shellScope,
-                       RhinoJsonToString jsonToString, RhinoStringToJson stringToJson) {
-        super(jsonToString, stringToJson);
+                       RhinoJsonToString jsonToString, RhinoStringToJson stringToJson,
+                       DumpSaver<NativeObject> dumpSaver, DumpRestorer dumpRestorer) {
+        super(jsonToString, stringToJson, dumpSaver, dumpRestorer);
         this.shellScope = shellScope;
     }
 

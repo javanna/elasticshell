@@ -31,6 +31,8 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.json.JsonXContent;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.shell.client.builders.core.*;
+import org.elasticsearch.shell.dump.DumpRestorer;
+import org.elasticsearch.shell.dump.DumpSaver;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
 
@@ -52,13 +54,19 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
     private final StringToJson<JsonOutput> stringToJson;
     private final IndicesApiClient<EsClient, JsonInput, JsonOutput> indicesApiClient;
     private final ClusterApiClient<EsClient, JsonInput, JsonOutput> clusterApiClient;
+    private final DumpSaver<JsonInput> dumpSaver;
+    private final DumpRestorer dumpRestorer;
 
-    protected AbstractClient(EsClient client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+    protected AbstractClient(EsClient client, JsonToString<JsonInput> jsonToString,
+                             StringToJson<JsonOutput> stringToJson,
+                             DumpSaver<JsonInput> dumpSaver, DumpRestorer dumpRestorer) {
         this.client = client;
         this.jsonToString = jsonToString;
         this.stringToJson = stringToJson;
         this.indicesApiClient = new IndicesApiClient<EsClient, JsonInput, JsonOutput>(this, jsonToString, stringToJson);
         this.clusterApiClient = new ClusterApiClient<EsClient, JsonInput, JsonOutput>(this, jsonToString, stringToJson);
+        this.dumpSaver = dumpSaver;
+        this.dumpRestorer = dumpRestorer;
     }
 
     //Just a shortcut to get all the available indexes with their types and aliases
@@ -275,6 +283,14 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
 
     public ClusterApiClient<EsClient, JsonInput, JsonOutput> clusterApi() {
         return clusterApiClient;
+    }
+
+    public DumpSaver<JsonInput>.Builder dumpSaveBuilder() {
+        return dumpSaver.new Builder(client);
+    }
+
+    public DumpRestorer.Builder dumpRestoreBuilder() {
+        return dumpRestorer.new Builder(client);
     }
 
     EsClient client() {

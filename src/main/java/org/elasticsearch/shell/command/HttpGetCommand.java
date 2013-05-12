@@ -18,12 +18,13 @@
  */
 package org.elasticsearch.shell.command;
 
-import org.apache.http.client.fluent.Request;
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.shell.console.Console;
-
 import java.io.IOException;
 import java.io.PrintStream;
+
+import org.apache.http.client.methods.HttpGet;
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.shell.console.Console;
+import org.elasticsearch.shell.http.ShellHttpClient;
 
 /**
  * @author Luca Cavanna
@@ -33,13 +34,16 @@ import java.io.PrintStream;
 @ExecutableCommand(aliases = {"httpGet", "get"})
 public class HttpGetCommand extends Command {
 
+    private final ShellHttpClient shellHttpClient;
+
     @Inject
-    HttpGetCommand(Console<PrintStream> console) {
+    HttpGetCommand(Console<PrintStream> console, ShellHttpClient shellHttpClient) {
         super(console);
+        this.shellHttpClient = shellHttpClient;
     }
 
     @SuppressWarnings("unused")
     public HttpCommandResponse execute(String url) throws IOException {
-        return new HttpCommandResponse(Request.Get(url).execute().returnResponse());
+        return new HttpCommandResponse(shellHttpClient.getHttpClient().execute(new HttpGet(url)));
     }
 }

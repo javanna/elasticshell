@@ -18,18 +18,14 @@
  */
 package org.elasticsearch.shell.command;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.entity.ContentType;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Luca Cavanna
@@ -50,29 +46,14 @@ public class HttpCommandResponse {
     }
 
     private String extractContent(HttpEntity entity) {
-        if (entity != null) {
-            try {
-                return asString(
-                        EntityUtils.toByteArray(entity),
-                        ContentType.getOrDefault(entity));
-            } catch(IOException e) {
-                throw new RuntimeException("Error while extracting http response content", e);
-            }
-
-        } else {
-            return asString(new byte[]{}, ContentType.DEFAULT_BINARY);
+        if (entity == null) {
+            return "";
         }
-    }
 
-    private String asString(byte[] raw, ContentType contentType) {
-        Charset charset =  contentType.getCharset();
-        if (charset == null) {
-            charset = HTTP.DEF_CONTENT_CHARSET;
-        }
         try {
-            return new String(raw, charset.name());
-        } catch (UnsupportedEncodingException ex) {
-            return new String(raw);
+            return EntityUtils.toString(entity);
+        } catch(IOException e) {
+            throw new RuntimeException("Error while extracting http response content", e);
         }
     }
 

@@ -65,6 +65,7 @@ public class JLineConsole extends AbstractConsole {
         super(out);
         try {
             this.reader = new ConsoleReader(appName, in, out, null);
+            this.reader.setExpandEvents(false);
 
             String userHome = System.getProperty("user.home");
             if (userHome != null && userHome.length()>0) {

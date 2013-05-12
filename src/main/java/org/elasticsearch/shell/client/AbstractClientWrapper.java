@@ -19,6 +19,8 @@
 package org.elasticsearch.shell.client;
 
 import org.elasticsearch.node.Node;
+import org.elasticsearch.shell.dump.DumpRestorer;
+import org.elasticsearch.shell.dump.DumpSaver;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
 
@@ -42,25 +44,30 @@ public abstract class AbstractClientWrapper<ShellNativeClient, JsonInput, JsonOu
 
     protected final JsonToString<JsonInput> jsonToString;
     protected final StringToJson<JsonOutput> stringToJson;
+    protected final DumpSaver<JsonInput> dumpSaver;
+    protected final DumpRestorer dumpRestorer;
 
-    AbstractClientWrapper(JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
+    AbstractClientWrapper(JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson,
+                          DumpSaver<JsonInput> dumpSaver, DumpRestorer dumpRestorer) {
         this.jsonToString = jsonToString;
         this.stringToJson = stringToJson;
+        this.dumpSaver = dumpSaver;
+        this.dumpRestorer = dumpRestorer;
     }
 
     @Override
     public AbstractClient<org.elasticsearch.client.transport.TransportClient, JsonInput, JsonOutput> wrapEsTransportClient(org.elasticsearch.client.transport.TransportClient client) {
-        return new TransportClient<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
+        return new TransportClient<JsonInput, JsonOutput>(client, jsonToString, stringToJson, dumpSaver, dumpRestorer);
     }
 
     @Override
     public AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> wrapEsNodeClient(Node node, org.elasticsearch.client.node.NodeClient client) {
-        return new NodeClient<JsonInput, JsonOutput>(node, client, jsonToString, stringToJson);
+        return new NodeClient<JsonInput, JsonOutput>(node, client, jsonToString, stringToJson, dumpSaver, dumpRestorer);
     }
 
     @Override
     public AbstractClient<org.elasticsearch.client.node.NodeClient, JsonInput, JsonOutput> wrapEsLocalNodeClient(org.elasticsearch.client.node.NodeClient client) {
-        return new LocalNodeClient<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
+        return new LocalNodeClient<JsonInput, JsonOutput>(client, jsonToString, stringToJson, dumpSaver, dumpRestorer);
     }
 
     @Override

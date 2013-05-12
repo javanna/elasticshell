@@ -18,15 +18,17 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.cluster.node.DiscoveryNode;
-import org.elasticsearch.common.collect.ImmutableList;
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.shell.json.JsonToString;
-import org.elasticsearch.shell.json.StringToJson;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.elasticsearch.cluster.node.DiscoveryNode;
+import org.elasticsearch.common.collect.ImmutableList;
+import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.shell.dump.DumpRestorer;
+import org.elasticsearch.shell.dump.DumpSaver;
+import org.elasticsearch.shell.json.JsonToString;
+import org.elasticsearch.shell.json.StringToJson;
 
 /**
  * @author Luca Cavanna
@@ -38,8 +40,9 @@ import java.util.List;
 public class TransportClient<JsonInput, JsonOutput>
         extends AbstractClient<org.elasticsearch.client.transport.TransportClient, JsonInput, JsonOutput> {
 
-    protected TransportClient(org.elasticsearch.client.transport.TransportClient client, JsonToString<JsonInput> jsonToString, StringToJson<JsonOutput> stringToJson) {
-        super(client, jsonToString, stringToJson);
+    protected TransportClient(org.elasticsearch.client.transport.TransportClient client, JsonToString<JsonInput> jsonToString,
+                              StringToJson<JsonOutput> stringToJson, DumpSaver<JsonInput> dumpSaver, DumpRestorer dumpRestorer) {
+        super(client, jsonToString, stringToJson, dumpSaver, dumpRestorer);
     }
 
     @Override

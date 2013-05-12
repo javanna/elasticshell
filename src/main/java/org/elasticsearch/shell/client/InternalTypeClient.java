@@ -23,6 +23,8 @@ import org.elasticsearch.shell.client.builders.core.*;
 import org.elasticsearch.shell.client.builders.indices.DeleteMappingRequestBuilder;
 import org.elasticsearch.shell.client.builders.indices.GetMappingRequestBuilder;
 import org.elasticsearch.shell.client.builders.indices.PutMappingRequestBuilder;
+import org.elasticsearch.shell.dump.DumpRestorer;
+import org.elasticsearch.shell.dump.DumpSaver;
 
 /**
  * @author Luca Cavanna
@@ -180,6 +182,14 @@ public class InternalTypeClient<JsonInput, JsonOutput> {
 
     public JsonOutput validate(JsonInput query) {
         return validateBuilder().query(query).execute();
+    }
+
+    public DumpSaver<JsonInput>.Builder dumpSaveBuilder() {
+        return shellClient.dumpSaveBuilder().indices(indexName).types(typeName);
+    }
+
+    public DumpRestorer.Builder dumpRestoreBuilder() {
+        return shellClient.dumpRestoreBuilder().index(indexName).type(typeName);
     }
 
     /*

@@ -167,7 +167,7 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
         return segmentsBuilder().indices(indices).execute();
     }
 
-    public GetSettingsRequestBuilder<JsonInput, JsonOutput> settingsGetBuilder() {
+    protected GetSettingsRequestBuilder<JsonInput, JsonOutput> settingsGetBuilder() {
         return new GetSettingsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 

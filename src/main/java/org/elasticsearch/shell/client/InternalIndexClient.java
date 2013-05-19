@@ -304,7 +304,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return refreshBuilder().execute();
     }
 
-    public SegmentsRequestBuilder<JsonInput, JsonOutput> segmentsBuilder() {
+    protected SegmentsRequestBuilder<JsonInput, JsonOutput> segmentsBuilder() {
         return shellClient.indicesApi().segmentsBuilder().indices(indexName);
     }
 

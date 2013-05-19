@@ -207,7 +207,7 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
         return templateGetBuilder().names(names).execute();
     }
 
-    public DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> templateDeleteBuilder(String name) {
+    protected DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput> templateDeleteBuilder(String name) {
         return new DeleteIndexTemplateRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson, name);
     }
 

@@ -201,7 +201,7 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
         return statusBuilder().indices(indices).execute();
     }
 
-    public GetIndexTemplateRequestBuilder<JsonInput, JsonOutput> templateGetBuilder() {
+    protected GetIndexTemplateRequestBuilder<JsonInput, JsonOutput> templateGetBuilder() {
         return new GetIndexTemplateRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
@@ -222,7 +222,7 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
     }
 
     public JsonOutput templatePut(String name, JsonInput source) {
-        return templatePutBuilder().template(name).source(source).execute();
+        return templatePutBuilder().name(name).source(source).execute();
     }
 
     public TypesExistsRequestBuilder<JsonInput, JsonOutput> typesExistsBuilder() {

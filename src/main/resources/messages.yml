@@ -1587,4 +1587,38 @@ help:
     The following example sets to 0 the number of replicas for a specific index
     es.<index>.settingsUpdate({"number_of_replicas":0});
 
+  IndicesApiClient.stats:
+  |
+    Allows to retrieve statistics about one or more indices
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-stats/)
+
+    Here is an example
+    es.indicesApi().stats('twitter');
+
+  IndicesApiClient.statsBuilder:
+  |
+    Allows to build an indices stats request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-stats/)
+
+    The following example only asks for the information regarding the fielddata cache, for all indices available
+    es.indicesApi().statsBuilder().fieldData(true).search(false).indexing(false).store(false).get(false).execute();
+
+    You could provide a list of indices too
+    es.indicesApi().statsBuilder().indexing(false).store(false).indices('twitter','user').execute();
+
+  InternalIndexClient.stats:
+  |
+    Allows to retrieve statistics about an index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-stats/)
+
+    Here is an example
+    es.<index>.stats();
+
+  InternalIndexClient.statsBuilder:
+  |
+    Allows to build an indices stats request for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-stats/)
+
+    The following example only asks for the information regarding the fielddata cache
+    es.<index>.statsBuilder().fieldData(true).search(false).indexing(false).store(false).get(false).execute();
 

@@ -251,12 +251,12 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
         return new DeleteWarmerRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
-    public JsonOutput warmerDelete(String index, String name) {
-        return warmerDeleteBuilder().indices(index).name(name).execute();
+    public JsonOutput warmerDelete(String name) {
+        return warmerDeleteBuilder().name(name).execute();
     }
 
-    public JsonOutput warmerDelete(String index) {
-        return warmerDeleteBuilder().indices(index).execute();
+    public JsonOutput warmerDelete() {
+        return warmerDeleteBuilder().execute();
     }
 
     @Override

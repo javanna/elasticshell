@@ -383,7 +383,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return warmerGetBuilder().execute();
     }
 
-    public DeleteWarmerRequestBuilder<JsonInput, JsonOutput> warmerDeleteBuilder() {
+    protected DeleteWarmerRequestBuilder<JsonInput, JsonOutput> warmerDeleteBuilder() {
         return shellClient.indicesApi().warmerDeleteBuilder().indices(indexName);
     }
 

@@ -1528,7 +1528,7 @@ help:
 
   IndicesApiClient.segments:
   |
-    Allows to refresh one or more indices.
+    Allows to view all the segments that one or more indices are composed of.
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-segments/)
 
     Here is an example
@@ -1536,7 +1536,7 @@ help:
 
   InternalIndexClient.segments:
   |
-    Allows to refresh one or more indices.
+    Allows to view all the segments that one or more indices are composed of.
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-segments/)
 
     Here is an example

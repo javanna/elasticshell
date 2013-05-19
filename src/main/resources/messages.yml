@@ -1059,7 +1059,7 @@ help:
     Restores a dump of an index previously saved to file.
 
     Here is an example
-    es.<index>.dumpRestoreBuilder().type('tweet').path('//home/luca/Desktop/twitter.json').execute();
+    es.<index>.dumpRestoreBuilder().type('tweet').path('/home/luca/Desktop/twitter.json').execute();
 
   InternalTypeClient.dumpSaveBuilder:
   |
@@ -1372,7 +1372,7 @@ help:
 
   IndicesApiClient.mappingDelete:
   |
-    Deletes a mapping along with its data. Use with caution
+    Deletes a mapping along with its data. Use with caution!
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-mapping/)
 
     The required arguments are the index and the type name
@@ -1388,7 +1388,7 @@ help:
 
   InternalIndexClient.mappingDelete:
   |
-    Deletes a mapping along with its data. Use with caution
+    Deletes a mapping along with its data. Use with caution!
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-mapping/)
 
     The required argument is the type name
@@ -1396,7 +1396,7 @@ help:
 
   InternalTypeClient.mappingDelete:
   |
-    Deletes a mapping along with its data. Use with caution
+    Deletes a mapping along with its data. Use with caution!
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-mapping/)
 
     Here is an example
@@ -1461,3 +1461,36 @@ help:
     es.<index>.<type>.mappingPutBuilder().source({"tweet":{"_source":{"enabled":false}}}).ignoreConflicts(true).execute();
 
     The mapping doesn't need to be provided in a single line though. It can be a variable, even copy pasted from outside the shell.
+
+  IndicesApiClient.optimize:
+  |
+    Allows to optimize an index. Use with caution since it can take a while with a big index.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-optimize/)
+
+    Here is an example
+    es.indicesApi().optimize('twitter');
+
+  IndicesApiClient.optimizeBuilder:
+  |
+    Allows to build an optimize request. Use with caution since it can take a while with a big index.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-optimize/)
+
+    Here is an example specifying the maximum number of segments
+    es.indicesApi().optimizeBuilder().indices('twitter').maxNumSegments(5).execute();
+
+  InternalIndexClient.optimize:
+  |
+    Allows to optimize an index. Use with caution since it can take a while with a big index.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-optimize/)
+
+    Here is an example
+    es.<index>.indicesApi().optimize();
+
+  InternalIndexClient.optimizeBuilder:
+  |
+    Allows to build an optimize request. Use with caution since it can take a while with a big index.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-optimize/)
+
+    Here is an example specifying the maximum number of segments
+    es.<index>.optimizeBuilder().maxNumSegments(5).execute();
+

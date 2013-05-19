@@ -1526,3 +1526,21 @@ help:
     Here is an example
     es.<index>.refreshBuilder().indices('twitter').execute();
 
+  IndicesApiClient.segments:
+  |
+    Allows to refresh one or more indices.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-segments/)
+
+    Here is an example
+    es.indicesApi().segments('twitter');
+
+  InternalIndexClient.segments:
+  |
+    Allows to refresh one or more indices.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-segments/)
+
+    Here is an example
+    es.<index>.segments();
+
+
+

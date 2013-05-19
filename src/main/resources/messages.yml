@@ -1693,3 +1693,19 @@ help:
     Here is an example that sets the number of replicas to 0 for all indices by default
     es.indicesApi().templatePutBuilder().name('0_replicas').template('*').settings({"number_of_replicas":0}).execute();
 
+  IndicesApiClient.typesExists:
+  |
+    Checks whether a type exists or not
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-types-exists/)
+
+    The first parameter is the index name, the second is the type name
+    es.indicesApi().typesExists('twitter', 'tweet');
+
+  InternalIndexClient.typesExists:
+  |
+    Checks whether a type exists or not
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-types-exists/)
+
+    Here is an example
+    es.<index>.typesExists('tweet');
+

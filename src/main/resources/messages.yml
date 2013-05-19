@@ -1558,5 +1558,33 @@ help:
     Here is an example
     es.<index>.settingsGet();
 
+  IndicesApiClient.settingsUpdate:
+  |
+    Updates the settings for an index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-update-settings/)
+
+    The first parameter is the name of the index and the second one is the json object that contains the new settings.
+    The following example sets to 0 the number of replicas for the twitter index
+    es.indicesApi().settingsUpdate('twitter',{"number_of_replicas":0});
+
+  IndicesApiClient.settingsUpdateBuilder:
+  |
+    Allows to build an update settings request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-update-settings/)
+
+    The following example sets to 0 the number of replicas for the twitter index
+    es.indicesApi().settingsUpdateBuilder().indices('twitter').settings({"number_of_replicas":0}).execute();
+
+    You can provide a list of indices in order to apply to same settings to multiple indices
+    es.indicesApi().settingsUpdateBuilder().indices('twitter', 'user').settings({"number_of_replicas":0}).execute();
+
+  InternalIndexClient.settingsUpdate:
+  |
+    Updates the settings for an index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-update-settings/)
+
+    The required parameter is the json object that contains the new settings.
+    The following example sets to 0 the number of replicas for a specific index
+    es.<index>.settingsUpdate({"number_of_replicas":0});
 
 

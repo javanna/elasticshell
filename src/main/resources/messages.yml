@@ -1654,3 +1654,42 @@ help:
     Here is an example that asks for the recovery information
     es.<index>.statusBuilder().recovery(true).execute();
 
+  IndicesApiClient.templateGet:
+  |
+    Allows to retrieve one or more index templates
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-templates/)
+
+    The required parameter is the name of the template to retrieve
+    es.indicesApi().templateGet('0_replicas');
+
+    It's possible to provide a list of names too
+    es.indicesApi().templateGet('0_replicas', '1_replicas');
+
+  IndicesApiClient.templateDelete:
+  |
+    Allows to delete an existing index template
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-templates/)
+
+    Here is an example
+    es.indicesApi().templateDelete('0_replicas');
+
+  IndicesApiClient.templatePut:
+  |
+    Allows to register a new index template
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-templates/)
+
+    The first parameter is the name of the index template.
+    The second parameter is the template itself as json object, which contains the template pattern, the settings and the mappings.
+    In order to provide those parameters separately you can switch to the templatePutBuilder method.
+
+    Here is an example that sets the number of replicas to 0 for all indices by default
+    es.indicesApi().templatePut('0_replicas',{"template":"*","settings":{"number_of_replicas":0}});
+
+  IndicesApiClient.templatePutBuilder:
+  |
+    Allows to build a put index template request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-templates/)
+
+    Here is an example that sets the number of replicas to 0 for all indices by default
+    es.indicesApi().templatePutBuilder().name('0_replicas').template('*').settings({"number_of_replicas":0}).execute();
+

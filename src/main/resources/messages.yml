@@ -1622,3 +1622,35 @@ help:
     The following example only asks for the information regarding the fielddata cache
     es.<index>.statsBuilder().fieldData(true).search(false).indexing(false).store(false).get(false).execute();
 
+  IndicesApiClient.status:
+  |
+    Allows to get a comprehensive status information of one or more indices
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-status/)
+
+    Here is an example
+    es.indicesApi().status('twitter');
+
+  IndicesApiClient.statusBuilder:
+  |
+    Allows to build an indices status request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-status/)
+
+    Here is an example that asks for the recovery information for all available indices
+    es.indicesApi().statusBuilder().recovery(true).execute();
+
+  InternalIndexClient.status:
+  |
+    Allows to get a comprehensive status information of an index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-status/)
+
+    Here is an example
+    es.<index>.status();
+
+  InternalIndexClient.statusBuilder:
+  |
+    Allows to build an indices status request for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-status/)
+
+    Here is an example that asks for the recovery information
+    es.<index>.statusBuilder().recovery(true).execute();
+

@@ -224,7 +224,7 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
         return templatePutBuilder().name(name).source(source).execute();
     }
 
-    public TypesExistsRequestBuilder<JsonInput, JsonOutput> typesExistsBuilder() {
+    protected TypesExistsRequestBuilder<JsonInput, JsonOutput> typesExistsBuilder() {
         return new TypesExistsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 

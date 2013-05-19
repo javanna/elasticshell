@@ -342,7 +342,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return settingsGetBuilder().execute();
     }
 
-    public UpdateSettingsRequestBuilder<JsonInput, JsonOutput> settingsUpdateBuilder() {
+    protected UpdateSettingsRequestBuilder<JsonInput, JsonOutput> settingsUpdateBuilder() {
         return shellClient.indicesApi().settingsUpdateBuilder().indices(indexName);
     }
 

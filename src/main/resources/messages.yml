@@ -1464,7 +1464,7 @@ help:
 
   IndicesApiClient.optimize:
   |
-    Allows to optimize an index. Use with caution since it can take a while with a big index.
+    Allows to optimize one or more indices. Use with caution since it can take a while with big indices.
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-optimize/)
 
     Here is an example
@@ -1480,7 +1480,7 @@ help:
 
   InternalIndexClient.optimize:
   |
-    Allows to optimize an index. Use with caution since it can take a while with a big index.
+    Allows to optimize one or more indices. Use with caution since it can take a while with a big index.
     (http://www.elasticsearch.org/guide/reference/api/admin-indices-optimize/)
 
     Here is an example
@@ -1493,4 +1493,36 @@ help:
 
     Here is an example specifying the maximum number of segments
     es.<index>.optimizeBuilder().maxNumSegments(5).execute();
+
+  IndicesApiClient.refresh:
+  |
+    Allows to refresh one or more indices.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh/)
+
+    Here is an example
+    es.indicesApi().refresh('twitter');
+
+  IndicesApiClient.refreshBuilder:
+  |
+    Allows to build a refresh request.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh/)
+
+    Here is an example
+    es.indicesApi().refreshBuilder().indices('twitter').execute();
+
+  InternalIndexClient.refresh:
+  |
+    Allows to refresh one or more indices.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh/)
+
+    Here is an example
+    es.<index>.refresh();
+
+  InternalIndexClient.refreshBuilder:
+  |
+    Allows to build a refresh request.
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh/)
+
+    Here is an example
+    es.<index>.refreshBuilder().indices('twitter').execute();
 

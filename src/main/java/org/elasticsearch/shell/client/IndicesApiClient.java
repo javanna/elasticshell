@@ -161,7 +161,7 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
         return refreshBuilder().indices(indices).execute();
     }
 
-    public SegmentsRequestBuilder<JsonInput, JsonOutput> segmentsBuilder() {
+    protected SegmentsRequestBuilder<JsonInput, JsonOutput> segmentsBuilder() {
         return new SegmentsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 

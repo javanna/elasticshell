@@ -367,7 +367,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return statusBuilder().execute();
     }
 
-    public TypesExistsRequestBuilder<JsonInput, JsonOutput> typesExistsBuilder() {
+    protected TypesExistsRequestBuilder<JsonInput, JsonOutput> typesExistsBuilder() {
         return shellClient.indicesApi().typesExistsBuilder().indices(indexName);
     }
 

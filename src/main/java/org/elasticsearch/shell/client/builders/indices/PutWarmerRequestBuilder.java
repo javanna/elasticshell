@@ -18,6 +18,8 @@
  */
 package org.elasticsearch.shell.client.builders.indices;
 
+import java.io.IOException;
+
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.warmer.put.PutWarmerRequest;
 import org.elasticsearch.action.admin.indices.warmer.put.PutWarmerResponse;
@@ -27,8 +29,6 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.shell.client.builders.AbstractRequestBuilderJsonOutput;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
-
-import java.io.IOException;
 
 /**
  * @author Luca Cavanna

@@ -18,7 +18,6 @@
  */
 package org.elasticsearch.shell.client;
 
-import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.shell.client.builders.indices.*;
 import org.elasticsearch.shell.json.JsonToString;
 import org.elasticsearch.shell.json.StringToJson;
@@ -242,10 +241,6 @@ public class IndicesApiClient<EsClient extends org.elasticsearch.client.support.
 
     public PutWarmerRequestBuilder<JsonInput, JsonOutput> warmerPutBuilder() {
         return new PutWarmerRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
-    }
-
-    public JsonOutput warmerPut(String name, SearchRequest searchRequest) {
-        return warmerPutBuilder().name(name).searchRequest(searchRequest).execute();
     }
 
     public JsonOutput warmerPut(String name, JsonInput source) {

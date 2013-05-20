@@ -1937,7 +1937,7 @@ help:
     Here is an example
     es.clusterApi().nodesInfo();
 
-  ClusterApiClient.nodesInfo:
+  ClusterApiClient.nodesInfoBuilder:
   |
     Allows to build a nodes info request
     (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-info/)
@@ -2051,3 +2051,35 @@ help:
     The following example will be executed on the selected index and type, providing a routing value
     es.<index>.<type>.searchShardsBuilder().routing('test').execute()
 
+  ClusterApiClient.reroute:
+  |
+    Allows to explicitly execute a cluster reroute allocation command
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-reroute/)
+
+    The commands need to bo provided in json format as in the following example
+
+    var rerouteCommand= {
+                            "commands" :[ {
+                                "move" :{
+                                      "index":"test", "shard":0,
+                                      "from_node":"node1", "to_node":"node2"
+                                    }
+                                },
+                                {
+                                  "allocate":{
+                                      "index":"test", "shard":1, "node":"node3"
+                                  }
+                                }
+                            ]
+                        };
+    es.clusterApi().reroute(rerouteCommand);
+
+    Switch to the rerouteBuilder method to provide allocations commands in the format supported by the Java API
+
+  ClusterApiClient.rerouteBuilder:
+  |
+    Allows to build a cluster reroute request
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-reroute/)
+
+    You can either provide the allocation commands as json object, or using the AllocationCommand classes provided with the Java API
+    es.clusterApi().rerouteBuilder().add(new MoveAllocationCommand(new ShardId('test',0),'node1','node2')).execute();

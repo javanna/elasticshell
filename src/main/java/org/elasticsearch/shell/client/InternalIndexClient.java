@@ -51,7 +51,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     //Just a shortcut to get all the available types and aliases for this specific index
-    public JsonOutput indexDetails() throws Exception {
+    public JsonOutput availableTypes() throws Exception {
         return shellClient.availableIndices(indexName);
     }
 

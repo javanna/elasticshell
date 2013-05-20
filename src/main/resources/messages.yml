@@ -1655,7 +1655,7 @@ help:
     Here is an example
     es.<index>.typesExists('tweet');
 
-  ClusterApiClient.clusterHealth
+  ClusterApiClient.health:
   |
     Retrieves a simple health status of the cluster
     (http://www.elasticsearch.org/guide/reference/api/admin-cluster-health/)
@@ -1834,8 +1834,6 @@ help:
 
     The following example stops all nodes over the cluster with a delay of 10 seconds
     es.clusterApi().nodesRestartBuilder().delay('10s').execute();
-
-
 
   ClusterApiClient.reroute:
   |

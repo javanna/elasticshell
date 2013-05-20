@@ -1819,5 +1819,21 @@ help:
     The following example stops all nodes over the cluster with a delay of 10 seconds
     es.clusterApi().nodesShutdownBuilder().delay('10s').execute();
 
+  ClusterApiClient.nodesRestart:
+  |
+    Allows to restart cluster nodes (if running with the service wrapper)
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-shutdown/)
+
+    The following example stops all nodes over the cluster
+    es.clusterApi().nodesRestart();
+
+  ClusterApiClient.nodesRestartBuilder:
+  |
+    Allows to build a nodes restart request
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-shutdown/)
+
+    The following example stops all nodes over the cluster with a delay of 10 seconds
+    es.clusterApi().nodesRestartBuilder().delay('10s').execute();
+
 
 

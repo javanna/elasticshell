@@ -410,7 +410,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
         return clusterHealthBuilder().execute();
     }
 
-    public ClusterStateRequestBuilder<JsonInput, JsonOutput> clusterStateBuilder() {
+    protected ClusterStateRequestBuilder<JsonInput, JsonOutput> clusterStateBuilder() {
         return shellClient.clusterApi().clusterStateBuilder().filterIndices(indexName);
     }
 

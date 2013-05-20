@@ -19,7 +19,6 @@
 package org.elasticsearch.shell.client.builders.cluster;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.cluster.settings.ClusterUpdateSettingsRequest;
@@ -60,19 +59,7 @@ public class UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput> extends 
     @Override
     protected XContentBuilder toXContent(ClusterUpdateSettingsRequest request, ClusterUpdateSettingsResponse response, XContentBuilder builder) throws IOException {
         builder.startObject();
-
-        builder.startObject("persistent");
-        for (Map.Entry<String, String> entry : response.getPersistentSettings().getAsMap().entrySet()) {
-            builder.field(entry.getKey(), entry.getValue());
-        }
-        builder.endObject();
-
-        builder.startObject("transient");
-        for (Map.Entry<String, String> entry : response.getTransientSettings().getAsMap().entrySet()) {
-            builder.field(entry.getKey(), entry.getValue());
-        }
-        builder.endObject();
-
+        builder.field(Fields.OK, true);
         builder.endObject();
         return builder;
     }

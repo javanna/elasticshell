@@ -142,7 +142,7 @@ public class MessagesProviderTest {
     private void testAllPublicMethodsHaveHelp(Class<?> clazz) {
         for (Method method : clazz.getMethods()) {
             if (!HELP_METHODS_EXCLUDE.contains(method.getName())) {
-                String help = MessagesProvider.getHelp(clazz.getSimpleName() + "." + method.getName());
+                String help = MessagesProvider.getHelp(clazz, method.getName());
                 Assert.assertNotNull(help, "Method " + method.getName() + " doesn't have a help message");
                 Assert.assertTrue(help.trim().length() > 0, "Method " + method.getName() + " has an empty help message");
             }

@@ -67,8 +67,12 @@ public class ClusterApiClient<EsClient extends org.elasticsearch.client.support.
         return new UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
-    public JsonOutput settingsUpdate(JsonInput settings) {
+    public JsonOutput settingsTransientUpdate(JsonInput settings) {
         return settingsUpdateBuilder().transientSettings(settings).execute();
+    }
+
+    public JsonOutput settingsPersistentUpdate(JsonInput settings) {
+        return settingsUpdateBuilder().persistentSettings(settings).execute();
     }
 
     public NodesInfoRequestBuilder<JsonInput, JsonOutput> nodesInfoBuilder() {

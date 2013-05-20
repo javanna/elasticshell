@@ -56,7 +56,7 @@ public class ClusterApiClient<EsClient extends org.elasticsearch.client.support.
         return stateBuilder().execute();
     }
 
-    public GetClusterSettingsRequestBuilder<JsonInput, JsonOutput> settingsGetBuilder() {
+    protected GetClusterSettingsRequestBuilder<JsonInput, JsonOutput> settingsGetBuilder() {
         return new GetClusterSettingsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 

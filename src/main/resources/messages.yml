@@ -1723,4 +1723,36 @@ help:
     Here is an example
     es.<index>.clusterState();
 
+  ClusterApiClient.settingsGet:
+  |
+    Retrieves a the cluster settings
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-update-settings/)
+
+    Here is an example
+    es.clusterApi().settingsGet();
+
+  ClusterApiClient.settingsTransientUpdate:
+  |
+    Updates transient cluster settings. The changes applied will not survive a full cluster restart.
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-update-settings/)
+
+    Here is an example
+    es.clusterApi().settingsTransientUpdate({"cluster.blocks.read_only":false});
+
+  ClusterApiClient.settingsPersistentUpdate:
+  |
+    Updates persistent cluster settings. The changes applied will survive a cluster restart.
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-update-settings/)
+
+    Here is an example
+    es.clusterApi().settingsPersistentUpdate({"cluster.blocks.read_only":false});
+
+  ClusterApiClient.settingsUpdateBuilder:
+  |
+    Allows to build a cluster update settings request
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-update-settings/)
+
+    Here is an example
+    es.clusterApi().settingsUpdateBuilder().persistentSettings({"cluster.blocks.read_only":false}).execute();
+
 

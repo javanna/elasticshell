@@ -843,64 +843,6 @@ help:
     It's also possible to build the query using the QueryBuilder objects that come with the Java API
     es.<index>.<type>.searchBuilder().queryBuilder(QueryBuilders.multiMatchQuery('kimchy','title^2','user')).execute()
 
-  AbstractClient.suggestTerm:
-  |
-    Executes a term suggest request
-    (http://www.elasticsearch.org/guide/reference/api/search/suggest/)
-
-    The first argument is the text to use as input for the suggest request
-    The following arguments are one or more field names used to generate the suggestions
-
-    es.suggestTerm('the amsterdm metup','title');
-
-  AbstractClient.suggestPhrase:
-  |
-    Executes a phrase suggest request
-    (http://www.elasticsearch.org/guide/reference/api/search/suggest/)
-
-    The first argument is the text to use as input for the suggest request
-    The following arguments are one or more field names used to generate the suggestions
-
-    es.suggestPhrase('the amsterdm metup','title');
-
-  AbstractClient.suggestBuilder:
-  |
-    Allows to build a suggest request
-    (http://www.elasticsearch.org/guide/reference/api/search/suggest/)
-
-    Use the addSuggestion method to add the suggest request built through the SuggestBuilder object that comes with the Java API
-
-    es.suggestBuilder().addSuggestion(SuggestBuilder.phraseSuggestion('title').field('title').text('the amstrdam metup')).execute();
-
-  InternalIndexClient.suggestTerm:
-  |
-    Executes a term suggest request against a specific index
-    (http://www.elasticsearch.org/guide/reference/api/search/suggest/)
-
-    The first argument is the text to use as input for the suggest request
-    The following arguments are one or more field names used to generate the suggestions
-
-    es.<index>.suggestTerm('the amsterdm metup','title');
-
-  InternalIndexClient.suggestPhrase:
-  |
-    Executes a phrase suggest request against a specific index
-    (http://www.elasticsearch.org/guide/reference/api/search/suggest/)
-
-    The first argument is the text to use as input for the suggest request
-    The following arguments are one or more field names used to generate the suggestions
-
-    es.<index>.suggestPhrase('the amsterdm metup','title');
-
-  InternalIndexClient.suggestBuilder:
-  |
-    Allows to build a suggest request against a specific index
-    (http://www.elasticsearch.org/guide/reference/api/search/suggest/)
-
-    The suggest requests need to be built through the SuggestBuilder object that comes with the Java API and added using the addSuggestion method
-
-    es.<index>.suggestBuilder().addSuggestion(SuggestBuilder.phraseSuggestion('title').field('title').text('the amstrdam metup')).execute();
-
   AbstractClient.update:
   |
     Executes an update request

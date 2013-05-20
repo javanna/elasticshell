@@ -1655,6 +1655,122 @@ help:
     Here is an example
     es.<index>.typesExists('tweet');
 
+  IndicesApiClient.warmerGet:
+  |
+    Allows to retrieve warmers
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    It's either possible to retrieve warmers for all indices
+    es.indicesApi().warmerGet();
+
+    for a specific index
+    es.indicesApi().warmerGet('twitter');
+
+    or for a set of indices
+    es.indicesApi().warmerGet('twitter','user');
+
+  IndicesApiClient.warmerGetBuilder:
+  |
+    Allows to build a get warmer request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    It's possible to retrieve a warmer by name
+    es.indicesApi().warmerGetBuilder().name('es-warmer').execute();
+
+    and retrieve all the warmers for a list of indices
+    es.indicesApi().warmerGetBuilder().indices('twitter', 'user').execute();
+
+  InternalIndexClient.warmerGet:
+  |
+    Allows to retrieve warmers for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    Here is an example
+    es.<index>.warmerGet();
+
+  InternalIndexClient.warmerGetBuilder:
+  |
+    Allows to build a get warmer request for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    It's possible to retrieve a warmer by name
+    es.<index>.warmerGetBuilder().name('es-warmer').execute();
+
+    or just all the warmers for the selected index
+    es.<index>.warmerGetBuilder().execute();
+
+  IndicesApiClient.warmerPut:
+  |
+    Allows to register a new warmer for all indices
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    The search request needs to be provided as a json object
+    es.indicesApi.warmerPut('es-warmer',{"filter":{"term":{"content":"elasticsearch"}}});
+
+    In order to use the SearchRequest object coming with the Java API you can switch to the warmerPutBuilder method.
+
+  IndicesApiClient.warmerPutBuilder:
+  |
+    Allows to build a put warmer request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    You can either provide the search request as a SearchRequest object (Java API)
+    var request = Requests.searchRequest().source(SearchSourceBuilder.searchSource().filter(FilterBuilders.termFilter('content','elasticsearch')));
+    es.indicesApi().warmerPutBuilder().name('es-warmer').searchRequest(request).execute();
+    The above example will register the warmer to the indices that are queried (all in this case).
+
+    or as a json object (the warmer will be registered for all indices available)
+    es.indicesApi().warmerPutBuilder().name('es-warmer').source({"filter":{"term":{"content":"elasticsearch"}}}).execute();
+
+  InternalIndexClient.warmerPut:
+  |
+    Allows to register a new warmer for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    The search request needs to be provided as a json object
+    es.<index>.warmerPut('es-warmer',{"filter":{"term":{"content":"elasticsearch"}}});
+
+  InternalTypeClient.warmerPut:
+  |
+    Allows to build a put warmer request for a specific index and type
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    The search request needs to be provided as a json object
+    es.<index>.<type>.warmerPut('es-warmer',{"filter":{"term":{"content":"elasticsearch"}}});
+
+  IndicesApiClient.warmerDelete:
+  |
+    Allows to delete existing warmers
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    Here is an example that deletes a warmer by name
+    es.indicesApi().warmerDelete('es-warmer');
+
+    You can also delete all the existing warmers
+    es.indicesApi().warmerDelete();
+
+  IndicesApiClient.warmerDeleteBuilder:
+  |
+    Allows to build a delte warmer request
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    Here is an example that deletes all the warmers for a set of indices
+    es.indicesApi().warmerDeleteBuilder().indices('twitter','user').execute();
+
+    You can do the same for a specific warmer (by name)
+    es.indicesApi().warmerDeleteBuilder().indices('twitter','user').name('es-warmer').execute();
+
+  InternalIndexClient.warmerDelete:
+  |
+    Allows to delete an existing warmers for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-indices-warmers/)
+
+    You can either delete all the warmers for the selected index
+    es.<index>.warmerDelete();
+
+    or only a specific warmer by name, still for the selected index
+    es.<index>.warmerDelete('es-warmer');
+
   ClusterApiClient.health:
   |
     Retrieves a simple health status of the cluster

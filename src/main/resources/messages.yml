@@ -1655,3 +1655,44 @@ help:
     Here is an example
     es.<index>.typesExists('tweet');
 
+  ClusterApiClient.clusterHealth:
+  |
+    Retrieves a simple health status of the cluster
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-health/)
+
+    Here is an example
+    es.clusterApi().clusterHealth();
+
+    and here is another one that filters the output for a list of indices
+    es.clusterApi().clusterHealth('twitter','user');
+
+  ClusterApiClient.clusterHealthBuilder:
+  |
+    Allows to build a cluster health request
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-health/)
+
+    Here is an example that waits for the green status
+    es.clusterApi().clusterHealthBuilder().waitForGreenStatus().execute();
+
+    and here is another example that retrieves more details about the shards (for all indices)
+    es.clusterApi().clusterHealthBuilder().level('shards').execute();
+
+  InternalIndexClient.clusterHealth:
+  |
+    Retrieves a simple health status of the cluster, for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-health/)
+
+    Here is an example
+    es.<index>.clusterHealth();
+
+  InternalIndexClient.clusterHealthBuilder:
+  |
+    Allows to build a cluster health request for a specific index
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-health/)
+
+    Here is an example that waits for the green status
+    es.<index>.clusterHealthBuilder().waitForGreenStatus().execute();
+
+    and here is another example that retrieves more details about the shards (for the selected index)
+    es.<index>.clusterHealthBuilder().level('shards').execute();
+

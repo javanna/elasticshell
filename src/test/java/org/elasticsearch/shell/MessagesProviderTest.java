@@ -19,11 +19,13 @@
 package org.elasticsearch.shell;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.elasticsearch.common.inject.*;
+import org.elasticsearch.shell.client.*;
 import org.elasticsearch.shell.command.Command;
 import org.elasticsearch.shell.command.CommandModule;
 import org.elasticsearch.shell.command.ExecutableCommand;
@@ -34,6 +36,19 @@ import org.testng.annotations.Test;
  * @author Luca Cavanna
  */
 public class MessagesProviderTest {
+
+    private static final List<String> HELP_METHODS_EXCLUDE = new ArrayList<String>();
+
+    static {
+        HELP_METHODS_EXCLUDE.add("toString");
+        HELP_METHODS_EXCLUDE.add("close");
+        HELP_METHODS_EXCLUDE.add("wait");
+        HELP_METHODS_EXCLUDE.add("notify");
+        HELP_METHODS_EXCLUDE.add("notifyAll");
+        HELP_METHODS_EXCLUDE.add("equals");
+        HELP_METHODS_EXCLUDE.add("hashCode");
+        HELP_METHODS_EXCLUDE.add("getClass");
+    }
 
     @Test
     public void testLoadHelpFile() throws Exception {
@@ -97,6 +112,41 @@ public class MessagesProviderTest {
         Assert.assertTrue(missingCommands.isEmpty(),
                 "The help message doesn't mention commands " + missingCommands);
 
+    }
+
+    @Test
+    public void testAllAbstractClientPublicMethodsHaveHelp() {
+        testAllPublicMethodsHaveHelp(AbstractClient.class);
+    }
+
+    @Test
+    public void testAllIndicesApiClientPublicMethodsHaveHelp() {
+        testAllPublicMethodsHaveHelp(IndicesApiClient.class);
+    }
+
+    @Test
+    public void testAllClusterApiClientPublicMethodsHaveHelp() {
+        testAllPublicMethodsHaveHelp(ClusterApiClient.class);
+    }
+
+    @Test
+    public void testAllInternalIndexClientPublicMethodsHaveHelp() {
+        testAllPublicMethodsHaveHelp(InternalIndexClient.class);
+    }
+
+    @Test
+    public void testAllInternalTypeClientPublicMethodsHaveHelp() {
+        testAllPublicMethodsHaveHelp(InternalTypeClient.class);
+    }
+
+    private void testAllPublicMethodsHaveHelp(Class<?> clazz) {
+        for (Method method : clazz.getMethods()) {
+            if (!HELP_METHODS_EXCLUDE.contains(method.getName())) {
+                String help = MessagesProvider.getHelp(clazz.getSimpleName() + "." + method.getName());
+                Assert.assertNotNull(help, "Method " + method.getName() + " doesn't have a help message");
+                Assert.assertTrue(help.trim().length() > 0, "Method " + method.getName() + " has an empty help message");
+            }
+        }
     }
 
     private static class CommandRegistry {

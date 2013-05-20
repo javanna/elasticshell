@@ -40,36 +40,36 @@ public class ClusterApiClient<EsClient extends org.elasticsearch.client.support.
         this.stringToJson = stringToJson;
     }
 
-    public ClusterHealthRequestBuilder<JsonInput, JsonOutput> clusterHealthBuilder() {
+    public ClusterHealthRequestBuilder<JsonInput, JsonOutput> healthBuilder() {
         return new ClusterHealthRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
-    public JsonOutput clusterHealth(String... indices) {
-        return clusterHealthBuilder().indices(indices).execute();
+    public JsonOutput health(String... indices) {
+        return healthBuilder().indices(indices).execute();
     }
 
-    public ClusterStateRequestBuilder<JsonInput, JsonOutput> clusterStateBuilder() {
+    public ClusterStateRequestBuilder<JsonInput, JsonOutput> stateBuilder() {
         return new ClusterStateRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
-    public JsonOutput clusterState() {
-        return clusterStateBuilder().execute();
+    public JsonOutput state() {
+        return stateBuilder().execute();
     }
 
-    public GetClusterSettingsRequestBuilder<JsonInput, JsonOutput> clusterSettingsGetBuilder() {
+    public GetClusterSettingsRequestBuilder<JsonInput, JsonOutput> settingsGetBuilder() {
         return new GetClusterSettingsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
-    public JsonOutput clusterSettingsGet() {
-        return clusterSettingsGetBuilder().execute();
+    public JsonOutput settingsGet() {
+        return settingsGetBuilder().execute();
     }
 
-    public UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput> clusterSettingsUpdateBuilder() {
+    public UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput> settingsUpdateBuilder() {
         return new UpdateClusterSettingsRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
-    public JsonOutput clusterSettingsUpdate(JsonInput settings) {
-        return clusterSettingsUpdateBuilder().transientSettings(settings).execute();
+    public JsonOutput settingsUpdate(JsonInput settings) {
+        return settingsUpdateBuilder().transientSettings(settings).execute();
     }
 
     public NodesInfoRequestBuilder<JsonInput, JsonOutput> nodesInfoBuilder() {
@@ -96,12 +96,12 @@ public class ClusterApiClient<EsClient extends org.elasticsearch.client.support.
         return nodesHotThreadsBuilder().execute();
     }
 
-    public ClusterRerouteRequestBuilder<JsonInput, JsonOutput> clusterRerouteBuilder() {
+    public ClusterRerouteRequestBuilder<JsonInput, JsonOutput> rerouteBuilder() {
         return new ClusterRerouteRequestBuilder<JsonInput, JsonOutput>(client.client(), jsonToString, stringToJson);
     }
 
-    public JsonOutput clusterReroute(JsonInput source) throws Exception {
-        return clusterRerouteBuilder().source(source).execute();
+    public JsonOutput reroute(JsonInput source) throws Exception {
+        return rerouteBuilder().source(source).execute();
     }
 
     public NodesRestartRequestBuilder<JsonInput, JsonOutput> nodesRestartBuilder() {

@@ -403,7 +403,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     Cluster APIs that make sense for a specific index
      */
     public ClusterHealthRequestBuilder<JsonInput, JsonOutput> clusterHealthBuilder() {
-        return shellClient.clusterApi().clusterHealthBuilder().indices(indexName);
+        return shellClient.clusterApi().healthBuilder().indices(indexName);
     }
 
     public JsonOutput clusterHealth() {
@@ -411,7 +411,7 @@ public class InternalIndexClient<JsonInput, JsonOutput> {
     }
 
     protected ClusterStateRequestBuilder<JsonInput, JsonOutput> clusterStateBuilder() {
-        return shellClient.clusterApi().clusterStateBuilder().filterIndices(indexName);
+        return shellClient.clusterApi().stateBuilder().filterIndices(indexName);
     }
 
     public JsonOutput clusterState() {

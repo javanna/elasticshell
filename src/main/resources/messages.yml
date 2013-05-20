@@ -1829,27 +1829,27 @@ help:
     or only a specific warmer by name, still for the selected index
     es.<index>.warmerDelete('es-warmer');
 
-  ClusterApiClient.clusterHealth:
+  ClusterApiClient.health:
   |
     Retrieves a simple health status of the cluster
     (http://www.elasticsearch.org/guide/reference/api/admin-cluster-health/)
 
     Here is an example
-    es.clusterApi().clusterHealth();
+    es.clusterApi().health();
 
     and here is another one that filters the output for a list of indices
-    es.clusterApi().clusterHealth('twitter','user');
+    es.clusterApi().health('twitter','user');
 
-  ClusterApiClient.clusterHealthBuilder:
+  ClusterApiClient.healthBuilder:
   |
     Allows to build a cluster health request
     (http://www.elasticsearch.org/guide/reference/api/admin-cluster-health/)
 
     Here is an example that waits for the green status
-    es.clusterApi().clusterHealthBuilder().waitForGreenStatus().execute();
+    es.clusterApi().healthBuilder().waitForGreenStatus().execute();
 
     and here is another example that retrieves more details about the shards (for all indices)
-    es.clusterApi().clusterHealthBuilder().level('shards').execute();
+    es.clusterApi().healthBuilder().level('shards').execute();
 
   InternalIndexClient.clusterHealth:
   |
@@ -1870,4 +1870,29 @@ help:
     and here is another example that retrieves more details about the shards (for the selected index)
     es.<index>.clusterHealthBuilder().level('shards').execute();
 
+  ClusterApiClient.state:
+  |
+    Retrieves a comprehensive state information of the cluster
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-state/)
 
+    Here is an example
+    es.clusterApi().state();
+
+  ClusterApiClient.stateBuilder:
+  |
+    Allows to build a cluster state request
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-state/)
+
+    The following example retrieves only the information about the nodes
+    es.clusterApi().stateBuilder().filterAll().filterNodes(false).execute();
+
+    The following example retrieves only the information about the indices metadata for two indices
+    es.clusterApi().stateBuilder().filterAll().filterMetaData(false).filterIndices('twitter','user').execute();
+
+  InternalIndexClient.clusterState:
+  |
+    Retrieves a comprehensive state information of the cluster filtering the output for a specific index (where it makes sense)
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-state/)
+
+    Here is an example
+    es.<index>.clusterState();

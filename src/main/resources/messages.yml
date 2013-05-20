@@ -189,6 +189,10 @@ help:
   |
     Returns a JSON object containing all the indices available within the current elasticsearch cluster, together with their aliases and types.
 
+  InternalIndexClient.availableTypes:
+  |
+    Returns a JSON object containing all the types available under the selected index.
+
   AbstractClient.availableNodes:
   |
     Returns a JSON object containing all the nodes available within the current elasticsearch cluster.

@@ -1929,3 +1929,67 @@ help:
     Here is an example
     es.clusterApi().settingsUpdateBuilder().persistentSettings({"cluster.blocks.read_only":false}).execute();
 
+  ClusterApiClient.nodesInfo:
+  |
+    Retrieves information about the available cluster nodes
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-info/)
+
+    Here is an example
+    es.clusterApi().nodesInfo();
+
+  ClusterApiClient.nodesInfo:
+  |
+    Allows to build a nodes info request
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-info/)
+
+    Here is an example that retrieves optional information about plugins
+    es.clusterApi().nodesInfoBuilder().plugin(true).execute();
+
+  ClusterApiClient.nodesStats:
+  |
+    Allows to retrieve one or more cluster nodes statistics
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-stats/)
+
+    Here is an example
+    es.clusterApi().nodesStats();
+
+  ClusterApiClient.nodesStatsBuilder:
+  |
+    Allows to build a nodes stats request
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-stats/)
+
+    Here is an example that retrieves optional statistics about the jvm
+    es.clusterApi().nodesStatsBuilder().jvm(true).execute();
+
+  ClusterApiClient.nodesHotThreads:
+  |
+    Allows to get the current hot threads on each node in the cluster
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-hot-threads/)
+
+    Here is an example
+    es.clusterApi().nodesHotThreads();
+
+  ClusterApiClient.nodesHotThreadsBuilder:
+  |
+    Allows to build a nodes hot threads request
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-hot-threads/)
+
+    Here is an example that retrieves information for 5 threads that are in wait state
+    es.clusterApi().nodesHotThreadsBuilder().type('wait').threads(5).execute();
+
+  ClusterApiClient.nodesShutdown:
+  |
+    Allows to shutdown cluster nodes
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-shutdown/)
+
+    The following example stops all nodes over the cluster
+    es.clusterApi().nodesShutdown();
+
+  ClusterApiClient.nodesShutdownBuilder:
+  |
+    Allows to build a nodes shutdown request
+    (http://www.elasticsearch.org/guide/reference/api/admin-cluster-nodes-shutdown/)
+
+    The following example stops all nodes over the cluster with a delay of 10 seconds
+    es.clusterApi().nodesShutdownBuilder().delay('10s').execute();
+

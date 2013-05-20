@@ -2009,3 +2009,45 @@ help:
     The following example stops all nodes over the cluster with a delay of 10 seconds
     es.clusterApi().nodesRestartBuilder().delay('10s').execute();
 
+  ClusterApiClient.searchShards:
+  |
+    Returns back the shards and nodes that a search is going to execute on
+
+    The following example will be executed on all available indices
+    es.clusterApi().searchShards();
+
+  ClusterApiClient.searchShardsBuilder:
+  |
+    Allows to build a search shards request
+
+    The following example will be executed on all available indices, providing a routing value
+    es.clusterApi().searchShardsBuilder().routing('test').execute()
+
+  InternalIndexClient.searchShards:
+  |
+    Returns back the shards and nodes that a search is going to execute on
+
+    Here is an example
+    es.<index>.searchShards();
+
+  InternalIndexClient.searchShardsBuilder:
+  |
+    Allows to build a search shards request
+
+    The following example will be executed on the selected index, providing a routing value
+    es.<index>.searchShardsBuilder().routing('test').execute()
+
+  InternalTypeClient.searchShards:
+  |
+    Returns back the shards and nodes that a search is going to execute on
+
+    Here is an example
+    es.<index>.<type>.searchShards();
+
+  InternalTypeClient.searchShardsBuilder:
+  |
+    Allows to build a search shards request
+
+    The following example will be executed on the selected index and type, providing a routing value
+    es.<index>.<type>.searchShardsBuilder().routing('test').execute()
+

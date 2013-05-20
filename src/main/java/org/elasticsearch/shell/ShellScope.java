@@ -18,18 +18,22 @@
  */
 package org.elasticsearch.shell;
 
+import java.io.Closeable;
+
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.metadata.AliasAction;
+import org.elasticsearch.cluster.routing.allocation.command.AllocateAllocationCommand;
+import org.elasticsearch.cluster.routing.allocation.command.CancelAllocationCommand;
+import org.elasticsearch.cluster.routing.allocation.command.MoveAllocationCommand;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.shard.ShardId;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.facet.FacetBuilders;
 import org.elasticsearch.search.rescore.RescoreBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.shell.command.HttpParameters;
-
-import java.io.Closeable;
 
 /**
  * Shell scope which wraps the real scope object that depends on the underlying engine
@@ -59,6 +63,10 @@ public abstract class ShellScope<Scope> implements ResourceRegistry {
         registerJavaClass(SuggestBuilder.class);
         registerJavaClass(AliasAction.class);
         registerJavaClass(HttpParameters.class);
+        registerJavaClass(AllocateAllocationCommand.class);
+        registerJavaClass(CancelAllocationCommand.class);
+        registerJavaClass(MoveAllocationCommand.class);
+        registerJavaClass(ShardId.class);
     }
 
     /**

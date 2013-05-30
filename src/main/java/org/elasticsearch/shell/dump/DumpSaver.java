@@ -69,7 +69,7 @@ public class DumpSaver<JsonInput> {
                 }
 
                 for (SearchHit hit : searchResponse.getHits()) {
-                    Document document = Document.fromSource(hit.sourceAsString(), hit.id());
+                    Document document = Document.fromSource(hit.sourceAsString(), hit.index(), hit.type(), hit.id());
                     writer.write(document.getDump());
                     i++;
                     writer.write('\n');

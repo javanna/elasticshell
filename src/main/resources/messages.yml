@@ -766,6 +766,28 @@ help:
     Here is an example
     es.<index>.percolateBuilder().type('type1').source(doc).preferLocal(true).execute();
 
+  AbstractClient.searchScroll:
+  |
+    Executes a scroll request
+    (http://www.elasticsearch.org/guide/reference/api/search/scroll/)
+
+    After you send a search request with scan search type and a scroll duration
+    es.searchBuilder().searchType('scan').scroll('2m').execute();
+
+    You get back the scroll id that you can use to fetch all the results like this
+    es.searchScroll('here_your_scroll_id_taken_from_previous_response');
+
+  AbstractClient.searchScrollBuilder:
+  |
+    Allows to build a scroll request
+    (http://www.elasticsearch.org/guide/reference/api/search/scroll/)
+
+    After you send a search request with scan search type and scroll duration
+    es.searchBuilder().searchType('scan').scroll('2m').execute();
+
+    you get back the scroll id that you can use to fetch all the results like this
+    es.searchScrollBuilder().scrollId('here_your_scroll_id_taken_from_previous_response').scroll('2m').execute();
+
   AbstractClient.search:
   |
     Executes a search request

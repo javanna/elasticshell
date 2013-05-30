@@ -242,6 +242,14 @@ public abstract class AbstractClient<EsClient extends org.elasticsearch.client.s
         return percolateBuilder().index(index).type(type).source(source).execute();
     }
 
+    public SearchScrollRequestBuilder<JsonInput, JsonOutput> searchScrollBuilder() {
+        return new SearchScrollRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
+    }
+
+    public JsonOutput searchScroll(String scrollId) {
+        return searchScrollBuilder().scrollId(scrollId).execute();
+    }
+
     public SearchRequestBuilder<JsonInput, JsonOutput> searchBuilder() {
         return new SearchRequestBuilder<JsonInput, JsonOutput>(client, jsonToString, stringToJson);
     }

@@ -35,14 +35,17 @@ import org.elasticsearch.common.xcontent.XContentType;
 public class Document {
 
     private static final String ID = "_id";
+    private static final String INDEX = "_index";
+    private static final String TYPE = "_type";
 
-    private final String document;
     private final String id;
     private final String dump;
+    private String document;
+    private String index;
+    private String type;
 
-    private Document(String dump, String document, String id) throws IOException {
+    private Document(String dump, String id) throws IOException {
         this.dump = dump;
-        this.document = document;
         this.id = id;
     }
 
@@ -68,6 +71,26 @@ public class Document {
         return dump;
     }
 
+    private void setDocument(String document) {
+        this.document = document;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    private void setIndex(String index) {
+        this.index = index;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    private void setType(String type) {
+        this.type = type;
+    }
+
     static Document fromDump(String dump) throws IOException {
         Map<String,Object> map = asMap(dump);
         Object idObject = map.get(ID);
@@ -75,12 +98,37 @@ public class Document {
             throw new RuntimeException("Unable to retrieve the id from the document: \n" + dump);
         }
         map.remove(ID);
-        return new Document(dump, asString(map), idObject.toString());
+
+
+        Document document = new Document(dump, idObject.toString());
+
+        Object typeObject = map.get(TYPE);
+        if (typeObject != null) {
+            map.remove(TYPE);
+            document.setType(typeObject.toString());
+        }
+
+        Object indexObject = map.get(INDEX);
+        if (indexObject != null) {
+            map.remove(INDEX);
+            document.setIndex(indexObject.toString());
+        }
+
+        document.setDocument(asString(map));
+
+        return document;
     }
 
-    static Document fromSource(String document, String id) throws IOException {
+    static Document fromSource(String document, String index, String type, String id) throws IOException {
         Map<String, Object> map = asMap(document);
         map.put(ID, id);
-        return new Document(asString(map), document, id);
+        map.put(INDEX, index);
+        map.put(TYPE, type);
+
+        Document doc = new Document(asString(map), id);
+        doc.setDocument(document);
+        doc.setIndex(index);
+        doc.setType(type);
+        return doc;
     }
 }

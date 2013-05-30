@@ -71,7 +71,8 @@ public class DumpRestorer {
     private void indexLine(BulkProcessor bulkProcessor, String index, String type, String line) {
         try {
             Document document = Document.fromDump(line);
-            bulkProcessor.add(Requests.indexRequest(index).type(type)
+            bulkProcessor.add(Requests.indexRequest(index == null ? document.getIndex() : index)
+                    .type(type == null ? document.getType() : type)
                     .id(document.getId()).source(document.getDocument()));
         } catch(Exception e) {
             logger.error("Error while indexing document {}", line, e);

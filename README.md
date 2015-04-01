@@ -1,8 +1,10 @@
-elasticshell - a shell for elasticsearch [![Build Status](https://buildhive.cloudbees.com/job/javanna/job/elasticshell/badge/icon)](https://buildhive.cloudbees.com/job/javanna/job/elasticshell/) [![Build Status](https://travis-ci.org/javanna/elasticshell.png)](https://travis-ci.org/javanna/elasticshell) [![Build Status](https://drone.io/github.com/javanna/elasticshell/status.png)](https://drone.io/github.com/javanna/elasticshell/latest)
+elasticshell - a shell for elasticsearch
 ==============================
 
 The elasticshell is a javascript shell written in Java.
 It allows to interact with a running [elasticsearch](http://www.elasticsearch.org) cluster using the [Java API](http://www.elasticsearch.org/guide/reference/java-api/).
+
+*Disclaimer*: the elasticshell was a very nice experiment in my early days playing around with elasticsearch. It turned out to be hard to maintain and keep in sync with the elasticsearch codebase though. Also, I got to the conclusion that a shell is not that beneficial to a system that already has extremely user-friendly REST api. Furthermore, the addition of the [cat api](http://www.elastic.co/guide/en/elasticsearch/reference/current/cat.html) to elasticsearch filled the gap when it comes to providing text output rather than json. This is way I haven't been maintaining the project for a long time.
 
 Getting Started
 ==============================
@@ -155,7 +157,7 @@ License
 ```
 This software is licensed under the Apache 2 license, quoted below.
 
-Copyright 2013 Luca Cavanna
+Copyright 2015 Luca Cavanna
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of

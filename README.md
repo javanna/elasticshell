@@ -4,7 +4,7 @@ elasticshell - a shell for elasticsearch
 The elasticshell is a javascript shell written in Java.
 It allows to interact with a running [elasticsearch](http://www.elasticsearch.org) cluster using the [Java API](http://www.elasticsearch.org/guide/reference/java-api/).
 
-The elasticshell was a very nice experiment in my early days playing around with elasticsearch. It turned out to be hard to maintain and keep in sync with the elasticsearch codebase though. Also, I got to the conclusion that a shell is not that beneficial to a system that already has extremely user-friendly REST api. Furthermore, the addition of the [cat api](http://www.elastic.co/guide/en/elasticsearch/reference/current/cat.html) to elasticsearch filled the gap when it comes to providing text output rather than json. This is way I haven't been maintaining the project for a long time.
+The elasticshell was a very nice experiment in my early days playing around with elasticsearch. It turned out to be hard to maintain and keep in sync with the elasticsearch codebase though. Also, I got to the conclusion that a shell is not that beneficial to a system that already has extremely user-friendly REST api. Furthermore, the addition of the [cat api](http://www.elastic.co/guide/en/elasticsearch/reference/current/cat.html) to elasticsearch filled the gap when it comes to providing text output rather than json. This is why I haven't been maintaining the project for a long time.
 
 Getting Started
 ==============================
